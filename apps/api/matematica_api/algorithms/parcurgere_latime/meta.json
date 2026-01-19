@@ -1,0 +1,44 @@
+{
+  "slug": "parcurgere_latime",
+  "name": "Parcurgere în lățime (BFS)",
+  "category": "grafuri",
+  "difficulty": "ușor",
+  "summary": "Parcurge graful pe niveluri, începând din nodul de start.",
+  "timeComplexity": {
+    "best": "O(V + E)",
+    "average": "O(V + E)",
+    "worst": "O(V + E)"
+  },
+  "spaceComplexity": "O(V + E)",
+  "visualization": { "kind": "graph" },
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "nodes": { "type": "array", "items": { "type": "string" } },
+      "edges": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "from": { "type": "string" },
+            "to": { "type": "string" }
+          },
+          "required": ["from", "to"]
+        }
+      },
+      "start": { "type": "string" }
+    },
+    "required": ["nodes", "edges", "start"]
+  },
+  "defaultInput": {
+    "nodes": ["A", "B", "C", "D", "E"],
+    "edges": [
+      { "from": "A", "to": "B" },
+      { "from": "A", "to": "C" },
+      { "from": "B", "to": "D" },
+      { "from": "C", "to": "D" },
+      { "from": "D", "to": "E" }
+    ],
+    "start": "A"
+  }
+}
