@@ -11,7 +11,15 @@ def run(input: Dict[str, Any]) -> Dict[str, Any]:
 
     while lo <= hi:
         mid = (lo + hi) // 2
-        trace.append({"type": "compare", "indices": [mid, mid], "values": [arr[mid], target]})
+        trace.append(
+            {
+                "type": "compare",
+                "indices": [mid, mid],
+                "values": [arr[mid], target],
+                "note": "compar elementul de la mijloc cu ținta",
+                "vars": {"lo": lo, "hi": hi, "mid": mid, "target": target},
+            }
+        )
         if arr[mid] == target:
             found_index = mid
             break
@@ -20,5 +28,5 @@ def run(input: Dict[str, Any]) -> Dict[str, Any]:
         else:
             hi = mid - 1
 
-    trace.append({"type": "done", "result": {"index": found_index}})
+    trace.append({"type": "done", "result": {"index": found_index}, "vars": {"lo": lo, "hi": hi}})
     return {"trace": trace, "result": {"index": found_index}}

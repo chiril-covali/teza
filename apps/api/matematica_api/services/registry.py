@@ -43,6 +43,18 @@ class AlgorithmRegistry:
     def get_docs(self, slug: str) -> str:
         return self._docs_by_slug.get(slug, "")
 
+    def get_code(self, slug: str) -> Optional[str]:
+        """Return the display code (pseudo-code) for the algorithm for educational purposes."""
+        if slug not in self._meta_by_slug:
+            return None
+        display_code_path = self.algorithms_dir / slug / "display_code.py"
+        if not display_code_path.exists():
+            return None
+        try:
+            return display_code_path.read_text()
+        except Exception:
+            return None
+
     def algorithm_module_path(self, slug: str) -> Optional[str]:
         if slug not in self._meta_by_slug:
             return None

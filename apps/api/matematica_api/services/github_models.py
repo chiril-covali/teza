@@ -2,6 +2,7 @@ import os
 from typing import Any, Dict, List, Optional, Tuple
 
 import httpx
+from urllib.parse import urlparse
 
 
 class GithubModelsClient:
@@ -20,12 +21,24 @@ class GithubModelsClient:
         if not self.is_configured():
             return None, "GitHub Models credentials are not set. Provide GITHUB_TOKEN and GITHUB_MODELS_MODEL to enable chat."
 
+        parsed = urlparse(self.endpoint)
+        is_azure = "azure.com" in (parsed.netloc or "")
+
         headers = {
-            "Authorization": f"Bearer {self.token}",
             "Content-Type": "application/json",
-            "Accept": "application/vnd.github+json",
-            "X-GitHub-Api-Version": "2022-11-28",
+            "Accept": "application/json",
         }
+
+        if is_azure:
+            headers["api-key"] = self.token or ""
+        else:
+            headers.update(
+                {
+                    "Authorization": f"Bearer {self.token}",
+                    "Accept": "application/vnd.github+json",
+                    "X-GitHub-Api-Version": "2022-11-28",
+                }
+            )
         payload = {
             "model": self.model,
             "messages": messages,
@@ -33,6 +46,9 @@ class GithubModelsClient:
         }
         try:
             response = httpx.post(self.endpoint, headers=headers, json=payload, timeout=30)
+            if response.status_code >= 400:
+                detail = response.text
+                return None, f"GitHub Models request failed ({response.status_code}): {detail}"
             response.raise_for_status()
             data = response.json()
             choice = data.get("choices", [{}])[0]

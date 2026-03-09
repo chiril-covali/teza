@@ -21,18 +21,49 @@ def run(input: Dict[str, Any]) -> Dict[str, Any]:
     if start and start in adjacency:
         queue = deque([start])
         visited.add(start)
-        trace.append({"type": "queue", "action": "enqueue", "node": start})
+        trace.append(
+            {
+                "type": "queue",
+                "action": "enqueue",
+                "node": start,
+                "note": "pornesc de la nodul sursă",
+                "vars": {"queue": list(queue), "visited": list(visited)},
+            }
+        )
 
         while queue:
             node = queue.popleft()
-            trace.append({"type": "queue", "action": "dequeue", "node": node})
-            trace.append({"type": "visit_node", "node": node})
+            trace.append(
+                {
+                    "type": "queue",
+                    "action": "dequeue",
+                    "node": node,
+                    "note": "scot din coadă pentru procesare",
+                    "vars": {"queue": list(queue), "visited": list(visited)},
+                }
+            )
+            trace.append(
+                {
+                    "type": "visit_node",
+                    "node": node,
+                    "note": "vizitez nodul curent",
+                    "vars": {"order": order + [node]},
+                }
+            )
             order.append(node)
             for neighbor in adjacency.get(node, []):
                 if neighbor not in visited:
                     visited.add(neighbor)
                     queue.append(neighbor)
-                    trace.append({"type": "queue", "action": "enqueue", "node": neighbor})
+                    trace.append(
+                        {
+                            "type": "queue",
+                            "action": "enqueue",
+                            "node": neighbor,
+                            "note": "adaug vecinul nevizitat",
+                            "vars": {"queue": list(queue), "visited": list(visited)},
+                        }
+                    )
 
-    trace.append({"type": "done", "result": {"order": order}})
+    trace.append({"type": "done", "result": {"order": order}, "vars": {"visited": list(visited)}})
     return {"trace": trace, "result": {"order": order}}

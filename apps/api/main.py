@@ -1,7 +1,7 @@
 from typing import Any, Dict, List, Optional
 
 from dotenv import load_dotenv
-from pydantic import TypeAdapter
+from pydantic import BaseModel, TypeAdapter
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -42,24 +42,34 @@ class ExplainResponse(ChatResponse):
 
 
 def explain_event(event: TraceEvent) -> str:
+    def vars_text(vars_map: Optional[Dict[str, Any]]) -> str:
+        if not vars_map:
+            return ""
+        pairs = ", ".join(f"{k}={v}" for k, v in vars_map.items())
+        return f" Variabile: {pairs}."
+
     if event.type == "compare":
         a, b = event.indices
         values = event.values or (None, None)
-        return f"Compar {a} cu {b} (valori {values[0]} și {values[1]})."
+        return f"Compar indexurile {a} și {b} (valori {values[0]} și {values[1]})." + vars_text(event.vars)
     if event.type == "swap":
         a, b = event.indices
-        return f"Interschimb pozițiile {a} și {b}; tabloul devine {event.array}."
+        return f"Interschimb pozițiile {a} și {b}; tabloul devine {event.array}." + vars_text(event.vars)
     if event.type == "set":
-        return f"Setez indexul {event.index} la {event.value}; tabloul devine {event.array}."
+        return f"Setez indexul {event.index} la {event.value}; tabloul devine {event.array}." + vars_text(event.vars)
     if event.type == "visit_node":
-        return f"Vizitez nodul {event.node}."
+        return f"Vizitez nodul {event.node}." + vars_text(event.vars)
     if event.type == "queue":
-        return f"{event.action.capitalize()} nodul {event.node} în coadă."
+        return f"{event.action.capitalize()} nodul {event.node} în coadă." + vars_text(event.vars)
     if event.type == "update_distance":
-        return f"Actualizez distanța pentru nodul {event.node} la {event.distance}."
+        return f"Actualizez distanța pentru nodul {event.node} la {event.distance}." + vars_text(event.vars)
     if event.type == "done":
-        return "Algoritm încheiat." if not event.result else f"Algoritm încheiat cu rezultatul {event.result}."
+        return ("Algoritm încheiat." if not event.result else f"Algoritm încheiat cu rezultatul {event.result}.") + vars_text(event.vars)
     return "Pas în procesare."
+
+
+class CodeResponse(BaseModel):
+    code: str
 
 
 @app.get("/api/algorithms", response_model=List[AlgorithmMeta])
@@ -137,6 +147,17 @@ async def chat(request: ChatRequest) -> ChatResponse:
         return ChatResponse(answer=error)
 
     return ChatResponse(answer=answer or "I could not generate a response.")
+
+
+@app.get("/api/code", response_model=CodeResponse)
+async def get_code(slug: str) -> CodeResponse:
+    meta = registry.get_meta(slug)
+    if not meta:
+        raise HTTPException(status_code=404, detail="Unknown algorithm slug")
+    code = registry.get_code(slug)
+    if not code:
+        raise HTTPException(status_code=404, detail="Source not found")
+    return CodeResponse(code=code)
 
 
 @app.get("/api/rate_limit")

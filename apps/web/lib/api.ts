@@ -37,5 +37,6 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ slug, question, context }),
     }),
+  code: (slug: string) => request<{ code: string }>(`/api/code?slug=${encodeURIComponent(slug)}`),
   rateLimit: () => request<{ limit?: number; remaining?: number; reset?: number; resetISO?: string; note?: string; error?: string }>("/api/rate_limit"),
 };

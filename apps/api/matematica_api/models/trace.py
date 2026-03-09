@@ -1,4 +1,4 @@
-from typing import Annotated, List, Literal, Optional, Tuple, Union
+from typing import Annotated, Any, Dict, List, Literal, Optional, Tuple, Union
 
 from pydantic import BaseModel, Field
 
@@ -8,6 +8,7 @@ class CompareEvent(BaseModel):
     indices: Tuple[int, int]
     values: Optional[Tuple[float, float]] = None
     note: Optional[str] = None
+    vars: Optional[Dict[str, Any]] = None
 
 
 class SwapEvent(BaseModel):
@@ -15,6 +16,7 @@ class SwapEvent(BaseModel):
     indices: Tuple[int, int]
     array: List[float]
     note: Optional[str] = None
+    vars: Optional[Dict[str, Any]] = None
 
 
 class SetEvent(BaseModel):
@@ -23,12 +25,14 @@ class SetEvent(BaseModel):
     value: float
     array: List[float]
     note: Optional[str] = None
+    vars: Optional[Dict[str, Any]] = None
 
 
 class VisitNodeEvent(BaseModel):
     type: Literal["visit_node"]
     node: str
     note: Optional[str] = None
+    vars: Optional[Dict[str, Any]] = None
 
 
 class QueueEvent(BaseModel):
@@ -36,6 +40,7 @@ class QueueEvent(BaseModel):
     action: Literal["enqueue", "dequeue"]
     node: str
     note: Optional[str] = None
+    vars: Optional[Dict[str, Any]] = None
 
 
 class UpdateDistanceEvent(BaseModel):
@@ -43,12 +48,14 @@ class UpdateDistanceEvent(BaseModel):
     node: str
     distance: float
     note: Optional[str] = None
+    vars: Optional[Dict[str, Any]] = None
 
 
 class DoneEvent(BaseModel):
     type: Literal["done"]
     result: Optional[dict] = None
     note: Optional[str] = None
+    vars: Optional[Dict[str, Any]] = None
 
 
 TraceEvent = Annotated[

@@ -5,7 +5,13 @@ import useSWR from "swr";
 import { api } from "@lib/api";
 
 export function RateBadge() {
-  const { data, error } = useSWR("rate-limit", api.rateLimit, { refreshInterval: 60_000 });
+  // Refresh doar la 5 minute (nu la 1 minut) + dezactivează refresh la focus
+  // Acest apel consumă din GitHub rate limit, așa că îl menținem minimal
+  const { data, error } = useSWR("rate-limit", api.rateLimit, { 
+    refreshInterval: 300_000, // 5 minute în loc de 1 minut
+    revalidateOnFocus: false,  // Nu reîncărca când utilizatorul revine pe tab
+    revalidateOnReconnect: false, // Nu reîncărca când se reconectează internetul
+  });
 
   if (error) {
     return <span className="text-xs text-amber-300">Limită: eroare</span>;

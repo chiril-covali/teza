@@ -1,0 +1,31 @@
+{
+  "slug": "selection_sort",
+  "name": "Sortarea prin selecție",
+  "category": "sortare",
+  "difficulty": "ușor",
+  "summary": "Găsește repetat elementul minim și îl plasează la început în partea sortată.",
+  "timeComplexity": {
+    "best": "O(n^2)",
+    "average": "O(n^2)",
+    "worst": "O(n^2)"
+  },
+  "spaceComplexity": "O(1)",
+  "visualization": {
+    "kind": "array"
+  },
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "array": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        }
+      }
+    },
+    "required": ["array"]
+  },
+  "defaultInput": {
+    "array": [64, 25, 12, 22, 11]
+  }
+}
