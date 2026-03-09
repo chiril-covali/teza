@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  InfinityIcon,
-  GraphIcon,
-  DeviceMobileIcon,
-  ChecklistIcon,
-} from "@primer/octicons-react";
+import { GraphIcon } from "@primer/octicons-react";
 import "./globals.css";
-import { RateBadge } from "@components/rate-badge";
 
 export const metadata: Metadata = {
   title: "Matematica Vizuală Asistată",
@@ -22,34 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ro">
       <body>
         <div className="min-h-screen flex flex-col">
-          <div className="max-w-6xl mx-auto px-4 py-6 sm:py-8 space-y-6 sm:space-y-8 flex-1 w-full">
-            <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <Link href="/" className="flex items-center gap-3 text-lg sm:text-xl font-semibold text-slate-900">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-sky-500 text-white flex-shrink-0 shadow-sm">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="currentColor">
-                    <path d="M8.75 11a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5a.75.75 0 0 1 .75-.75Zm7.25.75a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5Z"></path>
-                    <path d="M9.813 1h2.437a.75.75 0 0 1 .75.75V5h6.75A2.25 2.25 0 0 1 22 7.25v5.25h1.25a.75.75 0 0 1 0 1.5H22v5.75A2.25 2.25 0 0 1 19.75 22H4.25A2.25 2.25 0 0 1 2 19.75V14H.75a.75.75 0 0 1 0-1.5H2V7.25A2.25 2.25 0 0 1 4.25 5h7.25V2.5H9.813A.75.75 0 0 1 9.812 1ZM3.5 7.25v12.5c0 .414.336.75.75.75h15.5a.75.75 0 0 0 .75-.75V7.25a.75.75 0 0 0-.75-.75H4.25a.75.75 0 0 0-.75.75Z"></path>
-                  </svg>
-                </span>
-                <span className="leading-tight">
-                  <span className="block">Matematica Vizuală Asistată</span>
-                  <span className="block text-xs sm:text-sm font-normal text-slate-600">vizualizator interactiv de algoritmi</span>
-                </span>
-              </Link>
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-sm text-slate-700">
-                <nav className="flex flex-wrap items-center gap-2 sm:gap-3">
-                  <Link href="/" className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all">
-                    <InfinityIcon size={16} />
-                    <span className="hidden sm:inline">Acasă</span>
-                  </Link>
-                  <Link href="/algorithms" className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all">
-                    <GraphIcon size={16} />
-                    <span>Algoritmi</span>
-                  </Link>
-                </nav>
-                <RateBadge />
-              </div>
-            </header>
+        <div className="max-w-6xl mx-auto px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 flex-1 w-full">
             {children}
           </div>
           

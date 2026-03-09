@@ -15,6 +15,9 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   SyncIcon,
+  UnmuteIcon,
+  MuteIcon,
+  CodeIcon,
 } from "@primer/octicons-react";
 import { api } from "@lib/api";
 import { AlgorithmMeta } from "@lib/algorithm-meta";
@@ -33,14 +36,11 @@ export default function AlgorithmPlayerPage({ params }: { params: Promise<{ slug
   const [speed, setSpeed] = useState(800);
   const [explanation, setExplanation] = useState("Rulează pentru a vedea explicațiile pas cu pas.");
   const [chatQuestion, setChatQuestion] = useState("");
-  const [chatAnswer, setChatAnswer] = useState("");
   const [chatHistory, setChatHistory] = useState<{role: "user" | "ai", content: string}[]>([]);
   const [loadingChat, setLoadingChat] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [code, setCode] = useState<string | null>(null);
-  const [showCode, setShowCode] = useState(false);
-  const [loadingCode, setLoadingCode] = useState(false);
-  const [codeError, setCodeError] = useState<string | null>(null);
+  const [soundEnabled, setSoundEnabled] = useState(false);
+  const audioCtxRef = useRef<AudioContext | null>(null);
   const [speedPreset, setSpeedPreset] = useState<"turtle" | "hare" | "rocket">("hare");
   const [activeTab, setActiveTab] = useState<"intrare" | "vizualizare" | "discutie" | "test">("vizualizare");
 
@@ -157,11 +157,12 @@ export default function AlgorithmPlayerPage({ params }: { params: Promise<{ slug
       return;
     }
     const event = trace[currentIndex];
+    playSound(event.type);
     api
       .explainStep(slug, currentIndex, event, { input: parsedInput || {} })
       .then((res) => setExplanation(res.answer))
       .catch(() => setExplanation("Explicație indisponibilă."));
-  }, [trace, currentIndex, slug, parsedInput]);
+  }, [trace, currentIndex, slug, parsedInput]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const currentEvent = trace[currentIndex];
 
@@ -213,11 +214,9 @@ export default function AlgorithmPlayerPage({ params }: { params: Promise<{ slug
         currentStepIndex: currentIndex,
         currentEvent,
       });
-      setChatAnswer(res.answer);
       setChatHistory(prev => [...prev, { role: "ai", content: res.answer }]);
     } catch (err: any) {
       const errorMsg = err?.message || "Chat indisponibil";
-      setChatAnswer(errorMsg);
       setChatHistory(prev => [...prev, { role: "ai", content: errorMsg }]);
     } finally {
       setLoadingChat(false);
@@ -226,18 +225,47 @@ export default function AlgorithmPlayerPage({ params }: { params: Promise<{ slug
 
   function handleSelectQuestion(question: string) {
     setChatQuestion(question);
-    setActiveTab("chat");
+    setActiveTab("discutie");
   }
   
   function handleClearChat() {
     setChatHistory([]);
-    setChatAnswer("");
     setChatQuestion("");
   }
 
   function handleReset() {
     setPlaying(false);
     setCurrentIndex(0);
+  }
+
+  function playSound(eventType: string) {
+    if (!soundEnabled) return;
+    try {
+      if (!audioCtxRef.current) {
+        audioCtxRef.current = new AudioContext();
+      }
+      const ctx = audioCtxRef.current;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      const freqMap: Record<string, number> = {
+        compare: 440,
+        swap: 660,
+        set: 550,
+        visit_node: 480,
+        queue: 520,
+        update_distance: 600,
+        done: 880,
+      };
+      osc.frequency.setValueAtTime(freqMap[eventType] || 440, ctx.currentTime);
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.12);
+    } catch {
+      // AudioContext not supported
+    }
   }
 
   function handleStep() {
@@ -247,45 +275,29 @@ export default function AlgorithmPlayerPage({ params }: { params: Promise<{ slug
 
   return (
     <>
-      {/* Header fix cu numele algoritmului */}
-      {meta && (
-        <div className="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Link href="/algorithms" className="p-1.5 hover:bg-slate-100 rounded-lg transition-colors">
-                <ArrowLeftIcon size={18} className="text-slate-600" />
-              </Link>
-              <div className="h-8 w-px bg-slate-200"></div>
-              <div>
-                <div className="text-xs uppercase tracking-wider text-slate-500 font-semibold">{meta.category}</div>
-                <div className="text-sm font-bold text-slate-900">{meta.name}</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-600">Dificultate:</span>
-              <span className="px-3 py-1 rounded-full bg-sky-100 text-xs text-sky-700 font-semibold">{meta.difficulty}</span>
-            </div>
-          </div>
-        </div>
-      )}
-      
-      <main className="space-y-6 pt-20">
+      <main className="space-y-4">
         {meta ? (
-          <div className="card space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{meta.category}</p>
-                <h1 className="text-2xl font-semibold text-slate-900">{meta.name}</h1>
-                <p className="text-sm text-slate-700">{meta.summary}</p>
+          <div className="card space-y-2">
+            <div className="flex items-center gap-3">
+              <Link href="/algorithms" className="p-1.5 hover:bg-slate-100 rounded-lg transition-colors flex-shrink-0">
+                <ArrowLeftIcon size={16} className="text-slate-600" />
+              </Link>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{meta.category}</p>
+                  <span className="rounded-full bg-sky-100 px-2 py-0.5 text-[11px] text-sky-700 font-semibold">{meta.difficulty}</span>
+                </div>
+                <h1 className="text-xl font-semibold text-slate-900">{meta.name}</h1>
+                <p className="text-xs text-slate-600">{meta.summary}</p>
               </div>
-              <div className="rounded-full bg-sky-100 px-3 py-1 text-xs text-sky-700 font-semibold">{meta.difficulty}</div>
-            </div>
-            <div className="text-xs text-slate-600">
-              Cel mai bun {meta.timeComplexity.best} · Medie {meta.timeComplexity.average} · Cel mai rău {meta.timeComplexity.worst} · Spațiu {meta.spaceComplexity}
+              <div className="hidden sm:block text-xs text-slate-500 text-right">
+                <div>{meta.timeComplexity.best} · {meta.timeComplexity.average} · {meta.timeComplexity.worst}</div>
+                <div>Spațiu {meta.spaceComplexity}</div>
+              </div>
             </div>
           </div>
         ) : (
-          <div className="card text-sm text-slate-600 mt-20">Se încarcă metadatele...</div>
+          <div className="card text-sm text-slate-600">Se încarcă metadatele...</div>
         )}
 
       {/* Mobile tabs */}
@@ -318,8 +330,9 @@ export default function AlgorithmPlayerPage({ params }: { params: Promise<{ slug
         </div>
       </div>
 
+      {/* Top row: Input + Visualization */}
       <div
-        className={`grid gap-4 lg:grid-cols-[280px_1fr_340px] transition-all duration-700 ${
+        className={`grid gap-4 lg:grid-cols-[280px_1fr] transition-all duration-700 ${
           isReady ? "opacity-100 blur-0" : "opacity-30 blur-sm pointer-events-none"
         }`}
       >
@@ -384,6 +397,15 @@ export default function AlgorithmPlayerPage({ params }: { params: Promise<{ slug
             >
               <ArrowRightIcon size={24} />
             </button>
+            <button
+              onClick={() => setSoundEnabled((s) => !s)}
+              className={`p-2 rounded-full transition-colors hover:bg-white ${
+                soundEnabled ? "text-sky-600" : "text-slate-400 hover:text-slate-700"
+              }`}
+              title={soundEnabled ? "Dezactivează sunet" : "Activează sunet"}
+            >
+              {soundEnabled ? <UnmuteIcon size={18} /> : <MuteIcon size={18} />}
+            </button>
           </div>
           <div className="flex flex-col gap-2 text-xs text-slate-700">
             <span>Viteză</span>
@@ -433,49 +455,52 @@ export default function AlgorithmPlayerPage({ params }: { params: Promise<{ slug
             )}
           </div>
           <div className="card">
-            <div className="text-sm font-semibold text-slate-900 mb-2">Explicația pasului</div>
+            <div className="flex items-center justify-between mb-2">
+              <div className="text-sm font-semibold text-slate-900">Explicația pasului</div>
+              <a
+                href={`/algorithms/${slug}/code`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-xs text-sky-600 hover:text-sky-700 font-medium"
+              >
+                <CodeIcon size={12} />
+                Vizualizează cod
+              </a>
+            </div>
             <div className="text-sm text-slate-700 leading-relaxed">{explanation}</div>
+            {/* Variabile curente */}
+            {currentEvent?.vars && Object.keys(currentEvent.vars).length > 0 && (
+              <div className="mt-3 pt-3 border-t border-slate-200">
+                <div className="text-xs font-semibold text-indigo-700 mb-2">Variabile</div>
+                <div className="flex flex-wrap gap-2">
+                  {Object.entries(currentEvent.vars).map(([k, v]) => (
+                    <div key={k} className="flex items-center gap-1.5 bg-indigo-50 border border-indigo-100 rounded-lg px-2.5 py-1">
+                      <span className="text-xs font-semibold text-indigo-600">{k}</span>
+                      <span className="text-xs text-slate-500">=</span>
+                      <span className="text-xs font-mono font-bold text-slate-900">{JSON.stringify(v)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             {trace.length > 0 && (
               <div className="mt-3 pt-3 border-t border-slate-200 text-xs text-slate-500">
                 Pas {currentIndex + 1} din {trace.length}
               </div>
             )}
           </div>
-          <div className="card space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="text-sm font-semibold text-slate-900">Vizualizează cod</div>
-              <button
-                onClick={async () => {
-                  setShowCode((v) => !v);
-                  if (code || loadingCode) return;
-                  setLoadingCode(true);
-                  try {
-                    const res = await api.code(slug);
-                    setCode(res.code);
-                    setCodeError(null);
-                  } catch (e: any) {
-                    setCodeError(e?.message || "Nu am putut încărca codul");
-                  } finally {
-                    setLoadingCode(false);
-                  }
-                }}
-                className="text-xs text-sky-600 hover:text-sky-700 underline font-medium"
-              >
-                {showCode ? "Ascunde" : "Arată"}
-              </button>
-            </div>
-            {loadingCode && <div className="text-xs text-slate-500">Încarc codul...</div>}
-            {codeError && <div className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">{codeError}</div>}
-            {showCode && code && (
-              <CodeBlock code={code} currentEvent={currentEvent} />
-            )}
-          </div>
         </div>
 
-        {/* Panel Asistent AI + Evaluare (stiva pe desktop, tab-uri pe mobil) */}
-        <div className="space-y-4">
-          {/* Panel Asistent AI */}
-          <div className={`card space-y-3 ${activeTab !== "discutie" ? "hidden lg:block" : ""}`}>
+      </div> {/* End of top grid */}
+
+      {/* Bottom row: AI + Quiz */}
+      <div
+        className={`grid gap-4 lg:grid-cols-[1fr_340px] transition-all duration-700 ${
+          isReady ? "opacity-100 blur-0" : "opacity-30 blur-sm pointer-events-none"
+        }`}
+      >
+        {/* Panel Asistent AI */}
+        <div className={`card space-y-3 ${activeTab !== "discutie" ? "hidden lg:block" : ""}`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-sm font-semibold text-slate-900">
               <CommentDiscussionIcon />
@@ -551,9 +576,7 @@ export default function AlgorithmPlayerPage({ params }: { params: Promise<{ slug
         <div className={`${activeTab !== "test" ? "hidden lg:block" : ""}`}>
           {meta && <AlgorithmQuiz algorithmSlug={meta.slug} currentStep={currentIndex} />}
         </div>
-      </div> {/* End of AI Chat + Quiz wrapper */}
-
-      </div> {/* End of main grid */}
+      </div> {/* End of bottom grid */}
 
       {/* Mobile playback controls - fixed bottom bar */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-slate-200 px-4 py-3 z-50 shadow-lg">
@@ -590,7 +613,16 @@ export default function AlgorithmPlayerPage({ params }: { params: Promise<{ slug
           >
             <ArrowRightIcon size={20} />
           </button>
-          <div className="flex-1 max-w-[120px]">
+          <button
+            onClick={() => setSoundEnabled((s) => !s)}
+            className={`p-2.5 transition-colors active:scale-95 rounded-full ${
+              soundEnabled ? "text-sky-600 bg-sky-50" : "text-slate-500 hover:text-slate-900"
+            }`}
+            title={soundEnabled ? "Sunet activ" : "Activează sunet"}
+          >
+            {soundEnabled ? <UnmuteIcon size={18} /> : <MuteIcon size={18} />}
+          </button>
+          <div className="flex-1 max-w-[100px]">
             <select
               value={speedPreset}
               onChange={(e) => {
@@ -612,89 +644,5 @@ export default function AlgorithmPlayerPage({ params }: { params: Promise<{ slug
       <div className="lg:hidden h-20"></div>
     </main>
     </>
-  );
-}
-
-function CodeBlock({ code, currentEvent }: { code: string; currentEvent?: TraceEvent }) {
-  const highlighted = useMemo(() => {
-    if (!code || !currentEvent) return new Set<number>();
-    const lines = code.split("\n");
-    const match = `"type": "${currentEvent.type}"`;
-    const set = new Set<number>();
-    lines.forEach((line, idx) => {
-      if (line.includes(match)) set.add(idx + 1);
-    });
-    return set;
-  }, [code, currentEvent]);
-
-  return (
-    <div className="space-y-3">
-      {/* Variabile urmărite - afișare proeminentă */}
-      {currentEvent?.vars && Object.keys(currentEvent.vars).length > 0 && (
-        <div className="rounded-xl bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-200 p-4 shadow-md">
-          <div className="flex items-center gap-2 mb-3">
-            <svg className="w-4 h-4 text-indigo-600" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M2 4a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm2-1a1 1 0 00-1 1v8a1 1 0 001 1h8a1 1 0 001-1V4a1 1 0 00-1-1H4z"/>
-              <path d="M6 8a.5.5 0 01.5-.5h3a.5.5 0 010 1h-3A.5.5 0 016 8z"/>
-            </svg>
-            <div className="text-sm font-bold text-indigo-900">Variabile curente în execuție</div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {Object.entries(currentEvent.vars).map(([k, v]) => (
-              <div key={k} className="flex items-center gap-2 bg-white rounded-lg px-3 py-2 border border-indigo-100 shadow-sm">
-                <span className="text-xs font-semibold text-indigo-600 uppercase tracking-wider">{k}</span>
-                <span className="text-xs text-slate-600">=</span>
-                <span className="text-sm text-slate-900 font-mono font-bold">{JSON.stringify(v)}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      
-      {/* Cod sursă cu evidențiere dinamică */}
-      <div className="rounded-xl border-2 border-slate-200 bg-slate-900 text-xs shadow-lg overflow-hidden">
-        <div className="bg-slate-800 px-4 py-2 border-b border-slate-700 flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-red-500"></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500"></div>
-          </div>
-          <span className="text-slate-400 text-xs font-mono ml-2">algo.py</span>
-        </div>
-        <pre className="overflow-auto p-4 max-h-96">
-          <code className="language-python">
-            {code.split("\n").map((line, idx) => {
-              const isHighlighted = highlighted.has(idx + 1);
-              return (
-                <div
-                  key={idx}
-                  className={`flex gap-3 py-0.5 transition-all duration-300 ${
-                    isHighlighted 
-                      ? "bg-amber-500/20 border-l-4 border-amber-400 pl-2 -ml-2" 
-                      : ""
-                  }`}
-                >
-                  <span className={`w-10 text-right select-none ${
-                    isHighlighted ? "text-amber-400 font-bold" : "text-slate-500"
-                  }`}>{idx + 1}</span>
-                  <span className={`whitespace-pre font-mono ${
-                    isHighlighted ? "text-amber-50 font-semibold" : "text-slate-300"
-                  }`}>{line}</span>
-                </div>
-              );
-            })}
-          </code>
-        </pre>
-      </div>
-      
-      {highlighted.size > 0 && (
-        <div className="flex items-center gap-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M8 16A8 8 0 108 0a8 8 0 000 16zm.93-9.412l-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 110-2 1 1 0 010 2z"/>
-          </svg>
-          <span className="font-medium">Linia evidențiată corespunde operației curente din algoritm</span>
-        </div>
-      )}
-    </div>
   );
 }
