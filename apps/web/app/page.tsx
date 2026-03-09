@@ -20,11 +20,11 @@ export default function HomePage() {
               </span>{" "}
               și{" "}
               <span className="bg-gradient-to-r from-emerald-400 to-sky-400 bg-clip-text text-transparent">
-                AI tutor
+                AI Ajutor
               </span>
             </h1>
             <p className="text-base sm:text-lg text-slate-700 leading-relaxed max-w-xl">
-              Rulează algoritmi pas cu pas, vizualizează fiecare etapă și întreabă AI tutorul pentru explicații detaliate. Învățare interactivă similară cu Duolingo, adaptată pentru algoritmi.
+              Rulează algoritmi pas cu pas, vizualizează fiecare etapă și întreabă AI ajutor pentru explicații detaliate. Învățare interactivă, adaptată pentru algoritmi.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <Link href="/algorithms" className="button-primary flex items-center justify-center gap-2">
