@@ -1,146 +1,287 @@
 import Link from "next/link";
-import { algorithmsMeta } from "@/lib/algorithms";
+import { allAlgorithms } from "@/lib/algorithms";
 import P5HeroBackground from "./components/P5HeroBackground";
+import { 
+  ProjectIcon, 
+  CpuIcon, 
+  GraphIcon, 
+  SearchIcon, 
+  CodeIcon, 
+  CommentDiscussionIcon,
+  LightBulbIcon,
+  RocketIcon
+} from "@primer/octicons-react";
 
 export default function HomePage() {
-  const totalAlgoritmi = algorithmsMeta.length;
-  const categorii = ["Sortare", "Căutare", "Grafuri"];
+  const totalAlgoritmi = allAlgorithms.length;
 
   return (
-    <main className="space-y-12 pb-10 sm:space-y-16">
-      <section className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white/90 shadow-sm">
-        <div className="bg-slate-950 px-5 py-2 text-center text-xs font-medium tracking-wide text-slate-100">
-          Actualizare proiect teză: landing nou, animație de fundal p5.js și vizualizare per algoritm.
+    <div className="bg-white text-slate-900 font-sans selection:bg-indigo-100 selection:text-indigo-700">
+      {/* Navigation */}
+      <nav className="fixed top-0 z-50 w-full border-b border-slate-100 bg-white/80 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-2">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-lg shadow-indigo-200">
+              <ProjectIcon size={20} />
+            </div>
+            <span className="text-xl font-bold tracking-tight text-slate-900">AlgoTeza</span>
+          </div>
+          <div className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
+            <a href="#features" className="transition-colors hover:text-indigo-600">Funcționalități</a>
+            <a href="#algoritmi" className="transition-colors hover:text-indigo-600">Catalog</a>
+            <a href="#about" className="transition-colors hover:text-indigo-600">Despre</a>
+          </div>
+          <Link 
+            href="/algoritmi" 
+            className="inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-slate-800 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2"
+          >
+            Începe acum
+          </Link>
         </div>
+      </nav>
 
-        <div className="relative px-6 py-8 sm:px-10 sm:py-12">
-          <div className="absolute inset-0 opacity-75 pointer-events-none">
+      <main className="pt-20">
+        {/* Hero Section */}
+        <section className="relative overflow-hidden py-20 lg:py-32">
+          <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
             <P5HeroBackground />
           </div>
-          <div className="absolute -left-20 top-8 h-72 w-72 rounded-full bg-teal-100/30 blur-3xl" />
-          <div className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-amber-100/35 blur-3xl" />
+          
+          <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <div className="inline-flex items-center rounded-full border border-indigo-100 bg-indigo-50/50 px-3 py-1 text-xs font-semibold text-indigo-600 mb-6">
+                Proiect de licență 2026 • Platformă Educatională
+              </div>
+              <h1 className="mx-auto max-w-4xl text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl">
+                Înțelege algoritmii prin <span className="text-indigo-600">vizualizare interactivă</span>
+              </h1>
+              <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-slate-600 sm:text-xl">
+                O experiență modernă pentru explorarea structurilor de date și a algoritmilor fundamentali. 
+                Vizualizează execuția pas cu pas și primește asistență contextuală prin IA.
+              </p>
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                <Link 
+                  href="/algoritmi" 
+                  className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-8 py-4 text-base font-bold text-white shadow-xl shadow-indigo-200 transition-all hover:bg-indigo-700 hover:-translate-y-1"
+                >
+                  Explorează {totalAlgoritmi} algoritmi
+                </Link>
+                <a 
+                  href="#features" 
+                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-8 py-4 text-base font-bold text-slate-700 transition-all hover:bg-slate-50 hover:border-slate-300"
+                >
+                  Vezi detalii
+                </a>
+              </div>
+            </div>
 
-          <div className="relative z-10 mb-10 flex items-center justify-between gap-4">
-            <div className="inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm font-semibold text-slate-900">
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true">
-                <path d="M4 16l8-12 8 12-8 4-8-4Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-              </svg>
-              Teza Algoritmi Vizuali
+            {/* Hero Image Placeholder */}
+            <div className="mt-20 relative mx-auto max-w-5xl rounded-2xl border border-slate-200 bg-slate-50 p-2 shadow-2xl overflow-hidden aspect-video group">
+                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 to-transparent pointer-events-none" />
+                <div className="h-full w-full rounded-xl border border-slate-200 bg-white flex items-center justify-center overflow-hidden">
+                    <div className="text-center p-8">
+                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600 group-hover:scale-110 transition-transform duration-500">
+                             <RocketIcon size={32} />
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-900">Interfață Vizuală Modernă</h3>
+                        <p className="text-slate-500 mt-2">Loc pentru preview video sau imagine din aplicație</p>
+                    </div>
+                </div>
             </div>
-            <div className="hidden items-center gap-6 text-sm font-medium text-slate-700 md:flex">
-              <a href="#sectiuni" className="hover:text-slate-950">Secțiuni</a>
-              <a href="#algoritmi" className="hover:text-slate-950">Algoritmi</a>
-              <a href="#despre" className="hover:text-slate-950">Despre teză</a>
-            </div>
-            <Link href="/algoritmi" className="rounded-full border border-slate-300 bg-white px-5 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50">
-              Deschide catalogul
-            </Link>
           </div>
+        </section>
 
-          <div className="relative z-10 mx-auto max-w-4xl text-center">
-            <p className="inline-flex items-center rounded-full border border-teal-200 bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700">
-              Stil inspirat de landing-urile moderne, adaptat conținutului academic
-            </p>
-
-            <h1 className="mt-6 text-4xl font-bold leading-tight text-slate-950 sm:text-5xl lg:text-6xl">
-              Platformă pentru învățarea algoritmilor
-              <span className="block text-indigo-600">prin vizualizare, simulare și explicații IA</span>
-            </h1>
-
-            <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-slate-700 sm:text-lg">
-              Construit pentru lucrarea de teză: arhitectură clară, experiență elegantă și feedback în timp real.
-              Ai acces la execuție pas cu pas, întrebări către asistent și reprezentare vizuală pentru fiecare algoritm.
-            </p>
-
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Link href="/algoritmi" className="button-primary rounded-full px-8 py-3.5">
-                Explorează algoritmi
-              </Link>
-              <a href="#despre" className="btn btn-secondary rounded-full px-8 py-3.5">
-                Află mai mult
-              </a>
+        {/* Features Section */}
+        <section id="features" className="py-24 sm:py-32 bg-slate-50/50">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mb-16 text-center">
+              <h2 className="text-base font-semibold uppercase tracking-wider text-indigo-600">Beneficii</h2>
+              <p className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                Tot ce ai nevoie pentru a stăpâni algoritmii
+              </p>
             </div>
 
-            <div id="algoritmi" className="mt-10">
-              <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-600">
-                Câte un cerc pentru fiecare algoritm ({totalAlgoritmi})
-              </h2>
-              <div className="flex flex-wrap justify-center gap-3">
-                {algorithmsMeta.map((algorithm, index) => (
-                  <div
-                    key={algorithm.slug}
-                    className="algorithm-dot"
-                    style={{
-                      animationDuration: `${12 + (index % 5) * 2}s`,
-                      animationDelay: `${index * 0.35}s`,
-                    }}
-                  >
-                    <span className="algorithm-dot-title">{algorithm.name}</span>
+            <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
+              {[
+                {
+                  title: "Vizualizare Step-by-Step",
+                  description: "Urmărește fiecare schimbare în date, de la comparații la interschimbări, în timp real.",
+                  icon: <CpuIcon size={24} />,
+                  color: "bg-blue-100 text-blue-600"
+                },
+                {
+                  title: "Asistență IA Integrată",
+                  description: "Nu înțelegi un pas? Întreabă asistentul virtual pentru o explicație clară în limba română.",
+                  icon: <CommentDiscussionIcon size={24} />,
+                  color: "bg-purple-100 text-purple-600"
+                },
+                {
+                  title: "Complexitate Analizată",
+                  description: "Fiecare algoritm vine cu detalii despre performanță: O(n), O(log n) și cazurile de utilizare.",
+                  icon: <CodeIcon size={24} />,
+                  color: "bg-emerald-100 text-emerald-600"
+                },
+                {
+                    title: "Categorii Diverse",
+                    description: "De la sortări clasice la algoritmi pe grafuri și căutări avansate.",
+                    icon: <GraphIcon size={24} />,
+                    color: "bg-amber-100 text-amber-600"
+                },
+                {
+                    title: "Interfață Intuitivă",
+                    description: "Design minimalist care pune accentul pe conținutul educațional și lizibilitate.",
+                    icon: <LightBulbIcon size={24} />,
+                    color: "bg-rose-100 text-rose-600"
+                },
+                {
+                    title: "Căutare Rapidă",
+                    description: "Găsește instantaneu algoritmul de care ai nevoie prin sistemul de indexare.",
+                    icon: <SearchIcon size={24} />,
+                    color: "bg-cyan-100 text-cyan-600"
+                }
+              ].map((feature, idx) => (
+                <div key={idx} className="relative p-8 bg-white rounded-3xl border border-slate-100 shadow-sm transition-all hover:shadow-md hover:-translate-y-1">
+                  <div className={`mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl ${feature.color}`}>
+                    {feature.icon}
                   </div>
-                ))}
-              </div>
+                  <h3 className="text-xl font-bold text-slate-900">{feature.title}</h3>
+                  <p className="mt-4 text-base leading-relaxed text-slate-600">
+                    {feature.description}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section id="sectiuni" className="grid gap-5 md:grid-cols-3">
-        {[
-          {
-            titlu: "Execută și observă",
-            text: "Rulezi algoritmii și urmărești fiecare transformare de date în secvență clară.",
-          },
-          {
-            titlu: "Întreabă asistentul",
-            text: "Primești explicații contextualizate în limba română, direct din pasul curent.",
-          },
-          {
-            titlu: "Pregătit de prezentare",
-            text: "Landing structurat pentru impact vizual și argumentare tehnică în cadrul tezei.",
-          },
-        ].map((feature) => (
-          <article key={feature.titlu} className="card p-6">
-            <h3 className="text-lg font-semibold text-slate-900">{feature.titlu}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-slate-700">{feature.text}</p>
-          </article>
-        ))}
-      </section>
+        {/* Content Section 1 */}
+        <section className="py-24 sm:py-32 overflow-hidden">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="grid items-center gap-16 lg:grid-cols-2">
+                    <div>
+                        <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                            Arhitectură Modulară și Modernă
+                        </h2>
+                        <p className="mt-6 text-lg leading-relaxed text-slate-600">
+                            Proiectul este structurat pentru a fi ușor de extins. Algoritmii sunt organizați pe categorii, 
+                            fiecare având propriul său sistem de vizualizare și logică de execuție.
+                        </p>
+                        <ul className="mt-8 space-y-4">
+                            {[
+                                "Cod TypeScript tipizat pentru siguranță",
+                                "Componente React reutilizabile",
+                                "Stilizare precisă cu Tailwind CSS",
+                                "Animații fluide cu p5.js"
+                            ].map((item, i) => (
+                                <li key={i} className="flex items-center gap-3 text-slate-700">
+                                    <div className="flex-shrink-0 h-5 w-5 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                                        <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg>
+                                    </div>
+                                    <span className="font-medium">{item}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="relative">
+                        <div className="absolute -inset-4 rounded-3xl bg-indigo-50/50 blur-2xl" />
+                        <div className="relative aspect-square sm:aspect-video rounded-3xl border border-slate-200 bg-white shadow-xl flex items-center justify-center overflow-hidden">
+                            <div className="text-center p-8">
+                                <CodeIcon size={48} className="mx-auto text-slate-200 mb-4" />
+                                <p className="text-slate-400 font-mono text-sm">PLACEHOLDER: CODE SNIPPET VISUAL</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-      <section className="card p-6 sm:p-8">
-        <div className="grid gap-6 md:grid-cols-2 md:items-center">
-          <div>
-            <h3 className="text-2xl font-bold text-slate-900">Structură inspirată de Astrowind</h3>
-            <p className="mt-3 text-sm leading-relaxed text-slate-700">
-              Landing-ul urmează aceeași filozofie: hero puternic, CTA clar, blocuri de beneficii,
-              conținut lizibil și secțiuni care ghidează utilizatorul spre acțiunea principală.
-            </p>
-          </div>
-          <div className="grid grid-cols-3 gap-3">
-            {categorii.map((cat) => (
-              <div key={cat} className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-5 text-center text-sm font-semibold text-slate-800">
-                {cat}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        {/* Catalog Preview */}
+        <section id="algoritmi" className="py-24 bg-slate-900 text-white">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+                <h2 className="text-3xl font-extrabold sm:text-4xl">Catalogul de algoritmi</h2>
+                <p className="mt-4 text-slate-400 max-w-2xl mx-auto">
+                    Alege dintr-o varietate de algoritmi fundamentali și începe simularea lor interactivă.
+                </p>
+                <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                    {allAlgorithms.slice(0, 4).map((algo) => (
+                        <Link 
+                            key={algo.slug} 
+                            href={`/algoritmi/${algo.slug}`}
+                            className="group p-6 rounded-2xl bg-slate-800/50 border border-slate-700 hover:border-indigo-500 transition-all"
+                        >
+                            <h3 className="font-bold text-lg group-hover:text-indigo-400 transition-colors">{algo.name}</h3>
+                            <p className="mt-2 text-sm text-slate-500">{algo.category}</p>
+                        </Link>
+                    ))}
+                </div>
+                <div className="mt-12">
+                    <Link href="/algoritmi" className="text-indigo-400 font-bold hover:text-indigo-300 inline-flex items-center gap-2">
+                        Vezi tot catalogul <RocketIcon />
+                    </Link>
+                </div>
+            </div>
+        </section>
 
-      <footer id="despre" className="card border-amber-200/70 bg-white/90 p-6 sm:p-8">
-        <div className="grid gap-5 md:grid-cols-3">
-          <div>
-            <h4 className="text-base font-semibold text-slate-900">Titlu teză</h4>
-            <p className="mt-1 text-sm text-slate-700">Vizualizarea algoritmilor și suport didactic asistat de IA.</p>
+        {/* CTA */}
+        <section className="py-24 sm:py-32">
+            <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+                <div className="rounded-3xl bg-indigo-600 px-8 py-12 text-center text-white shadow-2xl shadow-indigo-200 sm:px-16 sm:py-20">
+                    <h2 className="text-3xl font-extrabold sm:text-5xl">Gata să începi explorarea?</h2>
+                    <p className="mt-6 text-lg text-indigo-100">
+                        Accesează acum platforma și descoperă frumusețea algoritmilor vizualizați.
+                    </p>
+                    <div className="mt-10">
+                        <Link 
+                            href="/algoritmi" 
+                            className="rounded-full bg-white px-10 py-4 text-lg font-bold text-indigo-600 shadow-lg transition-all hover:bg-slate-50 hover:scale-105"
+                        >
+                            Deschide Aplicația
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer id="about" className="border-t border-slate-100 bg-white py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-12 lg:grid-cols-3">
+            <div>
+                <div className="flex items-center gap-2 mb-6">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-white">
+                        <ProjectIcon size={16} />
+                    </div>
+                    <span className="text-lg font-bold tracking-tight text-slate-900">AlgoTeza</span>
+                </div>
+                <p className="text-slate-500 text-sm leading-relaxed">
+                    Un proiect academic dedicat facilitării procesului de învățare a informaticii prin tehnologie web modernă.
+                </p>
+            </div>
+            <div>
+                <h4 className="font-bold text-slate-900 mb-6">Resurse</h4>
+                <ul className="space-y-4 text-sm text-slate-600">
+                    <li><Link href="/algoritmi" className="hover:text-indigo-600">Catalog Algoritmi</Link></li>
+                    <li><a href="#" className="hover:text-indigo-600">Documentație Tehnica</a></li>
+                    <li><a href="#" className="hover:text-indigo-600">Ghid Utilizare</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 className="font-bold text-slate-900 mb-6">Tehnologii</h4>
+                <div className="flex flex-wrap gap-2">
+                    {["Next.js", "TypeScript", "Tailwind", "p5.js", "OpenAI"].map(tech => (
+                        <span key={tech} className="px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-xs font-medium text-slate-600">
+                            {tech}
+                        </span>
+                    ))}
+                </div>
+            </div>
           </div>
-          <div>
-            <h4 className="text-base font-semibold text-slate-900">Tehnologii</h4>
-            <p className="mt-1 text-sm text-slate-700">TypeScript, React, Next.js, Tailwind CSS, p5.js.</p>
-          </div>
-          <div>
-            <h4 className="text-base font-semibold text-slate-900">Motivație</h4>
-            <p className="mt-1 text-sm text-slate-700">Tipizare sigură, rutare rapidă și un fundal interactiv care susține componenta educațională.</p>
+          <div className="mt-16 border-t border-slate-100 pt-8 text-center text-sm text-slate-400">
+            © 2026 Proiect de Teză. Toate drepturile rezervate.
           </div>
         </div>
       </footer>
-    </main>
+    </div>
   );
 }

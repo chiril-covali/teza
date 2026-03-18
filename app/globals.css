@@ -2,83 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --bg-soft: #f6f6ef;
-  --bg-warm: #fffdf7;
-  --ink: #10231f;
-  --accent-cyan: #0f766e;
-  --accent-coral: #cc5a2c;
-  --accent-gold: #b68f2f;
-}
-
-* {
-  @apply border-slate-200;
-}
-
-body {
-  @apply text-slate-900;
-  background:
-    radial-gradient(1200px 600px at 5% 0%, rgba(204, 90, 44, 0.08), transparent 55%),
-    radial-gradient(1000px 500px at 95% 10%, rgba(15, 118, 110, 0.14), transparent 60%),
-    linear-gradient(180deg, var(--bg-soft) 0%, var(--bg-warm) 60%, #ffffff 100%);
-  color: var(--ink);
-  font-family: var(--font-corp), serif;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-titlu), sans-serif;
-}
-
-.card {
-  @apply rounded-xl border border-slate-200/80 bg-white/90 shadow-sm backdrop-blur;
-}
-
-.button-primary {
-  @apply inline-flex items-center justify-center rounded-xl px-6 py-3 font-semibold text-white transition-all hover:shadow-lg;
-  background: linear-gradient(120deg, var(--accent-coral), var(--accent-cyan));
-}
-
-.btn {
-  @apply inline-flex items-center justify-center rounded-xl px-6 py-3 font-semibold transition-all;
-}
-
-.btn-secondary {
-  @apply border border-slate-300 bg-white/95 text-slate-900 hover:bg-slate-50;
-}
-
-.btn:disabled {
-  @apply opacity-50 cursor-not-allowed;
-}
-
-.algorithm-dot {
-  @apply inline-flex items-center justify-center rounded-full border border-teal-200/90 bg-white/85 px-4 py-3 text-center shadow-sm;
-  min-height: 76px;
-  min-width: 76px;
-  max-width: 140px;
-  backdrop-filter: blur(2px);
-  animation-name: dot-drift;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-
-.algorithm-dot-title {
-  @apply text-xs font-medium leading-tight text-slate-800;
-}
-
-@keyframes dot-drift {
-  0% {
-    transform: translateY(0px) translateX(0px);
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --primary: 243.4 75.4% 58.6%;
+    --primary-foreground: 210 40% 98%;
   }
-  30% {
-    transform: translateY(-6px) translateX(3px);
+
+  html {
+    @apply scroll-smooth;
   }
-  60% {
-    transform: translateY(4px) translateX(-4px);
+
+  body {
+    @apply bg-white text-slate-900 antialiased selection:bg-indigo-100 selection:text-indigo-700;
   }
-  100% {
-    transform: translateY(0px) translateX(0px);
+}
+
+@layer components {
+  .card {
+    @apply rounded-3xl border border-slate-100 bg-white shadow-sm transition-all;
   }
+
+  .btn {
+    @apply inline-flex items-center justify-center rounded-full px-6 py-3 font-bold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply bg-indigo-600 text-white shadow-lg shadow-indigo-100 hover:bg-indigo-700 hover:-translate-y-0.5 focus:ring-indigo-500;
+  }
+
+  .btn-secondary {
+    @apply border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300 focus:ring-slate-400;
+  }
+
+  .btn-ghost {
+    @apply text-slate-600 hover:bg-slate-50 hover:text-indigo-600 focus:ring-indigo-500;
+  }
+}
+
+/* Custom scrollbar for better UX */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-200 rounded-full border-4 border-slate-50 hover:bg-slate-300 transition-colors;
 }

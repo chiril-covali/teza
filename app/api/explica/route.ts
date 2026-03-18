@@ -22,16 +22,16 @@ export async function POST(request: NextRequest) {
 		}
 
 		const eventTypeDescriptions: Record<string, string> = {
-			compare: "A detectat o comparație",
-			swap: "A efectuat un swap/schimb",
-			set: "A setat o valoare",
-			visit_node: "A vizitat un nod",
-			queue: "A utilizat coada",
-			update_distance: "A actualizat o distanță",
-			done: "Algoritmul a terminat",
+			compare: "Comparație",
+			swap: "Interschimbare",
+			set: "Atribuire",
+			visit_node: "Vizitare nod",
+			queue: "Operație cu coada",
+			update_distance: "Actualizare distanță",
+			done: "Finalizare",
 		};
 
-		const eventDesc = eventTypeDescriptions[event.type] || "O operație";
+		const eventDesc = eventTypeDescriptions[event.type] || "Operație";
 
 		const prompt = `
 Tu ești un profesor de algoritmi amabil care explică pas cu pas în limba română.
@@ -56,7 +56,10 @@ Răspunde în limba română.
 			const explanation = await githubModelsChat(messages);
 			return NextResponse.json({ answer: explanation });
 		} catch (error) {
-			const fallback = `${eventDesc}: ${event.note || "Operație în curs"}`;
+			let fallback = `${eventDesc}: ${event.note || "În curs de procesare..."}`;
+			if (event.type === "done") {
+				fallback = "Algoritmul s-a finalizat cu succes.";
+			}
 			return NextResponse.json({ answer: fallback });
 		}
 	} catch (error) {

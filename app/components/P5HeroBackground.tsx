@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { algorithmsMeta } from "@/lib/algorithms";
 
 export default function P5HeroBackground() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -19,22 +20,44 @@ export default function P5HeroBackground() {
       const P5 = p5Module.default;
 
       const sketch = (s: any) => {
-        const nodes = Array.from({ length: 24 }, (_, i) => ({
-          angle: (i / 24) * Math.PI * 2,
-          radius: 70 + (i % 8) * 18,
-          speed: 0.002 + (i % 5) * 0.0008,
+        const numAlgos = algorithmsMeta.length;
+        // Size inversely proportional to count
+        // Minimum size 15, maximum 60
+        const baseSize = Math.max(15, Math.min(60, 400 / numAlgos));
+        
+        const dots = algorithmsMeta.map((algo, i) => ({
+          name: algo.name,
+          x: Math.random() * 800, // will be reset in setup/resize
+          y: Math.random() * 600,
+          vx: (Math.random() - 0.5) * 0.8,
+          vy: (Math.random() - 0.5) * 0.8,
+          size: baseSize + (i % 3) * 5,
+          strokeColor: [79, 70, 229, 120] as [number, number, number, number], // Indigo-600
         }));
 
         const resize = () => {
-          const width = container.offsetWidth;
-          const height = container.offsetHeight;
-          s.resizeCanvas(width, height);
+          if (container) {
+            const width = container.offsetWidth;
+            const height = container.offsetHeight;
+            s.resizeCanvas(width, height);
+            
+            // Re-position dots within new bounds if they are out
+            dots.forEach(dot => {
+                dot.x = Math.random() * width;
+                dot.y = Math.random() * height;
+            });
+          }
         };
 
         s.setup = () => {
           s.createCanvas(container.offsetWidth, container.offsetHeight);
           s.noFill();
-          s.strokeWeight(1.8);
+          s.strokeWeight(1.5);
+          
+          dots.forEach(dot => {
+            dot.x = Math.random() * s.width;
+            dot.y = Math.random() * s.height;
+          });
         };
 
         s.windowResized = resize;
@@ -42,25 +65,26 @@ export default function P5HeroBackground() {
         s.draw = () => {
           s.clear();
 
-          const cx = s.width * 0.55;
-          const cy = s.height * 0.5;
+          for (let dot of dots) {
+            // Move
+            dot.x += dot.vx;
+            dot.y += dot.vy;
 
-          for (let i = 0; i < nodes.length; i++) {
-            const node = nodes[i];
-            const angle = node.angle + s.frameCount * node.speed;
-            const wobble = 10 * Math.sin(s.frameCount * 0.01 + i * 0.7);
-            const x = cx + Math.cos(angle) * (node.radius + wobble);
-            const y = cy + Math.sin(angle) * (node.radius * 0.62 + wobble * 0.45);
+            // Bounce
+            if (dot.x < 0 || dot.x > s.width) dot.vx *= -1;
+            if (dot.y < 0 || dot.y > s.height) dot.vy *= -1;
 
-            s.stroke(22, 101, 92, 95);
-            s.circle(x, y, 5 + (i % 3));
-
-            const next = nodes[(i + 6) % nodes.length];
-            const na = next.angle + s.frameCount * next.speed;
-            const nx = cx + Math.cos(na) * next.radius;
-            const ny = cy + Math.sin(na) * (next.radius * 0.62);
-            s.stroke(176, 105, 44, 50);
-            s.line(x, y, nx, ny);
+            // Draw
+            s.stroke(...dot.strokeColor);
+            s.fill(255, 255, 255, 40);
+            s.circle(dot.x, dot.y, dot.size);
+            
+            // Subtle center point
+            s.fill(...dot.strokeColor);
+            s.noStroke();
+            s.circle(dot.x, dot.y, 2);
+            s.noFill();
+            s.strokeWeight(1.5);
           }
         };
       };

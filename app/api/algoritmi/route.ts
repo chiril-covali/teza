@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { algorithmsMeta } from "@/lib/algorithms";
+import { allAlgorithms } from "@/lib/algorithms";
 
 export async function GET() {
-	return NextResponse.json(algorithmsMeta);
+	return NextResponse.json(allAlgorithms);
 }
