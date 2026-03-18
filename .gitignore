@@ -6,3 +6,8 @@ __pycache__
 .next
 .DS_Store
 .venv311
+
+# VERSIUNEA VECHE (ignore) - nu push pe versiunea python
+old-version/
+
+# Vercel-version e tracked și pushed!

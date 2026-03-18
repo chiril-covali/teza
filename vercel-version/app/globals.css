@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  @apply border-border;
+}
+
+body {
+  @apply bg-background text-foreground;
+}
+
+.card {
+  @apply rounded-lg border border-slate-200 bg-white shadow-sm;
+}
+
+.button-primary {
+  @apply inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-sky-500 to-emerald-500 px-6 py-3 font-semibold text-white transition-all hover:shadow-lg hover:from-sky-600 hover:to-emerald-600;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center rounded-lg px-6 py-3 font-semibold transition-all;
+}
+
+.btn-secondary {
+  @apply border border-slate-300 bg-white text-slate-900 hover:bg-slate-50;
+}
+
+.btn:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
