@@ -6,6 +6,3 @@ __pycache__
 .next
 .DS_Store
 .venv311
-
-# OLD DEVELOPMENT VERSION (local only - not pushed)
-old-version/

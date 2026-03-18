@@ -3,14 +3,14 @@
 ## 📋 Checklist Deploy
 
 ### Pasul 1: Pregătire GitHub
-- [ ] Push codul `js-version/` pe repo
+- [ ] Push codul din root pe repo
 - [ ] Asigură-te că `package.json` și `tsconfig.json` sunt conformi Next.js
 
 ### Pasul 2: Conectare Vercel
 1. Du-te pe https://vercel.com
 2. Conectează GitHub account
 3. Selectează repository `teza`
-4. Alege `js-version/` ca root
+4. Root Directory: lasă gol (repo root)
 
 ### Pasul 3: Setare Variabile
 În Vercel Project Settings → Environment Variables:
