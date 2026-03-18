@@ -21,10 +21,10 @@ async function request<T>(
 }
 
 export const api = {
-  listAlgorithms: () => request<AlgorithmMeta[]>("/algorithms"),
+  listAlgorithms: () => request<AlgorithmMeta[]>("/algoritmi"),
 
   run: (slug: string, input: Record<string, unknown>) =>
-    request<{ trace: TraceEvent[]; result: Record<string, any> }>("/run", {
+    request<{ trace: TraceEvent[]; result: Record<string, any> }>("/ruleaza", {
       method: "POST",
       body: JSON.stringify({ slug, input }),
     }),
@@ -35,7 +35,7 @@ export const api = {
     event: TraceEvent,
     context: Record<string, unknown>
   ) =>
-    request<{ answer: string }>("/explain", {
+    request<{ answer: string }>("/explica", {
       method: "POST",
       body: JSON.stringify({ slug, stepIndex, event, context }),
     }),
@@ -49,7 +49,7 @@ export const api = {
       currentEvent?: TraceEvent;
     }
   ) =>
-    request<{ answer: string }>("/chat", {
+    request<{ answer: string }>("/discutie", {
       method: "POST",
       body: JSON.stringify({ slug, question, context }),
     }),
