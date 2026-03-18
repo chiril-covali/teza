@@ -10,7 +10,7 @@ interface AlgorithmPlayerProps {
   meta: AlgorithmMeta;
 }
 
-export function AlgorithmPlayer({ meta }: AlgorithmPlayerProps) {
+function AlgorithmPlayer({ meta }: AlgorithmPlayerProps) {
   const [input, setInput] = useState<Record<string, any>>({});
   const [trace, setTrace] = useState<TraceEvent[]>([]);
   const [currentStep, setCurrentStep] = useState(0);

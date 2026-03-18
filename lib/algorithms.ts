@@ -59,6 +59,7 @@ export interface UpdateDistanceEvent {
 export interface DoneEvent {
   type: "done";
   result?: Record<string, any>;
+  note?: string;
   vars?: Record<string, any>;
 }
 
