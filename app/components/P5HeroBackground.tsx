@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { algorithmsMeta } from "@/lib/algorithms";
+import { allAlgorithms } from "@/lib/algorithms";
 
 export default function P5HeroBackground() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -20,12 +20,12 @@ export default function P5HeroBackground() {
       const P5 = p5Module.default;
 
       const sketch = (s: any) => {
-        const numAlgos = algorithmsMeta.length;
+        const numAlgos = allAlgorithms.length;
         // Size inversely proportional to count
         // Minimum size 15, maximum 60
         const baseSize = Math.max(15, Math.min(60, 400 / numAlgos));
         
-        const dots = algorithmsMeta.map((algo, i) => ({
+        const dots = allAlgorithms.map((algo, i) => ({
           name: algo.name,
           x: Math.random() * 800, // will be reset in setup/resize
           y: Math.random() * 600,

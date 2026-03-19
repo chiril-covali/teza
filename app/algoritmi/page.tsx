@@ -12,7 +12,7 @@ import {
   StackIcon,
   CodeSquareIcon,
   OrganizationIcon,
-  RelayIcon,
+	ReplyIcon,
   ShieldCheckIcon,
   ChecklistIcon,
   PulseIcon
@@ -23,7 +23,7 @@ const categoryIcons: Record<string, any> = {
   "search": <SearchIcon />,
   "graph": <OrganizationIcon />,
   "maths": <PulseIcon />,
-  "backtracking": <RelayIcon />,
+	"backtracking": <ReplyIcon />,
   "dynamic_programming": <CodeSquareIcon />,
   "ciphers": <ShieldCheckIcon />,
   "data_structures": <ChecklistIcon />,

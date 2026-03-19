@@ -1,16 +1,78 @@
 import Link from "next/link";
 import { allAlgorithms } from "@/lib/algorithms";
 import P5HeroBackground from "./components/P5HeroBackground";
-import { 
-  ProjectIcon, 
-  CpuIcon, 
-  GraphIcon, 
-  SearchIcon, 
-  CodeIcon, 
-  CommentDiscussionIcon,
-  LightBulbIcon,
-  RocketIcon
-} from "@primer/octicons-react";
+
+function IconProject({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <path d="M4 16l8-12 8 12-8 4-8-4Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function IconCpu({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <rect x="7" y="7" width="10" height="10" rx="2" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M3 9h2m14 0h2M3 15h2m14 0h2M9 3v2m0 14v2M15 3v2m0 14v2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconGraph({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <circle cx="6" cy="6" r="2" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="18" cy="8" r="2" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="10" cy="18" r="2" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M8 7l8 0.5M7 8l2 8M12 17l4-7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconSearch({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M16 16l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconCode({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <path d="M8 9l-3 3 3 3M16 9l3 3-3 3M14 5l-4 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function IconComment({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <path d="M5 6h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H9l-4 3v-3H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function IconBulb({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <path d="M8 14a6 6 0 1 1 8 0c-1 0.8-1.5 1.7-1.5 3H9.5c0-1.3-.5-2.2-1.5-3Z" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M9 20h6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconRocket({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <path d="M14 4c3 0 6 3 6 6-2 2-4 3-6 3l-3 3-2-2 3-3c0-2 1-4 3-7Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      <circle cx="15.5" cy="8.5" r="1.2" fill="currentColor" />
+      <path d="M7 17l-2 3 3-2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
 
 export default function HomePage() {
   const totalAlgoritmi = allAlgorithms.length;
@@ -22,7 +84,7 @@ export default function HomePage() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-lg shadow-indigo-200">
-              <ProjectIcon size={20} />
+              <IconProject className="h-5 w-5" />
             </div>
             <span className="text-xl font-bold tracking-tight text-slate-900">AlgoTeza</span>
           </div>
@@ -81,7 +143,7 @@ export default function HomePage() {
                 <div className="h-full w-full rounded-xl border border-slate-200 bg-white flex items-center justify-center overflow-hidden">
                     <div className="text-center p-8">
                         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600 group-hover:scale-110 transition-transform duration-500">
-                             <RocketIcon size={32} />
+                              <IconRocket className="h-8 w-8" />
                         </div>
                         <h3 className="text-xl font-bold text-slate-900">Interfață Vizuală Modernă</h3>
                         <p className="text-slate-500 mt-2">Loc pentru preview video sau imagine din aplicație</p>
@@ -106,37 +168,37 @@ export default function HomePage() {
                 {
                   title: "Vizualizare Step-by-Step",
                   description: "Urmărește fiecare schimbare în date, de la comparații la interschimbări, în timp real.",
-                  icon: <CpuIcon size={24} />,
+                  icon: <IconCpu className="h-6 w-6" />,
                   color: "bg-blue-100 text-blue-600"
                 },
                 {
                   title: "Asistență IA Integrată",
                   description: "Nu înțelegi un pas? Întreabă asistentul virtual pentru o explicație clară în limba română.",
-                  icon: <CommentDiscussionIcon size={24} />,
+                  icon: <IconComment className="h-6 w-6" />,
                   color: "bg-purple-100 text-purple-600"
                 },
                 {
                   title: "Complexitate Analizată",
                   description: "Fiecare algoritm vine cu detalii despre performanță: O(n), O(log n) și cazurile de utilizare.",
-                  icon: <CodeIcon size={24} />,
+                  icon: <IconCode className="h-6 w-6" />,
                   color: "bg-emerald-100 text-emerald-600"
                 },
                 {
                     title: "Categorii Diverse",
                     description: "De la sortări clasice la algoritmi pe grafuri și căutări avansate.",
-                    icon: <GraphIcon size={24} />,
+                    icon: <IconGraph className="h-6 w-6" />,
                     color: "bg-amber-100 text-amber-600"
                 },
                 {
                     title: "Interfață Intuitivă",
                     description: "Design minimalist care pune accentul pe conținutul educațional și lizibilitate.",
-                    icon: <LightBulbIcon size={24} />,
+                    icon: <IconBulb className="h-6 w-6" />,
                     color: "bg-rose-100 text-rose-600"
                 },
                 {
                     title: "Căutare Rapidă",
                     description: "Găsește instantaneu algoritmul de care ai nevoie prin sistemul de indexare.",
-                    icon: <SearchIcon size={24} />,
+                    icon: <IconSearch className="h-6 w-6" />,
                     color: "bg-cyan-100 text-cyan-600"
                 }
               ].map((feature, idx) => (
@@ -186,7 +248,7 @@ export default function HomePage() {
                         <div className="absolute -inset-4 rounded-3xl bg-indigo-50/50 blur-2xl" />
                         <div className="relative aspect-square sm:aspect-video rounded-3xl border border-slate-200 bg-white shadow-xl flex items-center justify-center overflow-hidden">
                             <div className="text-center p-8">
-                                <CodeIcon size={48} className="mx-auto text-slate-200 mb-4" />
+                                <IconCode className="mx-auto mb-4 h-12 w-12 text-slate-200" />
                                 <p className="text-slate-400 font-mono text-sm">PLACEHOLDER: CODE SNIPPET VISUAL</p>
                             </div>
                         </div>
@@ -216,7 +278,7 @@ export default function HomePage() {
                 </div>
                 <div className="mt-12">
                     <Link href="/algoritmi" className="text-indigo-400 font-bold hover:text-indigo-300 inline-flex items-center gap-2">
-                        Vezi tot catalogul <RocketIcon />
+                      Vezi tot catalogul <IconRocket className="h-4 w-4" />
                     </Link>
                 </div>
             </div>
@@ -250,7 +312,7 @@ export default function HomePage() {
             <div>
                 <div className="flex items-center gap-2 mb-6">
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-white">
-                        <ProjectIcon size={16} />
+                      <IconProject className="h-4 w-4" />
                     </div>
                     <span className="text-lg font-bold tracking-tight text-slate-900">AlgoTeza</span>
                 </div>
