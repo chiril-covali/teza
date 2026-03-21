@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate:docs": "node scripts/generate-algorithm-docs.mjs"
+    "generate:docs": "node scripts/generate-algorithm-docs.mjs",
+    "generate:registry": "node scripts/generate-registry.mjs",
+    "validate:registry": "node scripts/validate-registry.mjs",
+    "pipeline": "npm run generate:registry && npm run generate:docs && npm run validate:registry"
   },
   "dependencies": {
     "@primer/octicons-react": "^19.8.0",

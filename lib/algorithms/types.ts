@@ -1,3 +1,6 @@
+export type VisualizerType = "sorting" | "search" | "graph" | "dp" | "none";
+export type AlgorithmStatus = "instrumented" | "source-only" | "partial";
+
 export type TraceEvent =
   | CompareEvent
   | SwapEvent
@@ -5,6 +8,8 @@ export type TraceEvent =
   | VisitNodeEvent
   | QueueEvent
   | UpdateDistanceEvent
+  | MarkFoundEvent
+  | DPCellEvent
   | DoneEvent;
 
 export interface CompareEvent {
@@ -67,6 +72,25 @@ export interface DoneEvent {
   vars?: Record<string, any>;
 }
 
+export interface MarkFoundEvent {
+  type: "mark_found";
+  index: number;
+  found: boolean;
+  array?: number[];
+  note?: string;
+  vars?: Record<string, any>;
+}
+
+export interface DPCellEvent {
+  type: "dp_cell";
+  row: number;
+  col: number;
+  value: number;
+  table?: number[][];
+  note?: string;
+  vars?: Record<string, any>;
+}
+
 export interface AlgorithmResult {
   trace: TraceEvent[];
   result: Record<string, any>;
@@ -78,5 +102,10 @@ export interface AlgorithmMeta {
   complexity: string;
   description: string;
   category: string;
+  sourcePath?: string;
+  markdownPath?: string;
+  visualizerType?: VisualizerType;
+  status?: AlgorithmStatus;
+  /** @deprecated use sourcePath */
   source?: string;
 }

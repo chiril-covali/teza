@@ -170,6 +170,230 @@ function SortingVisualizer({ event, input, slug }: { event: TraceEvent; input: a
     );
 }
 
+function SearchVisualizer({ event, input }: { event: TraceEvent; input: any }) {
+    const array = (event as any).array || input.array || [];
+    const vars = (event as any).vars || {};
+    const lo = vars.lo !== undefined ? vars.lo : -1;
+    const hi = vars.hi !== undefined ? vars.hi : -1;
+    const mid = vars.mid !== undefined ? vars.mid : -1;
+    const current = vars.current !== undefined ? vars.current : -1;
+    const activeIdx = mid !== -1 ? mid : current;
+    const isFound = (event as any).type === "mark_found" && (event as any).found === true;
+    const isNotFound = (event as any).type === "mark_found" && (event as any).found === false;
+
+    return (
+        <div className="w-full overflow-x-auto pb-6">
+            <div className="flex items-stretch justify-center gap-2 min-w-max mx-auto px-4">
+                {array.map((val: number, idx: number) => {
+                    const isActive = idx === activeIdx;
+                    const inRange = lo !== -1 && hi !== -1 && idx >= lo && idx <= hi;
+                    const isFoundIdx = isFound && isActive;
+                    const isOutRange = (lo !== -1 && idx < lo) || (hi !== -1 && idx > hi);
+
+                    let cellClass = "bg-slate-100 text-slate-500";
+                    if (isFoundIdx) cellClass = "bg-emerald-500 text-white ring-4 ring-emerald-300 scale-110";
+                    else if (isActive) cellClass = "bg-indigo-600 text-white ring-4 ring-indigo-300 scale-110";
+                    else if (isNotFound && inRange) cellClass = "bg-rose-100 text-rose-500";
+                    else if (inRange) cellClass = "bg-indigo-100 text-indigo-700";
+                    else if (isOutRange) cellClass = "bg-slate-50 text-slate-300";
+
+                    return (
+                        <div key={idx} className="flex flex-col items-center gap-1">
+                            <div className={`w-12 h-12 flex items-center justify-center rounded-xl font-mono font-black text-sm transition-all duration-300 ${cellClass}`}>
+                                {val}
+                            </div>
+                            <div className="h-5 flex items-center justify-center gap-0.5">
+                                {idx === lo && <span className="text-[9px] font-black text-sky-600 uppercase">lo</span>}
+                                {idx === hi && <span className="text-[9px] font-black text-amber-600 uppercase">hi</span>}
+                                {idx === mid && <span className="text-[9px] font-black text-indigo-700 uppercase">mid</span>}
+                                {idx === current && mid === -1 && <span className="text-[9px] font-black text-indigo-700 uppercase">cur</span>}
+                            </div>
+                            <span className="text-[9px] text-slate-300 font-mono">{idx}</span>
+                        </div>
+                    );
+                })}
+            </div>
+            {isFound && (
+                <p className="text-center mt-4 text-emerald-600 font-black text-sm">✓ Elementul a fost găsit</p>
+            )}
+            {isNotFound && (
+                <p className="text-center mt-4 text-rose-500 font-black text-sm">✗ Elementul nu a fost găsit</p>
+            )}
+        </div>
+    );
+}
+
+function GraphVisualizer({ event, input }: { event: TraceEvent; input: any }) {
+    const nodes: string[] = input.nodes || [];
+    const edges: { from: string; to: string; weight?: number }[] = input.edges || [];
+    const vars = (event as any).vars || {};
+
+    // Build visited set and queue from vars
+    const visited: Set<string> = new Set(
+        Array.isArray(vars.visited) ? vars.visited : vars.visited ? [vars.visited] : []
+    );
+    const inQueue: Set<string> = new Set(
+        Array.isArray(vars.queue) ? vars.queue : vars.queue ? [vars.queue] : []
+    );
+    const distances: Record<string, number> = vars.distances || {};
+    const currentNode: string = (event as any).node || vars.current || "";
+
+    // Simple circular layout
+    const cx = 240, cy = 200, r = 140;
+    const nodeCount = nodes.length;
+    const nodePositions: Record<string, { x: number; y: number }> = {};
+    nodes.forEach((n, i) => {
+        const angle = (i / nodeCount) * 2 * Math.PI - Math.PI / 2;
+        nodePositions[n] = {
+            x: cx + r * Math.cos(angle),
+            y: cy + r * Math.sin(angle),
+        };
+    });
+
+    return (
+        <div className="w-full flex flex-col items-center gap-4">
+            <svg width="480" height="400" viewBox="0 0 480 400" className="overflow-visible max-w-full">
+                {/* Edges */}
+                {edges.map((e, i) => {
+                    const from = nodePositions[e.from];
+                    const to = nodePositions[e.to];
+                    if (!from || !to) return null;
+                    const isActive =
+                        (e.from === currentNode || e.to === currentNode) &&
+                        (visited.has(e.from) || visited.has(e.to));
+                    return (
+                        <g key={i}>
+                            <line
+                                x1={from.x} y1={from.y} x2={to.x} y2={to.y}
+                                stroke={isActive ? "#6366f1" : "#e2e8f0"}
+                                strokeWidth={isActive ? 2.5 : 1.5}
+                                strokeLinecap="round"
+                            />
+                            {e.weight !== undefined && (
+                                <text
+                                    x={(from.x + to.x) / 2}
+                                    y={(from.y + to.y) / 2 - 6}
+                                    fontSize="10"
+                                    fill="#94a3b8"
+                                    textAnchor="middle"
+                                    fontWeight="bold"
+                                >
+                                    {e.weight}
+                                </text>
+                            )}
+                        </g>
+                    );
+                })}
+
+                {/* Nodes */}
+                {nodes.map((n) => {
+                    const pos = nodePositions[n];
+                    if (!pos) return null;
+                    const isCurrent = n === currentNode;
+                    const isVisited = visited.has(n);
+                    const isQueued = inQueue.has(n);
+
+                    let fill = "#f8fafc";
+                    let stroke = "#cbd5e1";
+                    let textFill = "#64748b";
+                    if (isCurrent) { fill = "#6366f1"; stroke = "#4338ca"; textFill = "#fff"; }
+                    else if (isVisited) { fill = "#a5b4fc"; stroke = "#6366f1"; textFill = "#3730a3"; }
+                    else if (isQueued) { fill = "#fef3c7"; stroke = "#f59e0b"; textFill = "#92400e"; }
+
+                    const dist = distances[n];
+
+                    return (
+                        <g key={n}>
+                            <circle
+                                cx={pos.x} cy={pos.y} r={22}
+                                fill={fill} stroke={stroke} strokeWidth={2}
+                                className="transition-all duration-300"
+                            />
+                            <text
+                                x={pos.x} y={pos.y + 1}
+                                textAnchor="middle" dominantBaseline="middle"
+                                fontSize="12" fontWeight="900" fill={textFill}
+                            >
+                                {n}
+                            </text>
+                            {dist !== undefined && (
+                                <text
+                                    x={pos.x} y={pos.y + 34}
+                                    textAnchor="middle"
+                                    fontSize="10" fontWeight="700" fill="#6366f1"
+                                >
+                                    d={dist === Infinity ? "∞" : dist}
+                                </text>
+                            )}
+                        </g>
+                    );
+                })}
+            </svg>
+
+            <div className="flex flex-wrap justify-center gap-3 text-xs font-bold">
+                <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-indigo-500 inline-block" /> Curent</span>
+                <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-indigo-200 inline-block" /> Vizitat</span>
+                <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-amber-100 border border-amber-400 inline-block" /> În coadă</span>
+                <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-slate-100 border border-slate-300 inline-block" /> Nevizitat</span>
+            </div>
+        </div>
+    );
+}
+
+function DPVisualizer({ event, input }: { event: TraceEvent; input: any }) {
+    const ev = event as any;
+    const table: number[][] = ev.table || [];
+    const currentRow: number = ev.row !== undefined ? ev.row : -1;
+    const currentCol: number = ev.col !== undefined ? ev.col : -1;
+
+    if (table.length === 0) {
+        return (
+            <div className="text-slate-400 text-sm font-medium py-8 text-center">
+                Tabelul DP va apărea odată ce algoritmul începe execuția.
+            </div>
+        );
+    }
+
+    const maxRows = Math.min(table.length, 12);
+    const maxCols = Math.min(table[0]?.length ?? 0, 16);
+
+    return (
+        <div className="w-full overflow-x-auto pb-4">
+            <table className="mx-auto border-collapse text-xs font-mono">
+                <tbody>
+                    {table.slice(0, maxRows).map((row, ri) => (
+                        <tr key={ri}>
+                            {row.slice(0, maxCols).map((cell, ci) => {
+                                const isCurrent = ri === currentRow && ci === currentCol;
+                                const isCurrentRow = ri === currentRow;
+                                return (
+                                    <td
+                                        key={ci}
+                                        className={`w-9 h-9 text-center border transition-all duration-300 font-black ${
+                                            isCurrent
+                                                ? "bg-indigo-600 text-white border-indigo-700 scale-105 z-10 relative shadow-lg"
+                                                : isCurrentRow
+                                                ? "bg-indigo-50 text-indigo-800 border-indigo-200"
+                                                : "bg-white text-slate-600 border-slate-200"
+                                        }`}
+                                    >
+                                        {cell}
+                                    </td>
+                                );
+                            })}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            {currentRow >= 0 && (
+                <p className="text-center mt-3 text-xs text-slate-500 font-medium">
+                    Calculez dp[{currentRow}][{currentCol}] = {ev.value}
+                </p>
+            )}
+        </div>
+    );
+}
+
 function Typewriter({ text, speed = 15, onStart }: { text: string; speed?: number; onStart?: () => void }) {
     const [displayedText, setDisplayedText] = useState("");
     const [isTyping, setIsTyping] = useState(false);
@@ -234,11 +458,30 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
     const [sourceFile, setSourceFile] = useState<string>("");
 
 	useEffect(() => {
-		if (meta.slug.includes("sort") || meta.slug.includes("binara") || meta.slug.includes("search")) {
+        const vizType = meta.visualizerType || "none";
+		if (vizType === "sorting") {
             const defaultArray = [64, 34, 25, 12, 22, 11, 90];
+			setInput({ array: defaultArray });
+            setRawInput(defaultArray.join(", "));
+		} else if (vizType === "search") {
+            const defaultArray = [11, 12, 22, 25, 34, 64, 90];
 			setInput({ array: defaultArray, target: 22 });
             setRawInput(defaultArray.join(", "));
-		} else {
+        } else if (vizType === "graph") {
+            const defaultData = {
+				nodes: ["A", "B", "C", "D", "E"],
+				edges: [
+					{ from: "A", to: "B", weight: 4 },
+					{ from: "A", to: "C", weight: 2 },
+					{ from: "B", to: "D", weight: 3 },
+					{ from: "C", to: "D", weight: 1 },
+					{ from: "D", to: "E", weight: 5 },
+				],
+				start: "A",
+			};
+			setInput(defaultData);
+            setRawInput(JSON.stringify(defaultData, null, 2));
+        } else {
             const defaultData = {
 				nodes: ["A", "B", "C", "D"],
 				edges: [
@@ -251,7 +494,7 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
 			setInput(defaultData);
             setRawInput(JSON.stringify(defaultData, null, 2));
 		}
-	}, [meta.slug]);
+	}, [meta.slug, meta.visualizerType]);
 
 	// Fetch source code from API
 	useEffect(() => {
@@ -276,8 +519,13 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
 
 	const handleRun = async () => {
 		try {
+            const vizType = meta.visualizerType || "none";
             let finalInput = input;
-            if (meta.slug.includes("sort") || meta.slug.includes("binara") || meta.slug.includes("search")) {
+            if (vizType === "sorting") {
+                const arr = rawInput.split(",").map(n => parseInt(n.trim())).filter(n => !isNaN(n));
+                finalInput = { array: arr };
+                setInput(finalInput);
+            } else if (vizType === "search") {
                 const arr = rawInput.split(",").map(n => parseInt(n.trim())).filter(n => !isNaN(n));
                 finalInput = { ...input, array: arr };
                 setInput(finalInput);
@@ -359,7 +607,8 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
 	};
 
 	const currentEvent = trace[currentStep];
-    const isArrayAlgo = meta.slug.includes("sort") || meta.slug.includes("binara") || meta.slug.includes("search");
+    const vizType = meta.visualizerType || "none";
+    const isArrayAlgo = vizType === "sorting" || vizType === "search";
     const sourceFileName = getSourceFileName(meta.slug);
 
 	return (
@@ -472,8 +721,14 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                                         </div>
                                         
                                         <div className="overflow-x-auto w-full pb-4 no-scrollbar">
-                                            {isArrayAlgo ? (
+                                            {vizType === "sorting" ? (
                                                 <SortingVisualizer event={currentEvent} input={input} slug={meta.slug} />
+                                            ) : vizType === "search" ? (
+                                                <SearchVisualizer event={currentEvent} input={input} />
+                                            ) : vizType === "graph" ? (
+                                                <GraphVisualizer event={currentEvent} input={input} />
+                                            ) : vizType === "dp" ? (
+                                                <DPVisualizer event={currentEvent} input={input} />
                                             ) : (
                                                 <div className="py-20">
                                                     {currentEvent.note && (
@@ -504,6 +759,11 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                                         <div className="space-y-2">
                                             <p className="text-slate-900 font-black text-xl">Gata de simulare</p>
                                             <p className="text-slate-400 font-medium">Configurează datele de intrare sau apasă Restart.</p>
+                                            {meta.status === "source-only" && (
+                                                <p className="text-amber-600 text-xs font-bold mt-2 px-4 py-2 bg-amber-50 rounded-xl inline-block">
+                                                    ⚠ Vizualizare pas-cu-pas indisponibilă — codul sursă este accesibil în tab-ul "Cod Sursă".
+                                                </p>
+                                            )}
                                         </div>
                                     </div>
                                 )}
@@ -558,33 +818,37 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                         <div>
                             <h3 className="text-xl font-bold text-slate-900 mb-2">Configurare Date Intrare</h3>
                             <p className="text-slate-500 text-sm mb-6">
-                                {isArrayAlgo 
-                                    ? "Introdu numerele separate prin virgulă (ex: 5, 2, 9, 1)." 
+                                {vizType === "sorting"
+                                    ? "Introdu numerele separate prin virgulă (ex: 64, 34, 25, 12)."
+                                    : vizType === "search"
+                                    ? "Introdu un tablou sortat, separate prin virgulă. Specifică și valoarea căutată."
                                     : "Modifică obiectul JSON de mai jos pentru a schimba datele de test."}
                             </p>
                             
                             {isArrayAlgo ? (
                                 <div className="space-y-4">
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-400 uppercase">Elemente Tablou</label>
+                                        <label className="text-xs font-bold text-slate-400 uppercase">
+                                            {vizType === "search" ? "Tablou Sortat" : "Elemente Tablou"}
+                                        </label>
                                         <input
                                             type="text"
                                             value={rawInput}
                                             onChange={(e) => setRawInput(e.target.value)}
                                             className="w-full font-mono text-lg p-6 bg-slate-50 text-slate-900 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 transition-all outline-none"
-                                            placeholder="ex: 10, 5, 20, 15"
+                                            placeholder={vizType === "search" ? "ex: 11, 12, 22, 25, 34" : "ex: 10, 5, 20, 15"}
                                         />
                                     </div>
                                     
-                                    {(meta.slug.includes("binara") || meta.slug.includes("search")) && (
+                                    {vizType === "search" && (
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-slate-400 uppercase">Valoare Căutată (Target)</label>
                                             <input
                                                 type="number"
-                                                value={input.target || ""}
+                                                value={input.target ?? ""}
                                                 onChange={(e) => setInput({ ...input, target: parseInt(e.target.value) })}
                                                 className="w-full font-mono text-lg p-4 bg-slate-50 text-slate-900 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 transition-all outline-none"
-                                                placeholder="ex: 34"
+                                                placeholder="ex: 22"
                                             />
                                         </div>
                                     )}
