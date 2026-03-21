@@ -35,12 +35,14 @@ export function heapSortInstrumented(input: { array: number[] }): AlgorithmResul
     }
 
     if (largest !== root) {
+      const rootVal = arr[root];
+      const largestVal = arr[largest];
       [arr[root], arr[largest]] = [arr[largest], arr[root]];
       trace.push({
         type: "swap",
         indices: [root, largest],
         array: [...arr],
-        note: `Heapify: interschimb nodul [${root}]=${arr[largest]} cu cel mai mare fiu [${largest}]=${arr[root]}, continui heapify de la [${largest}]`,
+        note: `Heapify: interschimb nodul [${root}]=${rootVal} cu cel mai mare fiu [${largest}]=${largestVal}, continui heapify de la [${largest}]`,
         vars: { root, largest, heapSize: size },
       });
       heapify(size, largest);

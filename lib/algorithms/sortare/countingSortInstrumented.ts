@@ -53,7 +53,6 @@ export function countingSortInstrumented(input: { array: number[] }): AlgorithmR
     for (let j = 0; j < count[i]; j++) {
       const pos = sorted.length;
       sorted.push(value);
-      const display = [...arr.slice(0, pos), ...sorted.slice(pos), ...new Array(n - sorted.length).fill(0)];
       trace.push({
         type: "set",
         index: pos,
@@ -62,7 +61,6 @@ export function countingSortInstrumented(input: { array: number[] }): AlgorithmR
         note: `Plasez valoarea ${value} pe poziția ${pos} în array-ul sortat (count[${i}]=${count[i]}, apariția ${j + 1}/${count[i]})`,
         vars: { value, pos, countIndex: i, occurrence: j + 1, total: count[i] },
       });
-      void display;
     }
   }
 

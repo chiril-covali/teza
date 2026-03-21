@@ -50,12 +50,14 @@ export function quickSelectInstrumented(input: { array: number[]; k: number }): 
       if (arr[j] <= pivot) {
         i++;
         if (i !== j) {
+          const vi = arr[i];
+          const vj = arr[j];
           [arr[i], arr[j]] = [arr[j], arr[i]];
           trace.push({
             type: "swap",
             indices: [i, j],
             array: [...arr],
-            note: `Interschimb arr[${i}]=${arr[j]} cu arr[${j}]=${arr[i]} pentru a plasa ${arr[i]} în zona elementelor mici`,
+            note: `Interschimb arr[${i}]=${vi} cu arr[${j}]=${vj} pentru a plasa ${vj} în zona elementelor mici`,
             vars: { i, j, low, high, pivot },
           });
         }
