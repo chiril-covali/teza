@@ -52,7 +52,7 @@
     "sourcePath": "lib/algorithms/cautare/exponential_search.ts",
     "markdownPath": "lib/algorithms/cautare/exponential_search.md",
     "visualizerType": "search",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "cautare_fibonacci_search",
@@ -63,7 +63,7 @@
     "sourcePath": "lib/algorithms/cautare/fibonacci_search.ts",
     "markdownPath": "lib/algorithms/cautare/fibonacci_search.md",
     "visualizerType": "search",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "cautare_linear_search",
@@ -74,7 +74,7 @@
     "sourcePath": "lib/algorithms/cautare/linear_search.ts",
     "markdownPath": "lib/algorithms/cautare/linear_search.md",
     "visualizerType": "search",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "cautare_interpolation_search",
@@ -85,7 +85,7 @@
     "sourcePath": "lib/algorithms/cautare/interpolation_search.ts",
     "markdownPath": "lib/algorithms/cautare/interpolation_search.md",
     "visualizerType": "search",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "cautare_jump_search",
@@ -96,7 +96,7 @@
     "sourcePath": "lib/algorithms/cautare/jump_search.ts",
     "markdownPath": "lib/algorithms/cautare/jump_search.md",
     "visualizerType": "search",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "cautare_sentinel_search",
@@ -107,7 +107,7 @@
     "sourcePath": "lib/algorithms/cautare/sentinel_search.ts",
     "markdownPath": "lib/algorithms/cautare/sentinel_search.md",
     "visualizerType": "search",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "diverse_is_sorted_array",
@@ -139,8 +139,8 @@
     "description": "Shuffle Array este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
     "sourcePath": "lib/algorithms/diverse/shuffle_array.ts",
     "markdownPath": "lib/algorithms/diverse/shuffle_array.md",
-    "visualizerType": "none",
-    "status": "source-only"
+    "visualizerType": "generic",
+    "status": "instrumented"
   },
   {
     "slug": "grafuri_bellman_ford",
@@ -150,8 +150,8 @@
     "description": "Găsește drumurile minime de la o sursă, putând detecta cicluri de cost negativ.",
     "sourcePath": "lib/algorithms/grafuri/bellman_ford.ts",
     "markdownPath": "lib/algorithms/grafuri/bellman_ford.md",
-    "visualizerType": "none",
-    "status": "source-only"
+    "visualizerType": "graph",
+    "status": "instrumented"
   },
   {
     "slug": "grafuri_dijkstra",
@@ -194,8 +194,8 @@
     "description": "Floyd Warshall este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
     "sourcePath": "lib/algorithms/grafuri/floyd_warshall.ts",
     "markdownPath": "lib/algorithms/grafuri/floyd_warshall.md",
-    "visualizerType": "none",
-    "status": "source-only"
+    "visualizerType": "graph",
+    "status": "instrumented"
   },
   {
     "slug": "grafuri_johnson",
@@ -227,8 +227,8 @@
     "description": "Kruskal este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
     "sourcePath": "lib/algorithms/grafuri/kruskal.ts",
     "markdownPath": "lib/algorithms/grafuri/kruskal.md",
-    "visualizerType": "none",
-    "status": "source-only"
+    "visualizerType": "graph",
+    "status": "instrumented"
   },
   {
     "slug": "grafuri_dfs",
@@ -260,8 +260,8 @@
     "description": "Prim este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
     "sourcePath": "lib/algorithms/grafuri/prim.ts",
     "markdownPath": "lib/algorithms/grafuri/prim.md",
-    "visualizerType": "none",
-    "status": "source-only"
+    "visualizerType": "graph",
+    "status": "instrumented"
   },
   {
     "slug": "grafuri_tarjan",
@@ -282,8 +282,8 @@
     "description": "Adună două numere reprezentate ca șiruri de caractere binare (0 și 1), simulând adunarea pe hârtie cu transport (carry).",
     "sourcePath": "lib/algorithms/manipulare-biti/add_binary.ts",
     "markdownPath": "lib/algorithms/manipulare-biti/add_binary.md",
-    "visualizerType": "none",
-    "status": "source-only"
+    "visualizerType": "generic",
+    "status": "instrumented"
   },
   {
     "slug": "manipulare-biti_log_two",
@@ -447,8 +447,8 @@
     "description": "Factorial este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
     "sourcePath": "lib/algorithms/matematica/factorial.ts",
     "markdownPath": "lib/algorithms/matematica/factorial.md",
-    "visualizerType": "none",
-    "status": "source-only"
+    "visualizerType": "generic",
+    "status": "instrumented"
   },
   {
     "slug": "matematica_factors",
@@ -469,8 +469,8 @@
     "description": "Fibonacci este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
     "sourcePath": "lib/algorithms/matematica/fibonacci.ts",
     "markdownPath": "lib/algorithms/matematica/fibonacci.md",
-    "visualizerType": "none",
-    "status": "source-only"
+    "visualizerType": "generic",
+    "status": "instrumented"
   },
   {
     "slug": "matematica_find_min",
@@ -733,8 +733,8 @@
     "description": "Sieve de Eratosthenes este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
     "sourcePath": "lib/algorithms/matematica/sieve_of_eratosthenes.ts",
     "markdownPath": "lib/algorithms/matematica/sieve_of_eratosthenes.md",
-    "visualizerType": "none",
-    "status": "source-only"
+    "visualizerType": "generic",
+    "status": "instrumented"
   },
   {
     "slug": "matematica_signum",
@@ -789,7 +789,7 @@
     "sourcePath": "lib/algorithms/programare-dinamica/lcs.ts",
     "markdownPath": "lib/algorithms/programare-dinamica/lcs.md",
     "visualizerType": "dp",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "programare-dinamica_coin_change",
@@ -800,7 +800,7 @@
     "sourcePath": "lib/algorithms/programare-dinamica/coin_change.ts",
     "markdownPath": "lib/algorithms/programare-dinamica/coin_change.md",
     "visualizerType": "dp",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "programare-dinamica_knapsack",
@@ -811,7 +811,7 @@
     "sourcePath": "lib/algorithms/programare-dinamica/knapsack.ts",
     "markdownPath": "lib/algorithms/programare-dinamica/knapsack.md",
     "visualizerType": "dp",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "sortare_tree_sort",
@@ -844,7 +844,7 @@
     "sourcePath": "lib/algorithms/sortare/counting_sort.ts",
     "markdownPath": "lib/algorithms/sortare/counting_sort.md",
     "visualizerType": "sorting",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "sortare_cycle_sort",
@@ -855,7 +855,7 @@
     "sourcePath": "lib/algorithms/sortare/cycle_sort.ts",
     "markdownPath": "lib/algorithms/sortare/cycle_sort.md",
     "visualizerType": "sorting",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "sortare_gnome_sort",
@@ -866,7 +866,7 @@
     "sourcePath": "lib/algorithms/sortare/gnome_sort.ts",
     "markdownPath": "lib/algorithms/sortare/gnome_sort.md",
     "visualizerType": "sorting",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "sortare_heap_sort",
@@ -877,7 +877,7 @@
     "sourcePath": "lib/algorithms/sortare/heap_sort.ts",
     "markdownPath": "lib/algorithms/sortare/heap_sort.md",
     "visualizerType": "sorting",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "sortare_quick_select",
@@ -888,7 +888,7 @@
     "sourcePath": "lib/algorithms/sortare/quick_select.ts",
     "markdownPath": "lib/algorithms/sortare/quick_select.md",
     "visualizerType": "sorting",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "sortare_shell_sort",
@@ -899,7 +899,7 @@
     "sourcePath": "lib/algorithms/sortare/shell_sort.ts",
     "markdownPath": "lib/algorithms/sortare/shell_sort.md",
     "visualizerType": "sorting",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "sortare_quickSort",
