@@ -1,13 +1,13 @@
 import { AlgorithmMeta, AlgorithmResult } from "./types";
-import { bubbleSort } from "./sorting/bubbleSort";
-import { insertionSort } from "./sorting/insertionSort";
-import { selectionSort } from "./sorting/selectionSort";
-import { quickSort } from "./sorting/quickSort";
-import { mergeSort } from "./sorting/mergeSort";
-import { binarySearch } from "./searching/binarySearch";
-import { bfs } from "./graphs/bfs";
-import { dfs } from "./graphs/dfs";
-import { dijkstra } from "./graphs/dijkstra";
+import { bubbleSort } from "./sortare/bubbleSort";
+import { insertionSort } from "./sortare/insertionSort";
+import { selectionSort } from "./sortare/selectionSort";
+import { quickSort } from "./sortare/quickSort";
+import { mergeSort } from "./sortare/mergeSort";
+import { binarySearch } from "./cautare/binarySearch";
+import { bfs } from "./grafuri/bfs";
+import { dfs } from "./grafuri/dfs";
+import { dijkstra } from "./grafuri/dijkstra";
 import { allAlgorithmsMeta as generatedMeta } from "./generated-registry";
 
 export * from "./types";
@@ -27,16 +27,17 @@ export const algorithms: Record<
   parcurgere_adancime: dfs,
   dijkstra: dijkstra,
   // Add mappings for generated slugs that match our instrumented ones
-  sorts_bubble_sort: bubbleSort,
-  sorts_insertion_sort: insertionSort,
-  sorts_selection_sort: selectionSort,
-  sorts_quick_sort: quickSort,
-  sorts_merge_sort: mergeSort,
-  search_binary_search: binarySearch,
-  graph_bfs: bfs,
-  graph_dfs: dfs,
-  graph_dijkstra: dijkstra,
+  sortare_bubbleSort: bubbleSort,
+  sortare_insertionSort: insertionSort,
+  sortare_selectionSort: selectionSort,
+  sortare_quickSort: quickSort,
+  sortare_mergeSort: mergeSort,
+  cautare_binarySearch: binarySearch,
+  grafuri_bfs: bfs,
+  grafuri_dfs: dfs,
+  grafuri_dijkstra: dijkstra,
 };
+
 
 // Instrumented meta for better descriptions
 const instrumentedMeta: AlgorithmMeta[] = [
@@ -62,6 +63,10 @@ export const allAlgorithms: AlgorithmMeta[] = generatedMeta.map(gen => {
     const inst = instrumentedMeta.find(i => i.slug === gen.slug);
     return inst ? { ...gen, ...inst } : gen;
 });
+
+export const allAlgorithmsList: Array<Omit<AlgorithmMeta, "source">> = allAlgorithms.map(
+  ({ source, ...rest }) => rest
+);
 
 export function runAlgorithm(slug: string, input: any): AlgorithmResult {
   const algo = algorithms[slug];

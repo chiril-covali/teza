@@ -1,0 +1,644 @@
+[
+  {
+    "slug": "backtracking_generateparentheses",
+    "name": "Generare Paranteze",
+    "category": "Backtracking",
+    "markdownPath": "lib/algorithms/backtracking/generateparentheses.md"
+  },
+  {
+    "slug": "backtracking_all_combinations_of_size_k",
+    "name": "Toate Combinările de Dimensiune K",
+    "category": "Backtracking",
+    "markdownPath": "lib/algorithms/backtracking/all_combinations_of_size_k.md"
+  },
+  {
+    "slug": "cifru_xor_cipher",
+    "name": "Cifrul XOR",
+    "category": "Cifrare",
+    "markdownPath": "lib/algorithms/cifru/xor_cipher.md"
+  },
+  {
+    "slug": "cautare_binarySearch",
+    "name": "Căutare Binară (Vizualizat)",
+    "category": "Căutare",
+    "markdownPath": "lib/algorithms/cautare/binarySearch.md"
+  },
+  {
+    "slug": "cautare_exponential_search",
+    "name": "Căutare Exponențială",
+    "category": "Căutare",
+    "markdownPath": "lib/algorithms/cautare/exponential_search.md"
+  },
+  {
+    "slug": "cautare_fibonacci_search",
+    "name": "Căutare Fibonacci",
+    "category": "Căutare",
+    "markdownPath": "lib/algorithms/cautare/fibonacci_search.md"
+  },
+  {
+    "slug": "cautare_linear_search",
+    "name": "Căutare Liniară",
+    "category": "Căutare",
+    "markdownPath": "lib/algorithms/cautare/linear_search.md"
+  },
+  {
+    "slug": "cautare_interpolation_search",
+    "name": "Interpolare Căutare",
+    "category": "Căutare",
+    "markdownPath": "lib/algorithms/cautare/interpolation_search.md"
+  },
+  {
+    "slug": "cautare_jump_search",
+    "name": "Salturi Căutare",
+    "category": "Căutare",
+    "markdownPath": "lib/algorithms/cautare/jump_search.md"
+  },
+  {
+    "slug": "cautare_sentinel_search",
+    "name": "Santinelă Căutare",
+    "category": "Căutare",
+    "markdownPath": "lib/algorithms/cautare/sentinel_search.md"
+  },
+  {
+    "slug": "diverse_is_sorted_array",
+    "name": "Verificare Sorted Array",
+    "category": "Diverse",
+    "markdownPath": "lib/algorithms/diverse/is_sorted_array.md"
+  },
+  {
+    "slug": "diverse_parse_nested_brackets",
+    "name": "Parse Nested Brackets",
+    "category": "Diverse",
+    "markdownPath": "lib/algorithms/diverse/parse_nested_brackets.md"
+  },
+  {
+    "slug": "diverse_shuffle_array",
+    "name": "Shuffle Array",
+    "category": "Diverse",
+    "markdownPath": "lib/algorithms/diverse/shuffle_array.md"
+  },
+  {
+    "slug": "grafuri_bellman_ford",
+    "name": "Algoritmul Bellman-Ford",
+    "category": "Grafuri",
+    "markdownPath": "lib/algorithms/grafuri/bellman_ford.md"
+  },
+  {
+    "slug": "grafuri_dijkstra",
+    "name": "Algoritmul Dijkstra",
+    "category": "Grafuri",
+    "markdownPath": "lib/algorithms/grafuri/dijkstra.md"
+  },
+  {
+    "slug": "grafuri_bipartite_graph",
+    "name": "Bipartite Graf",
+    "category": "Grafuri",
+    "markdownPath": "lib/algorithms/grafuri/bipartite_graph.md"
+  },
+  {
+    "slug": "grafuri_edmonds_karp",
+    "name": "Edmonds Karp",
+    "category": "Grafuri",
+    "markdownPath": "lib/algorithms/grafuri/edmonds_karp.md"
+  },
+  {
+    "slug": "grafuri_floyd_warshall",
+    "name": "Floyd Warshall",
+    "category": "Grafuri",
+    "markdownPath": "lib/algorithms/grafuri/floyd_warshall.md"
+  },
+  {
+    "slug": "grafuri_johnson",
+    "name": "Johnson",
+    "category": "Grafuri",
+    "markdownPath": "lib/algorithms/grafuri/johnson.md"
+  },
+  {
+    "slug": "grafuri_kosajaru",
+    "name": "Kosajaru",
+    "category": "Grafuri",
+    "markdownPath": "lib/algorithms/grafuri/kosajaru.md"
+  },
+  {
+    "slug": "grafuri_kruskal",
+    "name": "Kruskal",
+    "category": "Grafuri",
+    "markdownPath": "lib/algorithms/grafuri/kruskal.md"
+  },
+  {
+    "slug": "grafuri_dfs",
+    "name": "Parcurgere în Adâncime (DFS)",
+    "category": "Grafuri",
+    "markdownPath": "lib/algorithms/grafuri/dfs.md"
+  },
+  {
+    "slug": "grafuri_bfs",
+    "name": "Parcurgere în Lățime (BFS)",
+    "category": "Grafuri",
+    "markdownPath": "lib/algorithms/grafuri/bfs.md"
+  },
+  {
+    "slug": "grafuri_prim",
+    "name": "Prim",
+    "category": "Grafuri",
+    "markdownPath": "lib/algorithms/grafuri/prim.md"
+  },
+  {
+    "slug": "grafuri_tarjan",
+    "name": "Tarjan",
+    "category": "Grafuri",
+    "markdownPath": "lib/algorithms/grafuri/tarjan.md"
+  },
+  {
+    "slug": "manipulare-biti_add_binary",
+    "name": "Adunare Binară",
+    "category": "Manipulare Biți",
+    "markdownPath": "lib/algorithms/manipulare-biti/add_binary.md"
+  },
+  {
+    "slug": "manipulare-biti_log_two",
+    "name": "Logaritm în Baza 2",
+    "category": "Manipulare Biți",
+    "markdownPath": "lib/algorithms/manipulare-biti/log_two.md"
+  },
+  {
+    "slug": "manipulare-biti_is_power_of_2",
+    "name": "Verificare Putere a lui 2",
+    "category": "Manipulare Biți",
+    "markdownPath": "lib/algorithms/manipulare-biti/is_power_of_2.md"
+  },
+  {
+    "slug": "manipulare-biti_is_power_of_4",
+    "name": "Verificare Putere a lui 4",
+    "category": "Manipulare Biți",
+    "markdownPath": "lib/algorithms/manipulare-biti/is_power_of_4.md"
+  },
+  {
+    "slug": "matematica_absolute_value",
+    "name": "Absolute Value",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/absolute_value.md"
+  },
+  {
+    "slug": "matematica_aliquot_sum",
+    "name": "Aliquot Sum",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/aliquot_sum.md"
+  },
+  {
+    "slug": "matematica_armstrong_number",
+    "name": "Armstrong Number",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/armstrong_number.md"
+  },
+  {
+    "slug": "matematica_binary_convert",
+    "name": "Binară Convert",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/binary_convert.md"
+  },
+  {
+    "slug": "matematica_binomial_coefficient",
+    "name": "Binomial Coefficient",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/binomial_coefficient.md"
+  },
+  {
+    "slug": "matematica_calculate_mean",
+    "name": "Calculate Mean",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/calculate_mean.md"
+  },
+  {
+    "slug": "matematica_calculate_median",
+    "name": "Calculate Median",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/calculate_median.md"
+  },
+  {
+    "slug": "matematica_degrees_to_radians",
+    "name": "Degrees To Radians",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/degrees_to_radians.md"
+  },
+  {
+    "slug": "matematica_digit_sum",
+    "name": "Digit Sum",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/digit_sum.md"
+  },
+  {
+    "slug": "matematica_double_factorial_iterative",
+    "name": "Double Factorial Iterative",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/double_factorial_iterative.md"
+  },
+  {
+    "slug": "matematica_euler_totient",
+    "name": "Euler Totient",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/euler_totient.md"
+  },
+  {
+    "slug": "matematica_factorial",
+    "name": "Factorial",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/factorial.md"
+  },
+  {
+    "slug": "matematica_factors",
+    "name": "Factors",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/factors.md"
+  },
+  {
+    "slug": "matematica_fibonacci",
+    "name": "Fibonacci",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/fibonacci.md"
+  },
+  {
+    "slug": "matematica_find_min",
+    "name": "Find Min",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/find_min.md"
+  },
+  {
+    "slug": "matematica_gaussian_elimination",
+    "name": "Gaussian Elimination",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/gaussian_elimination.md"
+  },
+  {
+    "slug": "matematica_greatest_common_factor",
+    "name": "Greatest Common Factor",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/greatest_common_factor.md"
+  },
+  {
+    "slug": "matematica_hamming_distance",
+    "name": "Hamming Distance",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/hamming_distance.md"
+  },
+  {
+    "slug": "matematica_series_hexagonal_numbers",
+    "name": "Series Hexagonal Numbers",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/series_hexagonal_numbers.md"
+  },
+  {
+    "slug": "matematica_is_divisible",
+    "name": "Verificare Divisible",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/is_divisible.md"
+  },
+  {
+    "slug": "matematica_is_even",
+    "name": "Verificare Even",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/is_even.md"
+  },
+  {
+    "slug": "matematica_is_leap_year",
+    "name": "Verificare Leap Year",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/is_leap_year.md"
+  },
+  {
+    "slug": "matematica_is_odd",
+    "name": "Verificare Odd",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/is_odd.md"
+  },
+  {
+    "slug": "matematica_is_palindrome",
+    "name": "Verificare Palindrome",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/is_palindrome.md"
+  },
+  {
+    "slug": "matematica_is_square_free",
+    "name": "Verificare Square Free",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/is_square_free.md"
+  },
+  {
+    "slug": "matematica_juggler_sequence",
+    "name": "Juggler Sequence",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/juggler_sequence.md"
+  },
+  {
+    "slug": "matematica_lowest_common_multiple",
+    "name": "Lowest Common Multiple",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/lowest_common_multiple.md"
+  },
+  {
+    "slug": "matematica_matrix_multiplication",
+    "name": "Matrix Multiplication",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/matrix_multiplication.md"
+  },
+  {
+    "slug": "matematica_number_of_digits",
+    "name": "Number de Digits",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/number_of_digits.md"
+  },
+  {
+    "slug": "matematica_pascals_triangle",
+    "name": "Pascals Triangle",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/pascals_triangle.md"
+  },
+  {
+    "slug": "matematica_perfect_cube",
+    "name": "Perfect Cube",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/perfect_cube.md"
+  },
+  {
+    "slug": "matematica_perfect_number",
+    "name": "Perfect Number",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/perfect_number.md"
+  },
+  {
+    "slug": "matematica_perfect_square",
+    "name": "Perfect Square",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/perfect_square.md"
+  },
+  {
+    "slug": "matematica_prime_factorization",
+    "name": "Prime Factorization",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/prime_factorization.md"
+  },
+  {
+    "slug": "matematica_primes",
+    "name": "Primes",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/primes.md"
+  },
+  {
+    "slug": "matematica_pronic_number",
+    "name": "Pronic Number",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/pronic_number.md"
+  },
+  {
+    "slug": "matematica_radians_to_degrees",
+    "name": "Radians To Degrees",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/radians_to_degrees.md"
+  },
+  {
+    "slug": "matematica_sieve_of_eratosthenes",
+    "name": "Sieve de Eratosthenes",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/sieve_of_eratosthenes.md"
+  },
+  {
+    "slug": "matematica_signum",
+    "name": "Signum",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/signum.md"
+  },
+  {
+    "slug": "matematica_square_root",
+    "name": "Square Root",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/square_root.md"
+  },
+  {
+    "slug": "matematica_ugly_numbers",
+    "name": "Ugly Numbers",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/ugly_numbers.md"
+  },
+  {
+    "slug": "matematica_zellers_congruence",
+    "name": "Zellers Congruence",
+    "category": "Matematică",
+    "markdownPath": "lib/algorithms/matematica/zellers_congruence.md"
+  },
+  {
+    "slug": "programare-dinamica_lcs",
+    "name": "Cel mai lung subșir comun (LCS)",
+    "category": "Programare Dinamică",
+    "markdownPath": "lib/algorithms/programare-dinamica/lcs.md"
+  },
+  {
+    "slug": "programare-dinamica_coin_change",
+    "name": "Problema Restului (Coin Change)",
+    "category": "Programare Dinamică",
+    "markdownPath": "lib/algorithms/programare-dinamica/coin_change.md"
+  },
+  {
+    "slug": "programare-dinamica_knapsack",
+    "name": "Problema Rucsacului (0/1 Knapsack)",
+    "category": "Programare Dinamică",
+    "markdownPath": "lib/algorithms/programare-dinamica/knapsack.md"
+  },
+  {
+    "slug": "sortare_tree_sort",
+    "name": "Arbore Sortare",
+    "category": "Sortare",
+    "markdownPath": "lib/algorithms/sortare/tree_sort.md"
+  },
+  {
+    "slug": "sortare_bogo_sort",
+    "name": "Bogo Sortare",
+    "category": "Sortare",
+    "markdownPath": "lib/algorithms/sortare/bogo_sort.md"
+  },
+  {
+    "slug": "sortare_counting_sort",
+    "name": "Counting Sortare",
+    "category": "Sortare",
+    "markdownPath": "lib/algorithms/sortare/counting_sort.md"
+  },
+  {
+    "slug": "sortare_cycle_sort",
+    "name": "Cycle Sortare",
+    "category": "Sortare",
+    "markdownPath": "lib/algorithms/sortare/cycle_sort.md"
+  },
+  {
+    "slug": "sortare_gnome_sort",
+    "name": "Gnome Sortare",
+    "category": "Sortare",
+    "markdownPath": "lib/algorithms/sortare/gnome_sort.md"
+  },
+  {
+    "slug": "sortare_heap_sort",
+    "name": "Heap Sortare",
+    "category": "Sortare",
+    "markdownPath": "lib/algorithms/sortare/heap_sort.md"
+  },
+  {
+    "slug": "sortare_quick_select",
+    "name": "Quick Select",
+    "category": "Sortare",
+    "markdownPath": "lib/algorithms/sortare/quick_select.md"
+  },
+  {
+    "slug": "sortare_shell_sort",
+    "name": "Shell Sortare",
+    "category": "Sortare",
+    "markdownPath": "lib/algorithms/sortare/shell_sort.md"
+  },
+  {
+    "slug": "sortare_quickSort",
+    "name": "Sortare Rapidă (Vizualizat)",
+    "category": "Sortare",
+    "markdownPath": "lib/algorithms/sortare/quickSort.md"
+  },
+  {
+    "slug": "sortare_mergeSort",
+    "name": "Sortare prin Interclasare (Vizualizat)",
+    "category": "Sortare",
+    "markdownPath": "lib/algorithms/sortare/mergeSort.md"
+  },
+  {
+    "slug": "sortare_bubbleSort",
+    "name": "Sortare prin Metoda Bulelor (Vizualizat)",
+    "category": "Sortare",
+    "markdownPath": "lib/algorithms/sortare/bubbleSort.md"
+  },
+  {
+    "slug": "sortare_swap_sort",
+    "name": "Swap Sortare",
+    "category": "Sortare",
+    "markdownPath": "lib/algorithms/sortare/swap_sort.md"
+  },
+  {
+    "slug": "sortare_insertionSort",
+    "name": "Insertion Sortare",
+    "category": "Sortare",
+    "markdownPath": "lib/algorithms/sortare/insertionSort.md"
+  },
+  {
+    "slug": "sortare_selectionSort",
+    "name": "Selection Sortare",
+    "category": "Sortare",
+    "markdownPath": "lib/algorithms/sortare/selectionSort.md"
+  },
+  {
+    "slug": "structuri-de-date_tree_binary_search_tree",
+    "name": "Arbore Binar de Căutare (BST)",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/tree_binary_search_tree.md"
+  },
+  {
+    "slug": "structuri-de-date_queue_circular_queue",
+    "name": "Coadă Circulară Coadă",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/queue_circular_queue.md"
+  },
+  {
+    "slug": "structuri-de-date_list_doubly_linked_list",
+    "name": "Listă Dublu Înlănțuită Listă",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/list_doubly_linked_list.md"
+  },
+  {
+    "slug": "structuri-de-date_map_hash_map",
+    "name": "Hartă Hash Hartă",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/map_hash_map.md"
+  },
+  {
+    "slug": "structuri-de-date_set_hash_map_set",
+    "name": "Set Hash Hartă Set",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/set_hash_map_set.md"
+  },
+  {
+    "slug": "structuri-de-date_heap_heap",
+    "name": "Heap (Grămadă)",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/heap_heap.md"
+  },
+  {
+    "slug": "structuri-de-date_queue_linked_queue",
+    "name": "Coadă Înlănțuită Coadă",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/queue_linked_queue.md"
+  },
+  {
+    "slug": "structuri-de-date_list_linked_list",
+    "name": "Listă Înlănțuită Listă",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/list_linked_list.md"
+  },
+  {
+    "slug": "structuri-de-date_stack_linked_list_stack",
+    "name": "Stivă Înlănțuită Listă Stivă",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/stack_linked_list_stack.md"
+  },
+  {
+    "slug": "structuri-de-date_map_map",
+    "name": "Hartă Hartă",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/map_map.md"
+  },
+  {
+    "slug": "structuri-de-date_set_map_set",
+    "name": "Set Hartă Set",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/set_map_set.md"
+  },
+  {
+    "slug": "structuri-de-date_disjoint_set_disjoint_set",
+    "name": "Mulțimi Disjuncte (Union-Find)",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/disjoint_set_disjoint_set.md"
+  },
+  {
+    "slug": "structuri-de-date_queue_queue",
+    "name": "Coadă Coadă",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/queue_queue.md"
+  },
+  {
+    "slug": "structuri-de-date_set_set",
+    "name": "Set Set",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/set_set.md"
+  },
+  {
+    "slug": "structuri-de-date_list_singly_linked_list",
+    "name": "Listă Simplă Înlănțuită Listă",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/list_singly_linked_list.md"
+  },
+  {
+    "slug": "structuri-de-date_queue_stack_queue",
+    "name": "Coadă Stivă Coadă",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/queue_stack_queue.md"
+  },
+  {
+    "slug": "structuri-de-date_stack_stack",
+    "name": "Stivă",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/stack_stack.md"
+  },
+  {
+    "slug": "structuri-de-date_tries_tries",
+    "name": "Trie (Arbore de Prefix)",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/tries_tries.md"
+  },
+  {
+    "slug": "structuri-de-date_queue_array_queue",
+    "name": "Coadă Array Coadă",
+    "category": "Structuri de Date",
+    "markdownPath": "lib/algorithms/structuri-de-date/queue_array_queue.md"
+  }
+]

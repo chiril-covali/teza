@@ -24,16 +24,30 @@ export default function P5HeroBackground() {
         // Size inversely proportional to count
         // Minimum size 15, maximum 60
         const baseSize = Math.max(15, Math.min(60, 400 / numAlgos));
+        const palette: [number, number, number][] = [
+          [79, 70, 229],   // indigo-600
+          [37, 99, 235],   // blue-600
+          [8, 145, 178],   // cyan-600
+          [5, 150, 105],   // emerald-600
+          [217, 119, 6],   // amber-600
+          [225, 29, 72],   // rose-600
+          [124, 58, 237],  // violet-600
+        ];
         
-        const dots = allAlgorithms.map((algo, i) => ({
-          name: algo.name,
-          x: Math.random() * 800, // will be reset in setup/resize
-          y: Math.random() * 600,
-          vx: (Math.random() - 0.5) * 0.8,
-          vy: (Math.random() - 0.5) * 0.8,
-          size: baseSize + (i % 3) * 5,
-          strokeColor: [79, 70, 229, 120] as [number, number, number, number], // Indigo-600
-        }));
+        const dots = allAlgorithms.map((algo, i) => {
+          const color = palette[Math.floor(Math.random() * palette.length)];
+
+          return {
+            name: algo.name,
+            x: Math.random() * 800, // will be reset in setup/resize
+            y: Math.random() * 600,
+            vx: (Math.random() - 0.5) * 0.8,
+            vy: (Math.random() - 0.5) * 0.8,
+            size: baseSize + (i % 3) * 5,
+            fillColor: [color[0], color[1], color[2], 120] as [number, number, number, number],
+            strokeColor: [color[0], color[1], color[2], 180] as [number, number, number, number],
+          };
+        });
 
         const resize = () => {
           if (container) {
@@ -51,7 +65,6 @@ export default function P5HeroBackground() {
 
         s.setup = () => {
           s.createCanvas(container.offsetWidth, container.offsetHeight);
-          s.noFill();
           s.strokeWeight(1.5);
           
           dots.forEach(dot => {
@@ -76,15 +89,8 @@ export default function P5HeroBackground() {
 
             // Draw
             s.stroke(...dot.strokeColor);
-            s.fill(255, 255, 255, 40);
+            s.fill(...dot.fillColor);
             s.circle(dot.x, dot.y, dot.size);
-            
-            // Subtle center point
-            s.fill(...dot.strokeColor);
-            s.noStroke();
-            s.circle(dot.x, dot.y, 2);
-            s.noFill();
-            s.strokeWeight(1.5);
           }
         };
       };

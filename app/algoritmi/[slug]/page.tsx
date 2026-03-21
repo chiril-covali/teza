@@ -5,6 +5,9 @@ import { useParams } from "next/navigation";
 import { api } from "@/lib/api";
 import { AlgorithmMeta, TraceEvent, allAlgorithms } from "@/lib/algorithms";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { 
   PlayIcon, 
   PauseIcon, 
@@ -17,8 +20,104 @@ import {
   EyeIcon
 } from "@primer/octicons-react";
 
+function getCategoryTheme(category: string) {
+    const value = category.toLowerCase();
+
+    if (value.includes("backtracking")) {
+        return {
+            badge: "bg-amber-100 text-amber-800",
+            iconWrap: "bg-amber-600 text-white",
+            icon: <GearIcon size={16} />,
+        };
+    }
+
+    if (value.includes("sort")) {
+        return {
+            badge: "bg-rose-100 text-rose-800",
+            iconWrap: "bg-rose-600 text-white",
+            icon: <ProjectIcon size={16} />,
+        };
+    }
+
+    if (value.includes("cautare")) {
+        return {
+            badge: "bg-cyan-100 text-cyan-800",
+            iconWrap: "bg-cyan-600 text-white",
+            icon: <EyeIcon size={16} />,
+        };
+    }
+
+    if (value.includes("graf")) {
+        return {
+            badge: "bg-indigo-100 text-indigo-800",
+            iconWrap: "bg-indigo-600 text-white",
+            icon: <ProjectIcon size={16} />,
+        };
+    }
+
+    if (value.includes("dinamic")) {
+        return {
+            badge: "bg-emerald-100 text-emerald-800",
+            iconWrap: "bg-emerald-600 text-white",
+            icon: <CodeIcon size={16} />,
+        };
+    }
+
+    if (value.includes("structuri")) {
+        return {
+            badge: "bg-sky-100 text-sky-800",
+            iconWrap: "bg-sky-600 text-white",
+            icon: <CodeIcon size={16} />,
+        };
+    }
+
+    if (value.includes("matemat")) {
+        return {
+            badge: "bg-lime-100 text-lime-800",
+            iconWrap: "bg-lime-600 text-white",
+            icon: <CodeIcon size={16} />,
+        };
+    }
+
+    if (value.includes("bit")) {
+        return {
+            badge: "bg-violet-100 text-violet-800",
+            iconWrap: "bg-violet-600 text-white",
+            icon: <CodeIcon size={16} />,
+        };
+    }
+
+    if (value.includes("cifr")) {
+        return {
+            badge: "bg-fuchsia-100 text-fuchsia-800",
+            iconWrap: "bg-fuchsia-600 text-white",
+            icon: <CommentDiscussionIcon size={16} />,
+        };
+    }
+
+    if (value.includes("diverse")) {
+        return {
+            badge: "bg-orange-100 text-orange-800",
+            iconWrap: "bg-orange-600 text-white",
+            icon: <GearIcon size={16} />,
+        };
+    }
+
+    return {
+        badge: "bg-slate-100 text-slate-700",
+        iconWrap: "bg-slate-700 text-white",
+        icon: <ProjectIcon size={16} />,
+    };
+}
+
 interface AlgorithmPlayerProps {
 	meta: AlgorithmMeta;
+    docMarkdown: string;
+}
+
+function getSourceFileName(slug: string) {
+    const fileBase = slug.split("_").slice(1).join("_") || slug;
+    return `${fileBase}.ts`;
 }
 
 function SortingVisualizer({ event, input, slug }: { event: TraceEvent; input: any; slug: string }) {
@@ -116,7 +215,7 @@ function ThinkingAI() {
     );
 }
 
-function AlgorithmPlayer({ meta }: AlgorithmPlayerProps) {
+function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
 	const [input, setInput] = useState<Record<string, any>>({});
     const [rawInput, setRawInput] = useState<string>("");
 	const [trace, setTrace] = useState<TraceEvent[]>([]);
@@ -129,7 +228,10 @@ function AlgorithmPlayer({ meta }: AlgorithmPlayerProps) {
 	const [chat, setChat] = useState<Array<{ role: string; content: string }>>(
 		[]
 	);
-	const [tab, setTab] = useState<"viz" | "input" | "chat" | "code">("viz");
+    const [chatLoading, setChatLoading] = useState(false);
+    const [tab, setTab] = useState<"descriere" | "viz" | "input" | "chat" | "code">("descriere");
+    const [sourceCode, setSourceCode] = useState<string>("");
+    const [sourceFile, setSourceFile] = useState<string>("");
 
 	useEffect(() => {
 		if (meta.slug.includes("sort") || meta.slug.includes("binara") || meta.slug.includes("search")) {
@@ -148,6 +250,27 @@ function AlgorithmPlayer({ meta }: AlgorithmPlayerProps) {
 			};
 			setInput(defaultData);
             setRawInput(JSON.stringify(defaultData, null, 2));
+		}
+	}, [meta.slug]);
+
+	// Fetch source code from API
+	useEffect(() => {
+		const fetchSource = async () => {
+			try {
+				const response = await fetch(`/api/algoritmi/source?slug=${meta.slug}`);
+				if (response.ok) {
+					const data = await response.json();
+					setSourceCode(data.source);
+					setSourceFile(data.filePath);
+				}
+			} catch (error) {
+				console.error("Failed to fetch source code:", error);
+				setSourceCode("// Codul sursă nu este disponibil");
+			}
+		};
+		
+		if (meta.slug) {
+			fetchSource();
 		}
 	}, [meta.slug]);
 
@@ -214,43 +337,51 @@ function AlgorithmPlayer({ meta }: AlgorithmPlayerProps) {
 	}, [currentStep, trace, meta.slug, input]);
 
 	const handleChat = async () => {
-		if (!question.trim()) return;
+        if (!question.trim() || chatLoading) return;
 		const newChat = [...chat, { role: "user", content: question }];
 		setChat(newChat);
 		setQuestion("");
+        setChatLoading(true);
 		try {
 			const result = await api.chat(meta.slug, question, {
 				input,
 				currentStepIndex: currentStep,
 				currentEvent: trace[currentStep],
 			});
-			setChat([...newChat, { role: "assistant", content: result.answer }]);
+            const answer = result.answer || "";
+            setChat([...newChat, { role: "assistant", content: answer }]);
+            setChatLoading(false);
 		} catch (err) {
 			console.error(err);
+            setChatLoading(false);
+            setChat((prev) => [...prev, { role: "assistant", content: "Nu am putut genera răspunsul acum. Reîncearcă, te rog." }]);
 		}
 	};
 
 	const currentEvent = trace[currentStep];
     const isArrayAlgo = meta.slug.includes("sort") || meta.slug.includes("binara") || meta.slug.includes("search");
+    const sourceFileName = getSourceFileName(meta.slug);
 
 	return (
 		<div className="space-y-8">
             {/* Top Navigation & Info Bar */}
-            <div className="p-4 bg-white rounded-3xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-6 overflow-hidden">
-                <div className="flex bg-slate-50 p-1.5 rounded-2xl gap-1 overflow-x-auto no-scrollbar w-full sm:w-auto">
+            <div className="p-4 bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="flex justify-center">
+                <div className="flex bg-slate-50 p-1.5 rounded-2xl gap-1 overflow-x-auto no-scrollbar w-full justify-center">
                     {[
-                        { id: "viz", label: "Vizualizare", icon: <EyeIcon /> },
+                        { id: "descriere", label: "Descriere", icon: <CommentDiscussionIcon /> },
                         { id: "input", label: "Date Intrare", icon: <GearIcon /> },
+                        { id: "viz", label: "Vizualizare", icon: <EyeIcon /> },
                         { id: "chat", label: "Asistent AI", icon: <CommentDiscussionIcon /> },
                         { id: "code", label: "Cod Sursă", icon: <CodeIcon /> }
                     ].map((t) => (
                         <button
                             key={t.id}
                             onClick={() => setTab(t.id as any)}
-                            className={`flex items-center gap-2 px-4 sm:px-6 py-2.5 rounded-xl font-bold text-sm transition-all whitespace-nowrap ${
+                            className={`flex items-center justify-center gap-2 min-w-[150px] px-4 sm:px-6 py-2.5 rounded-xl border font-bold text-sm transition-all whitespace-nowrap ${
                                 tab === t.id
-                                    ? "bg-white text-indigo-600 shadow-sm"
-                                    : "text-slate-500 hover:text-slate-900"
+                                    ? "bg-white border-slate-200 text-indigo-600 shadow-sm"
+                                    : "border-transparent text-slate-500 hover:text-slate-900"
                             }`}
                         >
                             {t.icon}
@@ -258,16 +389,21 @@ function AlgorithmPlayer({ meta }: AlgorithmPlayerProps) {
                         </button>
                     ))}
                 </div>
-
-                <div className="flex items-center gap-8 pr-4 sm:border-l border-slate-100 sm:pl-8">
-                    <div>
-                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Complexitate</div>
-                        <div className="text-sm font-bold text-indigo-600 font-mono">{meta.complexity}</div>
-                    </div>
                 </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 min-h-[640px]">
+                {tab === "descriere" && (
+                    <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                        <h3 className="text-xl font-bold text-slate-900 mb-5">Descriere algoritm</h3>
+                        <article className="prose prose-slate max-w-none prose-headings:font-black prose-p:leading-relaxed prose-li:leading-relaxed">
+                            <ReactMarkdown>
+                                {docMarkdown || `# ${meta.name}\n\nDocumentația markdown nu este disponibilă încă pentru acest algoritm.`}
+                            </ReactMarkdown>
+                        </article>
+                    </div>
+                )}
+
                 {tab === "viz" && (
                     <div className="grid gap-6 lg:grid-cols-12">
                         {/* Player Controls & Main Viz */}
@@ -483,16 +619,35 @@ function AlgorithmPlayer({ meta }: AlgorithmPlayerProps) {
                                 chat.map((msg, i) => (
                                     <div
                                         key={i}
-                                        className={`max-w-[80%] p-4 rounded-2xl ${
+                                        className={`max-w-[80%] p-4 ${
                                             msg.role === "user"
-                                                ? "ml-auto bg-indigo-600 text-white shadow-md"
-                                                : "bg-slate-50 text-slate-700 border border-slate-100"
+                                                ? "ml-auto rounded-2xl rounded-br-md bg-indigo-600 text-white shadow-md"
+                                                : "rounded-2xl rounded-bl-md bg-slate-50 text-slate-700 border border-slate-100"
                                         }`}
                                     >
-                                        <p className="text-sm font-medium">{msg.content}</p>
+                                        {msg.role === "assistant" ? (
+                                            <article className="prose prose-sm prose-slate max-w-none prose-p:my-2 prose-strong:text-slate-900 prose-em:text-slate-700">
+                                                <ReactMarkdown>{msg.content}</ReactMarkdown>
+                                            </article>
+                                        ) : (
+                                            <p className="text-sm font-medium whitespace-pre-wrap">{msg.content}</p>
+                                        )}
                                     </div>
                                 ))
                             )}
+
+                            {chatLoading ? (
+                                <div className="max-w-[80%] p-4 rounded-2xl rounded-bl-md bg-slate-50 text-slate-700 border border-slate-100">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-sm font-semibold text-slate-500">Asistentul scrie</span>
+                                        <div className="flex gap-1">
+                                            <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                                            <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                                            <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" />
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : null}
                         </div>
 
                         <div className="relative">
@@ -502,37 +657,53 @@ function AlgorithmPlayer({ meta }: AlgorithmPlayerProps) {
                                 onChange={(e) => setQuestion(e.target.value)}
                                 onKeyDown={(e) => e.key === "Enter" && handleChat()}
                                 placeholder="Scrie întrebarea ta aici..."
+                                disabled={chatLoading}
                                 className="w-full pl-6 pr-16 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
                             />
                             <button 
                                 onClick={handleChat}
+                                disabled={chatLoading}
                                 className="absolute right-2 top-2 bottom-2 px-4 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
                             >
-                                <ChevronRightIcon />
+                                {chatLoading ? <span className="text-xs font-bold">...</span> : <ChevronRightIcon />}
                             </button>
                         </div>
                     </div>
                 )}
 
                 {tab === "code" && (
-                    <div className="p-4 sm:p-8 bg-slate-900 rounded-3xl border border-slate-800 shadow-xl overflow-hidden">
-                        <div className="flex items-center justify-between mb-6 border-b border-slate-800 pb-4">
+                    <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden min-h-[600px]">
+                        <div className="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
                             <div className="flex items-center gap-2">
                                 <div className="h-3 w-3 rounded-full bg-red-500" />
                                 <div className="h-3 w-3 rounded-full bg-amber-500" />
                                 <div className="h-3 w-3 rounded-full bg-emerald-500" />
-                                <span className="ml-4 text-xs font-bold text-slate-500 font-mono">implementation.ts</span>
+                                <span className="ml-4 text-xs font-bold text-slate-500 font-mono">{sourceFile || "loading..."}</span>
                             </div>
                             <button 
-                                onClick={() => navigator.clipboard.writeText(meta.source || "")}
+                                onClick={() => navigator.clipboard.writeText(sourceCode || "")}
                                 className="text-xs font-bold text-indigo-400 hover:text-indigo-300 transition-colors"
                             >
                                 Copiază Codul
                             </button>
                         </div>
-                        <pre className="font-mono text-sm text-indigo-300 overflow-x-auto p-4 bg-slate-950 rounded-2xl leading-relaxed no-scrollbar">
-                            <code>{meta.source || "// Codul sursă nu este disponibil pentru acest algoritm."}</code>
-                        </pre>
+                        <div className="overflow-x-auto rounded-2xl bg-white border border-slate-200 no-scrollbar">
+                            <SyntaxHighlighter
+                                language="typescript"
+                                style={oneLight}
+                                customStyle={{
+                                    margin: 0,
+                                    padding: "1rem",
+                                    background: "#ffffff",
+                                    fontSize: "0.875rem",
+                                    lineHeight: "1.6",
+                                }}
+                                showLineNumbers
+                                wrapLongLines
+                            >
+                                {sourceCode || "// Codul sursă se încarcă..."}
+                            </SyntaxHighlighter>
+                        </div>
                     </div>
                 )}
             </div>
@@ -544,10 +715,16 @@ export default function AlgorithmPage() {
 	const params = useParams();
 	const slug = params.slug as string;
 	const [meta, setMeta] = useState<AlgorithmMeta | null>(null);
+    const [docMarkdown, setDocMarkdown] = useState("");
 
 	useEffect(() => {
         const found = allAlgorithms.find((a) => a.slug === slug);
         setMeta(found || null);
+
+        api
+            .getAlgorithmDoc(slug)
+            .then((res) => setDocMarkdown(res.markdown || ""))
+            .catch(() => setDocMarkdown(""));
 	}, [slug]);
 
 	if (!meta) {
@@ -557,6 +734,8 @@ export default function AlgorithmPage() {
 			</div>
 		);
 	}
+
+    const theme = getCategoryTheme(meta.category);
 
 	return (
 		<div className="min-h-screen bg-slate-50">
@@ -569,28 +748,21 @@ export default function AlgorithmPage() {
 							<span className="text-sm font-medium">Catalog</span>
 						</Link>
 						<div className="h-4 w-px bg-slate-200" />
-						<div className="flex items-center gap-2">
-							<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-white">
-								<ProjectIcon size={16} />
+                        <div className="flex items-center gap-3 flex-wrap">
+                            <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${theme.iconWrap}`}>
+                                {theme.icon}
 							</div>
+                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${theme.badge}`}>
+                                {meta.category}
+                            </span>
 							<span className="text-base font-bold tracking-tight text-slate-900">{meta.name}</span>
 						</div>
 					</div>
 				</div>
 			</nav>
 
-			<main className="mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
-                <div className="mb-12">
-                    <div className="inline-block px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-[10px] font-black uppercase tracking-widest mb-4">
-                        {meta.category}
-                    </div>
-                    <h1 className="text-4xl sm:text-5xl font-black text-slate-900 mb-6 tracking-tight">{meta.name}</h1>
-                    <p className="text-lg text-slate-600 max-w-3xl leading-relaxed font-medium">
-                        {meta.description || `Implementare TypeScript pentru algoritmul ${meta.name}. Poți vizualiza codul sursă și, pentru algoritmii suportați, poți rula o simulare interactivă.`}
-                    </p>
-                </div>
-
-                <AlgorithmPlayer meta={meta} />
+			<main className="mx-auto max-w-7xl px-4 py-6 sm:py-8 sm:px-6 lg:px-8">
+                <AlgorithmPlayer meta={meta} docMarkdown={docMarkdown} />
             </main>
 		</div>
 	);

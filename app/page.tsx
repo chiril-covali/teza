@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { allAlgorithms } from "@/lib/algorithms";
 import P5HeroBackground from "./components/P5HeroBackground";
+import ComplexityFormula from "./components/ComplexityFormula";
 
 function IconProject({ className = "h-5 w-5" }: { className?: string }) {
   return (
@@ -83,10 +84,9 @@ export default function HomePage() {
       <nav className="fixed top-0 z-50 w-full border-b border-slate-100 bg-white/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-lg shadow-indigo-200">
-              <IconProject className="h-5 w-5" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white shadow-sm">
+              <img src="/favicon.svg" alt="Logo proiect" className="h-7 w-7" />
             </div>
-            <span className="text-xl font-bold tracking-tight text-slate-900">AlgoTeza</span>
           </div>
           <div className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
             <a href="#features" className="transition-colors hover:text-indigo-600">Funcționalități</a>
@@ -114,12 +114,12 @@ export default function HomePage() {
               <div className="inline-flex items-center rounded-full border border-indigo-100 bg-indigo-50/50 px-3 py-1 text-xs font-semibold text-indigo-600 mb-6">
                 Proiect de licență 2026 • Platformă Educatională
               </div>
-              <h1 className="mx-auto max-w-4xl text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl">
-                Înțelege algoritmii prin <span className="text-indigo-600">vizualizare interactivă</span>
+              <h1 className="mx-auto max-w-5xl text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+                Laborator virtual bazat pe <span className="text-indigo-600">inteligență artificială</span> pentru simularea algoritmilor matematici
               </h1>
               <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-slate-600 sm:text-xl">
-                O experiență modernă pentru explorarea structurilor de date și a algoritmilor fundamentali. 
-                Vizualizează execuția pas cu pas și primește asistență contextuală prin IA.
+                Lucrare de licență orientată spre învățare interactivă, unde algoritmii sunt explicați vizual,
+                pas cu pas, cu suport inteligent pentru înțelegerea conceptelor matematice.
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <Link 
@@ -179,7 +179,12 @@ export default function HomePage() {
                 },
                 {
                   title: "Complexitate Analizată",
-                  description: "Fiecare algoritm vine cu detalii despre performanță: O(n), O(log n) și cazurile de utilizare.",
+                  description: (
+                    <>
+                      Fiecare algoritm vine cu detalii despre performanță: <ComplexityFormula value="O(n)" className="text-slate-700" />,{" "}
+                      <ComplexityFormula value="O(log n)" className="text-slate-700" /> și cazurile de utilizare.
+                    </>
+                  ),
                   icon: <IconCode className="h-6 w-6" />,
                   color: "bg-emerald-100 text-emerald-600"
                 },
@@ -284,6 +289,68 @@ export default function HomePage() {
             </div>
         </section>
 
+        {/* About Team */}
+        <section id="about" className="py-24 sm:py-32 bg-white">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid items-center gap-12 lg:grid-cols-2">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-wider text-indigo-600">Despre proiect</p>
+                <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                  Covali Chiril
+                </h2>
+                <p className="mt-6 text-lg leading-relaxed text-slate-600">
+                  Student pasionat de informatică și inteligență artificială, concentrat pe dezvoltarea unui laborator
+                  virtual care transformă teoria algoritmilor matematici într-o experiență practică și intuitivă.
+                </p>
+                <p className="mt-4 text-base leading-relaxed text-slate-500">
+                  Această platformă face parte din lucrarea de teză și are ca scop facilitarea învățării prin
+                  simulări interactive, explicații clare și un flux modern de explorare a algoritmilor.
+                </p>
+                <div className="mt-8 rounded-2xl border border-indigo-100 bg-indigo-50/50 p-5">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-indigo-600">Conducător de practică</p>
+                  <p className="mt-2 text-lg font-bold text-slate-900">Nume Conducător Practică</p>
+                  <p className="mt-1 text-sm text-slate-600">
+                    Numele poate fi actualizat aici cu varianta finală.
+                  </p>
+                </div>
+              </div>
+              <div className="mx-auto w-full max-w-md">
+                <div className="grid gap-6">
+                  <div className="aspect-[4/5] rounded-3xl border-2 border-dashed border-slate-300 bg-slate-50 p-6 shadow-sm">
+                    <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white text-center">
+                      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                        <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" aria-hidden="true">
+                          <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.8" />
+                          <path d="M4 20a8 8 0 0 1 16 0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                        </svg>
+                      </div>
+                      <p className="text-base font-semibold text-slate-700">Loc pentru fotografia autorului</p>
+                      <p className="mt-2 px-6 text-sm text-slate-500">
+                        Poza ta poate fi adăugată ulterior aici.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="aspect-[4/5] rounded-3xl border-2 border-dashed border-indigo-300 bg-indigo-50/60 p-6 shadow-sm">
+                    <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-indigo-100 bg-white text-center">
+                      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-500">
+                        <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" aria-hidden="true">
+                          <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.8" />
+                          <path d="M4 20a8 8 0 0 1 16 0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                        </svg>
+                      </div>
+                      <p className="text-base font-semibold text-slate-700">Loc pentru fotografia conducătorului</p>
+                      <p className="mt-2 px-6 text-sm text-slate-500">
+                        Imaginea conducătorului de practică poate fi adăugată aici.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* CTA */}
         <section className="py-24 sm:py-32">
             <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
@@ -297,7 +364,7 @@ export default function HomePage() {
                             href="/algoritmi" 
                             className="rounded-full bg-white px-10 py-4 text-lg font-bold text-indigo-600 shadow-lg transition-all hover:bg-slate-50 hover:scale-105"
                         >
-                            Deschide Aplicația
+                            Deschide Laboratorul
                         </Link>
                     </div>
                 </div>
@@ -306,15 +373,14 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer id="about" className="border-t border-slate-100 bg-white py-16">
+      <footer className="border-t border-slate-100 bg-white py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-3">
             <div>
                 <div className="flex items-center gap-2 mb-6">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-white">
-                      <IconProject className="h-4 w-4" />
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white">
+                      <img src="/favicon.svg" alt="Logo proiect" className="h-5 w-5" />
                     </div>
-                    <span className="text-lg font-bold tracking-tight text-slate-900">AlgoTeza</span>
                 </div>
                 <p className="text-slate-500 text-sm leading-relaxed">
                     Un proiect academic dedicat facilitării procesului de învățare a informaticii prin tehnologie web modernă.

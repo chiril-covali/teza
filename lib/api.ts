@@ -23,6 +23,9 @@ async function request<T>(
 export const api = {
   listAlgorithms: () => request<AlgorithmMeta[]>("/algoritmi"),
 
+  getAlgorithmDoc: (slug: string) =>
+    request<{ slug: string; markdown: string; markdownPath: string }>(`/algoritmi/doc?slug=${encodeURIComponent(slug)}`),
+
   run: (slug: string, input: Record<string, unknown>) =>
     request<{ trace: TraceEvent[]; result: Record<string, any> }>("/ruleaza", {
       method: "POST",
