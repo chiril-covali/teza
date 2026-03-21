@@ -30,7 +30,7 @@ export function bfs(input: {
       type: "queue",
       action: "enqueue",
       node: start,
-      note: "pornesc de la nodul sursă",
+      note: `Pornim BFS de la nodul sursă „${start}". Îl adăugăm în coadă și îl marcăm ca vizitat.`,
       vars: { queue: [...queue], visited: Array.from(visited) },
     });
 

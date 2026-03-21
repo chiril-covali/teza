@@ -394,6 +394,54 @@ function DPVisualizer({ event, input }: { event: TraceEvent; input: any }) {
     );
 }
 
+function GenericVisualizer({ event }: { event: TraceEvent }) {
+    const ev = event as any;
+    const array: number[] = ev.array || [];
+
+    const renderValue = (val: any): string => {
+        if (Array.isArray(val)) return `[${val.join(", ")}]`;
+        if (typeof val === "object" && val !== null) return JSON.stringify(val);
+        return String(val);
+    };
+
+    return (
+        <div className="w-full space-y-6">
+            {array.length > 0 && (
+                <div className="overflow-x-auto pb-4">
+                    <div className="flex items-stretch justify-center gap-2 min-w-max mx-auto px-4">
+                        {array.map((val, idx) => {
+                            const isCurrent = ev.index === idx;
+                            return (
+                                <div key={idx} className="flex flex-col items-center gap-1">
+                                    <div className={`w-12 h-12 flex items-center justify-center rounded-xl font-mono font-black text-sm transition-all duration-300 ${
+                                        isCurrent ? "bg-indigo-600 text-white ring-4 ring-indigo-300 scale-110" : "bg-slate-100 text-slate-600"
+                                    }`}>
+                                        {val}
+                                    </div>
+                                    <span className="text-[9px] text-slate-300 font-mono">{idx}</span>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
+
+            {ev.vars && Object.keys(ev.vars).length > 0 && (
+                <div className="flex flex-wrap justify-center gap-3">
+                    {Object.entries(ev.vars).map(([key, val]) => (
+                        <div key={key} className="px-4 py-3 rounded-2xl bg-indigo-50 border border-indigo-100 text-left min-w-[100px] max-w-[200px]">
+                            <div className="text-[9px] font-black text-indigo-400 uppercase mb-1 tracking-wider">{key}</div>
+                            <div className="font-mono text-sm font-black text-indigo-700 truncate">
+                                {renderValue(val)}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+
 function Typewriter({ text, speed = 15, onStart }: { text: string; speed?: number; onStart?: () => void }) {
     const [displayedText, setDisplayedText] = useState("");
     const [isTyping, setIsTyping] = useState(false);
@@ -447,7 +495,6 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
 	const [playing, setPlaying] = useState(false);
 	const [delay, setDelay] = useState(800);
 	const [explanation, setExplanation] = useState<string>("");
-    const [isThinking, setIsThinking] = useState(false);
 	const [question, setQuestion] = useState<string>("");
 	const [chat, setChat] = useState<Array<{ role: string; content: string }>>(
 		[]
@@ -459,6 +506,7 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
 
 	useEffect(() => {
         const vizType = meta.visualizerType || "none";
+        const slug = meta.slug;
 		if (vizType === "sorting") {
             const defaultArray = [64, 34, 25, 12, 22, 11, 90];
 			setInput({ array: defaultArray });
@@ -481,18 +529,53 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
 			};
 			setInput(defaultData);
             setRawInput(JSON.stringify(defaultData, null, 2));
+        } else if (vizType === "dp") {
+            if (slug.includes("lcs")) {
+                const defaultData = { text1: "ABCBDAB", text2: "BDCAB" };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else if (slug.includes("coin_change")) {
+                const defaultData = { money: 11, coins: [1, 5, 6, 9] };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else if (slug.includes("knapsack")) {
+                const defaultData = { capacity: 10, weights: [2, 3, 4, 5], values: [3, 4, 5, 6] };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else {
+                const defaultData = { capacity: 6, weights: [1, 2, 3], values: [1, 6, 10] };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            }
+        } else if (vizType === "generic") {
+            if (slug.includes("fibonacci")) {
+                const defaultData = { n: 10 };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else if (slug.includes("factorial")) {
+                const defaultData = { n: 7 };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else if (slug.includes("sieve")) {
+                const defaultData = { n: 50 };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else if (slug.includes("add_binary")) {
+                const defaultData = { a: "1010", b: "1011" };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else if (slug.includes("shuffle")) {
+                const defaultData = { array: [1, 2, 3, 4, 5, 6] };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else {
+                const defaultData = { n: 10 };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            }
         } else {
-            const defaultData = {
-				nodes: ["A", "B", "C", "D"],
-				edges: [
-					{ from: "A", to: "B" },
-					{ from: "B", to: "C" },
-					{ from: "C", to: "D" },
-				],
-				start: "A",
-			};
-			setInput(defaultData);
-            setRawInput(JSON.stringify(defaultData, null, 2));
+            setInput({});
+            setRawInput("{}");
 		}
 	}, [meta.slug, meta.visualizerType]);
 
@@ -562,24 +645,13 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
 	useEffect(() => {
 		if (trace.length > 0 && currentStep < trace.length) {
 			const event = trace[currentStep];
-            setIsThinking(true);
             if (event.note) {
-                // Short artificial delay for "thinking" feel even with local notes
-                setTimeout(() => {
-                    setExplanation(event.note!);
-                    setIsThinking(false);
-                }, 400);
+                setExplanation(event.note);
             } else {
                 api
                     .explain(meta.slug, currentStep, event, { ...input, trace })
-                    .then((res) => {
-                        setExplanation(res.answer);
-                        setIsThinking(false);
-                    })
-                    .catch(() => {
-                        setExplanation("Nu am putut obține explicația");
-                        setIsThinking(false);
-                    });
+                    .then((res) => setExplanation(res.answer))
+                    .catch(() => setExplanation("Pasul curent al algoritmului."));
             }
 		}
 	}, [currentStep, trace, meta.slug, input]);
@@ -729,6 +801,8 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                                                 <GraphVisualizer event={currentEvent} input={input} />
                                             ) : vizType === "dp" ? (
                                                 <DPVisualizer event={currentEvent} input={input} />
+                                            ) : vizType === "generic" ? (
+                                                <GenericVisualizer event={currentEvent} />
                                             ) : (
                                                 <div className="py-20">
                                                     {currentEvent.note && (
@@ -784,11 +858,7 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                                         <h4 className="font-black text-lg tracking-tight">Explicație pas</h4>
                                     </div>
                                     
-                                    {isThinking ? (
-                                        <ThinkingAI />
-                                    ) : (
-                                        <Typewriter text={explanation || "Apasă Restart pentru a începe analiza algoritmului pas cu pas."} />
-                                    )}
+                                    {<Typewriter text={explanation || "Apasă Restart pentru a începe analiza algoritmului pas cu pas."} />}
                                 </div>
                             </div>
                             
@@ -822,6 +892,10 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                                     ? "Introdu numerele separate prin virgulă (ex: 64, 34, 25, 12)."
                                     : vizType === "search"
                                     ? "Introdu un tablou sortat, separate prin virgulă. Specifică și valoarea căutată."
+                                    : vizType === "generic"
+                                    ? "Modifică parametrii de mai jos și apasă «Aplică și Rulează» pentru a vizualiza execuția."
+                                    : vizType === "dp"
+                                    ? "Modifică parametrii algoritmului de programare dinamică în formatul JSON."
                                     : "Modifică obiectul JSON de mai jos pentru a schimba datele de test."}
                             </p>
                             
