@@ -442,50 +442,7 @@ function GenericVisualizer({ event }: { event: TraceEvent }) {
     );
 }
 
-function Typewriter({ text, speed = 15, onStart }: { text: string; speed?: number; onStart?: () => void }) {
-    const [displayedText, setDisplayedText] = useState("");
-    const [isTyping, setIsTyping] = useState(false);
 
-    useEffect(() => {
-        setDisplayedText("");
-        setIsTyping(true);
-        if (onStart) onStart();
-        
-        let i = 0;
-        const timer = setInterval(() => {
-            if (i < text.length) {
-                setDisplayedText((prev) => prev + text.charAt(i));
-                i++;
-            } else {
-                clearInterval(timer);
-                setIsTyping(false);
-            }
-        }, speed);
-        return () => clearInterval(timer);
-    }, [text, speed, onStart]);
-
-    return (
-        <div className="relative min-h-[4em]">
-            <p className="text-lg leading-relaxed text-indigo-50 font-medium">
-                {displayedText}
-                {isTyping && <span className="inline-block w-1 h-5 ml-1 bg-white animate-pulse align-middle" />}
-            </p>
-        </div>
-    );
-}
-
-function ThinkingAI() {
-    return (
-        <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-2xl w-fit">
-            <span className="text-xs font-bold text-indigo-100 animate-pulse">AI-ul analizează pasul</span>
-            <div className="flex gap-1">
-                <div className="w-1.5 h-1.5 bg-indigo-200 rounded-full animate-bounce [animation-delay:-0.3s]" />
-                <div className="w-1.5 h-1.5 bg-indigo-200 rounded-full animate-bounce [animation-delay:-0.15s]" />
-                <div className="w-1.5 h-1.5 bg-indigo-200 rounded-full animate-bounce" />
-            </div>
-        </div>
-    );
-}
 
 function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
 	const [input, setInput] = useState<Record<string, any>>({});
@@ -503,6 +460,26 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
     const [tab, setTab] = useState<"descriere" | "viz" | "input" | "chat" | "code">("descriere");
     const [sourceCode, setSourceCode] = useState<string>("");
     const [sourceFile, setSourceFile] = useState<string>("");
+
+    // Keyboard navigation: ← previous step, → next step, Space toggle play
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            const target = e.target as HTMLElement;
+            if (target.tagName === "INPUT" || target.tagName === "TEXTAREA") return;
+            if (e.key === "ArrowRight") {
+                e.preventDefault();
+                setCurrentStep((s) => Math.min(s + 1, trace.length - 1));
+            } else if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                setCurrentStep((s) => Math.max(s - 1, 0));
+            } else if (e.key === " ") {
+                e.preventDefault();
+                setPlaying((p) => !p);
+            }
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [trace.length]);
 
 	useEffect(() => {
         const vizType = meta.visualizerType || "none";
@@ -566,6 +543,38 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                 setRawInput(JSON.stringify(defaultData, null, 2));
             } else if (slug.includes("shuffle")) {
                 const defaultData = { array: [1, 2, 3, 4, 5, 6] };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else if (slug.includes("absolute_value")) {
+                const defaultData = { n: -7 };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else if (slug.includes("is_palindrome")) {
+                const defaultData = { n: 121 };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else if (slug.includes("greatest_common_factor")) {
+                const defaultData = { a: 48, b: 18 };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else if (slug.includes("prime_factorization")) {
+                const defaultData = { n: 84 };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else if (slug.includes("log_two")) {
+                const defaultData = { n: 16 };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else if (slug.includes("is_power_of")) {
+                const defaultData = { n: 16 };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else if (slug.includes("generateparentheses")) {
+                const defaultData = { n: 3 };
+                setInput(defaultData);
+                setRawInput(JSON.stringify(defaultData, null, 2));
+            } else if (slug.includes("all_combinations")) {
+                const defaultData = { n: 5, k: 2 };
                 setInput(defaultData);
                 setRawInput(JSON.stringify(defaultData, null, 2));
             } else {
@@ -727,72 +736,84 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
 
                 {tab === "viz" && (
                     <div className="grid gap-6 lg:grid-cols-12">
-                        {/* Player Controls & Main Viz */}
-                        <div className="lg:col-span-8 space-y-6">
-                            <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-wrap items-center justify-between gap-6">
-                                <div className="flex items-center gap-3">
+                        {/* Main Viz Column */}
+                        <div className="lg:col-span-8 space-y-4">
+                            {/* Controls bar */}
+                            <div className="p-4 bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-wrap items-center justify-between gap-4">
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
+                                        className="h-11 w-11 flex items-center justify-center rounded-full bg-slate-50 border border-slate-100 text-slate-600 hover:bg-white hover:shadow-sm transition-all"
+                                        title="Pasul anterior (←)"
+                                    >
+                                        <ChevronLeftIcon size={20} />
+                                    </button>
                                     <button
                                         onClick={() => setPlaying(!playing)}
-                                        className={`h-12 w-12 flex items-center justify-center rounded-full transition-all ${
+                                        className={`h-11 w-11 flex items-center justify-center rounded-full transition-all ${
                                             playing ? "bg-amber-100 text-amber-600" : "bg-indigo-600 text-white shadow-lg shadow-indigo-100"
                                         }`}
+                                        title="Redă / Pauză (Spațiu)"
                                     >
                                         {playing ? <PauseIcon size={20} /> : <PlayIcon size={20} />}
                                     </button>
-                                    <div className="flex bg-slate-50 p-1 rounded-full border border-slate-100">
-                                        <button
-                                            onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
-                                            className="h-10 w-10 flex items-center justify-center rounded-full text-slate-600 hover:bg-white hover:shadow-sm transition-all"
-                                        >
-                                            <ChevronLeftIcon size={20} />
-                                        </button>
-                                        <button
-                                            onClick={() => setCurrentStep(Math.min(currentStep + 1, trace.length - 1))}
-                                            className="h-10 w-10 flex items-center justify-center rounded-full text-slate-600 hover:bg-white hover:shadow-sm transition-all"
-                                        >
-                                            <ChevronRightIcon size={20} />
-                                        </button>
-                                    </div>
+                                    <button
+                                        onClick={() => setCurrentStep(Math.min(currentStep + 1, trace.length - 1))}
+                                        className="h-11 w-11 flex items-center justify-center rounded-full bg-slate-50 border border-slate-100 text-slate-600 hover:bg-white hover:shadow-sm transition-all"
+                                        title="Pasul următor (→)"
+                                    >
+                                        <ChevronRightIcon size={20} />
+                                    </button>
                                     <button 
                                         onClick={handleRun} 
-                                        className="px-6 py-3 rounded-full bg-slate-900 text-white font-bold text-sm hover:bg-slate-800 transition-colors"
+                                        className="px-5 py-2.5 rounded-full bg-slate-900 text-white font-bold text-sm hover:bg-slate-800 transition-colors"
                                     >
                                         Restart
                                     </button>
                                 </div>
 
-                                <div className="flex-1 min-w-[150px] max-w-[200px]">
-                                    <div className="flex justify-between text-[10px] font-black text-slate-400 mb-2 uppercase tracking-widest">
-                                        <span>Lent</span>
-                                        <span>Rapid</span>
+                                <div className="flex items-center gap-4">
+                                    <div className="min-w-[130px]">
+                                        <div className="flex justify-between text-[9px] font-black text-slate-400 mb-1.5 uppercase tracking-widest">
+                                            <span>Lent</span>
+                                            <span>Rapid</span>
+                                        </div>
+                                        <input
+                                            type="range"
+                                            min="100"
+                                            max="4000"
+                                            step="100"
+                                            value={4100 - delay}
+                                            onChange={(e) => setDelay(4100 - Number(e.target.value))}
+                                            className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                                        />
                                     </div>
-                                    <input
-                                        type="range"
-                                        min="100"
-                                        max="4000"
-                                        step="100"
-                                        value={4100 - delay}
-                                        onChange={(e) => setDelay(4100 - Number(e.target.value))}
-                                        className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
-                                    />
-                                </div>
-
-                                <div className="text-right">
-                                    <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Progres</div>
-                                    <div className="text-lg font-black text-slate-900">
-                                        {trace.length > 0 ? `${currentStep + 1} / ${trace.length}` : "0 / 0"}
+                                    <div className="text-right shrink-0">
+                                        <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Pas</div>
+                                        <div className="text-base font-black text-slate-900">
+                                            {trace.length > 0 ? `${currentStep + 1} / ${trace.length}` : "0 / 0"}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="p-4 sm:p-10 bg-white rounded-3xl border border-slate-100 shadow-sm min-h-[400px] sm:min-h-[500px] flex items-center justify-center relative overflow-hidden">
+                            {/* Visualization box — fixed height, no layout shift */}
+                            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden"
+                                 style={{ height: "520px" }}>
                                 {currentEvent ? (
-                                    <div className="w-full space-y-12 text-center">
-                                        <div className="inline-block px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-[10px] font-black uppercase tracking-[0.2em]">
-                                            Pasul {currentStep + 1} • {currentEvent.type}
+                                    <div className="h-full flex flex-col">
+                                        <div className="px-6 pt-5 pb-3 flex items-center justify-between border-b border-slate-50 shrink-0">
+                                            <span className="px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-[10px] font-black uppercase tracking-[0.2em]">
+                                                Pasul {currentStep + 1} • {currentEvent.type}
+                                            </span>
+                                            <div className="h-1.5 flex-1 mx-4 bg-slate-50 rounded-full overflow-hidden">
+                                                <div
+                                                    className="h-full bg-indigo-400 transition-all duration-300"
+                                                    style={{ width: `${trace.length > 0 ? ((currentStep + 1) / trace.length) * 100 : 0}%` }}
+                                                />
+                                            </div>
                                         </div>
-                                        
-                                        <div className="overflow-x-auto w-full pb-4 no-scrollbar">
+                                        <div className="flex-1 overflow-auto flex items-center justify-center p-4">
                                             {vizType === "sorting" ? (
                                                 <SortingVisualizer event={currentEvent} input={input} slug={meta.slug} />
                                             ) : vizType === "search" ? (
@@ -804,7 +825,7 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                                             ) : vizType === "generic" ? (
                                                 <GenericVisualizer event={currentEvent} />
                                             ) : (
-                                                <div className="py-20">
+                                                <div className="py-10 text-center px-6">
                                                     {currentEvent.note && (
                                                         <h3 className="text-2xl sm:text-3xl font-black text-slate-900 max-w-xl mx-auto leading-tight">
                                                             {currentEvent.note}
@@ -813,58 +834,70 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                                                 </div>
                                             )}
                                         </div>
-
-                                        <div className="flex flex-wrap justify-center gap-3">
-                                            {currentEvent.vars && Object.entries(currentEvent.vars).map(([key, val]) => (
-                                                <div key={key} className="px-5 py-3 rounded-2xl bg-slate-50 border border-slate-100 text-left min-w-[100px]">
-                                                    <div className="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-wider">{key}</div>
-                                                    <div className="font-mono text-sm font-black text-slate-700">
-                                                        {typeof val === 'object' ? JSON.stringify(val) : String(val)}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
                                     </div>
                                 ) : (
-                                    <div className="text-center space-y-6">
-                                        <div className="h-24 w-24 mx-auto rounded-full bg-slate-50 flex items-center justify-center text-slate-200">
-                                            <PlayIcon size={40} />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <p className="text-slate-900 font-black text-xl">Gata de simulare</p>
-                                            <p className="text-slate-400 font-medium">Configurează datele de intrare sau apasă Restart.</p>
-                                            {meta.status === "source-only" && (
-                                                <p className="text-amber-600 text-xs font-bold mt-2 px-4 py-2 bg-amber-50 rounded-xl inline-block">
-                                                    ⚠ Vizualizare pas-cu-pas indisponibilă — codul sursă este accesibil în tab-ul "Cod Sursă".
-                                                </p>
-                                            )}
+                                    <div className="h-full flex items-center justify-center">
+                                        <div className="text-center space-y-5">
+                                            <div className="h-20 w-20 mx-auto rounded-full bg-slate-50 flex items-center justify-center text-slate-200">
+                                                <PlayIcon size={36} />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <p className="text-slate-900 font-black text-xl">Gata de simulare</p>
+                                                <p className="text-slate-400 font-medium text-sm">Configurează datele de intrare sau apasă Restart.</p>
+                                                <p className="text-slate-300 text-xs mt-1">Tastele ← → pentru pași, Spațiu pentru redare</p>
+                                                {meta.status === "source-only" && (
+                                                    <p className="text-amber-600 text-xs font-bold mt-2 px-4 py-2 bg-amber-50 rounded-xl inline-block">
+                                                        ⚠ Vizualizare pas-cu-pas indisponibilă — cod sursă disponibil în tab-ul "Cod Sursă".
+                                                    </p>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 )}
                             </div>
                         </div>
 
-                        {/* Sidebar Explanations */}
-                        <div className="lg:col-span-4 space-y-6">
-                            <div className="p-8 bg-indigo-600 rounded-[2.5rem] text-white shadow-2xl shadow-indigo-200 relative overflow-hidden group min-h-[300px]">
-                                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-700">
-                                    <CommentDiscussionIcon size={120} />
+                        {/* Right Sidebar */}
+                        <div className="lg:col-span-4 space-y-4">
+                            {/* Explanation */}
+                            <div className="p-6 bg-indigo-600 rounded-[2rem] text-white shadow-2xl shadow-indigo-200 relative overflow-hidden group" style={{ minHeight: "160px" }}>
+                                <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:scale-110 transition-transform duration-700">
+                                    <CommentDiscussionIcon size={100} />
                                 </div>
-                                <div className="relative z-10 space-y-6">
-                                    <div className="flex items-center gap-3">
-                                        <div className="h-10 w-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                                            <CommentDiscussionIcon />
+                                <div className="relative z-10 space-y-4">
+                                    <div className="flex items-center gap-2">
+                                        <div className="h-8 w-8 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
+                                            <CommentDiscussionIcon size={14} />
                                         </div>
-                                        <h4 className="font-black text-lg tracking-tight">Explicație pas</h4>
+                                        <h4 className="font-black text-base tracking-tight">Explicație pas</h4>
                                     </div>
-                                    
-                                    {<Typewriter text={explanation || "Apasă Restart pentru a începe analiza algoritmului pas cu pas."} />}
+                                    <p className="text-base leading-relaxed text-indigo-50 font-medium">
+                                        {explanation || "Apasă Restart pentru a începe analiza algoritmului pas cu pas."}
+                                    </p>
                                 </div>
                             </div>
-                            
-                            <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm">
-                                <h4 className="font-black text-slate-900 mb-6 text-sm uppercase tracking-widest border-b border-slate-50 pb-4">Status Execuție</h4>
-                                <div className="space-y-6">
+
+                            {/* Variables panel */}
+                            {currentEvent?.vars && Object.keys(currentEvent.vars).length > 0 && (
+                                <div className="p-5 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                                    <h4 className="font-black text-slate-900 mb-4 text-[11px] uppercase tracking-widest border-b border-slate-50 pb-3">Variabile</h4>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {Object.entries(currentEvent.vars).map(([key, val]) => (
+                                            <div key={key} className="px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden">
+                                                <div className="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-wider truncate">{key}</div>
+                                                <div className="font-mono text-sm font-black text-slate-700 truncate">
+                                                    {typeof val === 'object' ? JSON.stringify(val) : String(val)}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Progress status */}
+                            <div className="p-5 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                                <h4 className="font-black text-slate-900 mb-4 text-[11px] uppercase tracking-widest border-b border-slate-50 pb-3">Status Execuție</h4>
+                                <div className="space-y-4">
                                     <div className="flex items-center justify-between">
                                         <span className="text-slate-400 text-sm font-bold">Stare</span>
                                         <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase ${playing ? "bg-emerald-50 text-emerald-600" : "bg-slate-50 text-slate-500"}`}>
@@ -877,6 +910,7 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                                             style={{ width: `${trace.length > 0 ? ((currentStep + 1) / trace.length) * 100 : 0}%` }}
                                         />
                                     </div>
+                                    <p className="text-[10px] text-slate-400 font-medium text-center">← Pas anterior &nbsp;|&nbsp; Spațiu Redă &nbsp;|&nbsp; Pas următor →</p>
                                 </div>
                             </div>
                         </div>
