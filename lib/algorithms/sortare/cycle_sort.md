@@ -67,27 +67,30 @@ functie cycleSort(A, n):
 
 ## Exemple
 
-**Tablou inițial:** `[10, 5, 2, 3]`
+**Tablou inițial:** `[3, 1, 2]`
 
-Pozițiile corecte în tabloul sortat `[2, 3, 5, 10]`: 10→3, 5→2, 2→0, 3→1
+Tabloul sortat corespunzător: `[1, 2, 3]` → pozițiile corecte: 3→index 2, 1→index 0, 2→index 1
 
-**Ciclu pornind de la start=0 (item=10):**
-- Numără elemente < 10: {5, 2, 3} → pos=3
-- A[3]=3 ≠ 10 → swap(10, A[3]) → item=3, A=[10, 5, 2, 10] ← greșit! mai corect: A[3]=10
+**Ciclul 1 — start=0:**
+- item = A[0] = 3
+- Numără elemente < 3 în `[1, 2]` → 2 elemente → pos = 0 + 2 = 2
+- A[pos]=A[2]=2 ≠ item=3 → interschimbă: item=2, A=[3, 1, 3] → A[2]=3: `[3, 1, 3]`... 
+  mai precis: salvăm A[2]=2, punem item=3 la A[2], item devine 2 → `[3, 1, 3]`... 
+  corect: item=3 merge la pos=2, A[2] devine 3 și item preia vechea valoare A[2]=2.  
+  Tablou: `[3, 1, 3]`... **Atenție:** A[0] nu a fost modificat încă — swap înseamnă că A[pos]=item, item=A[pos]_vechi:
+  - A[2] ← 3 (item), item ← 2 (vechiul A[2]) → tablou: `[3, 1, 3]` → *item circulă prin ciclu*
+  - Scrieri: 1
 
-Pas cu pas corect:
-- item=10, pos=3 → interschimbă cu A[3]=3 → item=3, `[3, 5, 2, 10]`, scrieri=1
-- item=3, pos=1 (1 element mai mic: 2) → interschimbă cu A[1]=5 → item=5, `[3, 3, 2, 10]` ... 
+- item = 2, numără elemente < 2 în A[start+1..n-1]: A[1]=1 < 2 → pos = 0 + 1 = 1
+- A[1]=1 ≠ 2 → A[1] ← 2, item ← 1 → tablou: `[3, 2, 3]`, scrieri=2
 
-**Exemplu simplificat:** `[3, 1, 2]`
+- item = 1, numără elemente < 1 în A[1..2]: niciunul → pos = 0 = start → ciclu închis
+- A[0] ← 1 → tablou: `[1, 2, 3]`, scrieri=3
 
-Sortat: `[1, 2, 3]` → 3→2, 1→0, 2→1
+**Ciclul 2 — start=1:**
+- item = A[1] = 2, numără < 2 în A[2..2]: A[2]=3 ≥ 2 → pos=1=start → deja la locul lui, skip
 
-- start=0, item=3: numără < 3 → {1,2} → pos=2; swap(3, A[2]=2) → item=2, `[2, 1, 3]`, scrieri=1
-- item=2: numără < 2 → {1} → pos=1; swap(2, A[1]=1) → item=1, `[1, 2, 3]`, scrieri=2
-- pos=0=start → ciclu încheiat
-- start=1, item=2: A[1]=2 este deja la pos=1 → skip
-- **Tablou final:** `[1, 2, 3]` — 2 scrieri (optim!)
+**Tablou final sortat:** `[1, 2, 3]` — 3 scrieri (optim pentru această permutare)
 
 ## Aplicații
 
