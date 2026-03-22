@@ -68,19 +68,20 @@ Cheie: `"KEY"` → bytes: `[75, 69, 89]` (ASCII)
 Indice:  0      1      2      3      4
 Mesaj:   72     69     76     76     79    (H E L L O)
 Cheie:   75     69     89     75     69    (K E Y K E — cheia se repetă ciclic)
-XOR:     3      0      21     3      26
-Criptat: \x03   \x00   \x15   \x03   \x1A
+XOR:     3      0      21     7      10
+Criptat: \x03   \x00   \x15   \x07   \x0A
 ```
 
 Calculul detaliat:
 - `H(72) XOR K(75) = 01001000 XOR 01001011 = 00000011 = 3`
 - `E(69) XOR E(69) = 01000101 XOR 01000101 = 00000000 = 0`
 - `L(76) XOR Y(89) = 01001100 XOR 01011001 = 00010101 = 21`
-- `L(76) XOR K(75) = 01001100 XOR 01001011 = 00000111 = 7` *(corecție: 76⊕75=3)*
+- `L(76) XOR K(75) = 01001100 XOR 01001011 = 00000111 = 7`
+- `O(79) XOR E(69) = 01001111 XOR 01000101 = 00001010 = 10`
 
 **Decriptare:**
 ```
-Criptat: [3, 0, 21, 3, 26]
+Criptat: [3, 0, 21, 7, 10]
 Cheie:   [75, 69, 89, 75, 69]
 XOR:     72, 69, 76, 76, 79 = "HELLO" ✓
 ```
