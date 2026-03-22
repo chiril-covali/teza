@@ -493,6 +493,16 @@ export default function AlgorithmsPage() {
 		{} as Record<string, { label: string; items: CatalogAlgorithm[] }>
 	);
 
+	// Sort each category's items alphabetically by Romanian display name
+	Object.values(byCategory).forEach(({ items }) => {
+		items.sort((a, b) => a.displayNameRo.localeCompare(b.displayNameRo, "ro"));
+	});
+
+	// Sort categories by descending count (most algorithms first)
+	const sortedCategories = Object.entries(byCategory).sort(
+		([, a], [, b]) => b.items.length - a.items.length
+	);
+
 	return (
 		<div className="min-h-screen bg-slate-50">
 			<nav className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
@@ -548,7 +558,7 @@ export default function AlgorithmsPage() {
                     </div>
                 ) : (
 					<div className="space-y-16 pb-20">
-						{Object.entries(byCategory).map(([categoryKey, categoryData]) => (
+						{sortedCategories.map(([categoryKey, categoryData]) => (
 							(() => {
 								const categoryTheme = getCategoryTheme(categoryKey);
 								return (

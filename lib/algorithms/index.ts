@@ -8,35 +8,47 @@ import { binarySearch } from "./cautare/binarySearch";
 import { bfs } from "./grafuri/bfs";
 import { dfs } from "./grafuri/dfs";
 import { dijkstra } from "./grafuri/dijkstra";
-// New search algorithms
+// Search algorithms
 import { linearSearchInstrumented } from "./cautare/linearSearch";
 import { exponentialSearchInstrumented } from "./cautare/exponentialSearchInstrumented";
 import { jumpSearchInstrumented } from "./cautare/jumpSearchInstrumented";
 import { interpolationSearchInstrumented } from "./cautare/interpolationSearchInstrumented";
 import { fibonacciSearchInstrumented } from "./cautare/fibonacciSearchInstrumented";
 import { sentinelSearchInstrumented } from "./cautare/sentinelSearchInstrumented";
-// New sorting algorithms
+// Sorting algorithms
 import { countingSortInstrumented } from "./sortare/countingSortInstrumented";
 import { gnomeSortInstrumented } from "./sortare/gnomeSortInstrumented";
 import { heapSortInstrumented } from "./sortare/heapSortInstrumented";
 import { shellSortInstrumented } from "./sortare/shellSortInstrumented";
 import { cycleSortInstrumented } from "./sortare/cycleSortInstrumented";
 import { quickSelectInstrumented } from "./sortare/quickSelectInstrumented";
-// New graph algorithms
+// Graph algorithms
 import { bellmanFordInstrumented } from "./grafuri/bellmanFordInstrumented";
 import { primInstrumented } from "./grafuri/primInstrumented";
 import { kruskalInstrumented } from "./grafuri/kruskalInstrumented";
 import { floydWarshallInstrumented } from "./grafuri/floydWarshallInstrumented";
-// New DP algorithms
+// DP algorithms
 import { lcsInstrumented } from "./programare-dinamica/lcsInstrumented";
 import { coinChangeInstrumented } from "./programare-dinamica/coinChangeInstrumented";
 import { knapsackInstrumented } from "./programare-dinamica/knapsackInstrumented";
-// New generic algorithms
+// Math algorithms
 import { fibonacciInstrumented } from "./matematica/fibonacciInstrumented";
 import { factorialInstrumented } from "./matematica/factorialInstrumented";
 import { sieveInstrumented } from "./matematica/sieveInstrumented";
+import { absoluteValueInstrumented } from "./matematica/absoluteValueInstrumented";
+import { isPalindromeInstrumented } from "./matematica/isPalindromeInstrumented";
+import { gcdInstrumented } from "./matematica/gcdInstrumented";
+import { primeFactorizationInstrumented } from "./matematica/primeFactorizationInstrumented";
+// Bit manipulation
 import { addBinaryInstrumented } from "./manipulare-biti/addBinaryInstrumented";
+import { logTwoInstrumented } from "./manipulare-biti/logTwoInstrumented";
+import { isPowerOfTwoInstrumented } from "./manipulare-biti/isPowerOfTwoInstrumented";
+import { isPowerOfFourInstrumented } from "./manipulare-biti/isPowerOfFourInstrumented";
+// Diverse
 import { shuffleArrayInstrumented } from "./diverse/shuffleArrayInstrumented";
+// Backtracking
+import { generateParenthesesInstrumented } from "./backtracking/generateParenthesesInstrumented";
+import { allCombinationsInstrumented } from "./backtracking/allCombinationsInstrumented";
 import registry from "./algorithms-registry.json";
 
 export * from "./types";
@@ -80,8 +92,17 @@ export const algorithms: Record<string, (input: any) => AlgorithmResult> = {
   matematica_fibonacci: fibonacciInstrumented,
   matematica_factorial: factorialInstrumented,
   matematica_sieve_of_eratosthenes: sieveInstrumented,
+  matematica_absolute_value: absoluteValueInstrumented,
+  matematica_is_palindrome: isPalindromeInstrumented,
+  matematica_greatest_common_factor: gcdInstrumented,
+  matematica_prime_factorization: primeFactorizationInstrumented,
   "manipulare-biti_add_binary": addBinaryInstrumented,
+  "manipulare-biti_log_two": logTwoInstrumented,
+  "manipulare-biti_is_power_of_2": isPowerOfTwoInstrumented,
+  "manipulare-biti_is_power_of_4": isPowerOfFourInstrumented,
   diverse_shuffle_array: shuffleArrayInstrumented,
+  backtracking_generateparentheses: generateParenthesesInstrumented,
+  backtracking_all_combinations_of_size_k: allCombinationsInstrumented,
 };
 
 // All algorithms sourced from the canonical JSON registry
