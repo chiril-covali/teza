@@ -1,4 +1,4 @@
-export type VisualizerType = "sorting" | "search" | "graph" | "dp" | "none";
+export type VisualizerType = "sorting" | "search" | "graph" | "dp" | "generic" | "none";
 export type AlgorithmStatus = "instrumented" | "source-only" | "partial";
 
 export type TraceEvent =
