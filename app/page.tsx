@@ -105,7 +105,7 @@ export default function HomePage() {
       <main className="pt-20">
         {/* Hero Section */}
         <section className="relative overflow-hidden py-20 lg:py-32">
-          <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+          <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
             <P5HeroBackground />
           </div>
           

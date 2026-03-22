@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { AlgorithmMeta } from "@/lib/algorithms";
 import Link from "next/link";
 import { api } from "@/lib/api";
+import ScrollReactiveBackground from "../components/ScrollReactiveBackground";
 import { 
   ProjectIcon, 
   ChevronLeftIcon, 
@@ -504,7 +505,10 @@ export default function AlgorithmsPage() {
 	);
 
 	return (
-		<div className="min-h-screen bg-slate-50">
+		<div className="relative min-h-screen overflow-hidden bg-slate-50">
+			<div className="pointer-events-none fixed inset-0 z-0 opacity-90">
+				<ScrollReactiveBackground />
+			</div>
 			<nav className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
 				<div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
 					<div className="flex items-center gap-4">
@@ -523,7 +527,7 @@ export default function AlgorithmsPage() {
 				</div>
 			</nav>
 
-			<main className="mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
+			<main className="relative z-10 mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
 				<div className="mb-12 space-y-8">
 					<h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight">Catalogul Algoritmilor</h1>
 					
