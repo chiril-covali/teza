@@ -186,6 +186,134 @@ function getAlgorithmAccentTheme(category: string) {
     return themes[key] || themes.grafuri;
 }
 
+function getCategoryAccentClasses(category: string) {
+    const key = normalizeCategoryKey(category);
+    const classes: Record<string, {
+        tabActive: string;
+        softBg: string;
+        softText: string;
+        solidBg: string;
+        solidHover: string;
+        ring: string;
+        rangeAccent: string;
+        codeText: string;
+        codeHover: string;
+    }> = {
+        sortare: {
+            tabActive: "bg-rose-50 border-rose-200 text-rose-700 shadow-sm",
+            softBg: "bg-rose-50",
+            softText: "text-rose-700",
+            solidBg: "bg-rose-600",
+            solidHover: "hover:bg-rose-700",
+            ring: "focus:ring-rose-500",
+            rangeAccent: "accent-rose-600",
+            codeText: "text-rose-500",
+            codeHover: "hover:text-rose-400",
+        },
+        cautare: {
+            tabActive: "bg-cyan-50 border-cyan-200 text-cyan-700 shadow-sm",
+            softBg: "bg-cyan-50",
+            softText: "text-cyan-700",
+            solidBg: "bg-cyan-600",
+            solidHover: "hover:bg-cyan-700",
+            ring: "focus:ring-cyan-500",
+            rangeAccent: "accent-cyan-600",
+            codeText: "text-cyan-500",
+            codeHover: "hover:text-cyan-400",
+        },
+        grafuri: {
+            tabActive: "bg-indigo-50 border-indigo-200 text-indigo-700 shadow-sm",
+            softBg: "bg-indigo-50",
+            softText: "text-indigo-700",
+            solidBg: "bg-indigo-600",
+            solidHover: "hover:bg-indigo-700",
+            ring: "focus:ring-indigo-500",
+            rangeAccent: "accent-indigo-600",
+            codeText: "text-indigo-500",
+            codeHover: "hover:text-indigo-400",
+        },
+        matematica: {
+            tabActive: "bg-lime-50 border-lime-200 text-lime-700 shadow-sm",
+            softBg: "bg-lime-50",
+            softText: "text-lime-700",
+            solidBg: "bg-lime-600",
+            solidHover: "hover:bg-lime-700",
+            ring: "focus:ring-lime-500",
+            rangeAccent: "accent-lime-600",
+            codeText: "text-lime-500",
+            codeHover: "hover:text-lime-400",
+        },
+        programare_dinamica: {
+            tabActive: "bg-emerald-50 border-emerald-200 text-emerald-700 shadow-sm",
+            softBg: "bg-emerald-50",
+            softText: "text-emerald-700",
+            solidBg: "bg-emerald-600",
+            solidHover: "hover:bg-emerald-700",
+            ring: "focus:ring-emerald-500",
+            rangeAccent: "accent-emerald-600",
+            codeText: "text-emerald-500",
+            codeHover: "hover:text-emerald-400",
+        },
+        cifrare: {
+            tabActive: "bg-fuchsia-50 border-fuchsia-200 text-fuchsia-700 shadow-sm",
+            softBg: "bg-fuchsia-50",
+            softText: "text-fuchsia-700",
+            solidBg: "bg-fuchsia-600",
+            solidHover: "hover:bg-fuchsia-700",
+            ring: "focus:ring-fuchsia-500",
+            rangeAccent: "accent-fuchsia-600",
+            codeText: "text-fuchsia-500",
+            codeHover: "hover:text-fuchsia-400",
+        },
+        structuri_de_date: {
+            tabActive: "bg-sky-50 border-sky-200 text-sky-700 shadow-sm",
+            softBg: "bg-sky-50",
+            softText: "text-sky-700",
+            solidBg: "bg-sky-600",
+            solidHover: "hover:bg-sky-700",
+            ring: "focus:ring-sky-500",
+            rangeAccent: "accent-sky-600",
+            codeText: "text-sky-500",
+            codeHover: "hover:text-sky-400",
+        },
+        manipulare_de_biti: {
+            tabActive: "bg-violet-50 border-violet-200 text-violet-700 shadow-sm",
+            softBg: "bg-violet-50",
+            softText: "text-violet-700",
+            solidBg: "bg-violet-600",
+            solidHover: "hover:bg-violet-700",
+            ring: "focus:ring-violet-500",
+            rangeAccent: "accent-violet-600",
+            codeText: "text-violet-500",
+            codeHover: "hover:text-violet-400",
+        },
+        backtracking: {
+            tabActive: "bg-amber-50 border-amber-200 text-amber-700 shadow-sm",
+            softBg: "bg-amber-50",
+            softText: "text-amber-700",
+            solidBg: "bg-amber-600",
+            solidHover: "hover:bg-amber-700",
+            ring: "focus:ring-amber-500",
+            rangeAccent: "accent-amber-600",
+            codeText: "text-amber-500",
+            codeHover: "hover:text-amber-400",
+        },
+        diverse: {
+            tabActive: "bg-orange-50 border-orange-200 text-orange-700 shadow-sm",
+            softBg: "bg-orange-50",
+            softText: "text-orange-700",
+            solidBg: "bg-orange-600",
+            solidHover: "hover:bg-orange-700",
+            ring: "focus:ring-orange-500",
+            rangeAccent: "accent-orange-600",
+            codeText: "text-orange-500",
+            codeHover: "hover:text-orange-400",
+        },
+    };
+
+    return classes[key] || classes.grafuri;
+}
+
 function toInputLabel(key: string) {
     return key
         .replace(/_/g, " ")
@@ -304,8 +432,8 @@ function prioritizeExecutionKeys(keys: string[]) {
 
 function summarizeInputValue(value: unknown) {
     if (Array.isArray(value)) {
-        const preview = value.slice(0, 5).map((v) => stringifyVarValue(v)).join(", ");
-        return value.length > 5 ? `[${preview}, ...] (${value.length})` : `[${preview}] (${value.length})`;
+        const full = value.map((v) => stringifyVarValue(v)).join(", ");
+        return `[${full}] (${value.length})`;
     }
     if (value && typeof value === "object") {
         const keys = Object.keys(value as Record<string, unknown>);
@@ -402,15 +530,19 @@ function SortingVisualizer({ event, input, slug }: { event: TraceEvent; input: a
     const hi = vars.hi !== undefined ? vars.hi : -1;
     const mid = vars.mid !== undefined ? vars.mid : -1;
 
-    const maxVal = Math.max(...array, 1);
+    const normalizedArray = array.map((v: number) => (Number.isFinite(v) ? Math.max(0, v) : 0));
+    const maxVal = Math.max(...normalizedArray, 1);
+    const chartHeight = 360;
 
     return (
-        <div className="w-full flex items-end justify-center gap-1.5 h-[400px] px-2">
+        <div className="w-full h-full min-h-[520px] flex items-end justify-center gap-2 px-3 pb-4">
             {array.map((val: number, idx: number) => {
                 let color = "bg-slate-200";
                 let shadow = "";
                 const isHighlighted = highlightIndices.includes(idx) || currentIndex.includes(idx) || idx === mid;
                 const isInRange = lo !== -1 && hi !== -1 && idx >= lo && idx <= hi;
+            const normalizedVal = Number.isFinite(val) ? Math.max(0, val) : 0;
+            const barHeightPx = Math.min(chartHeight, Math.max(12, (normalizedVal / maxVal) * chartHeight));
 
                 if (isHighlighted) {
                     color = "bg-gradient-to-t from-indigo-600 to-indigo-400 ring-2 ring-indigo-500 ring-offset-2";
@@ -420,16 +552,18 @@ function SortingVisualizer({ event, input, slug }: { event: TraceEvent; input: a
                 }
 
                 return (
-                    <div key={idx} className="flex flex-col items-center flex-1 max-w-[60px] relative group">
+                    <div key={idx} className="flex flex-col items-center flex-1 min-w-[16px] max-w-[96px] relative group">
+                        <div className="w-full h-[360px] flex items-end">
                         <div 
                             className={`w-full rounded-t-xl transition-all duration-500 ease-out ${color} ${shadow}`}
-                            style={{ height: `${(val / maxVal) * 100}%` }}
+                            style={{ height: `${barHeightPx}px` }}
                         >
                             <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded-md transition-opacity pointer-events-none font-bold">
                                 {val}
                             </div>
                         </div>
-                        <span className="mt-3 text-[11px] font-black text-slate-400 font-mono">{val}</span>
+                        </div>
+                        <span className="mt-2 text-[10px] font-black text-slate-500 font-mono leading-tight">{val}</span>
                         <div className="h-6 flex items-center justify-center">
                             {idx === mid && <span className="text-[9px] font-black text-indigo-700 uppercase tracking-tighter">mid</span>}
                             {idx === lo && idx !== mid && <span className="text-[9px] font-black text-slate-500 uppercase tracking-tighter">lo</span>}
@@ -1170,7 +1304,6 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
     };
 
     useEffect(() => {
-        if (meta.status === "source-only") return;
         if (autoRunSlugRef.current === meta.slug) return;
         if (!input || Object.keys(input).length === 0) return;
 
@@ -1258,14 +1391,36 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 
 	const currentEvent = trace[currentStep];
     const vizType = meta.visualizerType || "none";
+    const isSortingCategory = normalizeCategoryKey(meta.category) === "sortare";
     const isArrayAlgo = vizType === "sorting" || vizType === "search";
     const sourceFileName = getSourceFileName(meta.slug);
     const accentTheme = getAlgorithmAccentTheme(meta.category);
+    const accentClasses = getCategoryAccentClasses(meta.category);
+    const executionVarKeys = useMemo(() => {
+        const allKeys = new Set<string>();
+
+        trace.forEach((event) => {
+            const vars = event?.vars;
+            if (!vars || typeof vars !== "object") return;
+            Object.keys(vars).forEach((key) => allKeys.add(key));
+        });
+
+        return prioritizeExecutionKeys(Array.from(allKeys)).slice(0, 12);
+    }, [trace]);
+
     const executionVars = useMemo(() => {
-        const vars = currentEvent?.vars || {};
-        const keys = prioritizeExecutionKeys(Object.keys(vars));
-        return keys.slice(0, 12).map((key) => [key, vars[key]] as const);
-    }, [currentEvent]);
+        const latestValues: Record<string, unknown> = {};
+
+        for (let idx = 0; idx <= currentStep && idx < trace.length; idx += 1) {
+            const stepVars = trace[idx]?.vars;
+            if (!stepVars || typeof stepVars !== "object") continue;
+            Object.entries(stepVars).forEach(([key, value]) => {
+                latestValues[key] = value;
+            });
+        }
+
+        return executionVarKeys.map((key) => [key, latestValues[key] ?? "—"] as const);
+    }, [executionVarKeys, trace, currentStep]);
 
     const inputVars = useMemo(() => {
         return Object.entries(input || {})
@@ -1305,7 +1460,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                             onClick={() => setTab(t.id as any)}
                             className={`flex items-center justify-center gap-1.5 sm:gap-2 min-w-0 sm:min-w-[150px] px-3 sm:px-6 py-2.5 rounded-xl border font-bold text-xs sm:text-sm transition-all text-center ${
                                 tab === t.id
-                                    ? "bg-white border-slate-200 text-indigo-600 shadow-sm"
+                                    ? accentClasses.tabActive
                                     : "border-transparent text-slate-500 hover:text-slate-900"
                             }`}
                         >
@@ -1339,50 +1494,18 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                 )}
 
                 {tab === "viz" && (
-                    <div className="grid gap-6 lg:grid-cols-12">
-                        {/* Main Viz Column (desktop right) */}
-                        <div className="lg:col-span-8 lg:order-2 space-y-4">
-                            {/* Controls bar */}
-                            <div className="p-4 bg-white rounded-3xl border border-slate-100 shadow-sm">
-                                <div className="flex items-center justify-end gap-4">
-                                    <div className="min-w-[130px]">
-                                        <div className="flex justify-between text-[9px] font-black text-slate-400 mb-1.5 uppercase tracking-widest">
-                                            <span>Lent</span>
-                                            <span>Rapid</span>
-                                        </div>
-                                        <input
-                                            type="range"
-                                            min="100"
-                                            max="4000"
-                                            step="100"
-                                            value={4100 - delay}
-                                            onChange={(e) => setDelay(4100 - Number(e.target.value))}
-                                            className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Visualization box — fixed height, no layout shift */}
-                            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden"
-                                 style={{ height: "520px" }}>
+                    <div className="space-y-4">
+                        <div className="grid gap-4 lg:grid-cols-12 lg:items-stretch">
+                            {/* Main Viz Column (desktop right) */}
+                            <div className="lg:col-span-9 lg:order-2 lg:flex">
+                            {/* Visualization box — dynamic height to match left column */}
+                            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden h-full min-h-[420px] w-full">
                                 {currentEvent ? (
                                     <div className="h-full flex flex-col">
-                                        <div className="px-6 pt-5 pb-3 flex items-center justify-between border-b border-slate-50 shrink-0">
-                                            <span className="px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-[10px] font-black uppercase tracking-[0.2em]">
-                                                Pasul {currentStep + 1} • {currentEvent.type}
-                                            </span>
-                                            <div className="h-1.5 flex-1 mx-4 bg-slate-50 rounded-full overflow-hidden">
-                                                <div
-                                                    className="h-full bg-indigo-400 transition-all duration-300"
-                                                    style={{ width: `${trace.length > 0 ? ((currentStep + 1) / trace.length) * 100 : 0}%` }}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="flex-1 overflow-auto flex items-center justify-center p-4">
+                                        <div className="flex-1 overflow-auto flex items-stretch justify-center p-3 sm:p-4">
                                             {CUSTOM_MATH_VISUAL_SLUGS.has(meta.slug) ? (
                                                 <MathOperationsVisualizer slug={meta.slug} event={currentEvent} input={input} />
-                                            ) : vizType === "sorting" ? (
+                                            ) : vizType === "sorting" || isSortingCategory ? (
                                                 <SortingVisualizer event={currentEvent} input={input} slug={meta.slug} />
                                             ) : vizType === "search" ? (
                                                 <SearchVisualizer event={currentEvent} input={input} />
@@ -1410,7 +1533,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                                 <PlayIcon size={36} />
                                             </div>
                                             <div className="space-y-2">
-                                                {meta.status === "source-only" ? (
+                                                {hasExecuted && trace.length === 0 && meta.status === "source-only" ? (
                                                     <p className="text-amber-600 text-xs font-bold mt-2 px-4 py-2 bg-amber-50 rounded-xl inline-block">
                                                         ⚠ Vizualizare pas-cu-pas indisponibilă — cod sursă disponibil în tab-ul "Cod Sursă".
                                                     </p>
@@ -1432,12 +1555,11 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                             </div>
                         </div>
 
-                        {/* Sidebar with 3 monitor boxes (desktop left) */}
-                        <div className="lg:col-span-4 lg:order-1 space-y-4">
+                            {/* Sidebar with 3 monitor boxes (desktop left) */}
+                            <div className="lg:col-span-3 lg:order-1 space-y-3 h-full">
                             {/* Step & Start/Stop box */}
-                            <div className="p-5 bg-white rounded-3xl border border-slate-100 shadow-sm">
-                                <h4 className="font-black text-slate-900 mb-4 text-[11px] uppercase tracking-widest border-b border-slate-50 pb-3">Pas & Control</h4>
-                                <div className="space-y-4">
+                            <div className="p-4 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                                <div className="space-y-3">
                                     <div className="flex items-center justify-between">
                                         <span className="text-slate-400 text-sm font-bold">Stare</span>
                                         <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase ${playing ? "bg-emerald-50 text-emerald-600" : "bg-slate-50 text-slate-500"}`}>
@@ -1446,12 +1568,30 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <span className="text-slate-400 text-sm font-bold">Pas curent</span>
-                                        <span className="font-black text-slate-900">{trace.length > 0 ? `${currentStep + 1} / ${trace.length}` : "0 / 0"}</span>
+                                        <span className="font-black text-slate-900 text-sm">{trace.length > 0 ? `${currentStep + 1} / ${trace.length}` : "0 / 0"}</span>
+                                    </div>
+                                    <div className={`px-2.5 py-2 rounded-xl ${accentClasses.softBg} ${accentClasses.softText} text-[11px] font-black uppercase tracking-[0.16em] truncate`}>
+                                        {trace.length > 0 ? `Pasul ${currentStep + 1} • ${currentEvent?.type || "—"}` : "Pasul 0 • —"}
                                     </div>
                                     <div className="h-1.5 w-full bg-slate-50 rounded-full overflow-hidden">
                                         <div
-                                            className="h-full bg-indigo-600 transition-all duration-500"
+                                            className={`h-full ${accentClasses.solidBg} transition-all duration-500`}
                                             style={{ width: `${trace.length > 0 ? ((currentStep + 1) / trace.length) * 100 : 0}%` }}
+                                        />
+                                    </div>
+                                    <div className="min-w-[130px]">
+                                        <div className="flex justify-between text-[9px] font-black text-slate-400 mb-1.5 uppercase tracking-widest">
+                                            <span>Lent</span>
+                                            <span>Rapid</span>
+                                        </div>
+                                        <input
+                                            type="range"
+                                            min="100"
+                                            max="4000"
+                                            step="100"
+                                            value={4100 - delay}
+                                            onChange={(e) => setDelay(4100 - Number(e.target.value))}
+                                            className={`w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer ${accentClasses.rangeAccent}`}
                                         />
                                     </div>
                                     <div className="flex items-center gap-2">
@@ -1464,7 +1604,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                         </button>
                                         <button
                                             onClick={() => setPlaying(!playing)}
-                                            className={`h-9 w-9 flex items-center justify-center rounded-full ${playing ? "bg-amber-100 text-amber-600" : "bg-indigo-600 text-white"}`}
+                                            className={`h-9 w-9 flex items-center justify-center rounded-full ${playing ? "bg-amber-100 text-amber-600" : `${accentClasses.solidBg} text-white`}`}
                                             title="Start / Stop"
                                         >
                                             {playing ? <PauseIcon size={16} /> : <PlayIcon size={16} />}
@@ -1483,44 +1623,32 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                             Restart
                                         </button>
                                     </div>
-                                    <p className="text-[10px] text-slate-400 font-medium">← Pas anterior &nbsp;|&nbsp; Spațiu Redă &nbsp;|&nbsp; Pas următor →</p>
-                                </div>
-                            </div>
-
-                            {/* Explanation */}
-                            <div className={`p-6 ${accentTheme.panel} rounded-[2rem] text-white shadow-2xl ${accentTheme.panelShadow} relative overflow-hidden group`} style={{ minHeight: "160px" }}>
-                                <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:scale-110 transition-transform duration-700">
-                                    <CommentDiscussionIcon size={100} />
-                                </div>
-                                <div className="relative z-10 space-y-4">
-                                    <div className="flex items-center gap-2">
-                                        <div className="h-8 w-8 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
-                                            <CommentDiscussionIcon size={14} />
-                                        </div>
-                                        <h4 className="font-black text-base tracking-tight">Explicație pas</h4>
+                                    <div className="flex items-center justify-center gap-1.5 text-[10px] text-slate-500 font-semibold flex-wrap">
+                                        <kbd className="px-2 py-1 rounded-md border border-slate-200 bg-slate-50 font-mono">←</kbd>
+                                        <span className="text-slate-300">|</span>
+                                        <kbd className="px-2 py-1 rounded-md border border-slate-200 bg-slate-50 font-mono">Space</kbd>
+                                        <span className="text-slate-300">|</span>
+                                        <kbd className="px-2 py-1 rounded-md border border-slate-200 bg-slate-50 font-mono">→</kbd>
                                     </div>
-                                    <p className={`text-base leading-relaxed ${accentTheme.panelText} font-medium`}>
-                                        {explanation || "Apasă Restart pentru a începe analiza algoritmului pas cu pas."}
-                                    </p>
                                 </div>
                             </div>
 
                             {/* Variables panel (always visible) */}
-                            <div className="p-5 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                            <div className="p-4 bg-white rounded-3xl border border-slate-100 shadow-sm">
                                 <h4 className="font-black text-slate-900 mb-4 text-[11px] uppercase tracking-widest border-b border-slate-50 pb-3">Variabile</h4>
-                                <div className="space-y-4">
+                                <div className="space-y-3">
                                     <div>
-                                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Importante din execuție</div>
+                                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Execuție</div>
                                         {executionVars.length === 0 ? (
                                             <p className="text-xs text-slate-400">Variabilele de execuție vor apărea după primul pas.</p>
                                         ) : (
-                                            <div className="grid grid-cols-2 gap-2">
+                                            <div className="grid grid-cols-2 xl:grid-cols-3 gap-1.5">
                                                 {executionVars.map(([key, val]) => {
                                                     const compact = toCompactValueLabel(val);
                                                     return (
-                                                        <div key={`exec-${key}`} className="px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden" title={compact.full}>
-                                                            <div className="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-wider truncate">{key}</div>
-                                                            <div className="font-mono text-sm font-black text-slate-700 truncate" aria-label={compact.full}>
+                                                        <div key={`exec-${key}`} className="px-2 py-1.5 rounded-lg bg-slate-50 border border-slate-100 overflow-hidden min-h-[50px]" title={compact.full}>
+                                                            <div className="text-[8px] font-black text-slate-400 uppercase mb-0.5 tracking-wider truncate">{key}</div>
+                                                            <div className="font-mono text-xs font-black text-slate-700 truncate" aria-label={compact.full}>
                                                                 {compact.compact}
                                                             </div>
                                                         </div>
@@ -1530,17 +1658,17 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                         )}
                                     </div>
                                     <div>
-                                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Importante din input</div>
+                                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Input</div>
                                         {inputVars.length === 0 ? (
                                             <p className="text-xs text-slate-400">Nu există variabile de input configurate.</p>
                                         ) : (
-                                            <div className="grid grid-cols-2 gap-2">
+                                            <div className="grid grid-cols-1 gap-1.5">
                                                 {inputVars.map(([key, val]) => {
-                                                    const compact = toCompactValueLabel(val);
+                                                    const compact = toCompactValueLabel(val, 110);
                                                     return (
-                                                        <div key={`input-${key}`} className="px-3 py-2.5 rounded-xl bg-white border border-slate-100 overflow-hidden" title={compact.full}>
-                                                            <div className="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-wider truncate">{key}</div>
-                                                            <div className="font-mono text-sm font-black text-slate-700 truncate" aria-label={compact.full}>
+                                                        <div key={`input-${key}`} className="px-2.5 py-2 rounded-lg bg-white border border-slate-100 overflow-hidden min-h-[56px]">
+                                                            <div className="text-[8px] font-black text-slate-400 uppercase mb-0.5 tracking-wider truncate">{key}</div>
+                                                            <div className="font-mono text-xs font-black text-slate-700 whitespace-normal break-words leading-tight" aria-label={compact.full}>
                                                                 {compact.compact}
                                                             </div>
                                                         </div>
@@ -1550,6 +1678,26 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                         )}
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        </div>
+
+                        {/* Full-width bottom explanation */}
+                        <div className={`p-6 ${accentTheme.panel} rounded-[2rem] text-white shadow-2xl ${accentTheme.panelShadow} relative overflow-hidden group`}>
+                            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:scale-110 transition-transform duration-700">
+                                <CommentDiscussionIcon size={100} />
+                            </div>
+                            <div className="relative z-10 space-y-4">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-8 w-8 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
+                                        <CommentDiscussionIcon size={14} />
+                                    </div>
+                                    <h4 className="font-black text-base tracking-tight">Explicație pas</h4>
+                                </div>
+                                <p className={`text-base leading-relaxed ${accentTheme.panelText} font-medium`}>
+                                    {explanation || "Apasă Restart pentru a începe analiza algoritmului pas cu pas."}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -1778,7 +1926,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                         key={i}
                                         className={`max-w-[80%] p-4 ${
                                             msg.role === "user"
-                                                ? "ml-auto rounded-2xl rounded-br-md bg-indigo-600 text-white shadow-md"
+                                                ? `ml-auto rounded-2xl rounded-br-md ${accentClasses.solidBg} text-white shadow-md`
                                                 : "rounded-2xl rounded-bl-md bg-slate-50 text-slate-700 border border-slate-100"
                                         }`}
                                     >
@@ -1820,12 +1968,12 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                 onKeyDown={(e) => e.key === "Enter" && handleChat()}
                                 placeholder="Scrie întrebarea ta aici..."
                                 disabled={chatLoading}
-                                className="w-full pl-6 pr-16 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                                className={`w-full pl-6 pr-16 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 ${accentClasses.ring} transition-all`}
                             />
                             <button 
                                 onClick={handleChat}
                                 disabled={chatLoading}
-                                className="absolute right-2 top-2 bottom-2 px-4 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+                                className={`absolute right-2 top-2 bottom-2 px-4 rounded-xl ${accentClasses.solidBg} text-white ${accentClasses.solidHover} transition-colors`}
                             >
                                 {chatLoading ? <span className="text-xs font-bold">...</span> : <ChevronRightIcon />}
                             </button>
@@ -1844,7 +1992,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                             </div>
                             <button 
                                 onClick={() => navigator.clipboard.writeText(sourceCode || "")}
-                                className="text-xs font-bold text-indigo-400 hover:text-indigo-300 transition-colors"
+                                className={`text-xs font-bold ${accentClasses.codeText} ${accentClasses.codeHover} transition-colors`}
                             >
                                 Copiază Codul
                             </button>
