@@ -17,6 +17,29 @@ function cleanMarkdown(markdown) {
     .trim();
 }
 
+function enforceSingleExternalVisual(markdown, _mdPath) {
+  const visualHeadingRegex = /^\s*##\s+.*reprezentare\s+vizual[ăa].*$/imu;
+
+  let next = markdown
+    .replace(/<!--\s*external-visual\s*-->\n?/gi, "")
+    // Remove previously injected synthetic heading (without diacritics) if present.
+    .replace(/^\s*##\s+Reprezentare\s+Vizuala\s*$/gim, "")
+    // Remove local and previous remote image links from generated docs sections.
+    .replace(/^\s*!\[[^\]]*\]\((?:\/docs-images\/[^)]+|https?:\/\/[^)]+)\)\s*$/gim, "");
+
+  if (visualHeadingRegex.test(next)) {
+    next = next.replace(
+      /^(\s*##\s+.*reprezentare\s+vizual[ăa].*)$/imu,
+      "$1\n\nLoc pentru poza"
+    );
+  } else {
+    next = `${next}\n\n## Reprezentare Vizuala\n\nLoc pentru poza`;
+  }
+
+  // Collapse extra blank lines introduced by image normalization.
+  return next.replace(/\n{3,}/g, "\n\n").trim();
+}
+
 function stripEmojiFromHeadingLines(markdown) {
   return markdown.replace(
     /^(\s*#{1,6}\s+)(?:[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{1F1E6}-\u{1F1FF}\uFE0F\u200D\s]+)+/gmu,
@@ -320,7 +343,8 @@ async function generate() {
   for (const mdPath of markdownFiles) {
     const raw = await fs.readFile(mdPath, "utf8");
     const cleaned = cleanMarkdown(raw);
-    const noEmojiHeadings = stripEmojiFromHeadingLines(cleaned);
+    const normalizedVisuals = enforceSingleExternalVisual(cleaned, mdPath);
+    const noEmojiHeadings = stripEmojiFromHeadingLines(normalizedVisuals);
     const withMath = renderMathOutsideCodeFences(noEmojiHeadings);
     let bodyHtml = marked.parse(withMath);
     bodyHtml = addSvgIconsToHeadings(bodyHtml);

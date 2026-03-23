@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams } from "next/navigation";
 import { api } from "@/lib/api";
 import { AlgorithmMeta, TraceEvent, allAlgorithms } from "@/lib/algorithms";
@@ -280,6 +280,38 @@ function toCompactValueLabel(value: unknown, maxLength = 64) {
         compact: `${full.slice(0, maxLength - 1)}…`,
         truncated: true,
     };
+}
+
+function prioritizeExecutionKeys(keys: string[]) {
+    const priority = [
+        "i", "j", "k", "left", "right", "mid", "pivot", "current", "index",
+        "target", "node", "distance", "cost", "sum", "result", "value", "state", "step",
+    ];
+
+    const rank = (key: string) => {
+        const lower = key.toLowerCase();
+        const idx = priority.findIndex((p) => lower.includes(p));
+        return idx === -1 ? 999 : idx;
+    };
+
+    return [...keys].sort((a, b) => {
+        const ra = rank(a);
+        const rb = rank(b);
+        if (ra !== rb) return ra - rb;
+        return a.localeCompare(b);
+    });
+}
+
+function summarizeInputValue(value: unknown) {
+    if (Array.isArray(value)) {
+        const preview = value.slice(0, 5).map((v) => stringifyVarValue(v)).join(", ");
+        return value.length > 5 ? `[${preview}, ...] (${value.length})` : `[${preview}] (${value.length})`;
+    }
+    if (value && typeof value === "object") {
+        const keys = Object.keys(value as Record<string, unknown>);
+        return `{${keys.slice(0, 4).join(", ")}${keys.length > 4 ? ", ..." : ""}}`;
+    }
+    return value;
 }
 
 const GENERIC_INPUT_DEFAULTS: Record<string, Record<string, any>> = {
@@ -987,6 +1019,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 	const [delay, setDelay] = useState(800);
 	const [explanation, setExplanation] = useState<string>("");
 	const [question, setQuestion] = useState<string>("");
+    const [hasExecuted, setHasExecuted] = useState(false);
 	const [chat, setChat] = useState<Array<{ role: string; content: string }>>(
 		[]
 	);
@@ -994,6 +1027,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
     const [tab, setTab] = useState<"descriere" | "viz" | "input" | "chat" | "code">("descriere");
     const [sourceCode, setSourceCode] = useState<string>("");
     const [sourceFile, setSourceFile] = useState<string>("");
+    const autoRunSlugRef = useRef<string | null>(null);
 
     // Keyboard navigation: ← previous step, → next step, Space toggle play
     useEffect(() => {
@@ -1018,6 +1052,12 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 	useEffect(() => {
         const vizType = meta.visualizerType || "none";
         const slug = meta.slug;
+    setTrace([]);
+    setCurrentStep(0);
+    setPlaying(false);
+    setExplanation("");
+    setHasExecuted(false);
+    autoRunSlugRef.current = null;
     setInputDrafts({});
 
         const slugDefaultInput = GENERIC_INPUT_DEFAULTS[slug];
@@ -1085,6 +1125,63 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 		}
 	}, [meta.slug, meta.visualizerType]);
 
+    const runAlgorithm = async (
+        overrideInput?: Record<string, any>,
+        options?: { autoplay?: boolean; switchTab?: boolean }
+    ) => {
+        try {
+            const vizType = meta.visualizerType || "none";
+            let finalInput = overrideInput ?? input;
+
+            if (!overrideInput && vizType === "sorting") {
+                const arr = rawInput
+                    .split(",")
+                    .map((n) => parseInt(n.trim()))
+                    .filter((n) => !isNaN(n));
+                finalInput = { array: arr };
+                setInput(finalInput);
+            } else if (!overrideInput && vizType === "search") {
+                const arr = rawInput
+                    .split(",")
+                    .map((n) => parseInt(n.trim()))
+                    .filter((n) => !isNaN(n));
+                finalInput = { ...input, array: arr };
+                setInput(finalInput);
+            }
+
+            const result = await api.run(meta.slug, finalInput);
+            const newTrace = Array.isArray(result.trace) ? result.trace : [];
+            const shouldAutoplay = options?.autoplay ?? true;
+
+            setTrace(newTrace);
+            setCurrentStep(0);
+            setPlaying(shouldAutoplay && newTrace.length > 1);
+            setHasExecuted(true);
+            if (options?.switchTab ?? true) {
+                setTab("viz");
+            }
+        } catch (err) {
+            console.error(err);
+            setTrace([]);
+            setCurrentStep(0);
+            setPlaying(false);
+            setHasExecuted(true);
+        }
+    };
+
+    useEffect(() => {
+        if (meta.status === "source-only") return;
+        if (autoRunSlugRef.current === meta.slug) return;
+        if (!input || Object.keys(input).length === 0) return;
+
+        const vizType = meta.visualizerType || "none";
+        const needsRawInput = (vizType === "sorting" || vizType === "search") && !rawInput.trim();
+        if (needsRawInput) return;
+
+        autoRunSlugRef.current = meta.slug;
+        runAlgorithm(input, { autoplay: false, switchTab: false });
+    }, [meta.slug, meta.status, meta.visualizerType, input, rawInput]);
+
 	// Fetch source code from API
 	useEffect(() => {
 		const fetchSource = async () => {
@@ -1107,27 +1204,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 	}, [meta.slug]);
 
 	const handleRun = async () => {
-		try {
-            const vizType = meta.visualizerType || "none";
-            let finalInput = input;
-            if (vizType === "sorting") {
-                const arr = rawInput.split(",").map(n => parseInt(n.trim())).filter(n => !isNaN(n));
-                finalInput = { array: arr };
-                setInput(finalInput);
-            } else if (vizType === "search") {
-                const arr = rawInput.split(",").map(n => parseInt(n.trim())).filter(n => !isNaN(n));
-                finalInput = { ...input, array: arr };
-                setInput(finalInput);
-            }
-
-			const result = await api.run(meta.slug, finalInput);
-			setTrace(result.trace);
-			setCurrentStep(0);
-			setPlaying(true);
-            setTab("viz");
-		} catch (err) {
-			console.error(err);
-		}
+        await runAlgorithm(undefined, { autoplay: true, switchTab: true });
 	};
 
 	useEffect(() => {
@@ -1184,6 +1261,18 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
     const isArrayAlgo = vizType === "sorting" || vizType === "search";
     const sourceFileName = getSourceFileName(meta.slug);
     const accentTheme = getAlgorithmAccentTheme(meta.category);
+    const executionVars = useMemo(() => {
+        const vars = currentEvent?.vars || {};
+        const keys = prioritizeExecutionKeys(Object.keys(vars));
+        return keys.slice(0, 12).map((key) => [key, vars[key]] as const);
+    }, [currentEvent]);
+
+    const inputVars = useMemo(() => {
+        return Object.entries(input || {})
+            .filter(([key]) => key !== "trace")
+            .slice(0, 8)
+            .map(([key, value]) => [key, summarizeInputValue(value)] as const);
+    }, [input]);
 
 	return (
 		<div className="space-y-8">
@@ -1251,43 +1340,11 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 
                 {tab === "viz" && (
                     <div className="grid gap-6 lg:grid-cols-12">
-                        {/* Main Viz Column */}
-                        <div className="lg:col-span-8 space-y-4">
+                        {/* Main Viz Column (desktop right) */}
+                        <div className="lg:col-span-8 lg:order-2 space-y-4">
                             {/* Controls bar */}
-                            <div className="p-4 bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-wrap items-center justify-between gap-4">
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
-                                        className="h-11 w-11 flex items-center justify-center rounded-full bg-slate-50 border border-slate-100 text-slate-600 hover:bg-white hover:shadow-sm transition-all"
-                                        title="Pasul anterior (←)"
-                                    >
-                                        <ChevronLeftIcon size={20} />
-                                    </button>
-                                    <button
-                                        onClick={() => setPlaying(!playing)}
-                                        className={`h-11 w-11 flex items-center justify-center rounded-full transition-all ${
-                                            playing ? "bg-amber-100 text-amber-600" : "bg-indigo-600 text-white shadow-lg shadow-indigo-100"
-                                        }`}
-                                        title="Redă / Pauză (Spațiu)"
-                                    >
-                                        {playing ? <PauseIcon size={20} /> : <PlayIcon size={20} />}
-                                    </button>
-                                    <button
-                                        onClick={() => setCurrentStep(Math.min(currentStep + 1, trace.length - 1))}
-                                        className="h-11 w-11 flex items-center justify-center rounded-full bg-slate-50 border border-slate-100 text-slate-600 hover:bg-white hover:shadow-sm transition-all"
-                                        title="Pasul următor (→)"
-                                    >
-                                        <ChevronRightIcon size={20} />
-                                    </button>
-                                    <button 
-                                        onClick={handleRun} 
-                                        className="px-5 py-2.5 rounded-full bg-slate-900 text-white font-bold text-sm hover:bg-slate-800 transition-colors"
-                                    >
-                                        Restart
-                                    </button>
-                                </div>
-
-                                <div className="flex items-center gap-4">
+                            <div className="p-4 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                                <div className="flex items-center justify-end gap-4">
                                     <div className="min-w-[130px]">
                                         <div className="flex justify-between text-[9px] font-black text-slate-400 mb-1.5 uppercase tracking-widest">
                                             <span>Lent</span>
@@ -1302,12 +1359,6 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                             onChange={(e) => setDelay(4100 - Number(e.target.value))}
                                             className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
                                         />
-                                    </div>
-                                    <div className="text-right shrink-0">
-                                        <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Pas</div>
-                                        <div className="text-base font-black text-slate-900">
-                                            {trace.length > 0 ? `${currentStep + 1} / ${trace.length}` : "0 / 0"}
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1359,13 +1410,20 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                                 <PlayIcon size={36} />
                                             </div>
                                             <div className="space-y-2">
-                                                <p className="text-slate-900 font-black text-xl">Gata de simulare</p>
-                                                <p className="text-slate-400 font-medium text-sm">Configurează datele de intrare sau apasă Restart.</p>
-                                                <p className="text-slate-300 text-xs mt-1">Tastele ← → pentru pași, Spațiu pentru redare</p>
-                                                {meta.status === "source-only" && (
+                                                {meta.status === "source-only" ? (
                                                     <p className="text-amber-600 text-xs font-bold mt-2 px-4 py-2 bg-amber-50 rounded-xl inline-block">
                                                         ⚠ Vizualizare pas-cu-pas indisponibilă — cod sursă disponibil în tab-ul "Cod Sursă".
                                                     </p>
+                                                ) : !hasExecuted ? (
+                                                    <>
+                                                        <p className="text-slate-900 font-black text-xl">Inițializare simulare</p>
+                                                        <p className="text-slate-400 font-medium text-sm">Pregătim rularea automată de la pasul 0 cu datele implicite.</p>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <p className="text-slate-900 font-black text-xl">Nu există pași de redat</p>
+                                                        <p className="text-slate-400 font-medium text-sm">Apasă Restart pentru a rula din nou cu datele curente.</p>
+                                                    </>
                                                 )}
                                             </div>
                                         </div>
@@ -1374,8 +1432,61 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                             </div>
                         </div>
 
-                        {/* Right Sidebar */}
-                        <div className="lg:col-span-4 space-y-4">
+                        {/* Sidebar with 3 monitor boxes (desktop left) */}
+                        <div className="lg:col-span-4 lg:order-1 space-y-4">
+                            {/* Step & Start/Stop box */}
+                            <div className="p-5 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                                <h4 className="font-black text-slate-900 mb-4 text-[11px] uppercase tracking-widest border-b border-slate-50 pb-3">Pas & Control</h4>
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-slate-400 text-sm font-bold">Stare</span>
+                                        <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase ${playing ? "bg-emerald-50 text-emerald-600" : "bg-slate-50 text-slate-500"}`}>
+                                            {playing ? "În rulare" : "Pauză"}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-slate-400 text-sm font-bold">Pas curent</span>
+                                        <span className="font-black text-slate-900">{trace.length > 0 ? `${currentStep + 1} / ${trace.length}` : "0 / 0"}</span>
+                                    </div>
+                                    <div className="h-1.5 w-full bg-slate-50 rounded-full overflow-hidden">
+                                        <div
+                                            className="h-full bg-indigo-600 transition-all duration-500"
+                                            style={{ width: `${trace.length > 0 ? ((currentStep + 1) / trace.length) * 100 : 0}%` }}
+                                        />
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
+                                            className="h-9 w-9 flex items-center justify-center rounded-full bg-slate-50 border border-slate-100 text-slate-600 hover:bg-white"
+                                            title="Pasul anterior"
+                                        >
+                                            <ChevronLeftIcon size={16} />
+                                        </button>
+                                        <button
+                                            onClick={() => setPlaying(!playing)}
+                                            className={`h-9 w-9 flex items-center justify-center rounded-full ${playing ? "bg-amber-100 text-amber-600" : "bg-indigo-600 text-white"}`}
+                                            title="Start / Stop"
+                                        >
+                                            {playing ? <PauseIcon size={16} /> : <PlayIcon size={16} />}
+                                        </button>
+                                        <button
+                                            onClick={() => setCurrentStep(Math.min(currentStep + 1, trace.length - 1))}
+                                            className="h-9 w-9 flex items-center justify-center rounded-full bg-slate-50 border border-slate-100 text-slate-600 hover:bg-white"
+                                            title="Pasul următor"
+                                        >
+                                            <ChevronRightIcon size={16} />
+                                        </button>
+                                        <button
+                                            onClick={handleRun}
+                                            className="ml-auto px-3 py-2 rounded-full bg-slate-900 text-white font-bold text-xs hover:bg-slate-800"
+                                        >
+                                            Restart
+                                        </button>
+                                    </div>
+                                    <p className="text-[10px] text-slate-400 font-medium">← Pas anterior &nbsp;|&nbsp; Spațiu Redă &nbsp;|&nbsp; Pas următor →</p>
+                                </div>
+                            </div>
+
                             {/* Explanation */}
                             <div className={`p-6 ${accentTheme.panel} rounded-[2rem] text-white shadow-2xl ${accentTheme.panelShadow} relative overflow-hidden group`} style={{ minHeight: "160px" }}>
                                 <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:scale-110 transition-transform duration-700">
@@ -1394,43 +1505,50 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                 </div>
                             </div>
 
-                            {/* Variables panel */}
-                            {currentEvent?.vars && Object.keys(currentEvent.vars).length > 0 && (
-                                <div className="p-5 bg-white rounded-3xl border border-slate-100 shadow-sm">
-                                    <h4 className="font-black text-slate-900 mb-4 text-[11px] uppercase tracking-widest border-b border-slate-50 pb-3">Variabile</h4>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        {Object.entries(currentEvent.vars).map(([key, val]) => {
-                                            const compact = toCompactValueLabel(val);
-                                            return (
-                                                <div key={key} className="px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden" title={compact.full}>
-                                                    <div className="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-wider truncate">{key}</div>
-                                                    <div className="font-mono text-sm font-black text-slate-700 truncate" aria-label={compact.full}>
-                                                        {compact.compact}
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Progress status */}
+                            {/* Variables panel (always visible) */}
                             <div className="p-5 bg-white rounded-3xl border border-slate-100 shadow-sm">
-                                <h4 className="font-black text-slate-900 mb-4 text-[11px] uppercase tracking-widest border-b border-slate-50 pb-3">Status Execuție</h4>
+                                <h4 className="font-black text-slate-900 mb-4 text-[11px] uppercase tracking-widest border-b border-slate-50 pb-3">Variabile</h4>
                                 <div className="space-y-4">
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-slate-400 text-sm font-bold">Stare</span>
-                                        <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase ${playing ? "bg-emerald-50 text-emerald-600" : "bg-slate-50 text-slate-500"}`}>
-                                            {playing ? "În Rulare" : "Pauză"}
-                                        </span>
+                                    <div>
+                                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Importante din execuție</div>
+                                        {executionVars.length === 0 ? (
+                                            <p className="text-xs text-slate-400">Variabilele de execuție vor apărea după primul pas.</p>
+                                        ) : (
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {executionVars.map(([key, val]) => {
+                                                    const compact = toCompactValueLabel(val);
+                                                    return (
+                                                        <div key={`exec-${key}`} className="px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden" title={compact.full}>
+                                                            <div className="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-wider truncate">{key}</div>
+                                                            <div className="font-mono text-sm font-black text-slate-700 truncate" aria-label={compact.full}>
+                                                                {compact.compact}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
                                     </div>
-                                    <div className="h-1.5 w-full bg-slate-50 rounded-full overflow-hidden">
-                                        <div 
-                                            className="h-full bg-indigo-600 transition-all duration-500" 
-                                            style={{ width: `${trace.length > 0 ? ((currentStep + 1) / trace.length) * 100 : 0}%` }}
-                                        />
+                                    <div>
+                                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Importante din input</div>
+                                        {inputVars.length === 0 ? (
+                                            <p className="text-xs text-slate-400">Nu există variabile de input configurate.</p>
+                                        ) : (
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {inputVars.map(([key, val]) => {
+                                                    const compact = toCompactValueLabel(val);
+                                                    return (
+                                                        <div key={`input-${key}`} className="px-3 py-2.5 rounded-xl bg-white border border-slate-100 overflow-hidden" title={compact.full}>
+                                                            <div className="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-wider truncate">{key}</div>
+                                                            <div className="font-mono text-sm font-black text-slate-700 truncate" aria-label={compact.full}>
+                                                                {compact.compact}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
                                     </div>
-                                    <p className="text-[10px] text-slate-400 font-medium text-center">← Pas anterior &nbsp;|&nbsp; Spațiu Redă &nbsp;|&nbsp; Pas următor →</p>
                                 </div>
                             </div>
                         </div>
