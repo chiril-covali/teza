@@ -46,8 +46,8 @@ export function sieveInstrumented(input: { n: number }): AlgorithmResult {
   trace.push({
     type: "done",
     array: isPrime.map(Number),
-    note: `S-au găsit ${primes.length} numere prime: ${primes.slice(0, 10).join(", ")}${primes.length > 10 ? "..." : ""}`,
-    vars: { primes: primes.slice(0, 20) },
+    note: `S-au găsit ${primes.length} numere prime până la ${n}.`,
+    vars: { primes },
   });
   return { trace, result: { primes, count: primes.length } };
 }

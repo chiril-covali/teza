@@ -1,72 +1,40 @@
 <!-- custom-doc -->
 
-# Set Set
+# 🚀 **Set (Set)**
 
-Un set este o structură de date care stochează o colecție de elemente unice, fără o ordine specifică. Aceasta permite operații eficiente de adăugare, eliminare și căutare a elementelor. Seturile sunt utilizate frecvent în programare datorită capacității lor de a gestiona datele fără duplicare.
+## 📝 **Descriere**
+Un set este o structură de date care stochează o colecție de elemente unice, fără o ordine specifică. Aceasta permite operații eficiente de adăugare, eliminare și căutare a elementelor, de regulă având o complexitate medie de $O(1)$. Seturile sunt fundamentale în informatică pentru gestionarea colecțiilor unde duplicatele nu sunt permise și unde apartenența unui element trebuie verificată rapid.
 
-## Reprezentare Vizuală
+## 🖼️ **Reprezentare Vizuală**
+![Diagramă Set](https://upload.wikimedia.org/wikipedia/commons/6/6d/Venn_A_subset_B.svg)
 
-Un set poate fi reprezentat printr-o diagramă simplă:
+```text
+Set A: {1, 2, 3, 4}
 
+Operație: Adaugă 5
+Rezultat: {1, 2, 3, 4, 5}
+
+Operație: Adaugă 2 (deja existent)
+Rezultat: {1, 2, 3, 4, 5} (Nicio schimbare, elementul este unic)
 ```
-Set = {a, b, c, d}
-```
 
-### Exemplu pas cu pas
+## ⚖️ **Avantaje și Dezavantaje**
+| Avantaje | Dezavantaje |
+| :--- | :--- |
+| ✅ Garantează unicitatea elementelor | ❌ Nu menține ordinea elementelor |
+| ✅ Căutare, inserare și ștergere foarte rapide | ❌ Consum de memorie mai ridicat (Hash Table) |
+| ✅ Ideal pentru operații matematice cu mulțimi | ❌ Nu permite accesul elementelor prin index |
 
-1. Adăugăm elemente:
+## 🔢 **Analiză Matematică și Complexitate**
+| Operație | Complexitate Timp | Complexitate Spațiu |
+| :--- | :--- | :--- |
+| Inserare | $O(1)$ (Mediu) / $O(n)$ (Worst) | $O(1)$ |
+| Ștergere | $O(1)$ (Mediu) / $O(n)$ (Worst) | $O(1)$ |
+| Căutare | $O(1)$ (Mediu) / $O(n)$ (Worst) | $O(1)$ |
+| Spațiu Total | - | $O(n)$ |
 
-   - Set = {}
-   - Adaugă 'a' → Set = {a}
-   - Adaugă 'b' → Set = {a, b}
-   - Adaugă 'a' (duplicat) → Set rămâne {a, b}
-   - Adaugă 'c' → Set = {a, b, c}
-
-2. Eliminăm un element:
-
-   - Set = {a, b, c}
-   - Elimină 'b' → Set = {a, c}
-
-## Matematică / Logică
-
-Operațiile de bază ale seturilor pot fi descrise prin complexitate:
-
-- Adăugarea unui element: $O(1)$ în medie
-- Eliminarea unui element: $O(1)$ în medie
-- Căutarea unui element: $O(1)$ în medie
-
-Aceste operații sunt eficiente datorită utilizării unor structuri de date de tip hash.
-
-## Tabel de Complextitate
-
-| Operație           | Cel mai bun caz | Caz mediu | Cel mai rău caz |
-|--------------------|------------------|-----------|------------------|
-| Adăugare           | $O(1)$           | $O(1)$    | $O(n)$           |
-| Eliminare          | $O(1)$           | $O(1)$    | $O(n)$           |
-| Căutare            | $O(1)$           | $O(1)$    | $O(n)$           |
-
-## Avantaje și Dezavantaje
-
-**Avantaje:**
-
-- Permite stocarea de elemente unice.
-- Operații rapide de adăugare, eliminare și căutare.
-- Ușor de implementat și utilizat.
-
-**Dezavantaje:**
-
-- Nu păstrează ordinea elementelor.
-- Poate consuma mai multă memorie în cazul coliziunilor în structurile de tip hash.
-- Nu permite duplicate, ceea ce poate fi o limitare în anumite aplicații.
-
-## Aplicații Practice
-
-Seturile sunt utilizate în diverse domenii, printre care:
-
-- Eliminarea duplicatelor din liste.
-- Implementarea funcțiilor de căutare rapidă.
-- Analiza datelor, cum ar fi identificarea elementelor comune între două colecții.
-- Gestionarea permisiunilor și a rolurilor în aplicații software.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+## 💡 **Aplicații Practice**
+- **Eliminarea duplicatelor** dintr-o listă sau dintr-un flux de date masiv.
+- **Operații cu mulțimi** precum reuniunea, intersecția și diferența între colecții de date.
+- **Verificarea rapidă a apartenenței** (ex: verificarea dacă un nume de utilizator este deja luat).
+- **Tracking-ul elementelor vizitate** în algoritmi de parcurgere a grafurilor (BFS/DFS).

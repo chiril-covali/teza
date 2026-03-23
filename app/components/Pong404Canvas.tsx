@@ -52,7 +52,7 @@ export default function Pong404Canvas() {
         const baseBallSpeed = 5.2;
         const maxBallSpeed = 10.8;
         const playerSpeed = 8.4;
-        const botSpeed = 6.4;
+        const botSpeed = 4.8;
 
         let playerY = 120;
         let botY = 120;
@@ -64,6 +64,10 @@ export default function Pong404Canvas() {
         let botScore = 0;
         let roundMessage = "";
         let roundMessageUntil = 0;
+        let botAimY = 120;
+        let botMistakeY = 0;
+        let botNextMistakeAt = 0;
+        let botNextReactionAt = 0;
 
         const updateCanvasSize = () => {
           const width = Math.max(320, container.offsetWidth || 320);
@@ -99,19 +103,32 @@ export default function Pong404Canvas() {
         };
 
         const moveBot = () => {
+          const now = performance.now();
           const ballMovingToBot = ballVX > 0;
-          let desiredY = s.height * 0.5;
 
-          if (ballMovingToBot) {
-            const travelX = Math.max(1, s.width - (PADDING + paddleWidth + 16) - ballX);
-            const projectedY = ballY + (ballVY / Math.max(0.1, ballVX)) * travelX;
-            const wobble = Math.sin(s.frameCount * 0.08) * 8;
-            desiredY = projectedY + wobble;
-          } else {
-            desiredY = s.height * 0.5 + Math.sin(s.frameCount * 0.03) * 36;
+          // Botul reacționează mai rar și cu o marjă de eroare pentru a fi mai accesibil.
+          if (now >= botNextMistakeAt) {
+            botMistakeY = s.random(-48, 48);
+            botNextMistakeAt = now + s.random(900, 1800);
           }
 
-          const delta = desiredY - botY;
+          if (now >= botNextReactionAt) {
+            let desiredY = s.height * 0.5;
+
+            if (ballMovingToBot) {
+              const travelX = Math.max(1, s.width - (PADDING + paddleWidth + 16) - ballX);
+              const projectedY = ballY + (ballVY / Math.max(0.1, ballVX)) * travelX;
+              const wobble = Math.sin(s.frameCount * 0.075) * 10;
+              desiredY = projectedY + wobble + botMistakeY;
+            } else {
+              desiredY = s.height * 0.5 + Math.sin(s.frameCount * 0.03) * 28;
+            }
+
+            botAimY = desiredY;
+            botNextReactionAt = now + s.random(55, 130);
+          }
+
+          const delta = botAimY - botY;
           botY += clamp(delta, -botSpeed, botSpeed);
         };
 
@@ -169,6 +186,9 @@ export default function Pong404Canvas() {
           }
 
           resetBall(!playerWonPoint);
+          botMistakeY = s.random(-56, 56);
+          botAimY = s.height * 0.5;
+          botNextReactionAt = performance.now() + s.random(60, 150);
         };
 
         s.setup = () => {
@@ -179,6 +199,10 @@ export default function Pong404Canvas() {
 
           playerY = s.height * 0.5;
           botY = s.height * 0.5;
+          botAimY = botY;
+          botMistakeY = s.random(-40, 40);
+          botNextMistakeAt = performance.now() + s.random(800, 1600);
+          botNextReactionAt = performance.now() + s.random(40, 120);
           resetBall(false);
         };
 

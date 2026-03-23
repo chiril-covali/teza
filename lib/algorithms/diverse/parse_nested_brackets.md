@@ -1,39 +1,46 @@
 <!-- custom-doc -->
 
-# 🧩 Parse Nested Brackets
+# 🚀 **Analiza Parantezelor Imbricate (Parse Nested Brackets)**
 
-## 📝 Descriere
+## 📝 **Descriere**
 
-Analiza și interpretarea parantezelor imbricate reprezintă o problemă fundamentală în teoria limbajelor formale și a structurilor de date. Această problemă implică determinarea structurii corecte a expresiilor care conțin paranteze, asigurându-se că fiecare paranteză deschisă are o paranteză închisă corespunzătoare. Această tehnică este esențială în compilatoarele de limbaje de programare, unde este necesară validarea sintaxei.
+**Analiza parantezelor imbricate** este un algoritm clasic utilizat pentru a valida corectitudinea sintactică a unei expresii. Acesta utilizează o structură de date de tip **Stivă (Stack)** pentru a urmări parantezele deschise și a se asigura că fiecare este închisă corect, respectând ordinea **LIFO** (Last-In, First-Out). Este un pas esențial în procesarea limbajelor de programare și a formatelor de date precum JSON sau XML.
 
-## 🖼️ Reprezentare Vizuală
+## 🖼️ **Reprezentare Vizuală**
 
-![Reprezentare paranteze](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Bracket_Sequence_Example.svg/1200px-Bracket_Sequence_Example.svg.png)
+![Stack Visualization](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Stack_data_structure_diagram.svg/300px-Stack_data_structure_diagram.svg.png)
 
+```text
+Expresie: ( [ ] )
+
+1. Întâlnește '(' -> Adaugă în stivă: ['(']
+2. Întâlnește '[' -> Adaugă în stivă: ['(', '[']
+3. Întâlnește ']' -> Scoate din stivă '['. Se potrivesc? Da ✅. Stivă: ['(']
+4. Întâlnește ')' -> Scoate din stivă '('. Se potrivesc? Da ✅. Stivă: []
+
+Final: Stiva este goală? Da ✅. Expresia este validă!
 ```
-Exemplu de structură de paranteze:
-( ( ) ( ( ) ) ( ) )
-```
 
-## ⚖️ Avantaje și Dezavantaje
+## ⚖️ **Avantaje și Dezavantaje**
 
-| Avantaj                              | Dezavantaj                           |
-|--------------------------------------|--------------------------------------|
-| Permite validarea rapidă a expresiilor | Complexitatea poate crește rapid    |
-| Utilizare eficientă a stivei         | Necesită gestionarea memoriei        |
-| Ușor de implementat în diverse limbaje | Poate fi confuz pentru expresii complexe |
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Corectitudine:** Garantează validarea perfectă a oricărei adâncimi de imbricare. | ⚠️ **Memorie:** Necesită spațiu suplimentar proporțional cu numărul de paranteze. |
+| 🛠️ **Extensibilitate:** Poate fi adaptat ușor pentru multiple tipuri de delimitatori ((), [], {}). | 📉 **Erori de Tip:** Necesită logică suplimentară pentru a identifica exact unde s-a produs eroarea. |
+| 📊 **Viteză:** Procesează șirul într-o singură parcurgere liniară. | 🧩 **Sintaxă Fixă:** Nu poate gestiona reguli gramaticale foarte complexe fără un parser complet. |
 
-## 🔢 Analiză Matematică și Complexitate
+## 🔢 **Analiză Matematică și Complexitate**
 
-| Tip de Complexitate | Notare         | Descriere                                      |
-|---------------------|----------------|------------------------------------------------|
-| Timp                | $O(n)$         | Timp linear în funcție de lungimea expresiei  |
-| Spațiu              | $O(n)$         | Spațiu liniar pentru stiva utilizată           |
+Algoritmul parcurge fiecare caracter o singură dată și efectuează operații de stivă în timp constant.
 
-## 💡 Aplicații Practice
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Time)** | $O(n)$ |
+| **Spațiu (Space)** | $O(n)$ (în cel mai rău caz, toate sunt paranteze deschise) |
 
-Analiza parantezelor imbricate este utilizată în diverse domenii, cum ar fi:
+## 💡 **Aplicații Practice**
 
-- **Compilatoare**: Validarea sintaxei programelor sursă.
-- **Editor de texte**: Asigurarea că parantezele sunt corect închise în documente.
-- **Analiza limbajelor formale**: Studii teoretice în lingvistică computațională și automatizare.
+- **Compilatoare și Interpretoare:** Verificarea blocurilor de cod în limbaje precum C++, Java sau Python.
+- **Editor de Texte:** Funcția de "Bracket Matching" care evidențiază perechea unei paranteze.
+- **Validare Formate:** Verificarea structurii documentelor JSON, XML sau HTML.
+- **Calculatoare Matematice:** Evaluarea expresiilor cu priorități definite prin paranteze.

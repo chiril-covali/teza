@@ -251,6 +251,30 @@ function parseMatrix(text: string) {
         .filter((row) => row.length > 0);
 }
 
+function stringifyVarValue(value: unknown) {
+    if (typeof value === "string") return value;
+    if (typeof value === "number" || typeof value === "boolean" || value === null || value === undefined) {
+        return String(value);
+    }
+    try {
+        return JSON.stringify(value);
+    } catch {
+        return String(value);
+    }
+}
+
+function toCompactValueLabel(value: unknown, maxLength = 64) {
+    const full = stringifyVarValue(value);
+    if (full.length <= maxLength) {
+        return { full, compact: full, truncated: false };
+    }
+    return {
+        full,
+        compact: `${full.slice(0, maxLength - 1)}…`,
+        truncated: true,
+    };
+}
+
 const GENERIC_INPUT_DEFAULTS: Record<string, Record<string, any>> = {
     matematica_absolute_value: { n: -7 },
     matematica_aliquot_sum: { n: 12 },
@@ -636,14 +660,18 @@ function GenericVisualizer({ event }: { event: TraceEvent }) {
 
             {ev.vars && Object.keys(ev.vars).length > 0 && (
                 <div className="flex flex-wrap justify-center gap-3">
-                    {Object.entries(ev.vars).map(([key, val]) => (
-                        <div key={key} className="px-4 py-3 rounded-2xl bg-indigo-50 border border-indigo-100 text-left min-w-[100px] max-w-[200px]">
-                            <div className="text-[9px] font-black text-indigo-400 uppercase mb-1 tracking-wider">{key}</div>
-                            <div className="font-mono text-sm font-black text-indigo-700 truncate">
-                                {renderValue(val)}
+                    {Object.entries(ev.vars).map(([key, val]) => {
+                        const rendered = renderValue(val);
+                        const compact = toCompactValueLabel(rendered, 70);
+                        return (
+                            <div key={key} className="px-4 py-3 rounded-2xl bg-indigo-50 border border-indigo-100 text-left min-w-[100px] max-w-[200px]" title={compact.full}>
+                                <div className="text-[9px] font-black text-indigo-400 uppercase mb-1 tracking-wider">{key}</div>
+                                <div className="font-mono text-sm font-black text-indigo-700 truncate" aria-label={compact.full}>
+                                    {compact.compact}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
         </div>
@@ -1356,14 +1384,17 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                                 <div className="p-5 bg-white rounded-3xl border border-slate-100 shadow-sm">
                                     <h4 className="font-black text-slate-900 mb-4 text-[11px] uppercase tracking-widest border-b border-slate-50 pb-3">Variabile</h4>
                                     <div className="grid grid-cols-2 gap-2">
-                                        {Object.entries(currentEvent.vars).map(([key, val]) => (
-                                            <div key={key} className="px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden">
-                                                <div className="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-wider truncate">{key}</div>
-                                                <div className="font-mono text-sm font-black text-slate-700 truncate">
-                                                    {typeof val === 'object' ? JSON.stringify(val) : String(val)}
+                                        {Object.entries(currentEvent.vars).map(([key, val]) => {
+                                            const compact = toCompactValueLabel(val);
+                                            return (
+                                                <div key={key} className="px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden" title={compact.full}>
+                                                    <div className="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-wider truncate">{key}</div>
+                                                    <div className="font-mono text-sm font-black text-slate-700 truncate" aria-label={compact.full}>
+                                                        {compact.compact}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             )}

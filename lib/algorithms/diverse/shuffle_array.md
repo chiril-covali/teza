@@ -4,32 +4,34 @@
 
 ## 📝 **Descriere**
 
-**Algoritmul Fisher-Yates** (sau Knuth Shuffle) este metoda optimă pentru a genera o permutare aleatorie a unui tablou finit. Spre deosebire de metodele naive, acesta garantează că fiecare permutare posibilă are o probabilitate egală de a apărea, rezultând o amestecare perfect uniformă.
+**Algoritmul Fisher-Yates** (cunoscut și sub numele de Knuth Shuffle) este metoda optimă și standard pentru a genera o permutare aleatorie a unui tablou finit. Spre deosebire de metodele naive, acest algoritm garantează că fiecare permutare posibilă are o probabilitate egală de a apărea ($1/n!$), rezultând o amestecare perfect uniformă și imparțială.
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Shuffle Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Fisher-Yates_shuffle.svg/400px-Fisher-Yates_shuffle.svg.png)
+![Fisher-Yates Shuffle](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Fisher-Yates_shuffle.svg/400px-Fisher-Yates_shuffle.svg.png)
 
 ```text
-[1, 2, 3, 4, 5]
+Tablou inițial: [A, B, C, D, E] (n=5)
 
-1. Alege i=4, rand(0..4)=2. Swap(4, 2): [1, 2, 5, 4, 3]
-2. Alege i=3, rand(0..3)=0. Swap(3, 0): [4, 2, 5, 1, 3]
-3. Repetă până la i=1.
+1. Alege i=4, index aleator j ∈ [0..4]. Swap(4, j).
+2. Alege i=3, index aleator j ∈ [0..3]. Swap(3, j).
+3. Alege i=2, index aleator j ∈ [0..2]. Swap(2, j).
+4. Alege i=1, index aleator j ∈ [0..1]. Swap(1, j).
 
-Rezultat: Tablou complet amestecat.
+Rezultat: Tablou amestecat uniform! 🎲
 ```
 
 ## ⚖️ **Avantaje și Dezavantaje**
 
 | Avantaj | Dezavantaj |
 | :--- | :--- |
-| 🚀 **Corectitudine:** Produce o amestecare imparțială (unbiased). | ⚠️ **Sursă de hazard:** Depinde de calitatea generatorului de numere aleatorii (PRNG). |
-| 📊 **Eficiență:** Se realizează "in-place", fără a folosi memorie suplimentară. | 📉 **Implementare:** Varianta naivă a algoritmului este adesea implementată greșit ($O(n^2)$). |
+| 🚀 **Imparțialitate:** Produce o amestecare statistic perfectă (unbiased). | ⚠️ **Sursă de Hazard:** Calitatea depinde critic de generatorul de numere aleatorii (PRNG). |
+| 📊 **Eficiență Spațială:** Se realizează "in-place", folosind memorie suplimentară minimă. | 📉 **Implementare Naivă:** Mulți dezvoltatori implementează greșit varianta $O(n^2)$. |
+| 🛠️ **Performanță:** Timp de execuție liniar, indiferent de dimensiunea datelor. | 🧩 **Determinism:** Necesită un "seed" bun pentru a fi cu adevărat imprevizibil. |
 
 ## 🔢 **Analiză Matematică și Complexitate**
 
-Algoritmul parcurge tabloul o singură dată de la sfârșit la început.
+Algoritmul parcurge tabloul o singură dată, efectuând $n-1$ schimburi (swaps).
 
 | Tip Complexitate | Valoare |
 | :--- | :--- |
@@ -38,6 +40,7 @@ Algoritmul parcurge tabloul o singură dată de la sfârșit la început.
 
 ## 💡 **Aplicații Practice**
 
-- **Jocuri de Noroc:** Amestecarea pachetelor de cărți în cazinouri online.
-- **Muzică:** Funcția "Shuffle" din playerele audio (Spotify, Apple Music).
-- **Testare:** Generarea de date de test în ordine aleatorie pentru a evita bias-ul în experimente.
+- **Jocuri de Noroc:** Amestecarea pachetelor de cărți în cazinouri online și jocuri video.
+- **Streaming Muzical:** Generarea listelor de redare "Shuffle" (ex: Spotify, Apple Music).
+- **Știința Datelor:** Randomizarea seturilor de date pentru antrenarea modelelor de Machine Learning.
+- **Securitate:** Generarea de parole sau chei criptografice bazate pe permutări.

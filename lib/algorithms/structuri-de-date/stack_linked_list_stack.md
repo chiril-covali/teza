@@ -1,84 +1,42 @@
 <!-- custom-doc -->
 
-# Stivă Înlănțuită Listă Stivă
+# 🚀 **Stivă (Listă Înlănțuită) (Stack (Linked List Implementation))**
 
-O stivă înlănțuită este o structură de date care combină caracteristicile unei stive cu cele ale unei liste înlănțuite. Aceasta permite stocarea elementelor într-o manieră LIFO (Last In, First Out), unde ultimul element adăugat este primul care va fi eliminat. Fiecare element al stivei este reprezentat printr-un nod al unei liste înlănțuite, care conține o referință la următorul nod.
+## 📝 **Descriere**
+O stivă este o structură de date de tip LIFO (Last-In, First-Out), unde ultimul element adăugat este primul extras. Implementarea prin listă simplu înlănțuită permite o gestionare dinamică a memoriei, evitând limitările de dimensiune fixă ale unui array, oferind performanțe constante ($O(1)$) pentru operațiile fundamentale la vârful stivei.
 
-## Reprezentare Vizuală
+## 🖼️ **Reprezentare Vizuală**
+![Diagramă Stivă](https://upload.wikimedia.org/wikipedia/commons/b/b4/Lifo_stack.png)
 
-Structura unei stive înlănțuite poate fi reprezentată astfel:
+```text
+Starea Stivei: [ Vârf ] -> [ Nod 3 ] -> [ Nod 2 ] -> [ Nod 1 ] -> NULL
 
-```
-+-------+      +-------+      +-------+
+PUSH(Nod 4):
+[ Vârf ] -> [ Nod 4 ] -> [ Nod 3 ] -> [ Nod 2 ] -> [ Nod 1 ] -> NULL
 
-|  30   | ---> |  20   | ---> |  10   |
-
-+-------+      +-------+      +-------+
-```
-
-În acest exemplu, 30 este ultimul element adăugat și va fi primul eliminat. Fiecare nod conține o valoare și o referință la următorul nod din stivă.
-
-### Exemplu Pas cu Pas
-
-1. **Adăugare element (Push)**: Adăugăm elementul 40.
-
-```
-+-------+      +-------+      +-------+      +-------+
-
-|  40   | ---> |  30   | ---> |  20   | ---> |  10   |
-
-+-------+      +-------+      +-------+      +-------+
+POP():
+[ Vârf ] -> [ Nod 3 ] -> [ Nod 2 ] -> [ Nod 1 ] -> NULL (Nod 4 este eliminat)
 ```
 
-2. **Eliminare element (Pop)**: Eliminăm elementul 40.
+## ⚖️ **Avantaje și Dezavantaje**
+| Avantaje | Dezavantaje |
+| :--- | :--- |
+| ✅ Dimensiune dinamică (fără overflow de dimensiune) | ❌ Memorie extra pentru stocarea pointerilor de legătură |
+| ✅ Inserare și ștergere în timp constant $O(1)$ | ❌ Nu permite accesul aleatoriu la elemente |
+| ✅ Fără limită de capacitate impusă anterior | ❌ Performanță cache mai slabă decât implementarea cu array |
 
-```
-+-------+      +-------+      +-------+
+## 🔢 **Analiză Matematică și Complexitate**
+| Operație | Complexitate Timp | Complexitate Spațiu |
+| :--- | :--- | :--- |
+| Push (Adăugare) | $O(1)$ | $O(1)$ |
+| Pop (Eliminare) | $O(1)$ | $O(1)$ |
+| Peek (Vizualizare vârf) | $O(1)$ | $O(1)$ |
+| Căutare element | $O(n)$ | $O(1)$ |
+| Spațiu Total | - | $O(n)$ |
 
-|  30   | ---> |  20   | ---> |  10   |
-
-+-------+      +-------+      +-------+
-```
-
-## Matematică / Logică
-
-Complexitatea operațiunilor de bază pentru o stivă înlănțuită este:
-
-- Adăugare (Push): $O(1)$
-- Eliminare (Pop): $O(1)$
-- Accesare vârf (Top): $O(1)$
-
-Aceste operații sunt eficiente datorită accesului direct la vârful stivei.
-
-## Tabel de Complextitate
-
-| Operație | Caz Favorabil | Caz Mediu | Caz Defavorabil |
-|----------|---------------|-----------|------------------|
-| Push     | $O(1)$        | $O(1)$    | $O(1)$           |
-| Pop      | $O(1)$        | $O(1)$    | $O(1)$           |
-| Top      | $O(1)$        | $O(1)$    | $O(1)$           |
-
-## Avantaje și Dezavantaje
-
-**Avantaje:**
-
-- Acces rapid la elementul de vârf.
-- Implementare simplă și eficientă în memorie.
-- Utilizare redusă a memoriei pentru stive mici.
-
-**Dezavantaje:**
-
-- Nu permite accesul aleator la elemente.
-- Poate duce la consum mare de memorie în cazul stivelor foarte mari, din cauza alocării dinamice.
-
-## Aplicații Practice
-
-Stivele înlănțuite sunt utilizate în diverse aplicații, cum ar fi:
-
-- Implementarea funcțiilor recursive.
-- Gestionarea apelurilor de funcții în limbaje de programare.
-- Evaluarea expresiilor matematice (de exemplu, în evaluarea postfix).
-- Navigarea în structuri de date complexe, cum ar fi grafurile.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+## 💡 **Aplicații Practice**
+- **Gestionarea apelurilor de funcții** (Call Stack) în aproape toate limbajele de programare.
+- **Implementarea funcției "Undo"** în editoare de text și aplicații grafice.
+- **Evaluarea expresiilor matematice** prin utilizarea formei poloneze postfixate.
+- **Inversarea unor șiruri** sau structuri de date.
+- **Algoritmi de backtracking** și parcurgerea grafurilor în adâncime (DFS).
