@@ -513,6 +513,26 @@ const GENERIC_INPUT_DEFAULTS: Record<string, Record<string, any>> = {
     },
     backtracking_generateparentheses: { n: 3 },
     backtracking_all_combinations_of_size_k: { n: 5, k: 2 },
+    // Data structures (operation-driven)
+    "structuri-de-date_stack_stack": { initial: [3, 7, 11], operations: "push 5\npush 9\npeek\npop\npush 4" },
+    "structuri-de-date_stack_linked_list_stack": { initial: [3, 7, 11], operations: "push 5\npush 9\npeek\npop\npush 4" },
+    "structuri-de-date_queue_queue": { initial: [4, 8, 12], operations: "enqueue 20\nenqueue 24\npeek\ndequeue\nenqueue 30" },
+    "structuri-de-date_queue_array_queue": { initial: [4, 8, 12], operations: "enqueue 20\nenqueue 24\npeek\ndequeue\nenqueue 30" },
+    "structuri-de-date_queue_circular_queue": { initial: [4, 8, 12], operations: "enqueue 20\nenqueue 24\npeek\ndequeue\nenqueue 30" },
+    "structuri-de-date_queue_linked_queue": { initial: [4, 8, 12], operations: "enqueue 20\nenqueue 24\npeek\ndequeue\nenqueue 30" },
+    "structuri-de-date_queue_stack_queue": { initial: [4, 8, 12], operations: "enqueue 20\nenqueue 24\npeek\ndequeue\nenqueue 30" },
+    "structuri-de-date_list_singly_linked_list": { initial: [10, 20, 30], operations: "append 40\nprepend 5\ninsert 2 15\nfind 30\nremove 1" },
+    "structuri-de-date_list_doubly_linked_list": { initial: [10, 20, 30], operations: "append 40\nprepend 5\ninsert 2 15\nfind 30\nremove 1" },
+    "structuri-de-date_list_linked_list": { initial: [10, 20, 30], operations: "append 40\nprepend 5\ninsert 2 15\nfind 30\nremove 1" },
+    "structuri-de-date_heap_heap": { initial: [20, 15, 10], operations: "insert 30\ninsert 18\ninsert 40" },
+    "structuri-de-date_tree_binary_search_tree": { initial: [50, 30, 70, 20, 40, 60, 80], operations: "insert 65\ninsert 10\nfind 40\nfind 99\ninsert 75" },
+    "structuri-de-date_map_map": { operations: "set a 1\nset b 2\nget a\ndelete b" },
+    "structuri-de-date_map_hash_map": { operations: "set a 1\nset b 2\nget a\ndelete b" },
+    "structuri-de-date_set_set": { operations: "add 1\nadd 2\nhas 1\ndelete 2" },
+    "structuri-de-date_set_map_set": { operations: "add 1\nadd 2\nhas 1\ndelete 2" },
+    "structuri-de-date_set_hash_map_set": { operations: "add 1\nadd 2\nhas 1\ndelete 2" },
+    "structuri-de-date_disjoint_set_disjoint_set": { n: 6, operations: "union 0 1\nunion 1 2\nfind 2\nfind 5" },
+    "structuri-de-date_tries_tries": { words: ["apple", "app", "apt"], operations: "insert apple\ninsert app\nsearch app\nsearch cat" },
 };
 
 interface AlgorithmPlayerProps {
@@ -575,16 +595,6 @@ function SortingVisualizer({ event, input, slug }: { event: TraceEvent; input: a
                 const isInRange = lo !== -1 && hi !== -1 && idx >= lo && idx <= hi;
             const normalizedVal = Number.isFinite(val) ? Math.max(0, val) : 0;
             const barHeightPx = Math.min(chartHeight, Math.max(12, (normalizedVal / maxVal) * chartHeight));
-                const swapDelta = isSwapEvent && primaryCompareIdx !== undefined && secondaryCompareIdx !== undefined
-                    ? secondaryCompareIdx - primaryCompareIdx
-                    : 0;
-
-                let swapTransform = "translateX(0px)";
-                if (isSwapEvent && idx === primaryCompareIdx) {
-                    swapTransform = `translateX(${Math.min(180, Math.abs(swapDelta) * 28)}px)`;
-                } else if (isSwapEvent && idx === secondaryCompareIdx) {
-                    swapTransform = `translateX(-${Math.min(180, Math.abs(swapDelta) * 28)}px)`;
-                }
 
                 if (isSwapEvent && (isPrimaryCompare || isSecondaryCompare)) {
                     color = "bg-gradient-to-t from-emerald-600 to-emerald-400 ring-2 ring-emerald-500 ring-offset-2";
@@ -609,8 +619,6 @@ function SortingVisualizer({ event, input, slug }: { event: TraceEvent; input: a
                             className={`w-full rounded-t-xl transition-all duration-500 ease-out ${color} ${shadow}`}
                             style={{
                                 height: `${barHeightPx}px`,
-                                transform: swapTransform,
-                                transition: "height 500ms ease-out, transform 450ms ease-in-out, box-shadow 450ms ease-in-out",
                             }}
                         >
                             <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded-md transition-opacity pointer-events-none font-bold">
@@ -658,8 +666,8 @@ function SearchVisualizer({ event, input }: { event: TraceEvent; input: any }) {
     }
 
     return (
-        <div className="w-full overflow-x-auto pb-6 flex flex-col items-center gap-4">
-            <div className="flex items-stretch justify-center gap-3 min-w-max mx-auto px-4">
+        <div className="w-full overflow-x-auto pb-6 flex flex-col items-center justify-center gap-6">
+            <div className="flex items-stretch justify-center gap-4 min-w-max mx-auto px-4 flex-wrap">
                 {array.map((val: number, idx: number) => {
                     const isActive = idx === activeIdx;
                     const inRange = lo !== -1 && hi !== -1 && idx >= lo && idx <= hi;
@@ -675,7 +683,7 @@ function SearchVisualizer({ event, input }: { event: TraceEvent; input: any }) {
 
                     return (
                         <div key={idx} className="flex flex-col items-center gap-1">
-                            <div className={`w-16 h-16 flex items-center justify-center rounded-2xl font-mono font-black text-base transition-all duration-300 ${cellClass}`}>
+                            <div className={`w-20 h-20 flex items-center justify-center rounded-2xl font-mono font-black text-lg transition-all duration-300 ${cellClass}`}>
                                 {val}
                             </div>
                             <div className="h-6 flex items-center justify-center gap-1">
@@ -689,29 +697,29 @@ function SearchVisualizer({ event, input }: { event: TraceEvent; input: any }) {
                     );
                 })}
             </div>
-            <div className="w-full max-w-2xl grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center">
-                    <div className="text-[10px] uppercase font-black text-slate-400">Target</div>
-                    <div className="text-sm font-black text-slate-700">{Number.isFinite(target) ? target : "—"}</div>
+            <div className="w-full max-w-3xl grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-center">
+                    <div className="text-[11px] uppercase font-black text-slate-400">Target</div>
+                    <div className="text-base font-black text-slate-700">{Number.isFinite(target) ? target : "—"}</div>
                 </div>
-                <div className="rounded-xl border border-indigo-200 bg-indigo-50 px-3 py-2 text-center">
-                    <div className="text-[10px] uppercase font-black text-indigo-400">Valoare curentă</div>
-                    <div className="text-sm font-black text-indigo-700">{Number.isFinite(activeVal) ? activeVal : "—"}</div>
+                <div className="rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-center">
+                    <div className="text-[11px] uppercase font-black text-indigo-400">Valoare curentă</div>
+                    <div className="text-base font-black text-indigo-700">{Number.isFinite(activeVal) ? activeVal : "—"}</div>
                 </div>
-                <div className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-center">
-                    <div className="text-[10px] uppercase font-black text-rose-400">Comparare</div>
-                    <div className="text-sm font-black text-rose-700">{compareText}</div>
+                <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-center">
+                    <div className="text-[11px] uppercase font-black text-rose-400">Comparare</div>
+                    <div className="text-base font-black text-rose-700">{compareText}</div>
                 </div>
-                <div className="rounded-xl border border-sky-200 bg-sky-50 px-3 py-2 text-center">
-                    <div className="text-[10px] uppercase font-black text-sky-400">Interval verificat</div>
-                    <div className="text-sm font-black text-sky-700">{lo >= 0 && hi >= 0 ? `[${lo}, ${hi}]` : "—"}</div>
+                <div className="rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-center">
+                    <div className="text-[11px] uppercase font-black text-sky-400">Interval</div>
+                    <div className="text-base font-black text-sky-700">{lo >= 0 && hi >= 0 ? `[${lo}, ${hi}]` : "—"}</div>
                 </div>
             </div>
             {isFound && (
-                <p className="text-center mt-4 text-emerald-600 font-black text-sm">✓ Elementul a fost găsit</p>
+                <p className="text-center mt-2 text-emerald-600 font-black text-lg">✓ Elementul a fost găsit</p>
             )}
             {isNotFound && (
-                <p className="text-center mt-4 text-rose-500 font-black text-sm">✗ Elementul nu a fost găsit</p>
+                <p className="text-center mt-2 text-rose-500 font-black text-lg">✗ Elementul nu a fost găsit</p>
             )}
         </div>
     );
@@ -852,8 +860,8 @@ function DPVisualizer({ event, input }: { event: TraceEvent; input: any }) {
     const maxCols = Math.min(table[0]?.length ?? 0, 16);
 
     return (
-        <div className="w-full overflow-x-auto pb-4">
-            <table className="mx-auto border-collapse text-xs font-mono">
+        <div className="w-full overflow-x-auto pb-4 flex flex-col items-center justify-center gap-4">
+            <table className="mx-auto border-collapse text-sm font-mono">
                 <tbody>
                     {table.slice(0, maxRows).map((row, ri) => (
                         <tr key={ri}>
@@ -863,9 +871,9 @@ function DPVisualizer({ event, input }: { event: TraceEvent; input: any }) {
                                 return (
                                     <td
                                         key={ci}
-                                        className={`w-9 h-9 text-center border transition-all duration-300 font-black ${
+                                        className={`w-14 h-14 text-center border transition-all duration-300 font-black text-base ${
                                             isCurrent
-                                                ? "bg-indigo-600 text-white border-indigo-700 scale-105 z-10 relative shadow-lg"
+                                                ? "bg-indigo-600 text-white border-indigo-700 scale-110 z-10 relative shadow-lg"
                                                 : isCurrentRow
                                                 ? "bg-indigo-50 text-indigo-800 border-indigo-200"
                                                 : "bg-white text-slate-600 border-slate-200"
@@ -880,7 +888,7 @@ function DPVisualizer({ event, input }: { event: TraceEvent; input: any }) {
                 </tbody>
             </table>
             {currentRow >= 0 && (
-                <p className="text-center mt-3 text-xs text-slate-500 font-medium">
+                <p className="text-center mt-2 text-base font-black text-slate-700">
                     Calculez dp[{currentRow}][{currentCol}] = {ev.value}
                 </p>
             )}
@@ -1004,6 +1012,29 @@ const CUSTOM_MATH_VISUAL_SLUGS = new Set([
     "matematica_double_factorial_iterative",
     "matematica_factorial",
     "matematica_factors",
+    "manipulare-biti_add_binary",
+]);
+
+const DATA_STRUCTURE_SLUGS = new Set([
+    "structuri-de-date_stack_stack",
+    "structuri-de-date_stack_linked_list_stack",
+    "structuri-de-date_queue_queue",
+    "structuri-de-date_queue_array_queue",
+    "structuri-de-date_queue_circular_queue",
+    "structuri-de-date_queue_linked_queue",
+    "structuri-de-date_queue_stack_queue",
+    "structuri-de-date_list_singly_linked_list",
+    "structuri-de-date_list_doubly_linked_list",
+    "structuri-de-date_list_linked_list",
+    "structuri-de-date_heap_heap",
+    "structuri-de-date_tree_binary_search_tree",
+    "structuri-de-date_map_map",
+    "structuri-de-date_map_hash_map",
+    "structuri-de-date_set_set",
+    "structuri-de-date_set_map_set",
+    "structuri-de-date_set_hash_map_set",
+    "structuri-de-date_disjoint_set_disjoint_set",
+    "structuri-de-date_tries_tries",
 ]);
 
 function primeFactorsList(value: number) {
@@ -1478,9 +1509,298 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         );
     }
 
+    if (slug === "manipulare-biti_add_binary") {
+        const a = String(vars.a ?? vars.binary_a ?? input?.a ?? "1011");
+        const b = String(vars.b ?? vars.binary_b ?? input?.b ?? "0110");
+        const carry = Array.isArray(vars.carry) ? vars.carry : [];
+        const result = String(vars.result ?? vars.sum ?? input?.result ?? "10001");
+        
+        // Pad numbers to same length
+        const maxLen = Math.max(a.length, b.length, result.length);
+        const aPadded = a.padStart(maxLen, "0");
+        const bPadded = b.padStart(maxLen, "0");
+        const carryPadded = carry.length > 0 ? carry : Array(maxLen).fill(0);
+        
+        const aNum = parseInt(a, 2);
+        const bNum = parseInt(b, 2);
+        const sumNum = parseInt(result, 2);
+
+        return (
+            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 w-full">
+                    <div className="text-[10px] uppercase font-black text-slate-400 mb-2">Adunare Binară</div>
+                    <div className="font-mono text-sm space-y-1">
+                        <div className="flex justify-center gap-1">
+                            <span className="w-16 text-right">Carry:</span>
+                            <div className="flex gap-1">
+                                {carryPadded.map((c: number, idx: number) => (
+                                    <span key={`carry-${idx}`} className={`w-6 h-6 rounded text-center text-xs font-black flex items-center justify-center border ${c === 1 ? "bg-orange-200 border-orange-300 text-orange-700" : "bg-gray-100 border-gray-300 text-gray-500"}`}>
+                                        {c}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="flex justify-center gap-1">
+                            <span className="w-16 text-right">Num 1:</span>
+                            <div className="flex gap-1">
+                                {aPadded.split("").map((bit: string, idx: number) => (
+                                    <span key={`a-${idx}`} className={`w-6 h-6 rounded text-center text-xs font-black flex items-center justify-center border ${bit === "1" ? "bg-emerald-200 border-emerald-300 text-emerald-700" : "bg-sky-100 border-sky-200 text-sky-700"}`}>
+                                        {bit}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="flex justify-center gap-1">
+                            <span className="w-16 text-right">Num 2:</span>
+                            <div className="flex gap-1 items-center">
+                                <span className="text-slate-600 font-black">+</span>
+                                <div className="flex gap-1">
+                                    {bPadded.split("").map((bit: string, idx: number) => (
+                                        <span key={`b-${idx}`} className={`w-6 h-6 rounded text-center text-xs font-black flex items-center justify-center border ${bit === "1" ? "bg-blue-200 border-blue-300 text-blue-700" : "bg-slate-100 border-slate-300 text-slate-600"}`}>
+                                            {bit}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="border-t-2 border-slate-400 pt-1 flex justify-center gap-1">
+                            <span className="w-16 text-right">Suma:</span>
+                            <div className="flex gap-1">
+                                {result.split("").map((bit: string, idx: number) => (
+                                    <span key={`sum-${idx}`} className={`w-6 h-6 rounded text-center text-xs font-black flex items-center justify-center border ${bit === "1" ? "bg-indigo-300 border-indigo-400 text-indigo-700" : "bg-purple-100 border-purple-200 text-purple-600"}`}>
+                                        {bit}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="grid grid-cols-3 gap-3 w-full">
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Num 1 (zecimal)</div>
+                        <div className="font-black text-lg text-slate-800">{aNum}</div>
+                    </div>
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Num 2 (zecimal)</div>
+                        <div className="font-black text-lg text-slate-800">{bNum}</div>
+                    </div>
+                    <div className="rounded-xl border border-indigo-200 bg-indigo-50 px-3 py-2 text-center">
+                        <div className="text-[10px] uppercase font-black text-indigo-400">Suma (zecimal)</div>
+                        <div className="font-black text-lg text-indigo-700">{sumNum}</div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return <GenericVisualizer event={event} />;
 }
 
+function DataStructureVisualizer({ slug, event, input }: { slug: string; event: TraceEvent; input: any }) {
+    const ev = event as any;
+    const vars = ev.vars || {};
+    const dsType = slug.split("_")[1] || "";
+    const operation = String(vars.operation || vars.action || "—");
+    const highlightIndices: number[] = Array.isArray(vars.highlightIndices) ? vars.highlightIndices : [];
+
+    const commonHeader = (
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 w-full text-center">
+            <div className="text-[10px] uppercase font-black text-slate-400">Structură de Date Dinamică</div>
+            <div className="text-xs text-slate-700 font-bold">Operație curentă: {operation}</div>
+        </div>
+    );
+
+    if (dsType.includes("stack")) {
+        const elements: any[] = Array.isArray(vars.stack) ? vars.stack : Array.isArray(input?.initial) ? input.initial : [];
+        return (
+            <div className="w-full max-w-2xl space-y-4 flex flex-col items-center justify-center">
+                {commonHeader}
+                <div className="flex flex-col-reverse gap-2 items-center">
+                    {elements.length ? elements.map((el, idx) => {
+                        const isTop = idx === elements.length - 1;
+                        const isHot = highlightIndices.includes(idx) || (isTop && operation !== "init");
+                        return (
+                            <div key={`${el}-${idx}`} className={`w-28 h-12 rounded-xl border-2 flex items-center justify-center font-black text-lg transition-all duration-300 ${isHot ? "bg-emerald-500 border-emerald-600 text-white shadow-lg scale-105" : "bg-white border-slate-200 text-slate-700"}`}>
+                                {el}
+                            </div>
+                        );
+                    }) : <div className="text-xs text-slate-400 font-bold">Stiva este goală</div>}
+                </div>
+            </div>
+        );
+    }
+
+    if (dsType.includes("queue") || dsType === "coada") {
+        const elements: any[] = Array.isArray(vars.queue) ? vars.queue : Array.isArray(input?.initial) ? input.initial : [];
+        return (
+            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
+                {commonHeader}
+                <div className="flex items-center gap-2 flex-wrap justify-center">
+                    {elements.length ? elements.map((el, idx) => {
+                        const isFront = idx === 0;
+                        const isRear = idx === elements.length - 1;
+                        const isHot = highlightIndices.includes(idx) || (isFront && operation.includes("dequeue")) || (isRear && operation.includes("enqueue"));
+                        return (
+                            <div key={`${el}-${idx}`} className={`h-12 px-4 rounded-xl border-2 flex items-center justify-center font-black transition-all duration-300 ${isHot ? "bg-sky-600 border-sky-700 text-white shadow-md scale-105" : "bg-white border-slate-200 text-slate-700"}`}>
+                                {el}
+                            </div>
+                        );
+                    }) : <div className="text-xs text-slate-400 font-bold">Coada este goală</div>}
+                </div>
+            </div>
+        );
+    }
+
+    if (dsType.includes("linked_list") || dsType === "lista") {
+        const nodes: any[] = Array.isArray(vars.nodes) ? vars.nodes : Array.isArray(input?.initial) ? input.initial : [];
+        return (
+            <div className="w-full max-w-4xl space-y-4 flex flex-col items-center justify-center">
+                {commonHeader}
+                <div className="flex items-center gap-2 flex-wrap justify-center">
+                    {nodes.length ? nodes.map((el, idx) => {
+                        const isHot = highlightIndices.includes(idx);
+                        return (
+                            <div key={`${el}-${idx}`} className="flex items-center gap-2">
+                                <div className={`h-12 w-12 rounded-lg border-2 flex items-center justify-center font-black transition-all duration-300 ${isHot ? "border-indigo-700 bg-indigo-600 text-white scale-110" : "border-indigo-300 bg-indigo-50 text-indigo-700"}`}>
+                                    {el}
+                                </div>
+                                {idx < nodes.length - 1 && <div className="w-5 h-0.5 bg-indigo-400" />}
+                            </div>
+                        );
+                    }) : <div className="text-xs text-slate-400 font-bold">Lista este goală</div>}
+                    {nodes.length > 0 && <span className="text-xs font-black text-slate-400">NULL</span>}
+                </div>
+            </div>
+        );
+    }
+
+    if (dsType.includes("tree") || dsType === "arbore") {
+        const nodes: number[] = Array.isArray(vars.nodes) ? vars.nodes : Array.isArray(input?.initial) ? input.initial : [];
+        const sortedNodes: number[] = Array.isArray(vars.inOrder) ? vars.inOrder : [...nodes].sort((a, b) => a - b);
+        const highlightValue = vars.highlightValue;
+        return (
+            <div className="w-full max-w-4xl space-y-4 flex flex-col items-center justify-center">
+                {commonHeader}
+                <div className="rounded-xl border border-slate-200 bg-white p-4 w-full">
+                    <div className="text-[11px] font-black text-slate-500 mb-2 uppercase">Nivel BST (ordine inserare)</div>
+                    <div className="flex flex-wrap gap-2 justify-center">
+                        {nodes.map((val, idx) => (
+                            <span key={`${val}-${idx}`} className={`h-11 w-11 rounded-full border-2 flex items-center justify-center font-black ${val === highlightValue ? "bg-purple-600 border-purple-700 text-white" : "bg-purple-50 border-purple-200 text-purple-700"}`}>
+                                {val}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 w-full text-center font-mono text-sm">
+                    In-order: {sortedNodes.join(" -> ") || "—"}
+                </div>
+            </div>
+        );
+    }
+
+    if (dsType.includes("heap")) {
+        const heap: number[] = Array.isArray(vars.heap) ? vars.heap : Array.isArray(input?.initial) ? input.initial : [];
+        const highlightValue = vars.highlightValue;
+        return (
+            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
+                {commonHeader}
+                <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
+                    {heap.map((val, idx) => (
+                        <div key={`${val}-${idx}`} className={`h-10 rounded-lg border flex items-center justify-center font-bold text-sm ${val === highlightValue ? "bg-amber-500 border-amber-600 text-white" : "bg-amber-50 border-amber-200 text-amber-700"}`}>
+                            {val}
+                        </div>
+                    ))}
+                </div>
+                <div className="text-xs font-semibold text-slate-500">Rădăcină max-heap: <span className="font-black text-slate-700">{heap[0] ?? "—"}</span></div>
+            </div>
+        );
+    }
+
+    if (dsType.includes("map")) {
+        const entries: Array<[string, any]> = Array.isArray(vars.entries) ? vars.entries : Object.entries(vars.map || {});
+        return (
+            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
+                {commonHeader}
+                <div className="rounded-xl border border-slate-200 bg-white p-4 w-full">
+                    <div className="grid grid-cols-2 gap-2 text-xs font-black uppercase text-slate-400 mb-2">
+                        <div>Cheie</div><div>Valoare</div>
+                    </div>
+                    <div className="space-y-1">
+                        {entries.length ? entries.map(([k, v], idx) => (
+                            <div key={`${k}-${idx}`} className="grid grid-cols-2 gap-2 text-sm">
+                                <div className="rounded-md bg-slate-50 border border-slate-200 px-2 py-1 font-mono">{k}</div>
+                                <div className="rounded-md bg-slate-50 border border-slate-200 px-2 py-1 font-mono">{String(v)}</div>
+                            </div>
+                        )) : <div className="text-xs text-slate-400">Map gol</div>}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (dsType.includes("set")) {
+        const values: any[] = Array.isArray(vars.values) ? vars.values : [];
+        return (
+            <div className="w-full max-w-2xl space-y-4 flex flex-col items-center justify-center">
+                {commonHeader}
+                <div className="flex flex-wrap gap-2 justify-center">
+                    {values.length ? values.map((value, idx) => (
+                        <span key={`${value}-${idx}`} className="px-3 py-1.5 rounded-lg bg-cyan-50 border border-cyan-200 text-cyan-700 font-bold text-sm">
+                            {String(value)}
+                        </span>
+                    )) : <span className="text-xs text-slate-400">Set gol</span>}
+                </div>
+            </div>
+        );
+    }
+
+    if (dsType.includes("tries") || dsType.includes("trie")) {
+        const words: string[] = Array.isArray(vars.words) ? vars.words : Array.isArray(input?.words) ? input.words : [];
+        return (
+            <div className="w-full max-w-2xl space-y-4 flex flex-col items-center justify-center">
+                {commonHeader}
+                <div className="flex flex-wrap gap-2 justify-center">
+                    {words.length ? words.map((word, idx) => (
+                        <span key={`${word}-${idx}`} className="px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold text-sm">{word}</span>
+                    )) : <span className="text-xs text-slate-400">Trie gol</span>}
+                </div>
+            </div>
+        );
+    }
+
+    if (dsType.includes("disjoint")) {
+        const parent: number[] = Array.isArray(vars.parent) ? vars.parent : [];
+        return (
+            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
+                {commonHeader}
+                <div className="rounded-xl border border-slate-200 bg-white p-4 w-full">
+                    <div className="grid grid-cols-5 sm:grid-cols-8 gap-2">
+                        {parent.map((p, idx) => (
+                            <div key={`${idx}-${p}`} className="rounded-lg border border-slate-200 bg-slate-50 p-2 text-center">
+                                <div className="text-[10px] text-slate-400 font-black">{idx}</div>
+                                <div className="text-sm font-black text-slate-700">{p}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    const elements: any[] = Array.isArray(vars.elements) ? vars.elements : [];
+    return (
+        <div className="w-full max-w-2xl space-y-4 flex flex-col items-center justify-center">
+            {commonHeader}
+            <div className="rounded-xl border border-slate-200 bg-white p-4 w-full">
+                <div className="flex flex-wrap gap-2 justify-center">
+                    {elements.length ? elements.map((el, idx) => (
+                        <span key={`${el}-${idx}`} className="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-700 font-bold text-sm">{el}</span>
+                    )) : <span className="text-slate-400 text-xs font-bold">Gol</span>}
+                </div>
+            </div>
+        </div>
+    );
+}
 
 
 function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
@@ -1524,7 +1844,9 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
     }, [trace.length]);
 
 	useEffect(() => {
-        const vizType = meta.visualizerType || "none";
+        const baseVizType = meta.visualizerType || "none";
+        const isDataStructure = DATA_STRUCTURE_SLUGS.has(meta.slug);
+        const vizType = isDataStructure ? "datastructure" : baseVizType;
     const isSortingCategory = normalizeCategoryKey(meta.category) === "sortare";
         const slug = meta.slug;
     setTrace([]);
@@ -1605,7 +1927,9 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
         options?: { autoplay?: boolean; switchTab?: boolean }
     ) => {
         try {
-            const vizType = meta.visualizerType || "none";
+            const baseVizType = meta.visualizerType || "none";
+            const isDataStructure = DATA_STRUCTURE_SLUGS.has(meta.slug);
+            const vizType = isDataStructure ? "datastructure" : baseVizType;
             let finalInput = overrideInput ?? input;
 
             const isSortingCategory = normalizeCategoryKey(meta.category) === "sortare";
@@ -1650,7 +1974,9 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
         if (autoRunSlugRef.current === meta.slug) return;
         if (!input || Object.keys(input).length === 0) return;
 
-        const vizType = meta.visualizerType || "none";
+        const baseVizType = meta.visualizerType || "none";
+        const isDataStructure = DATA_STRUCTURE_SLUGS.has(meta.slug);
+        const vizType = isDataStructure ? "datastructure" : baseVizType;
         const isSortingCategory = normalizeCategoryKey(meta.category) === "sortare";
         const needsRawInput = (vizType === "sorting" || vizType === "search" || isSortingCategory) && !rawInput.trim();
         if (needsRawInput) return;
@@ -1734,7 +2060,9 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 	};
 
 	const currentEvent = trace[currentStep];
-    const vizType = meta.visualizerType || "none";
+    const baseVizType = meta.visualizerType || "none";
+    const isDataStructure = DATA_STRUCTURE_SLUGS.has(meta.slug);
+    const vizType = isDataStructure ? "datastructure" : baseVizType;
     const isSortingCategory = normalizeCategoryKey(meta.category) === "sortare";
     const isArrayAlgo = vizType === "sorting" || vizType === "search" || isSortingCategory;
     const sourceFileName = getSourceFileName(meta.slug);
@@ -1857,6 +2185,8 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                                 <GraphVisualizer event={currentEvent} input={input} />
                                             ) : vizType === "dp" ? (
                                                 <DPVisualizer event={currentEvent} input={input} />
+                                            ) : vizType === "datastructure" ? (
+                                                <DataStructureVisualizer slug={meta.slug} event={currentEvent} input={input} />
                                             ) : vizType === "generic" ? (
                                                 <GenericVisualizer event={currentEvent} />
                                             ) : (
@@ -2365,52 +2695,85 @@ export default function AlgorithmPage() {
 	const [meta, setMeta] = useState<AlgorithmMeta | null>(null);
     const [docMarkdown, setDocMarkdown] = useState("");
     const [docHtml, setDocHtml] = useState("");
-    const [isResolvingSlug, setIsResolvingSlug] = useState(true);
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
+    const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(() => {
+        if (typeof window === "undefined") return {};
+        try {
+            const raw = window.sessionStorage.getItem("alg-sidebar-open-categories");
+            return raw ? JSON.parse(raw) : {};
+        } catch {
+            return {};
+        }
+    });
+    const desktopSidebarScrollRef = useRef<HTMLDivElement | null>(null);
+    const mobileSidebarScrollRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
-        setIsResolvingSlug(true);
         const found = allAlgorithms.find((a) => a.slug === slug);
         setMeta(found || null);
 
         if (!found) {
             setDocMarkdown("");
             setDocHtml("");
-            setIsResolvingSlug(false);
             return;
         }
+
+        let cancelled = false;
 
         api
             .getAlgorithmDoc(slug)
 
             .then((res) => {
+                if (cancelled) return;
                 setDocMarkdown(res.markdown || "");
                 setDocHtml(res.html || "");
             })
             .catch(() => {
+                if (cancelled) return;
                 setDocMarkdown("");
                 setDocHtml("");
-
-            })
-            .finally(() => {
-                setIsResolvingSlug(false);
             });
+
+		return () => {
+            cancelled = true;
+        };
 	}, [slug]);
+
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+        try {
+            window.sessionStorage.setItem("alg-sidebar-open-categories", JSON.stringify(openCategories));
+        } catch {
+            // Ignore storage write errors.
+        }
+    }, [openCategories]);
+
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+        const raw = window.sessionStorage.getItem("alg-sidebar-scroll");
+        const scrollTop = raw ? Number(raw) : 0;
+        if (!Number.isFinite(scrollTop)) return;
+
+        requestAnimationFrame(() => {
+            if (desktopSidebarScrollRef.current) desktopSidebarScrollRef.current.scrollTop = scrollTop;
+            if (mobileSidebarScrollRef.current) mobileSidebarScrollRef.current.scrollTop = scrollTop;
+        });
+    }, []);
+
+    const persistSidebarScroll = (value: number) => {
+        if (typeof window === "undefined") return;
+        try {
+            window.sessionStorage.setItem("alg-sidebar-scroll", String(value));
+        } catch {
+            // Ignore storage write errors.
+        }
+    };
 
     useEffect(() => {
         if (!meta) return;
         const activeKey = normalizeCategoryKey(meta.category).replace(/-/g, "_");
         setOpenCategories((prev) => ({ ...prev, [activeKey]: true }));
     }, [meta, slug]);
-
-    if (isResolvingSlug) {
-		return (
-			<div className="min-h-screen flex items-center justify-center bg-slate-50">
-				<div className="h-10 w-10 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
-			</div>
-		);
-	}
 
     if (!meta) {
         return (
@@ -2474,7 +2837,11 @@ export default function AlgorithmPage() {
                     <h2 className="text-sm font-black uppercase tracking-widest text-slate-600">Toți algoritmii</h2>
                     <span className="h-8 w-8" aria-hidden="true" />
                 </div>
-                <div className="flex-1 overflow-y-auto p-3">
+                <div
+                    ref={desktopSidebarScrollRef}
+                    onScroll={(event) => persistSidebarScroll(event.currentTarget.scrollTop)}
+                    className="flex-1 overflow-y-auto p-3"
+                >
                     <div className="space-y-4">
                         {groupedAlgorithms.map((section) => {
                             const sectionTheme = sidebarCategoryTheme(section.categoryKey);
@@ -2505,6 +2872,7 @@ export default function AlgorithmPage() {
                                                     <Link
                                                         key={algorithm.slug}
                                                         href={`/algoritmi/${algorithm.slug}`}
+                                                        scroll={false}
                                                         className={`block rounded-xl px-3 py-2 text-sm transition-all ${
                                                             isActive
                                                                 ? `${sectionTheme.active} font-bold ring-1`
@@ -2569,7 +2937,11 @@ export default function AlgorithmPage() {
                                     <h2 className="text-sm font-black uppercase tracking-widest text-slate-600">Toți algoritmii</h2>
                                     <span className="h-8 w-8" aria-hidden="true" />
                                 </div>
-                                <div className="flex-1 overflow-y-auto p-3">
+                                <div
+                                    ref={mobileSidebarScrollRef}
+                                    onScroll={(event) => persistSidebarScroll(event.currentTarget.scrollTop)}
+                                    className="flex-1 overflow-y-auto p-3"
+                                >
                                     <div className="space-y-4">
                                         {groupedAlgorithms.map((section) => {
                                             const sectionTheme = sidebarCategoryTheme(section.categoryKey);
@@ -2600,6 +2972,7 @@ export default function AlgorithmPage() {
                                                                     <Link
                                                                         key={algorithm.slug}
                                                                         href={`/algoritmi/${algorithm.slug}`}
+                                                                        scroll={false}
                                                                         onClick={() => setSidebarOpen(false)}
                                                                         className={`block rounded-xl px-3 py-2 text-sm transition-all ${
                                                                             isActive

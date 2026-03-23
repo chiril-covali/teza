@@ -53,6 +53,14 @@ import { parseNestedBracketsInstrumented } from "../runtime/algorithms/diverse/p
 // Backtracking
 import { generateParenthesesInstrumented } from "../runtime/algorithms/backtracking/generateParenthesesInstrumented";
 import { allCombinationsInstrumented } from "../runtime/algorithms/backtracking/allCombinationsInstrumented";
+// Data structures
+import { stackInstrumented } from "../runtime/algorithms/structuri-de-date/stackInstrumented";
+import { queueInstrumented } from "../runtime/algorithms/structuri-de-date/queueInstrumented";
+import { linkedListInstrumented } from "../runtime/algorithms/structuri-de-date/linkedListInstrumented";
+import { bstInstrumented } from "../runtime/algorithms/structuri-de-date/bstInstrumented";
+import { heapInstrumented } from "../runtime/algorithms/structuri-de-date/heapInstrumented";
+import { mapInstrumented, setInstrumented } from "../runtime/algorithms/structuri-de-date/keyValueInstrumented";
+import { trieInstrumented, disjointSetInstrumented } from "../runtime/algorithms/structuri-de-date/advancedStructuresInstrumented";
 import { sourceOnlyMathAlgorithms } from "../runtime/algorithms/matematica/sourceOnlyMathRunners";
 import registry from "./algorithms-registry.json";
 
@@ -113,6 +121,26 @@ export const algorithms: Record<string, (input: any) => AlgorithmResult> = {
   diverse_parse_nested_brackets: parseNestedBracketsInstrumented,
   backtracking_generateparentheses: generateParenthesesInstrumented,
   backtracking_all_combinations_of_size_k: allCombinationsInstrumented,
+  // Data structures
+  "structuri-de-date_stack_stack": stackInstrumented,
+  "structuri-de-date_stack_linked_list_stack": stackInstrumented,
+  "structuri-de-date_queue_queue": queueInstrumented,
+  "structuri-de-date_queue_array_queue": queueInstrumented,
+  "structuri-de-date_queue_circular_queue": queueInstrumented,
+  "structuri-de-date_queue_linked_queue": queueInstrumented,
+  "structuri-de-date_queue_stack_queue": queueInstrumented,
+  "structuri-de-date_list_singly_linked_list": linkedListInstrumented,
+  "structuri-de-date_list_doubly_linked_list": linkedListInstrumented,
+  "structuri-de-date_list_linked_list": linkedListInstrumented,
+  "structuri-de-date_tree_binary_search_tree": bstInstrumented,
+  "structuri-de-date_heap_heap": heapInstrumented,
+  "structuri-de-date_map_map": mapInstrumented,
+  "structuri-de-date_map_hash_map": mapInstrumented,
+  "structuri-de-date_set_set": setInstrumented,
+  "structuri-de-date_set_map_set": setInstrumented,
+  "structuri-de-date_set_hash_map_set": setInstrumented,
+  "structuri-de-date_disjoint_set_disjoint_set": disjointSetInstrumented,
+  "structuri-de-date_tries_tries": trieInstrumented,
 };
 
 // All algorithms sourced from the canonical JSON registry
