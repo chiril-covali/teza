@@ -1,67 +1,46 @@
 <!-- custom-doc -->
-# Set Hartă Set
 
-Setul Hartă Set (sau Hash Set) este o structură de date care combină caracteristicile unui set și ale unei hărți (hash map). Aceasta permite stocarea unui număr de elemente unice și oferă acces rapid la acestea prin utilizarea unei funcții de hash. Setul Hartă Set este utilizat frecvent pentru a verifica existența unui element, a adăuga sau a elimina elemente într-un mod eficient.
+# 🚀 **Set bazat pe Map (Map Set)**
 
-## Reprezentare Vizuală
+## 📝 **Descriere**
 
-O reprezentare simplificată a unui Set Hartă Set poate fi ilustrată astfel:
+Un **Set bazat pe Map** este o implementare a structurii de date de tip mulțime (Set) folosind un dicționar sau o hartă (Map) ca bază. În această abordare, elementele setului sunt stocate drept **chei** în Map, în timp ce valorile asociate sunt ignorate sau setate la o valoare fixă (dummy). Această metodă profită de mecanismele interne ale hărților pentru a asigura unicitatea cheilor și accesul rapid.
 
-```
-+-----------------+
-|  Indice         |
-+-----------------+
-|  0 | 1 | 2 | 3 | 4 |
-+-----------------+
-|    |   |   |   |   |
-|    |   |   |   |   |
-|    |   |   |   |   |
-+-----------------+
-```
+## 🖼️ **Reprezentare Vizuală**
 
-Fiecare indice corespunde unei valori hash calculate pe baza elementului. De exemplu, pentru un set de elemente `{3, 7, 10}`, funcția de hash ar putea produce următoarele indici:
+![Venn Diagram for Set](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Venn_A_subset_B.svg/400px-Venn_A_subset_B.svg.png)
 
-```
-+-----------------+
-|  Indice         |
-+-----------------+
-|  0 | 1 | 2 | 3 | 4 |
-+-----------------+
-|    | 3 |   | 7 | 10|
-+-----------------+
+```text
+Map Intern (Element -> Există?):
+{
+  "A" : true,
+  "B" : true,
+  "C" : true
+}
+
+- Add("D") -> Map["D"] = true
+- Has("A") -> return Map.has("A")
 ```
 
-## Matematică / Logică
+## ⚖️ **Avantaje și Dezavantaje**
 
-Complexitatea medie a operațiunilor de adăugare, căutare și ștergere într-un Set Hartă Set este $O(1)$, datorită utilizării funcțiilor de hash. Totuși, în cazul coliziunilor, complexitatea poate ajunge la $O(n)$ în cel mai rău caz.
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Refolosire:** Utilizează o structură de date deja existentă și testată (Map). | ⚠️ **Spațiu irosit:** Valorile din Map ocupă memorie inutilă (deoarece ne interesează doar cheile). |
+| 📊 **Unicitate Nativă:** Map-urile nu permit chei duplicate, rezolvând automat cerința principală a unui Set. | 📉 **Overhead:** Poate fi ușor mai lent decât o implementare de HashSet dedicată. |
 
-## Tabel de Complextitate
+## 🔢 **Analiză Matematică și Complexitate**
 
-| Operațiune       | Cel mai bun caz | Caz mediu | Cel mai rău caz |
-|------------------|-----------------|-----------|------------------|
-| Adăugare         | $O(1)$          | $O(1)$    | $O(n)$           |
-| Căutare          | $O(1)$          | $O(1)$    | $O(n)$           |
-| Ștergere         | $O(1)$          | $O(1)$    | $O(n)$           |
+Complexitatea depinde de implementarea de bază a Map-ului (de obicei un Tabel Hash).
 
-## Avantaje și Dezavantaje
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Add/Remove/Has)** | $O(1)$ (Mediu) |
+| **Timp (Iteration)** | $O(n)$ |
+| **Spațiu (Space)** | $O(n)$ |
 
-**Avantaje:**
-- Acces rapid la elemente.
-- Permite stocarea elementelor unice.
-- Operațiuni eficiente de adăugare și ștergere.
+## 💡 **Aplicații Practice**
 
-**Dezavantaje:**
-- Poate consuma multă memorie în cazul unor funcții de hash ineficiente.
-- Performanța poate scădea în cazul coliziunilor frecvente.
-- Nu păstrează ordinea elementelor.
-
-## Aplicații Practice
-
-Setul Hartă Set este utilizat în diverse aplicații, cum ar fi:
-- Verificarea existenței elementelor într-o colecție (ex: verificarea duplicatelor).
-- Implementarea algoritmilor de căutare și filtrare.
-- Stocarea seturilor de date unice în aplicații de analiză a datelor.
-- Gestionarea sesiunilor utilizatorilor în aplicații web.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **Implementarea Set în JS/TS:** Multe motoare JS implementează `Set` folosind o structură similară cu `Map`.
+- **Filtrarea datelor:** Extragerea rapidă a valorilor unice dintr-un set de rezultate dintr-o bază de date.
+- **Cache-uri simple:** Verificarea dacă un obiect a fost deja procesat într-un flux de lucru.

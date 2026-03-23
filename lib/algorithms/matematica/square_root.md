@@ -1,29 +1,34 @@
 <!-- custom-doc -->
-# 🚀 **Rădăcina Pătrată (Metoda lui Newton)**
+
+# 🚀 **Rădăcină Pătrată (Square Root)**
 
 ## 📝 **Descriere**
-Calcularea **Rădăcinii Pătrate** este o problemă fundamentală rezolvată adesea prin **Metoda lui Newton-Raphson**. Acesta este un algoritm iterativ care găsește aproximări din ce în ce mai bune ale rădăcinii unui număr real non-negativ $S$. Algoritmul pornește de la o estimare inițială și converge extrem de rapid către valoarea reală.
+
+Calcularea **Rădăcinii Pătrate** este o operație fundamentală care determină numărul $x$ care, înmulțit cu el însuși, produce numărul dat $S$ ($x^2 = S$). În informatică, cea mai utilizată metodă pentru aproximare este **Metoda lui Newton-Raphson**, un algoritm iterativ extrem de rapid care converge quadratic către soluția exactă.
 
 ## 🖼️ **Reprezentare Vizuală**
+
 ![Newton Method](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/NewtonIteration_Ani.gif/300px-NewtonIteration_Ani.gif)
 
-**Diagramă ASCII (Iterație pentru sqrt(25), start=10):**
 ```text
-1. x = 10
-2. x = (10 + 25/10) / 2 = 6.25
-3. x = (6.25 + 25/6.25) / 2 = 5.125
-4. x = (5.125 + 25/5.125) / 2 = 5.0015
-5. x = 5.0 (Convergență!)
+Exemplu: √25 (Newton)
+1. Estimare inițială: x = 10
+2. Iterare 1: x = (10 + 25/10) / 2 = 6.25
+3. Iterare 2: x = (6.25 + 25/6.25) / 2 = 5.125
+4. Iterare 3: x = (5.125 + 25/5.125) / 2 = 5.0015
+5. Rezultat: 5.0
 ```
 
 ## ⚖️ **Avantaje și Dezavantaje**
+
 | Avantaj | Dezavantaj |
 | :--- | :--- |
-| 🚀 **Convergență Quadratică:** Numărul de cifre corecte se dublează aproximativ la fiecare iterație. | ⚠️ **Estimare Inițială:** Necesită o valoare de start rezonabilă pentru a fi eficient. |
-| 📊 **Precizie Ajustabilă:** Te poți opri exact când ai atins eroarea maximă admisă (epsilon). | 📉 **Cost:** Implică operații de împărțire, care sunt mai costisitoare decât adunările. |
+| ✅ **Convergență Rapidă:** Numărul de cifre corecte se dublează aproximativ la fiecare iterație. | ⚠️ **Operații Costisitoare:** Implică împărțiri, care sunt mai lente decât adunările sau înmulțirile pe CPU. |
+| ✅ **Precizie Controlabilă:** Permite setarea unei toleranțe (epsilon) pentru a echilibra viteza și acuratețea. | ❌ **Numere Negative:** Nu este definită pentru numere negative în domeniul numerelor reale. |
 
 ## 🔢 **Analiză Matematică și Complexitate**
-Formula de recurență: $x_{n+1} = \frac{1}{2} \left( x_n + \frac{S}{x_n} \right)$.
+
+Formula iterativă: $x_{n+1} = \frac{1}{2} \left( x_n + \frac{S}{x_n} \right)$.
 
 | Tip Complexitate | Valoare |
 | :--- | :--- |
@@ -31,6 +36,8 @@ Formula de recurență: $x_{n+1} = \frac{1}{2} \left( x_n + \frac{S}{x_n} \right
 | **Spațiu (Space)** | $O(1)$ |
 
 ## 💡 **Aplicații Practice**
-- **Calculatoare Științifice:** Implementarea funcțiilor de tip `sqrt()`.
-- **Grafică 3D:** Calcularea distanțelor euclidiene și a vectorilor normali.
-- **Inginerie:** Rezolvarea ecuațiilor neliniare complexe.
+
+- **Grafică 3D:** Calcularea distanțelor euclidiene și normalizarea vectorilor.
+- **Calculatoare Științifice:** Implementarea funcțiilor standard din bibliotecile `math.h` sau `numpy`.
+- **Inginerie:** Rezolvarea ecuațiilor cinematice și a problemelor de rezistență a materialelor.
+- **Finanțe:** Calcularea deviației standard în analiza riscurilor.

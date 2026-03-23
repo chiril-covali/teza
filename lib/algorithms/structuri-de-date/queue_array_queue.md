@@ -1,13 +1,14 @@
 <!-- custom-doc -->
-# Coadă bazată pe Vector (Array Queue)
 
-**Coadă bazată pe Vector** (Array Queue) este cea mai simplă formă de implementare a structurii de date de tip coadă, utilizând un tablou (array) pentru a stoca elementele conform principiului **FIFO** (First-In, First-Out).
+# 🚀 **Coadă bazată pe Vector (Array Queue)**
 
----
+## 📝 **Descriere**
 
-## 🏗️ Reprezentare Vizuală
+**Coadă bazată pe Vector** (Array Queue) este o implementare a structurii de date de tip coadă care utilizează un tablou (array) pentru stocarea elementelor. Funcționează pe principiul **FIFO** (First-In, First-Out), unde primul element adăugat este și primul care va fi eliminat. Este cea mai simplă formă de coadă, dar poate prezenta ineficiențe la eliminarea elementelor dacă nu este optimizată.
 
-Într-o coadă bazată pe vector, elementele sunt adăugate la sfârșit și eliminate de la început.
+## 🖼️ **Reprezentare Vizuală**
+
+![Queue Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Data_Queue.svg/400px-Data_Queue.svg.png)
 
 ```text
        Eliminare (Dequeue)                     Adăugare (Enqueue)
@@ -21,43 +22,27 @@ Index | [0] | [1] | [2] | [3] | [4] | [5] | ... | [n] |
       Front                                   Rear
 ```
 
----
+## ⚖️ **Avantaje și Dezavantaje**
 
-## ⚙️ Detalii de Implementare
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Simplitate:** Foarte ușor de implementat folosind vectori nativi (ex: `push`/`shift`). | ⚠️ **Ineficiență la Dequeue:** Eliminarea elementului de la index 0 necesită deplasarea tuturor celorlalte elemente ($O(n)$). |
+| 📊 **Performanță Cache:** Elementele sunt contigue în memorie, ceea ce accelerează accesul. | 📉 **Risipă de Spațiu:** Spațiul eliberat la începutul vectorului rămâne neutilizat fără o strategie de shift. |
 
-În această versiune specifică, utilizăm metodele native ale limbajului (cum ar fi `push` și `shift` în JavaScript/TypeScript):
+## 🔢 **Analiză Matematică și Complexitate**
 
-1. **Enqueue (Adăugare):** Adaugă un element la sfârșitul vectorului. Complexitate: $O(1)$.
-2. **Dequeue (Eliminare):** Elimină primul element din vector. **Atenție:** În majoritatea implementărilor bazate pe vectori dinamici, această operație are complexitate $O(n)$ deoarece toate elementele rămase trebuie re-indexate (mutate cu o poziție la stânga).
+Complexitatea depinde de modul în care limbajul de programare gestionează re-indexarea vectorului la eliminare.
 
----
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Enqueue (Adăugare)** | $O(1)$ |
+| **Dequeue (Eliminare)** | $O(n)$ (în majoritatea implementărilor simple) |
+| **Peek (Vizualizare)** | $O(1)$ |
+| **Spațiu (Space)** | $O(n)$ |
 
-## ⚖️ Avantaje și Dezavantaje
+## 💡 **Aplicații Practice**
 
-### Avantaje
-- **Simplitate:** Este extrem de ușor de înțeles și de implementat.
-- **Performanță Cache:** Elementele sunt stocate în locații de memorie contigue, ceea ce favorizează viteza de acces a procesorului.
-- **Fără pointeri extra:** Spre deosebire de listele înlănțuite, nu consumă memorie suplimentară pentru a stoca adresele elementelor următoare.
-
-### Dezavantaje
-- **Ineficiență la Eliminare:** Operația `dequeue` este costisitoare ($O(n)$) dacă nu se folosește o abordare circulară.
-- **Risipă de spațiu:** Dacă nu este implementată circular, spațiul eliberat la începutul vectorului rămâne neutilizat până la o eventuală resetare a cozii.
-
----
-
-## 📊 Analiza Complexității
-
-| Operație | Timp (Time Complexity) | Spațiu (Space Complexity) |
-| :--- | :--- | :--- |
-| **Enqueue** | $O(1)$ | $O(1)$ |
-| **Dequeue** | $O(n)$ | $O(1)$ |
-| **Peek (Front)** | $O(1)$ | $O(1)$ |
-| **IsEmpty** | $O(1)$ | $O(1)$ |
-
----
-
-## 💡 Recomandare
-Pentru aplicații care necesită un volum mare de date și performanță ridicată, se recomandă utilizarea unei **Cozi Circulare** sau a unei **Cozi bazate pe Listă Înlănțuită** pentru a obține o complexitate de $O(1)$ la eliminare.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **Buffer-e simple:** Cozi de mesaje unde volumul de date este mic.
+- **Procesarea Task-urilor:** Gestiunea sarcinilor care trebuie executate în ordinea sosirii.
+- **Algoritmi elementari:** Utilizată în demonstrații educaționale pentru principiul FIFO.
+- **Sisteme de imprimare:** Documentele sunt procesate în ordinea în care au fost trimise.

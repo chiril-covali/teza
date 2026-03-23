@@ -1,83 +1,42 @@
 <!-- custom-doc -->
-# Heap Sortare
 
-Heap Sortare este un algoritm de sortare bazat pe structura de date numită heap, care este o variantă a unui arbore binar. Acest algoritm transformă un tablou într-un heap, apoi extrage elementele din heap pentru a le plasa în ordinea corectă. Heap Sortare are o complexitate de timp de $O(n \log n)$, ceea ce îl face eficient pentru sortarea unor colecții mari de date.
+# 🚀 **Sortarea prin Heap (Heap Sort)**
 
-## Reprezentare Vizuală
+## 📝 **Descriere**
 
-Un heap este o structură de date care satisface proprietatea heap-ului: pentru un heap maxim, fiecare nod părinte este mai mare sau egal cu nodurile sale fiice. Iată un exemplu de heap maxim:
+**Heap Sort** este un algoritm de sortare bazat pe comparare care utilizează o structură de date de tip **Binary Heap** (morman binar). Algoritmul poate fi privit ca o optimizare a sortării prin selecție, unde folosim un heap pentru a găsi rapid elementul maxim (sau minim) în loc de o căutare liniară.
 
-```
-        10
-       /  \
-      9    8
-     / \  / \
-    7  6 5   4
-```
+## 🖼️ **Reprezentare Vizuală**
 
-### Exemplu Pas cu Pas
+![Heap Sort Animation](https://upload.wikimedia.org/wikipedia/commons/1/1b/Sorting_heapsort_anim.gif)
 
-Să sortăm tabloul `[4, 10, 3, 5, 1]` folosind Heap Sortare:
-
-1. Construim heap-ul maxim:
-```
-        10
-       /  \
-      5    8
-     / \  / \
-    4  1 3
+```text
+1. Construiește un Max-Heap din date.
+   [4, 10, 3, 5, 1] -> [10, 5, 3, 4, 1]
+2. Extrage rădăcina (10) și pune-o la final.
+3. Re-heapify restul listei.
+4. Repetă până când heap-ul este gol.
+Rezultat: [1, 3, 4, 5, 10]
 ```
 
-2. Extragem elementul maxim (10) și plasăm ultimul element (1) la rădăcină, apoi ajustăm heap-ul:
-```
-        5
-       /  \
-      4    3
-     / \
-    1  8
-```
+## ⚖️ **Avantaje și Dezavantaje**
 
-3. Continuăm procesul până când toate elementele sunt sortate:
-```
-Sortare finală: [1, 3, 4, 5, 10]
-```
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Performanță Garantată:** $O(n \log n)$ chiar și în cel mai rău caz. | ⚠️ **Instabilitate:** Nu păstrează ordinea relativă a elementelor egale. |
+| 📊 **Memorie Eficientă:** Sortare in-place, nu necesită spațiu suplimentar. | 📉 **Lentoare relativă:** De obicei mai lent decât QuickSort pe date medii. |
 
-## Matematică / Logică
+## 🔢 **Analiză Matematică și Complexitate**
 
-Complexitatea temporală a algoritmului Heap Sortare este dată de formula:
+Construirea heap-ului durează $O(n)$, iar cele $n$ extracții durează $O(\log n)$ fiecare.
 
-- Construirea heap-ului: $O(n)$
-- Extracția elementului maxim: $O(\log n)$
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (All Cases)** | $O(n \log n)$ |
+| **Spațiu (Space)** | $O(1)$ |
 
-Astfel, complexitatea totală este:
+## 💡 **Aplicații Practice**
 
-$$O(n + n \log n) = O(n \log n)$$
-
-## Tabel de Complextitate
-
-| Caz                | Complexitate Timp | Complexitate Spațiu |
-|--------------------|-------------------|---------------------|
-| Cel mai bun        | $O(n \log n)$     | $O(1)$              |
-| Caz mediu         | $O(n \log n)$     | $O(1)$              |
-| Cel mai rău       | $O(n \log n)$     | $O(1)$              |
-
-## Avantaje și Dezavantaje
-
-### Avantaje
-- Stabilitatea în timp: $O(n \log n)$ în toate cazurile.
-- Spațiu constant: nu necesită memorie suplimentară semnificativă.
-- Funcționează bine pe date mari.
-
-### Dezavantaje
-- Nu este un algoritm stabil de sortare.
-- Performanța poate fi mai slabă comparativ cu alte algoritmi de sortare pentru date mici.
-
-## Aplicații Practice
-
-Heap Sortare este utilizat în diverse aplicații, inclusiv:
-- Sortarea listelor mari de date.
-- Implementarea structurilor de date de tip priority queue.
-- Algoritmi de scheduling în sisteme de operare.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **Sisteme de securitate:** Unde timpul de răspuns garantat este critic (pentru a evita atacurile de tip timing).
+- **Embedded Systems:** Datorită consumului minim și predictibil de memorie.
+- **Priority Queues:** Heap-ul este structura de bază pentru cozi de priorități.

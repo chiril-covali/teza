@@ -1,85 +1,44 @@
 <!-- custom-doc -->
-# Zellers Congruence
 
-Zellers Congruence este un algoritm matematic utilizat pentru a determina ziua săptămânii pentru o dată dată în formatul zi, lună, an. Algoritmul este eficient și simplu, bazându-se pe o formulă care implică operații aritmetice și modulo.
+# 🚀 **Congruența lui Zeller (Zeller's Congruence)**
 
-## Reprezentare Vizuală
+## 📝 **Descriere**
 
-Formula Zeller este dată de:
+**Congruența lui Zeller** este un algoritm matematic dezvoltat de Christian Zeller pentru a calcula ziua săptămânii pentru orice dată din calendarul Julian sau Gregorian. Algoritmul este extrem de eficient, bazându-se pe o singură formulă aritmetică ce utilizează operații de bază și aritmetică modulară.
 
-$$
-h = \left(q + \left\lfloor \frac{13(m + 1)}{5} \right\rfloor + K + \left\lfloor \frac{K}{4} \right\rfloor + \left\lfloor \frac{J}{4} \right\rfloor - 2J\right) \mod 7
-$$
+## 🖼️ **Reprezentare Vizuală**
 
-unde:
-- $h$ este ziua săptămânii (0 = sâmbătă, 1 = duminică, 2 = luni, etc.)
-- $q$ este ziua lunii
-- $m$ este luna (3 = martie, 4 = aprilie, ..., 12 = decembrie; ianuarie și februarie sunt considerate luni 13 și 14 ale anului precedent)
-- $K$ este anul secolului (anul % 100)
-- $J$ este secolul (anul / 100)
+![Zeller's Congruence Formula](https://upload.wikimedia.org/wikipedia/commons/e/e1/Zeller%27s_Congruence.png)
 
-### Exemplu Pas cu Pas
+```text
+Exemplu: 4 Iulie 2023
+q = 4 (ziua)
+m = 5 (Iulie, deoarece Ian/Feb sunt 13/14 din anul anterior)
+K = 23 (anul in secol)
+J = 20 (secolul)
 
-Să determinăm ziua săptămânii pentru 4 iulie 2023:
+Formula: h = (q + [13(m+1)/5] + K + [K/4] + [J/4] - 2J) mod 7
+Rezultat: h = 3 (Marți)
+```
 
-1. $q = 4$
-2. $m = 5$ (iulie este luna 5)
-3. $K = 23$ (2023 % 100)
-4. $J = 20$ (2023 / 100)
+## ⚖️ **Avantaje și Dezavantaje**
 
-Aplicăm formula:
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Viteză:** Calcul instantaneu cu complexitate $O(1)$. | ⚠️ **Complexitate logică:** Necesită tratarea specială a lunilor Ianuarie și Februarie. |
+| 📊 **Universalitate:** Funcționează pentru orice dată istorică (după adoptarea calendarului). | 📉 **Erori de implementare:** Modulo pentru numere negative poate varia între limbajele de programare. |
 
-$$
-h = \left(4 + \left\lfloor \frac{13(5 + 1)}{5} \right\rfloor + 23 + \left\lfloor \frac{23}{4} \right\rfloor + \left\lfloor \frac{20}{4} \right\rfloor - 2 \cdot 20\right) \mod 7
-$$
+## 🔢 **Analiză Matematică și Complexitate**
 
-Calculăm fiecare termen:
+Algoritmul execută un număr fix de operații aritmetice indiferent de mărimea datei.
 
-- $\left\lfloor \frac{13(6)}{5} \right\rfloor = \left\lfloor 15.6 \right\rfloor = 15$
-- $\left\lfloor \frac{23}{4} \right\rfloor = 5$
-- $\left\lfloor \frac{20}{4} \right\rfloor = 5$
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (All Cases)** | $O(1)$ |
+| **Spațiu (Space)** | $O(1)$ |
 
-Deci:
+## 💡 **Aplicații Practice**
 
-$$
-h = (4 + 15 + 23 + 5 + 5 - 40) \mod 7 = 12 \mod 7 = 5
-$$
-
-Astfel, 4 iulie 2023 este o zi de marți (5).
-
-## Matematică / Logică
-
-Algoritmul se bazează pe aritmetica modulară, iar formula poate fi interpretată ca o combinație de termeni care ajustează ziua lunii și anul pentru a obține rezultatul dorit. Aceasta poate fi exprimată matematic prin:
-
-$$
-h = (q + \left\lfloor \frac{13(m + 1)}{5} \right\rfloor + K + \left\lfloor \frac{K}{4} \right\rfloor + \left\lfloor \frac{J}{4} \right\rfloor - 2J) \mod 7
-$$
-
-## Tabel de Complextitate
-
-| Caz          | Complexitate Timp | Complexitate Spațiu |
-|--------------|-------------------|---------------------|
-| Cel mai bun  | $O(1)$            | $O(1)$              |
-| Mediu        | $O(1)$            | $O(1)$              |
-| Cel mai rău  | $O(1)$            | $O(1)$              |
-
-## Avantaje și Dezavantaje
-
-### Avantaje
-- Rapid și eficient, cu complexitate constantă.
-- Nu necesită date suplimentare sau structuri complexe.
-- Poate fi implementat ușor în diverse limbaje de programare.
-
-### Dezavantaje
-- Necesită ajustări pentru lunile ianuarie și februarie.
-- Nu este intuitiv pentru utilizatorii fără cunoștințe matematice.
-
-## Aplicații Practice
-
-Zellers Congruence este utilizat în diverse aplicații, inclusiv:
-- Calcularea zilei săptămânii pentru date istorice sau viitoare.
-- Implementarea de calendare în software-uri și aplicații.
-- Analiza datelor temporale în statistici și științe sociale.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **Sisteme de operare:** Calcularea zilei săptămânii pentru ceasul sistemului.
+- **Aplicații de tip Calendar:** Generarea automată a lunilor și anilor.
+- **Analiză istorică:** Determinarea zilelor în care au avut loc evenimente importante.

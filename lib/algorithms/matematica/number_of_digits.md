@@ -1,64 +1,44 @@
 <!-- custom-doc -->
-# Number de Digits
 
-Numărul de cifre (Number of Digits) se referă la determinarea cantității de cifre care compun un număr întreg. Această problemă este frecvent întâlnită în matematică și informatică, având aplicații în diverse algoritmi și structuri de date.
+# 🚀 **Numărul de Cifre (Number of Digits)**
 
-## Reprezentare Vizuală
+## 📝 **Descriere**
 
-Pentru a determina numărul de cifre ale unui număr întreg $n$, putem utiliza o abordare simplă. De exemplu, considerăm numărul $n = 12345$. 
+**Numărul de cifre** al unui număr întreg reprezintă cantitatea de simboluri numerice necesare pentru a-l exprima într-o anumită bază (cel mai frecvent baza 10). Această proprietate este fundamentală în informatică pentru alocarea spațiului de stocare, formatarea datelor și analiza complexității algoritmilor.
 
-```
-n = 12345
-Cifre: 1 2 3 4 5
-Numărul de cifre: 5
-```
+## 🖼️ **Reprezentare Vizuală**
 
-Un alt mod de a vizualiza acest proces este printr-o diagramă de tip arbore:
+![Digits Count](https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Decimal_place_value_chart.svg/400px-Decimal_place_value_chart.svg.png)
 
-```
-n
-├── 1
-├── 2
-├── 3
-├── 4
-└── 5
+```text
+Număr: 12345
+  1 - mii
+  2 - sute
+  3 - zeci
+  4 - unități
+  ...
+Total: 5 cifre
 ```
 
-## Matematică / Logică
+## ⚖️ **Avantaje și Dezavantaje**
 
-Numărul de cifre al unui număr întreg $n$ poate fi determinat folosind logaritmi. Formula generală este:
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Eficiență:** Se poate calcula în timp constant $O(1)$ folosind logaritmi. | ⚠️ **Tipuri de Date:** Necesită atenție la numerele negative (semnul `-` nu e cifră). |
+| 📊 **Validare:** Util pentru verificarea rapidă a lungimii datelor (ex: PIN-uri, ID-uri). | 📉 **Bază:** Rezultatul depinde de baza numerică aleasă (binar, decimal, hex). |
 
-$$
-d(n) = \lfloor \log_{10}(n) \rfloor + 1
-$$
+## 🔢 **Analiză Matematică și Complexitate**
 
-unde $d(n)$ reprezintă numărul de cifre al lui $n$ și $\lfloor x \rfloor$ este funcția parte întreagă.
+Formula logaritmică pentru baza 10:
+$d(n) = \lfloor \log_{10}(|n|) \rfloor + 1$ (pentru $n \neq 0$)
 
-## Tabel de Complextitate
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Time)** | $O(1)$ |
+| **Spațiu (Space)** | $O(1)$ |
 
-| Caz               | Complexitate Timp | Complexitate Spațiu |
-|-------------------|-------------------|---------------------|
-| Cel mai bun       | $O(1)$            | $O(1)$              |
-| Mediu             | $O(1)$            | $O(1)$              |
-| Cel mai rău      | $O(1)$            | $O(1)$              |
+## 💡 **Aplicații Practice**
 
-## Avantaje și Dezavantaje
-
-### Avantaje
-- Simplu de implementat.
-- Eficient din punct de vedere al timpului și spațiului.
-- Utilizabil în diverse aplicații matematice.
-
-### Dezavantaje
-- Funcționează doar pentru numere întregi pozitive.
-- Nu se aplică direct pentru numere în formă de string.
-
-## Aplicații Practice
-
-Algoritmul de determinare a numărului de cifre este utilizat în:
-- Validarea datelor de intrare în aplicații (ex: numere de telefon, coduri poștale).
-- Calculul dimensiunii necesare pentru stocarea numerelor în baze de date.
-- Analiza complexității algoritmilor care manipulează numere întregi.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **Validarea datelor:** Verificarea dacă un număr de telefon sau un cont bancar are lungimea corectă.
+- **Formatare:** Alinierea numerelor în tabele prin adăugarea de zerouri la stânga (padding).
+- **Analiza Algoritmilor:** Determinarea numărului de pași în algoritmi de tip "digit-by-digit" (ex: Radix Sort).

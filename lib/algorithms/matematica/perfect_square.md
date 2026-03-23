@@ -1,71 +1,45 @@
 <!-- custom-doc -->
-# Perfect Square
 
-Un număr perfect pătrat este un număr întreg care poate fi exprimat ca pătratul unui alt număr întreg. De exemplu, numerele 0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100 sunt toate numere perfecte pătrate, deoarece ele pot fi scrise ca $0^2$, $1^2$, $2^2$, $3^2$, $4^2$, $5^2$, $6^2$, $7^2$, $8^2$, $9^2$, respectiv $10^2$.
+# 🚀 **Pătrat Perfect (Perfect Square)**
 
-## Reprezentare Vizuală
+## 📝 **Descriere**
 
-Reprezentarea unui număr perfect pătrat poate fi realizată printr-o diagramă simplă:
+Un **Pătrat Perfect** este un număr întreg care poate fi exprimat ca pătratul unui alt număr întreg. Matematic, un număr $n$ este pătrat perfect dacă există un întreg $k$ astfel încât $n = k^2$. Aceste numere sunt fundamentale în geometrie (reprezentând aria unui pătrat cu latura întreagă) și în teoria numerelor.
 
+## 🖼️ **Reprezentare Vizuală**
+
+![Perfect Square](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Square_number_4.svg/200px-Square_number_4.svg.png)
+
+```text
+Exemplu: 16 (4x4)
+● ● ● ●
+● ● ● ●
+● ● ● ●
+● ● ● ●
+
+Șirul pătratelor perfecte:
+0² = 0, 1² = 1, 2² = 4, 3² = 9, 4² = 16, 5² = 25...
 ```
-Numere perfecte pătrate:
-0:  0
-1:  1
-2:  4
-3:  9
-4:  16
-5:  25
-6:  36
-7:  49
-8:  64
-9:  81
-10: 100
-```
 
-Exemplu pas cu pas pentru a verifica dacă 25 este un număr perfect pătrat:
+## ⚖️ **Avantaje și Dezavantaje**
 
-1. Calculăm rădăcina pătrată: $\sqrt{25} = 5$.
-2. Verificăm dacă $5^2 = 25$.
-3. Constatăm că 25 este un număr perfect pătrat.
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| ✅ **Simplitate:** Formula de verificare este directă și ușor de înțeles. | ⚠️ **Precizie:** Verificarea prin rădăcină pătrată poate avea erori de virgulă mobilă pentru numere foarte mari. |
+| ✅ **Eficiență:** Algoritmii de verificare sunt extrem de rapizi, operând în timp constant sau logaritmic. | ❌ **Limitare:** Proprietatea se aplică strict numerelor întregi non-negative. |
 
-## Matematică / Logică
+## 🔢 **Analiză Matematică și Complexitate**
 
-Un număr $n$ este un număr perfect pătrat dacă există un număr întreg $k$ astfel încât:
+Verificarea se face de obicei calculând $\lfloor \sqrt{n} \rfloor$ și verificând dacă pătratul său este egal cu $n$.
 
-$$ n = k^2 $$
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Time)** | $O(1)$ (folosind funcții native de sistem) |
+| **Spațiu (Space)** | $O(1)$ |
 
-Pentru a determina dacă un număr este perfect pătrat, se poate utiliza metoda de verificare a rădăcinii pătrate, având în vedere că:
+## 💡 **Aplicații Practice**
 
-$$ k = \sqrt{n} $$
-
-Dacă $k$ este un număr întreg, atunci $n$ este un perfect square.
-
-## Tabel de Complextitate
-
-| Caz                | Complexitate Timp | Complexitate Spațiu |
-|--------------------|-------------------|---------------------|
-| Cel mai bun        | $O(1)$            | $O(1)$              |
-| Caz mediu          | $O(\sqrt{n})$     | $O(1)$              |
-| Cel mai rău       | $O(\sqrt{n})$     | $O(1)$              |
-
-## Avantaje și Dezavantaje
-
-**Avantaje:**
-- Ușor de calculat și verificat.
-- Utilizat în diverse aplicații matematice și algoritmice.
-- Permite optimizări în anumite probleme de programare.
-
-**Dezavantaje:**
-- Limitat la numere întregi.
-- Poate necesita verificări suplimentare în cazul numerelor mari.
-
-## Aplicații Practice
-
-Numerele perfecte pătrate au aplicații în diverse domenii, cum ar fi:
-
-- **Geometrie**: Calcularea ariilor pătratelor.
-- **Criptografie**: Algoritmi care se bazează pe proprietățile numerelor întregi.
-- **Teoria numerelor**: Studiul proprietăților numerelor întregi și al relațiilor dintre ele.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **Geometrie:** Calcularea ariilor și verificarea proprietăților figurilor geometrice.
+- **Criptografie:** Utilizat în anumiți algoritmi de factorizare și protocoale de securitate.
+- **Grafică pe Calculator:** Optimizarea randării prin verificarea distanțelor euclidiene pătratice.
+- **Jocuri de Logică:** Rezolvarea puzzle-urilor matematice și a problemelor de tip "grid".

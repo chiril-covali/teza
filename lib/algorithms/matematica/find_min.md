@@ -1,58 +1,43 @@
 <!-- custom-doc -->
-# Find Min
 
-Find Min este un algoritm utilizat pentru a determina valoarea minimă dintr-o colecție de date, cum ar fi un array sau o listă. Acesta parcurge fiecare element al colecției și compară valorile pentru a identifica cea mai mică valoare.
+# 🚀 **Găsirea Minimului (Find Minimum)**
 
-## Reprezentare Vizuală
+## 📝 **Descriere**
 
-Considerăm un array de numere: `[5, 3, 8, 1, 4]`. Algoritmul Find Min va parcurge acest array pas cu pas:
+Algoritmul pentru **Găsirea Minimului** este unul dintre cei mai simpli și intuitivi algoritmi de căutare a unui extrem. Acesta parcurge o listă de elemente și păstrează valoarea cea mai mică întâlnită până la acel punct, finalizând cu cel mai mic element din întregul set de date.
 
+## 🖼️ **Reprezentare Vizuală**
+
+![Find Min Visual](https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Linear_search_v2.svg/300px-Linear_search_v2.svg.png)
+
+```text
+Array: [5, 3, 8, 1, 4]
+Pas 1: min=5 (primul element)
+Pas 2: 3 < 5? Da -> min=3
+Pas 3: 8 < 3? Nu -> min=3
+Pas 4: 1 < 3? Da -> min=1
+Pas 5: 4 < 1? Nu -> min=1
+Rezultat final: 1
 ```
-Pas 1: 5 (min = 5)
-Pas 2: 3 (min = 3)
-Pas 3: 8 (min = 3)
-Pas 4: 1 (min = 1)
-Pas 5: 4 (min = 1)
 
-Valoarea minimă este 1.
-```
+## ⚖️ **Avantaje și Dezavantaje**
 
-## Matematică / Logică
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Simplitate:** Ușor de înțeles și de implementat de către orice programator. | ⚠️ **Ineficiență:** Trebuie să viziteze fiecare element cel puțin o dată. |
+| 📊 **Universalitate:** Se aplică oricărei colecții de date comparabile (numere, șiruri). | 📉 **Scalabilitate:** Timpul de execuție crește liniar cu dimensiunea listei. |
 
-Algoritmul Find Min poate fi descris prin următoarea logică:
+## 🔢 **Analiză Matematică și Complexitate**
 
-1. Inițializăm o variabilă `min` cu prima valoare a array-ului.
-2. Parcurgem fiecare element al array-ului:
-   - Dacă un element este mai mic decât `min`, actualizăm `min`.
-3. La final, `min` va conține valoarea minimă.
+Algoritmul execută exact $n-1$ comparări pentru o listă de $n$ elemente.
 
-Complexitatea temporală a acestui algoritm este $O(n)$, unde $n$ este numărul de elemente din array.
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Time)** | $O(n)$ |
+| **Spațiu (Space)** | $O(1)$ |
 
-## Tabel de Complextitate
+## 💡 **Aplicații Practice**
 
-| Caz          | Timp (Time Complexity) | Spațiu (Space Complexity) |
-|--------------|------------------------|----------------------------|
-| Cel mai bun  | $O(1)$                 | $O(1)$                     |
-| Mediu       | $O(n)$                 | $O(1)$                     |
-| Cel mai rău | $O(n)$                 | $O(1)$                     |
-
-## Avantaje și Dezavantaje
-
-**Avantaje:**
-- Simplu de implementat.
-- Eficient pentru colecții mici și medii.
-- Nu necesită memorie suplimentară semnificativă.
-
-**Dezavantaje:**
-- Poate deveni ineficient pentru colecții foarte mari.
-- Necesită parcurgerea întregii colecții, ceea ce poate duce la un timp de execuție mai lung.
-
-## Aplicații Practice
-
-Algoritmul Find Min este utilizat în diverse aplicații, cum ar fi:
-- Găsirea celui mai mic preț dintr-o listă de produse.
-- Determinarea celei mai mici valori dintr-un set de date statistice.
-- Optimizarea resurselor în algoritmi de căutare și sortare.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **E-commerce:** Sortarea produselor după cel mai mic preț dintr-o pagină.
+- **Statistică:** Identificarea valorii minime într-un set de date pentru a calcula plaja (range).
+- **Control Industrial:** Detectarea celei mai mici presiuni sau temperaturi dintr-o rețea de senzori.

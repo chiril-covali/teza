@@ -1,75 +1,44 @@
 <!-- custom-doc -->
-# Swap Sortare
 
-Swap Sortare este un algoritm de sortare simplu care funcționează prin compararea perechilor de elemente și schimbarea lor de loc dacă sunt în ordine greșită. Acest algoritm continuă să parcurgă lista de elemente până când nu mai sunt necesare swap-uri, indicând astfel că lista este sortată.
+# 🚀 **Sortarea prin Interschimbare (Swap Sort)**
 
-## Reprezentare Vizuală
+## 📝 **Descriere**
 
-Considerăm un exemplu cu un vector de numere: `[5, 3, 8, 4, 2]`.
+**Swap Sort** (adesea asociat cu Bubble Sort) este un algoritm de sortare intuitiv care funcționează prin compararea repetată a perechilor de elemente adiacente și interschimbarea lor dacă nu sunt în ordinea corectă. Procesul continuă până când o întreagă trecere prin tablou nu mai necesită nicio schimbare.
 
-1. Comparăm 5 și 3. Deoarece 5 > 3, le schimbăm locurile.
-   ```
-   [3, 5, 8, 4, 2]
-   ```
+## 🖼️ **Reprezentare Vizuală**
 
-2. Comparăm 5 și 8. Nu schimbăm.
-   ```
-   [3, 5, 8, 4, 2]
-   ```
+![Swap Sort Animation](https://upload.wikimedia.org/wikipedia/commons/c/c8/Bubble-sort-example-300px.gif)
 
-3. Comparăm 8 și 4. Deoarece 8 > 4, le schimbăm locurile.
-   ```
-   [3, 5, 4, 8, 2]
-   ```
+```text
+Iterație: [5, 3, 8, 4, 2]
+1. (5, 3) -> [3, 5, 8, 4, 2] (Swap!)
+2. (5, 8) -> [3, 5, 8, 4, 2]
+3. (8, 4) -> [3, 5, 4, 8, 2] (Swap!)
+4. (8, 2) -> [3, 5, 4, 2, 8] (Swap!)
+Rezultat trecere: [3, 5, 4, 2, 8]
+... Final: [2, 3, 4, 5, 8]
+```
 
-4. Comparăm 8 și 2. Deoarece 8 > 2, le schimbăm locurile.
-   ```
-   [3, 5, 4, 2, 8]
-   ```
+## ⚖️ **Avantaje și Dezavantaje**
 
-5. Continuăm să parcurgem lista până când nu mai sunt necesare swap-uri. După mai multe iterații, obținem lista sortată:
-   ```
-   [2, 3, 4, 5, 8]
-   ```
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Simplitate:** Cel mai ușor algoritm de înțeles și implementat. | ⚠️ **Ineficiență:** Foarte lent pentru volume mari de date ($O(n^2)$). |
+| 📊 **In-place:** Nu necesită memorie auxiliară. | 📉 **Cost swap:** Efectuează multe operații de scriere în memorie. |
 
-## Matematică / Logică
+## 🔢 **Analiză Matematică și Complexitate**
 
-Algoritmul Swap Sortare poate fi descris prin următoarea logică:
+Algoritmul parcurge tabloul de mai multe ori, micșorând spațiul de căutare cu câte un element la fiecare iterație completă.
 
-- La fiecare iterație, se compară fiecare element cu următorul.
-- Dacă elementul curent este mai mare decât următorul, se efectuează un swap.
-- Acest proces se repetă până când nu mai sunt swap-uri necesare.
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Worst Case)** | $O(n^2)$ |
+| **Timp (Best Case)** | $O(n)$ (dacă este deja sortat) |
+| **Spațiu (Space)** | $O(1)$ |
 
-Complexitatea temporală a algoritmului este dată de formula:
-$$
-O(n^2)
-$$
-unde $n$ este numărul de elemente din lista de sortat.
+## 💡 **Aplicații Practice**
 
-## Tabel de Complextitate
-
-| Caz               | Complexitate Timp | Complexitate Spațiu |
-|-------------------|-------------------|---------------------|
-| Cel mai bun       | $O(n)$            | $O(1)$              |
-| Caz mediu         | $O(n^2)$          | $O(1)$              |
-| Cel mai rău      | $O(n^2)$          | $O(1)$              |
-
-## Avantaje și Dezavantaje
-
-**Avantaje:**
-- Simplu de implementat și înțeles.
-- Nu necesită memorie suplimentară semnificativă (spațiu constant).
-
-**Dezavantaje:**
-- Ineficient pentru liste mari (complexitate $O(n^2)$).
-- Nu este stabil, adică nu păstrează ordinea elementelor egale.
-
-## Aplicații Practice
-
-Swap Sortare este utilizat în aplicații simple unde eficiența nu este o problemă majoră, cum ar fi:
-- Sortarea listelor mici de date.
-- Educația și învățarea conceptelor de bază ale algoritmilor de sortare.
-- Implementări rapide în prototipuri sau aplicații cu cerințe de performanță scăzute.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **Educație:** Primul algoritm predat studenților pentru a înțelege conceptul de sortare.
+- **Sisteme extrem de simple:** Unde resursele de procesare sunt minime și datele sunt foarte puține.
+- **Detectarea sortării:** Folosit ca o verificare rapidă dacă un tablou este deja sortat.

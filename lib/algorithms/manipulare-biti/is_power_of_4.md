@@ -1,43 +1,46 @@
 <!-- custom-doc -->
-# 🧠 Verificare Putere a lui 4
 
-## 📝 Descriere
-Verificarea dacă un număr este o putere a lui 4 este o problemă comună în manipularea biților. O putere a lui 4 poate fi exprimată sub forma $4^n$, unde $n$ este un număr întreg nenegativ. Această verificare poate fi realizată eficient prin manipularea biților, având în vedere că numerele care sunt puteri ale lui 4 au o reprezentare binară specifică.
+# 🚀 **Verificare Putere a lui 4 (Is Power of 4)**
 
-## 🖼️ Reprezentare Vizuală
-![Putere a lui 4](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Power_of_four.svg/1200px-Power_of_four.svg.png)
+## 📝 **Descriere**
 
+Verificarea dacă un număr întreg $n$ este o putere a lui 4 ($4^0, 4^1, 4^2 \dots$) implică verificarea a trei condiții esențiale: numărul trebuie să fie mai mare decât zero, trebuie să fie o putere a lui 2 (un singur bit de 1) și bitul setat trebuie să se afle pe o poziție pară (0, 2, 4, etc.). Această verificare se poate face extrem de eficient prin operații bitwise sau prin restul împărțirii la 3.
+
+## 🖼️ **Reprezentare Vizuală**
+
+![Power of 4 Binary](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Power_of_two_binary.svg/300px-Power_of_two_binary.svg.png)
+
+```text
+n = 16 (4^2)
+Binar: 0001 0000
+Index: 7654 3210
+Bitul 1 este la indexul 4 (par) -> OK!
+
+n = 8 (2^3)
+Binar: 0000 1000
+Index: 7654 3210
+Bitul 1 este la indexul 3 (impar) -> Nu este putere de 4!
 ```
-          1
-         / \
-        4   16
-       / \   \
-      16  64  256
-```
 
-## ⚖️ Avantaje și Dezavantaje
+## ⚖️ **Avantaje și Dezavantaje**
 
-| Avantaj                                    | Dezavantaj                                  |
-|--------------------------------------------|---------------------------------------------|
-| Eficiență ridicată în verificarea rapidă   | Nu funcționează pentru numere negative     |
-| Utilizare simplă a operațiilor pe biți     | Limitat la numere întregi                   |
-| Consum redus de resurse                    | Necesită cunoștințe de bază în manipularea biților |
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Performanță maximă:** Se execută în timp constant $O(1)$ folosind biți. | ⚠️ **Complexitate conceptuală:** Necesită înțelegerea modului de reprezentare a numerelor în binar. |
+| 📊 **Fără bucle:** Evită utilizarea logaritmilor sau a împărțirilor repetate. | 📉 **Specificitate:** Rezolvă doar cazul bazei 4. |
 
-## 🔢 Analiză Matematică și Complexitate
+## 🔢 **Analiză Matematică și Complexitate**
 
-| Metrică               | Valoare                       |
-|-----------------------|-------------------------------|
-| Complexitate temporală | $O(1)$                        |
-| Complexitate spațială  | $O(1)$                        |
+Condiția optimă: `(n > 0) && (n & (n - 1) == 0) && (n % 3 == 1)`.
 
-Pentru a determina dacă un număr $n$ este o putere a lui 4, se poate utiliza următoarea formulă:
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Time)** | $O(1)$ |
+| **Spațiu (Space)** | $O(1)$ |
 
-$$
-\text{Dacă } n > 0 \text{ și } (n \& (n - 1)) = 0 \text{ și } (n \% 3 = 1) \text{ atunci } n \text{ este o putere a lui 4.}
-$$
+## 💡 **Aplicații Practice**
 
-## 💡 Aplicații Practice
-Verificarea puterii lui 4 este utilizată în diverse aplicații, cum ar fi:
-- Algoritmi de optimizare în jocuri video.
-- Procesarea imaginilor, unde dimensiunile matricei trebuie să fie puteri ale lui 4 pentru a îmbunătăți performanța.
-- În structuri de date, cum ar fi arborii de căutare, unde echilibrul este esențial.
+- **Grafică pe Calculator:** Lucrul cu structuri de date de tip Quadtree.
+- **Optimizarea Memoriei:** Alocarea resurselor în sisteme care utilizează blocuri de dimensiune $4^n$.
+- **Procesarea Imaginilor:** Algoritmi de scalare și compresie care se bazează pe subdiviziuni pătratice.
+- **Teoria Numerelor:** Proprietăți specifice resturilor puterilor în diferite baze.

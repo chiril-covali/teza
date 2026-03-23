@@ -81,6 +81,243 @@ function getCategoryTheme(category: string) {
     };
 }
 
+function getAlgorithmAccentTheme(category: string) {
+    const key = normalizeCategoryKey(category);
+    const themes: Record<string, { button: string; buttonHover: string; buttonShadow: string; panel: string; panelText: string; panelShadow: string; focusRing: string }> = {
+        sortare: {
+            button: "bg-rose-600",
+            buttonHover: "hover:bg-rose-700",
+            buttonShadow: "shadow-rose-100",
+            panel: "bg-rose-600",
+            panelText: "text-rose-50",
+            panelShadow: "shadow-rose-200",
+            focusRing: "focus:ring-rose-500",
+        },
+        cautare: {
+            button: "bg-cyan-600",
+            buttonHover: "hover:bg-cyan-700",
+            buttonShadow: "shadow-cyan-100",
+            panel: "bg-cyan-600",
+            panelText: "text-cyan-50",
+            panelShadow: "shadow-cyan-200",
+            focusRing: "focus:ring-cyan-500",
+        },
+        grafuri: {
+            button: "bg-indigo-600",
+            buttonHover: "hover:bg-indigo-700",
+            buttonShadow: "shadow-indigo-100",
+            panel: "bg-indigo-600",
+            panelText: "text-indigo-50",
+            panelShadow: "shadow-indigo-200",
+            focusRing: "focus:ring-indigo-500",
+        },
+        matematica: {
+            button: "bg-lime-600",
+            buttonHover: "hover:bg-lime-700",
+            buttonShadow: "shadow-lime-100",
+            panel: "bg-lime-600",
+            panelText: "text-lime-50",
+            panelShadow: "shadow-lime-200",
+            focusRing: "focus:ring-lime-500",
+        },
+        programare_dinamica: {
+            button: "bg-emerald-600",
+            buttonHover: "hover:bg-emerald-700",
+            buttonShadow: "shadow-emerald-100",
+            panel: "bg-emerald-600",
+            panelText: "text-emerald-50",
+            panelShadow: "shadow-emerald-200",
+            focusRing: "focus:ring-emerald-500",
+        },
+        cifrare: {
+            button: "bg-fuchsia-600",
+            buttonHover: "hover:bg-fuchsia-700",
+            buttonShadow: "shadow-fuchsia-100",
+            panel: "bg-fuchsia-600",
+            panelText: "text-fuchsia-50",
+            panelShadow: "shadow-fuchsia-200",
+            focusRing: "focus:ring-fuchsia-500",
+        },
+        structuri_de_date: {
+            button: "bg-sky-600",
+            buttonHover: "hover:bg-sky-700",
+            buttonShadow: "shadow-sky-100",
+            panel: "bg-sky-600",
+            panelText: "text-sky-50",
+            panelShadow: "shadow-sky-200",
+            focusRing: "focus:ring-sky-500",
+        },
+        manipulare_de_biti: {
+            button: "bg-violet-600",
+            buttonHover: "hover:bg-violet-700",
+            buttonShadow: "shadow-violet-100",
+            panel: "bg-violet-600",
+            panelText: "text-violet-50",
+            panelShadow: "shadow-violet-200",
+            focusRing: "focus:ring-violet-500",
+        },
+        backtracking: {
+            button: "bg-amber-600",
+            buttonHover: "hover:bg-amber-700",
+            buttonShadow: "shadow-amber-100",
+            panel: "bg-amber-600",
+            panelText: "text-amber-50",
+            panelShadow: "shadow-amber-200",
+            focusRing: "focus:ring-amber-500",
+        },
+        diverse: {
+            button: "bg-orange-600",
+            buttonHover: "hover:bg-orange-700",
+            buttonShadow: "shadow-orange-100",
+            panel: "bg-orange-600",
+            panelText: "text-orange-50",
+            panelShadow: "shadow-orange-200",
+            focusRing: "focus:ring-orange-500",
+        },
+    };
+
+    return themes[key] || themes.grafuri;
+}
+
+function toInputLabel(key: string) {
+    return key
+        .replace(/_/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function formatEdgeList(value: Array<{ from?: string; to?: string; weight?: number }>) {
+    return value
+        .map((edge) => {
+            const from = edge.from ?? "";
+            const to = edge.to ?? "";
+            if (edge.weight === undefined || edge.weight === null || Number.isNaN(edge.weight)) {
+                return `${from}, ${to}`;
+            }
+            return `${from}, ${to}, ${edge.weight}`;
+        })
+        .join("\n");
+}
+
+function parseEdgeList(text: string) {
+    return text
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .map((line) => {
+            const [from = "", to = "", weightRaw] = line.split(",").map((part) => part.trim());
+            const edge: { from: string; to: string; weight?: number } = { from, to };
+            if (weightRaw !== undefined && weightRaw !== "") {
+                const parsed = Number(weightRaw);
+                if (!Number.isNaN(parsed)) {
+                    edge.weight = parsed;
+                }
+            }
+            return edge;
+        })
+        .filter((edge) => edge.from && edge.to);
+}
+
+function parsePrimitiveArray(value: string, sample: unknown, key: string) {
+    const parts = value
+        .split(",")
+        .map((part) => part.trim())
+        .filter(Boolean);
+
+    const keySuggestsNumeric = /(array|coins|weights|values|numbers|nums)/i.test(key);
+    const shouldBeNumeric = typeof sample === "number" || keySuggestsNumeric;
+
+    if (shouldBeNumeric) {
+        return parts.map((part) => Number(part)).filter((n) => !Number.isNaN(n));
+    }
+
+    return parts;
+}
+
+function formatMatrix(matrix: number[][]) {
+    return matrix.map((row) => row.join(", ")).join("\n");
+}
+
+function parseMatrix(text: string) {
+    return text
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .map((line) =>
+            line
+                .split(",")
+                .map((part) => Number(part.trim()))
+                .filter((n) => !Number.isNaN(n))
+        )
+        .filter((row) => row.length > 0);
+}
+
+const GENERIC_INPUT_DEFAULTS: Record<string, Record<string, any>> = {
+    matematica_absolute_value: { n: -7 },
+    matematica_aliquot_sum: { n: 12 },
+    matematica_armstrong_number: { n: 153 },
+    matematica_binary_convert: { n: 25 },
+    matematica_binomial_coefficient: { n: 5, k: 2 },
+    matematica_calculate_mean: { numbers: [10, 20, 30, 40] },
+    matematica_calculate_median: { numbers: [3, 1, 4, 2, 5] },
+    matematica_degrees_to_radians: { degrees: 180 },
+    matematica_digit_sum: { n: 928 },
+    matematica_double_factorial_iterative: { n: 9 },
+    matematica_euler_totient: { n: 36 },
+    matematica_factorial: { n: 7 },
+    matematica_factors: { n: 24 },
+    matematica_fibonacci: { n: 10 },
+    matematica_find_min: { numbers: [7, 2, 9, -1, 5] },
+    matematica_gaussian_elimination: {
+        matrix: [
+            [2, 1, -1, 8],
+            [-3, -1, 2, -11],
+            [-2, 1, 2, -3],
+        ],
+    },
+    matematica_greatest_common_factor: { a: 48, b: 18 },
+    matematica_hamming_distance: { str1: "karolin", str2: "kathrin" },
+    matematica_series_hexagonal_numbers: { n: 10 },
+    matematica_is_divisible: { num1: 24, num2: 6 },
+    matematica_is_even: { n: 8 },
+    matematica_is_leap_year: { year: 2024 },
+    matematica_is_odd: { n: 7 },
+    matematica_is_palindrome: { n: 121 },
+    matematica_is_square_free: { n: 30 },
+    matematica_juggler_sequence: { a: 9, n: 5 },
+    matematica_lowest_common_multiple: { numbers: [4, 6, 10] },
+    matematica_matrix_multiplication: {
+        matrixA: [
+            [1, 2],
+            [3, 4],
+        ],
+        matrixB: [
+            [5, 6],
+            [7, 8],
+        ],
+    },
+    matematica_number_of_digits: { n: 12345 },
+    matematica_pascals_triangle: { n: 6 },
+    matematica_perfect_cube: { n: 27 },
+    matematica_perfect_number: { n: 28 },
+    matematica_perfect_square: { n: 49 },
+    matematica_prime_factorization: { n: 84 },
+    matematica_primes: { n: 50 },
+    matematica_pronic_number: { n: 20 },
+    matematica_radians_to_degrees: { radians: 3.14159 },
+    matematica_sieve_of_eratosthenes: { n: 50 },
+    matematica_signum: { n: -12 },
+    matematica_square_root: { n: 2, precision: 0.000001 },
+    matematica_ugly_numbers: { n: 12 },
+    matematica_zellers_congruence: { year: 2024, month: 3, day: 23, calendar: "Gregorian" },
+    "manipulare-biti_add_binary": { a: "1010", b: "1011" },
+    "manipulare-biti_log_two": { n: 16 },
+    "manipulare-biti_is_power_of_2": { n: 16 },
+    "manipulare-biti_is_power_of_4": { n: 16 },
+    diverse_shuffle_array: { array: [1, 2, 3, 4, 5, 6] },
+    backtracking_generateparentheses: { n: 3 },
+    backtracking_all_combinations_of_size_k: { n: 5, k: 2 },
+};
+
 interface AlgorithmPlayerProps {
 	meta: AlgorithmMeta;
     docMarkdown: string;
@@ -413,11 +650,301 @@ function GenericVisualizer({ event }: { event: TraceEvent }) {
     );
 }
 
+const CUSTOM_MATH_VISUAL_SLUGS = new Set([
+    "matematica_sieve_of_eratosthenes",
+    "matematica_greatest_common_factor",
+    "matematica_prime_factorization",
+    "matematica_binary_convert",
+    "matematica_lowest_common_multiple",
+]);
+
+function primeFactorsList(value: number) {
+    const factors: number[] = [];
+    let n = Math.abs(Math.floor(value));
+    for (let p = 2; p * p <= n; p += 1) {
+        while (n % p === 0) {
+            factors.push(p);
+            n = Math.floor(n / p);
+        }
+    }
+    if (n > 1) factors.push(n);
+    return factors;
+}
+
+function uniqueSorted(values: number[]) {
+    return Array.from(new Set(values)).sort((a, b) => a - b);
+}
+
+function MathOperationsVisualizer({ slug, event, input }: { slug: string; event: TraceEvent; input: any }) {
+    const ev = event as any;
+    const vars = ev.vars || {};
+
+    if (slug === "matematica_sieve_of_eratosthenes") {
+        const n = Math.max(2, Number(input?.n ?? vars?.n ?? 50));
+        const state: number[] = Array.isArray(ev.array) ? ev.array : [];
+        const limit = Math.min(n, 80);
+        const nums = Array.from({ length: limit - 1 }, (_, i) => i + 2);
+        const currentPrime = vars.p ?? vars.factor ?? "-";
+        const currentMultiple = vars.eliminat ?? ev.index ?? "-";
+
+        return (
+            <div className="w-full space-y-4">
+                <p className="text-xs text-slate-500 font-semibold text-center">Ciurul lui Eratostene: selectăm un prim p, apoi tăiem multiplii lui.</p>
+                <div className="grid md:grid-cols-5 gap-4">
+                    <div className="md:col-span-3">
+                        <div className="grid grid-cols-8 sm:grid-cols-10 gap-2">
+                            {nums.map((num) => {
+                                const flag = state[num] ?? 0;
+                                const isCurrent = num === ev.index;
+                                const isPivot = num === currentPrime;
+                                const cls = flag ? "bg-emerald-100 text-emerald-700 border-emerald-200" : "bg-rose-100 text-rose-700 border-rose-200";
+                                return (
+                                    <div key={num} className={`h-9 rounded-lg border text-xs font-black flex items-center justify-center transition-all ${cls} ${isCurrent ? "ring-2 ring-indigo-400" : ""} ${isPivot ? "ring-2 ring-amber-400" : ""}`}>
+                                        {num}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                    <div className="md:col-span-2 rounded-2xl border border-slate-200 bg-white p-3">
+                        <table className="w-full text-xs">
+                            <tbody>
+                                <tr className="border-b border-slate-100">
+                                    <td className="py-2 font-black text-slate-500">Selectat p</td>
+                                    <td className="py-2 text-right font-black text-amber-600">{currentPrime}</td>
+                                </tr>
+                                <tr className="border-b border-slate-100">
+                                    <td className="py-2 font-black text-slate-500">Element curent</td>
+                                    <td className="py-2 text-right font-black text-indigo-600">{currentMultiple}</td>
+                                </tr>
+                                <tr className="border-b border-slate-100">
+                                    <td className="py-2 font-black text-slate-500">Operație</td>
+                                    <td className="py-2 text-right font-semibold text-slate-700">marcare / eliminare</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 font-black text-slate-500">Regulă</td>
+                                    <td className="py-2 text-right font-semibold text-slate-700">j = p², p²+p, ...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div className="mt-3 text-[11px] text-slate-500 leading-relaxed">
+                            Verde: număr încă posibil prim. Roșu: eliminat pentru că se împarte la un prim anterior.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (slug === "matematica_greatest_common_factor") {
+        const a = Number(vars.a ?? 0);
+        const b = Number(vars.b ?? 0);
+        const rest = Number(vars.rest ?? 0);
+        const safeA = Math.max(1, Math.abs(a));
+        const safeB = Math.max(1, Math.abs(b));
+        const maxAB = Math.max(safeA, safeB, 1);
+        const q = safeB > 0 ? Math.floor(safeA / safeB) : 0;
+
+        return (
+            <div className="w-full max-w-2xl space-y-4">
+                <div className="grid grid-cols-3 gap-3 text-center">
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <div className="text-[10px] uppercase font-black text-slate-400">a</div>
+                        <div className="text-xl font-black text-slate-800">{a || "-"}</div>
+                    </div>
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <div className="text-[10px] uppercase font-black text-slate-400">b</div>
+                        <div className="text-xl font-black text-slate-800">{b || "-"}</div>
+                    </div>
+                    <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-4">
+                        <div className="text-[10px] uppercase font-black text-indigo-400">rest</div>
+                        <div className="text-xl font-black text-indigo-700">{rest || 0}</div>
+                    </div>
+                </div>
+
+                <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
+                    <div>
+                        <div className="text-[10px] uppercase font-black text-slate-400 mb-1">Segment A</div>
+                        <div className="h-4 rounded bg-slate-100 overflow-hidden">
+                            <div className="h-full bg-sky-500" style={{ width: `${(safeA / maxAB) * 100}%` }} />
+                        </div>
+                    </div>
+                    <div>
+                        <div className="text-[10px] uppercase font-black text-slate-400 mb-1">Segment B</div>
+                        <div className="h-4 rounded bg-slate-100 overflow-hidden">
+                            <div className="h-full bg-indigo-500" style={{ width: `${(safeB / maxAB) * 100}%` }} />
+                        </div>
+                    </div>
+                    <table className="w-full text-xs">
+                        <tbody>
+                            <tr className="border-b border-slate-100"><td className="py-1.5 font-black text-slate-500">Împărțire</td><td className="py-1.5 text-right font-mono">{safeA} = {safeB} × {q} + {rest}</td></tr>
+                            <tr><td className="py-1.5 font-black text-slate-500">Pas următor</td><td className="py-1.5 text-right font-mono">({safeB}, {rest})</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        );
+    }
+
+    if (slug === "matematica_prime_factorization") {
+        const factors: number[] = Array.isArray(ev.array) ? ev.array : [];
+        const current = vars.n_curent;
+        const next = vars.n_nou;
+        return (
+            <div className="w-full space-y-5">
+                <div className="flex flex-wrap justify-center gap-2">
+                    {factors.length === 0 ? (
+                        <span className="text-slate-400 text-sm font-semibold">Încă nu există factori extrași</span>
+                    ) : (
+                        factors.map((factor, idx) => (
+                            <span key={`${factor}-${idx}`} className="px-3 py-2 rounded-xl bg-indigo-600 text-white font-black text-sm">{factor}</span>
+                        ))
+                    )}
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                    <div className="text-[10px] uppercase font-black text-slate-400 mb-3">Ramificare (arbore de împărțire)</div>
+                    <div className="flex items-center justify-center gap-3 flex-wrap">
+                        <div className="px-3 py-2 rounded-xl bg-slate-900 text-white font-black">{current ?? "n"}</div>
+                        <span className="text-slate-300 font-black">÷</span>
+                        <div className="px-3 py-2 rounded-xl bg-indigo-100 text-indigo-700 font-black">{vars.divizor ?? "p"}</div>
+                        <span className="text-slate-300 font-black">→</span>
+                        <div className="px-3 py-2 rounded-xl bg-emerald-100 text-emerald-700 font-black">{next ?? "n/p"}</div>
+                    </div>
+                    {factors.length > 0 && (
+                        <div className="mt-4 flex items-center justify-center gap-2 flex-wrap">
+                            {factors.map((factor, idx) => (
+                                <span key={`${factor}-${idx}`} className="inline-flex items-center gap-2">
+                                    {idx > 0 && <span className="text-slate-300 font-black">×</span>}
+                                    <span className="px-2.5 py-1.5 rounded-lg bg-indigo-600 text-white font-black text-xs">{factor}</span>
+                                </span>
+                            ))}
+                        </div>
+                    )}
+                </div>
+                <div className="text-center text-sm font-semibold text-slate-600">
+                    {vars.factori ? `Descompunere: ${vars.factori}` : "Extragem factorii primi prin împărțiri succesive."}
+                </div>
+            </div>
+        );
+    }
+
+    if (slug === "matematica_binary_convert") {
+        const bits: number[] = Array.isArray(ev.array) ? ev.array : [];
+        return (
+            <div className="w-full max-w-2xl space-y-4">
+                <div className="grid grid-cols-3 gap-3 text-center">
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <div className="text-[10px] uppercase font-black text-slate-400">n curent</div>
+                        <div className="text-xl font-black text-slate-800">{vars.n_curent ?? vars.decimal ?? "-"}</div>
+                    </div>
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <div className="text-[10px] uppercase font-black text-slate-400">cat</div>
+                        <div className="text-xl font-black text-slate-800">{vars.cat ?? "-"}</div>
+                    </div>
+                    <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-4">
+                        <div className="text-[10px] uppercase font-black text-indigo-400">rest / bit</div>
+                        <div className="text-xl font-black text-indigo-700">{vars.rest ?? vars.bit ?? "-"}</div>
+                    </div>
+                </div>
+                <div className="flex justify-center gap-2 flex-wrap">
+                    {bits.map((bit, idx) => (
+                        <span
+                            key={`${bit}-${idx}`}
+                            className={`h-10 w-10 rounded-xl border font-black flex items-center justify-center ${bit === 1 ? "bg-emerald-500 border-emerald-600 text-white" : "bg-sky-100 border-sky-200 text-sky-700"} ${idx === bits.length - 1 ? "ring-2 ring-indigo-300" : ""}`}
+                        >
+                            {bit}
+                        </span>
+                    ))}
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white p-3">
+                    <table className="w-full text-xs">
+                        <tbody>
+                            <tr className="border-b border-slate-100"><td className="py-1.5 font-black text-slate-500">Operație</td><td className="py-1.5 text-right font-mono">n / 2</td></tr>
+                            <tr className="border-b border-slate-100"><td className="py-1.5 font-black text-slate-500">Rest (bit nou)</td><td className="py-1.5 text-right font-mono">{vars.rest ?? vars.bit ?? "-"}</td></tr>
+                            <tr><td className="py-1.5 font-black text-slate-500">Șir biți</td><td className="py-1.5 text-right font-mono">{(vars.binary ?? vars.bits_partial ?? bits.join("")) || "-"}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        );
+    }
+
+    if (slug === "matematica_lowest_common_multiple") {
+        const numbers: number[] = Array.isArray(vars.numbers) ? vars.numbers : Array.isArray(input?.numbers) ? input.numbers : [];
+        const a = Number(vars.a ?? numbers[0] ?? 1);
+        const b = Number(vars.b ?? numbers[1] ?? 1);
+        const af = primeFactorsList(a);
+        const bf = primeFactorsList(b);
+        const ai = uniqueSorted(af);
+        const bi = uniqueSorted(bf);
+        const inter = ai.filter((x) => bi.includes(x));
+        const onlyA = ai.filter((x) => !inter.includes(x));
+        const onlyB = bi.filter((x) => !inter.includes(x));
+        return (
+            <div className="w-full max-w-3xl space-y-4">
+                <div className="flex flex-wrap justify-center gap-2">
+                    {numbers.map((num, idx) => (
+                        <span key={`${num}-${idx}`} className="px-3 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 font-black text-sm">{num}</span>
+                    ))}
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div className="rounded-xl bg-slate-50 border border-slate-200 p-3 text-center">
+                        <div className="text-[10px] uppercase font-black text-slate-400">a</div>
+                        <div className="text-lg font-black text-slate-800">{vars.a ?? "-"}</div>
+                    </div>
+                    <div className="rounded-xl bg-slate-50 border border-slate-200 p-3 text-center">
+                        <div className="text-[10px] uppercase font-black text-slate-400">b</div>
+                        <div className="text-lg font-black text-slate-800">{vars.b ?? "-"}</div>
+                    </div>
+                    <div className="rounded-xl bg-indigo-50 border border-indigo-200 p-3 text-center">
+                        <div className="text-[10px] uppercase font-black text-indigo-400">cmmdc</div>
+                        <div className="text-lg font-black text-indigo-700">{vars.cmmdc ?? "-"}</div>
+                    </div>
+                    <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-3 text-center">
+                        <div className="text-[10px] uppercase font-black text-emerald-400">cmmc</div>
+                        <div className="text-lg font-black text-emerald-700">{vars.cmmc_partial ?? vars.cmmc ?? "-"}</div>
+                    </div>
+                </div>
+
+                <div className="grid lg:grid-cols-2 gap-4">
+                    <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                        <div className="text-[10px] uppercase font-black text-slate-400 mb-2">Diagramă Venn (factori primi unici pentru a și b)</div>
+                        <svg viewBox="0 0 300 180" className="w-full h-44">
+                            <circle cx="120" cy="90" r="58" fill="#e0f2fe" stroke="#7dd3fc" strokeWidth="2" />
+                            <circle cx="180" cy="90" r="58" fill="#ede9fe" stroke="#a78bfa" strokeWidth="2" />
+                            <text x="94" y="32" className="fill-sky-700 text-[10px] font-black">a = {a}</text>
+                            <text x="188" y="32" className="fill-violet-700 text-[10px] font-black">b = {b}</text>
+                            <text x="80" y="92" className="fill-sky-700 text-[10px] font-bold">{onlyA.join(", ") || "-"}</text>
+                            <text x="150" y="92" className="fill-indigo-700 text-[10px] font-bold">{inter.join(", ") || "-"}</text>
+                            <text x="220" y="92" className="fill-violet-700 text-[10px] font-bold">{onlyB.join(", ") || "-"}</text>
+                        </svg>
+                    </div>
+
+                    <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                        <div className="text-[10px] uppercase font-black text-slate-400 mb-2">Flux de calcul</div>
+                        <div className="space-y-2 text-xs font-mono">
+                            <div className="rounded-lg bg-slate-50 px-3 py-2">1. CMMDC({a}, {b}) = {vars.cmmdc ?? "?"}</div>
+                            <div className="rounded-lg bg-slate-50 px-3 py-2">2. CMMC = ({a} × {b}) / CMMDC</div>
+                            <div className="rounded-lg bg-emerald-50 text-emerald-700 px-3 py-2 font-black">3. CMMC = {vars.cmmc_partial ?? vars.cmmc ?? "?"}</div>
+                        </div>
+                        <div className="mt-3 h-2 rounded-full bg-slate-100 overflow-hidden">
+                            <div className="h-full bg-emerald-500" style={{ width: `${Math.min(100, ((vars.pas ?? 1) / Math.max(1, numbers.length - 1)) * 100)}%` }} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    return <GenericVisualizer event={event} />;
+}
+
 
 
 function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
 	const [input, setInput] = useState<Record<string, any>>({});
     const [rawInput, setRawInput] = useState<string>("");
+    const [inputDrafts, setInputDrafts] = useState<Record<string, string>>({});
 	const [trace, setTrace] = useState<TraceEvent[]>([]);
 	const [currentStep, setCurrentStep] = useState(0);
 	const [playing, setPlaying] = useState(false);
@@ -455,6 +982,23 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
 	useEffect(() => {
         const vizType = meta.visualizerType || "none";
         const slug = meta.slug;
+    setInputDrafts({});
+
+        const slugDefaultInput = GENERIC_INPUT_DEFAULTS[slug];
+        if (slugDefaultInput && vizType !== "sorting" && vizType !== "search" && vizType !== "graph" && vizType !== "dp") {
+            setInput(slugDefaultInput);
+            setRawInput(JSON.stringify(slugDefaultInput, null, 2));
+            return;
+        }
+
+        const isMathCategory = normalizeCategoryKey(meta.category).replace(/-/g, "_") === "matematica";
+        if (isMathCategory && vizType !== "sorting" && vizType !== "search" && vizType !== "graph" && vizType !== "dp") {
+            const fallbackMathInput = { n: 10 };
+            setInput(fallbackMathInput);
+            setRawInput(JSON.stringify(fallbackMathInput, null, 2));
+            return;
+        }
+
 		if (vizType === "sorting") {
             const defaultArray = [64, 34, 25, 12, 22, 11, 90];
 			setInput({ array: defaultArray });
@@ -496,63 +1040,9 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                 setRawInput(JSON.stringify(defaultData, null, 2));
             }
         } else if (vizType === "generic") {
-            if (slug.includes("fibonacci")) {
-                const defaultData = { n: 10 };
-                setInput(defaultData);
-                setRawInput(JSON.stringify(defaultData, null, 2));
-            } else if (slug.includes("factorial")) {
-                const defaultData = { n: 7 };
-                setInput(defaultData);
-                setRawInput(JSON.stringify(defaultData, null, 2));
-            } else if (slug.includes("sieve")) {
-                const defaultData = { n: 50 };
-                setInput(defaultData);
-                setRawInput(JSON.stringify(defaultData, null, 2));
-            } else if (slug.includes("add_binary")) {
-                const defaultData = { a: "1010", b: "1011" };
-                setInput(defaultData);
-                setRawInput(JSON.stringify(defaultData, null, 2));
-            } else if (slug.includes("shuffle")) {
-                const defaultData = { array: [1, 2, 3, 4, 5, 6] };
-                setInput(defaultData);
-                setRawInput(JSON.stringify(defaultData, null, 2));
-            } else if (slug.includes("absolute_value")) {
-                const defaultData = { n: -7 };
-                setInput(defaultData);
-                setRawInput(JSON.stringify(defaultData, null, 2));
-            } else if (slug.includes("is_palindrome")) {
-                const defaultData = { n: 121 };
-                setInput(defaultData);
-                setRawInput(JSON.stringify(defaultData, null, 2));
-            } else if (slug.includes("greatest_common_factor")) {
-                const defaultData = { a: 48, b: 18 };
-                setInput(defaultData);
-                setRawInput(JSON.stringify(defaultData, null, 2));
-            } else if (slug.includes("prime_factorization")) {
-                const defaultData = { n: 84 };
-                setInput(defaultData);
-                setRawInput(JSON.stringify(defaultData, null, 2));
-            } else if (slug.includes("log_two")) {
-                const defaultData = { n: 16 };
-                setInput(defaultData);
-                setRawInput(JSON.stringify(defaultData, null, 2));
-            } else if (slug.includes("is_power_of")) {
-                const defaultData = { n: 16 };
-                setInput(defaultData);
-                setRawInput(JSON.stringify(defaultData, null, 2));
-            } else if (slug.includes("generateparentheses")) {
-                const defaultData = { n: 3 };
-                setInput(defaultData);
-                setRawInput(JSON.stringify(defaultData, null, 2));
-            } else if (slug.includes("all_combinations")) {
-                const defaultData = { n: 5, k: 2 };
-                setInput(defaultData);
-                setRawInput(JSON.stringify(defaultData, null, 2));
-            } else {
-                const defaultData = { n: 10 };
-                setInput(defaultData);
-                setRawInput(JSON.stringify(defaultData, null, 2));
-            }
+            const defaultData = { n: 10 };
+            setInput(defaultData);
+            setRawInput(JSON.stringify(defaultData, null, 2));
         } else {
             setInput({});
             setRawInput("{}");
@@ -592,11 +1082,6 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                 const arr = rawInput.split(",").map(n => parseInt(n.trim())).filter(n => !isNaN(n));
                 finalInput = { ...input, array: arr };
                 setInput(finalInput);
-            } else {
-                try {
-                    finalInput = JSON.parse(rawInput);
-                    setInput(finalInput);
-                } catch (e) { }
             }
 
 			const result = await api.run(meta.slug, finalInput);
@@ -662,6 +1147,7 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
     const vizType = meta.visualizerType || "none";
     const isArrayAlgo = vizType === "sorting" || vizType === "search";
     const sourceFileName = getSourceFileName(meta.slug);
+    const accentTheme = getAlgorithmAccentTheme(meta.category);
 
 	return (
 		<div className="space-y-8">
@@ -673,7 +1159,20 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                         { id: "descriere", label: "Descriere", icon: <CommentDiscussionIcon /> },
                         { id: "input", label: "Date Intrare", icon: <GearIcon /> },
                         { id: "viz", label: "Vizualizare", icon: <EyeIcon /> },
-                        { id: "chat", label: "Asistent AI", icon: <CommentDiscussionIcon /> },
+                        {
+                            id: "chat",
+                            label: "Asistent AI",
+                            icon: (
+                                <img
+                                    src="https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg"
+                                    alt=""
+                                    aria-hidden="true"
+                                    className="h-4 w-4 object-contain"
+                                    loading="lazy"
+                                    decoding="async"
+                                />
+                            ),
+                        },
                         { id: "code", label: "Cod Sursă", icon: <CodeIcon /> }
                     ].map((t) => (
                         <button
@@ -696,7 +1195,6 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
             <div className="space-y-6 min-h-[640px]">
                 {tab === "descriere" && (
                     <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm">
-                        <h3 className="text-xl font-bold text-slate-900 mb-5">Descriere algoritm</h3>
                         <article className="prose prose-slate max-w-none prose-headings:font-black prose-p:leading-relaxed prose-li:leading-relaxed">
                             <ReactMarkdown
                                 remarkPlugins={[remarkGfm, remarkMath]}
@@ -788,7 +1286,9 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                                             </div>
                                         </div>
                                         <div className="flex-1 overflow-auto flex items-center justify-center p-4">
-                                            {vizType === "sorting" ? (
+                                            {CUSTOM_MATH_VISUAL_SLUGS.has(meta.slug) ? (
+                                                <MathOperationsVisualizer slug={meta.slug} event={currentEvent} input={input} />
+                                            ) : vizType === "sorting" ? (
                                                 <SortingVisualizer event={currentEvent} input={input} slug={meta.slug} />
                                             ) : vizType === "search" ? (
                                                 <SearchVisualizer event={currentEvent} input={input} />
@@ -834,7 +1334,7 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                         {/* Right Sidebar */}
                         <div className="lg:col-span-4 space-y-4">
                             {/* Explanation */}
-                            <div className="p-6 bg-indigo-600 rounded-[2rem] text-white shadow-2xl shadow-indigo-200 relative overflow-hidden group" style={{ minHeight: "160px" }}>
+                            <div className={`p-6 ${accentTheme.panel} rounded-[2rem] text-white shadow-2xl ${accentTheme.panelShadow} relative overflow-hidden group`} style={{ minHeight: "160px" }}>
                                 <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:scale-110 transition-transform duration-700">
                                     <CommentDiscussionIcon size={100} />
                                 </div>
@@ -845,7 +1345,7 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                                         </div>
                                         <h4 className="font-black text-base tracking-tight">Explicație pas</h4>
                                     </div>
-                                    <p className="text-base leading-relaxed text-indigo-50 font-medium">
+                                    <p className={`text-base leading-relaxed ${accentTheme.panelText} font-medium`}>
                                         {explanation || "Apasă Restart pentru a începe analiza algoritmului pas cu pas."}
                                     </p>
                                 </div>
@@ -903,8 +1403,8 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                                     : vizType === "generic"
                                     ? "Modifică parametrii de mai jos și apasă «Aplică și Rulează» pentru a vizualiza execuția."
                                     : vizType === "dp"
-                                    ? "Modifică parametrii algoritmului de programare dinamică în formatul JSON."
-                                    : "Modifică obiectul JSON de mai jos pentru a schimba datele de test."}
+                                    ? "Modifică parametrii algoritmului de programare dinamică folosind câmpurile de mai jos."
+                                    : "Modifică datele de test folosind formularul de mai jos."}
                             </p>
                             
                             {isArrayAlgo ? (
@@ -936,17 +1436,164 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                                     )}
                                 </div>
                             ) : (
-                                <textarea
-                                    value={rawInput}
-                                    onChange={(e) => setRawInput(e.target.value)}
-                                    className="w-full font-mono text-sm p-6 bg-slate-900 text-indigo-300 rounded-3xl border-none focus:ring-2 focus:ring-indigo-500 transition-all"
-                                    rows={12}
-                                />
+                                <div className="space-y-4">
+                                    {Object.keys(input).length === 0 ? (
+                                        <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-500">
+                                            Acest algoritm nu necesită parametri de intrare.
+                                        </div>
+                                    ) : (
+                                        Object.entries(input).map(([key, value]) => {
+                                            const label = toInputLabel(key);
+                                            if (Array.isArray(value)) {
+                                                const isEdgeList = value.every((item) => item && typeof item === "object" && "from" in item && "to" in item);
+                                                if (isEdgeList) {
+                                                    const edgeDraft = inputDrafts[key] ?? formatEdgeList(value as Array<{ from?: string; to?: string; weight?: number }>);
+                                                    return (
+                                                        <div key={key} className="space-y-2">
+                                                            <label className="text-xs font-bold text-slate-400 uppercase">{label}</label>
+                                                            <textarea
+                                                                value={edgeDraft}
+                                                                onChange={(e) => setInputDrafts((prev) => ({ ...prev, [key]: e.target.value }))}
+                                                                onBlur={() => {
+                                                                    const raw = inputDrafts[key] ?? edgeDraft;
+                                                                    const parsed = parseEdgeList(raw);
+                                                                    setInput((prev) => ({ ...prev, [key]: parsed }));
+                                                                    setInputDrafts((prev) => ({ ...prev, [key]: formatEdgeList(parsed) }));
+                                                                }}
+                                                                className={`w-full font-mono text-sm p-4 bg-slate-50 text-slate-900 rounded-2xl border border-slate-200 ${accentTheme.focusRing} focus:ring-2 transition-all outline-none`}
+                                                                rows={6}
+                                                                placeholder="ex: A, B, 4&#10;A, C, 2&#10;C, D, 1"
+                                                            />
+                                                            <p className="text-[11px] text-slate-400">Format: nod_start, nod_final, greutate(opțional)</p>
+                                                        </div>
+                                                    );
+                                                }
+
+                                                const isMatrix = value.every((item) => Array.isArray(item));
+                                                if (isMatrix) {
+                                                    const matrixDraft = inputDrafts[key] ?? formatMatrix(value as number[][]);
+                                                    return (
+                                                        <div key={key} className="space-y-2">
+                                                            <label className="text-xs font-bold text-slate-400 uppercase">{label}</label>
+                                                            <textarea
+                                                                value={matrixDraft}
+                                                                onChange={(e) => setInputDrafts((prev) => ({ ...prev, [key]: e.target.value }))}
+                                                                onBlur={() => {
+                                                                    const raw = inputDrafts[key] ?? matrixDraft;
+                                                                    const parsed = parseMatrix(raw);
+                                                                    setInput((prev) => ({ ...prev, [key]: parsed }));
+                                                                    setInputDrafts((prev) => ({ ...prev, [key]: formatMatrix(parsed) }));
+                                                                }}
+                                                                className={`w-full font-mono text-sm p-4 bg-slate-50 text-slate-900 rounded-2xl border border-slate-200 ${accentTheme.focusRing} focus:ring-2 transition-all outline-none`}
+                                                                rows={6}
+                                                                placeholder="Rândurile separate prin Enter, valorile prin virgulă"
+                                                            />
+                                                        </div>
+                                                    );
+                                                }
+
+                                                return (
+                                                    <div key={key} className="space-y-2">
+                                                        <label className="text-xs font-bold text-slate-400 uppercase">{label}</label>
+                                                        <input
+                                                            type="text"
+                                                            value={inputDrafts[key] ?? value.join(", ")}
+                                                            onChange={(e) => setInputDrafts((prev) => ({ ...prev, [key]: e.target.value }))}
+                                                            onBlur={() => {
+                                                                const sample = value.length > 0 ? value[0] : undefined;
+                                                                const raw = inputDrafts[key] ?? value.join(", ");
+                                                                const parsed = parsePrimitiveArray(raw, sample, key);
+                                                                setInput((prev) => ({ ...prev, [key]: parsed }));
+                                                                setInputDrafts((prev) => ({ ...prev, [key]: parsed.join(", ") }));
+                                                            }}
+                                                            className={`w-full font-mono text-base p-4 bg-slate-50 text-slate-900 rounded-2xl border border-slate-200 ${accentTheme.focusRing} focus:ring-2 transition-all outline-none`}
+                                                            placeholder="Valori separate prin virgulă"
+                                                        />
+                                                    </div>
+                                                );
+                                            }
+
+                                            if (typeof value === "number") {
+                                                return (
+                                                    <div key={key} className="space-y-2">
+                                                        <label className="text-xs font-bold text-slate-400 uppercase">{label}</label>
+                                                        <input
+                                                            type="number"
+                                                            value={inputDrafts[key] ?? (Number.isFinite(value) ? String(value) : "")}
+                                                            onChange={(e) => setInputDrafts((prev) => ({ ...prev, [key]: e.target.value }))}
+                                                            onBlur={() => {
+                                                                const raw = inputDrafts[key] ?? (Number.isFinite(value) ? String(value) : "");
+                                                                const parsed = Number(raw);
+                                                                if (!Number.isNaN(parsed)) {
+                                                                    setInput((prev) => ({ ...prev, [key]: parsed }));
+                                                                    setInputDrafts((prev) => ({ ...prev, [key]: String(parsed) }));
+                                                                } else {
+                                                                    setInputDrafts((prev) => ({ ...prev, [key]: Number.isFinite(value) ? String(value) : "" }));
+                                                                }
+                                                            }}
+                                                            className={`w-full font-mono text-base p-4 bg-slate-50 text-slate-900 rounded-2xl border border-slate-200 ${accentTheme.focusRing} focus:ring-2 transition-all outline-none`}
+                                                        />
+                                                    </div>
+                                                );
+                                            }
+
+                                            if (typeof value === "boolean") {
+                                                return (
+                                                    <label key={key} className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                                                        <span className="text-sm font-semibold text-slate-700">{label}</span>
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={value}
+                                                            onChange={(e) => setInput((prev) => ({ ...prev, [key]: e.target.checked }))}
+                                                            className={`h-4 w-4 rounded border-slate-300 text-slate-900 ${accentTheme.focusRing}`}
+                                                        />
+                                                    </label>
+                                                );
+                                            }
+
+                                            if (typeof value === "string") {
+                                                if (key.toLowerCase() === "calendar") {
+                                                    return (
+                                                        <div key={key} className="space-y-2">
+                                                            <label className="text-xs font-bold text-slate-400 uppercase">{label}</label>
+                                                            <select
+                                                                value={value}
+                                                                onChange={(e) => setInput((prev) => ({ ...prev, [key]: e.target.value }))}
+                                                                className={`w-full font-mono text-base p-4 bg-slate-50 text-slate-900 rounded-2xl border border-slate-200 ${accentTheme.focusRing} focus:ring-2 transition-all outline-none`}
+                                                            >
+                                                                <option value="Gregorian">Gregorian</option>
+                                                                <option value="Julian">Julian</option>
+                                                            </select>
+                                                        </div>
+                                                    );
+                                                }
+
+                                                return (
+                                                    <div key={key} className="space-y-2">
+                                                        <label className="text-xs font-bold text-slate-400 uppercase">{label}</label>
+                                                        <input
+                                                            type="text"
+                                                            value={value}
+                                                            onChange={(e) => setInput((prev) => ({ ...prev, [key]: e.target.value }))}
+                                                            className={`w-full font-mono text-base p-4 bg-slate-50 text-slate-900 rounded-2xl border border-slate-200 ${accentTheme.focusRing} focus:ring-2 transition-all outline-none`}
+                                                        />
+                                                    </div>
+                                                );
+                                            }
+
+                                            return (
+                                                <div key={key} className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+                                                    Câmpul „{label}” are un format complex; momentan nu are editor vizual dedicat.
+                                                </div>
+                                            );
+                                        })
+                                    )}
+                                </div>
                             )}
                         </div>
                         <button 
                             onClick={handleRun} 
-                            className="w-full py-4 rounded-2xl bg-indigo-600 text-white font-bold text-lg shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all"
+                            className={`w-full py-4 rounded-2xl ${accentTheme.button} text-white font-bold text-lg shadow-xl ${accentTheme.buttonShadow} ${accentTheme.buttonHover} transition-all`}
                         >
                             Aplică și Rulează
                         </button>
@@ -1068,6 +1715,7 @@ export default function AlgorithmPage() {
 	const [meta, setMeta] = useState<AlgorithmMeta | null>(null);
     const [docMarkdown, setDocMarkdown] = useState("");
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
 
 	useEffect(() => {
         const found = allAlgorithms.find((a) => a.slug === slug);
@@ -1078,6 +1726,12 @@ export default function AlgorithmPage() {
             .then((res) => setDocMarkdown(res.markdown || ""))
             .catch(() => setDocMarkdown(""));
 	}, [slug]);
+
+    useEffect(() => {
+        if (!meta) return;
+        const activeKey = normalizeCategoryKey(meta.category).replace(/-/g, "_");
+        setOpenCategories((prev) => ({ ...prev, [activeKey]: true }));
+    }, [meta, slug]);
 
 	if (!meta) {
 		return (
@@ -1106,66 +1760,63 @@ export default function AlgorithmPage() {
         .sort((a, b) => (b.items.length - a.items.length) || a.label.localeCompare(b.label, "ro"));
 
 	return (
-        <div className="min-h-screen bg-slate-50">
-            {/* Sub Navigation */}
-			<nav className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
-				<div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-					<div className="flex items-center gap-4">
-						<Link href="/algoritmi" className="group flex items-center gap-1 text-slate-500 hover:text-indigo-600 transition-colors">
-							<ChevronLeftIcon size={16} className="group-hover:-translate-x-1 transition-transform" />
-							<span className="text-sm font-medium">Catalog</span>
-						</Link>
-						<div className="h-4 w-px bg-slate-200" />
-                        <div className="flex items-center gap-3 flex-wrap">
-                            <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${theme.iconWrap}`}>
-                                {theme.icon}
-							</div>
-                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${theme.badge}`}>
-                            {meta.category}
-                            </span>
-                            <span className="text-base font-bold tracking-tight text-slate-900">{cleanAlgorithmName(meta.name)}</span>
-                            </div>
-                            </div>
-                            </div>
-                            </nav>
-            {/* Desktop fixed sidebar (always visible) */}
-            <aside className="hidden lg:block fixed left-0 top-[61px] z-30 h-[calc(100vh-61px)] w-[300px] border-r border-slate-200 bg-white shadow-sm">
-                <div className="border-b border-slate-100 px-5 py-4">
+        <div className="min-h-screen bg-slate-50 lg:grid lg:grid-cols-[280px_minmax(0,1fr)]">
+            {/* Desktop unified sidebar shell */}
+            <aside className="hidden lg:flex lg:h-screen lg:sticky lg:top-0 lg:flex-col border-r border-slate-200 bg-white">
+                <div className="h-14 border-b border-slate-200 px-5 flex items-center justify-between bg-white">
+                    <Link
+                        href="/algoritmi"
+                        aria-label="Înapoi la catalog"
+                        className="group inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-indigo-600 transition-colors"
+                    >
+                        <ChevronLeftIcon size={16} className="group-hover:-translate-x-0.5 transition-transform" />
+                    </Link>
                     <h2 className="text-sm font-black uppercase tracking-widest text-slate-600">Toți algoritmii</h2>
+                    <span className="h-8 w-8" aria-hidden="true" />
                 </div>
-                <div className="h-[calc(100vh-61px-57px)] overflow-y-auto p-3">
+                <div className="flex-1 overflow-y-auto p-3">
                     <div className="space-y-4">
                         {groupedAlgorithms.map((section) => {
                             const sectionTheme = sidebarCategoryTheme(section.categoryKey);
+                            const isCategoryOpen = openCategories[section.categoryKey] ?? section.items.some((algorithm) => algorithm.slug === slug);
                             return (
                                 <div key={section.categoryKey} className="space-y-2">
-                                    <div className="flex items-center justify-between px-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => setOpenCategories((prev) => ({ ...prev, [section.categoryKey]: !isCategoryOpen }))}
+                                        className="flex w-full items-center justify-between px-2"
+                                    >
                                         <div className={`flex items-center gap-2 text-[11px] font-black uppercase tracking-wider ${sectionTheme.heading}`}>
                                             <span className={`inline-flex h-6 w-6 items-center justify-center rounded-lg shadow-sm ${sectionTheme.iconWrap}`}>
                                                 {sectionTheme.icon}
                                             </span>
                                             {section.label}
                                         </div>
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">{section.items.length}</span>
-                                    </div>
-                                    <div className="space-y-1 border-l border-slate-100 pl-5">
-                                        {section.items.map((algorithm) => {
-                                            const isActive = algorithm.slug === slug;
-                                            return (
-                                                <Link
-                                                    key={algorithm.slug}
-                                                    href={`/algoritmi/${algorithm.slug}`}
-                                                    className={`block rounded-xl px-3 py-2 text-sm transition-all ${
-                                                        isActive
-                                                            ? `${sectionTheme.active} font-bold ring-1`
-                                                            : `text-slate-600 ${sectionTheme.hover}`
-                                                    }`}
-                                                >
-                                                    {cleanAlgorithmName(algorithm.name)}
-                                                </Link>
-                                            );
-                                        })}
-                                    </div>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">{section.items.length}</span>
+                                            <ChevronRightIcon size={14} className={`text-slate-400 transition-transform ${isCategoryOpen ? "rotate-90" : ""}`} />
+                                        </div>
+                                    </button>
+                                    {isCategoryOpen && (
+                                        <div className="space-y-1 border-l border-slate-100 pl-5">
+                                            {section.items.map((algorithm) => {
+                                                const isActive = algorithm.slug === slug;
+                                                return (
+                                                    <Link
+                                                        key={algorithm.slug}
+                                                        href={`/algoritmi/${algorithm.slug}`}
+                                                        className={`block rounded-xl px-3 py-2 text-sm transition-all ${
+                                                            isActive
+                                                                ? `${sectionTheme.active} font-bold ring-1`
+                                                                : `text-slate-600 ${sectionTheme.hover}`
+                                                        }`}
+                                                    >
+                                                        {cleanAlgorithmName(algorithm.name)}
+                                                    </Link>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
                                 </div>
                             );
                         })}
@@ -1173,17 +1824,30 @@ export default function AlgorithmPage() {
                 </div>
             </aside>
 
-            {/* Mobile toggle + drawer sidebar */}
-            <main className="mx-auto max-w-7xl px-4 py-6 sm:py-8 sm:px-6 lg:px-8">
-                <div className="mb-4 flex items-center justify-between lg:hidden">
-                    <button
-                        onClick={() => setSidebarOpen((open) => !open)}
-                        className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-wider text-slate-600 hover:bg-slate-50"
-                    >
-                        {sidebarOpen ? "Ascunde" : "Afișează"} sidebar
-                    </button>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">Navigare algoritmi</span>
-                </div>
+            {/* Main content shell with sticky header */}
+            <div className="min-w-0">
+                <nav className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white">
+                    <div className="flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
+                        <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+                            <button
+                                onClick={() => setSidebarOpen((open) => !open)}
+                                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-wider text-slate-600 hover:bg-slate-50 lg:hidden"
+                            >
+                                {sidebarOpen ? "Ascunde" : "Afișează"} sidebar
+                            </button>
+                            <div className="hidden h-4 w-px bg-slate-200 lg:block" />
+                            <div className="flex min-w-0 items-center gap-3">
+                                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${theme.iconWrap}`}>
+                                    {theme.icon}
+                                </div>
+                                <span className={`hidden sm:inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${theme.badge}`}>
+                                    {meta.category}
+                                </span>
+                                <span className="truncate text-sm sm:text-base font-bold tracking-tight text-slate-900">{cleanAlgorithmName(meta.name)}</span>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
 
                 {sidebarOpen && (
                     <>
@@ -1192,57 +1856,79 @@ export default function AlgorithmPage() {
                             onClick={() => setSidebarOpen(false)}
                             aria-hidden="true"
                         />
-                        <aside className="fixed left-0 top-[61px] z-50 h-[calc(100vh-61px)] w-[86vw] max-w-[320px] border-r border-slate-200 bg-white shadow-xl lg:hidden">
-                            <div className="border-b border-slate-100 px-5 py-4">
-                                <h2 className="text-sm font-black uppercase tracking-widest text-slate-600">Toți algoritmii</h2>
-                            </div>
-                            <div className="h-[calc(100vh-61px-57px)] overflow-y-auto p-3">
-                                <div className="space-y-4">
-                                    {groupedAlgorithms.map((section) => {
-                                        const sectionTheme = sidebarCategoryTheme(section.categoryKey);
-                                        return (
-                                            <div key={section.categoryKey} className="space-y-2">
-                                                <div className="flex items-center justify-between px-2">
-                                                    <div className={`flex items-center gap-2 text-[11px] font-black uppercase tracking-wider ${sectionTheme.heading}`}>
-                                                        <span className={`inline-flex h-6 w-6 items-center justify-center rounded-lg shadow-sm ${sectionTheme.iconWrap}`}>
-                                                            {sectionTheme.icon}
-                                                        </span>
-                                                        {section.label}
-                                                    </div>
-                                                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">{section.items.length}</span>
+                        <aside className="fixed inset-y-0 left-0 z-50 w-[86vw] max-w-[300px] border-r border-slate-200 bg-white shadow-xl lg:hidden">
+                            <div className="flex h-full flex-col">
+                                <div className="h-14 border-b border-slate-200 px-5 flex items-center justify-between bg-white">
+                                    <Link
+                                        href="/algoritmi"
+                                        aria-label="Înapoi la catalog"
+                                        className="group inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-indigo-600 transition-colors"
+                                    >
+                                        <ChevronLeftIcon size={16} className="group-hover:-translate-x-0.5 transition-transform" />
+                                    </Link>
+                                    <h2 className="text-sm font-black uppercase tracking-widest text-slate-600">Toți algoritmii</h2>
+                                    <span className="h-8 w-8" aria-hidden="true" />
+                                </div>
+                                <div className="flex-1 overflow-y-auto p-3">
+                                    <div className="space-y-4">
+                                        {groupedAlgorithms.map((section) => {
+                                            const sectionTheme = sidebarCategoryTheme(section.categoryKey);
+                                            const isCategoryOpen = openCategories[section.categoryKey] ?? section.items.some((algorithm) => algorithm.slug === slug);
+                                            return (
+                                                <div key={section.categoryKey} className="space-y-2">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setOpenCategories((prev) => ({ ...prev, [section.categoryKey]: !isCategoryOpen }))}
+                                                        className="flex w-full items-center justify-between px-2"
+                                                    >
+                                                        <div className={`flex items-center gap-2 text-[11px] font-black uppercase tracking-wider ${sectionTheme.heading}`}>
+                                                            <span className={`inline-flex h-6 w-6 items-center justify-center rounded-lg shadow-sm ${sectionTheme.iconWrap}`}>
+                                                                {sectionTheme.icon}
+                                                            </span>
+                                                            {section.label}
+                                                        </div>
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">{section.items.length}</span>
+                                                            <ChevronRightIcon size={14} className={`text-slate-400 transition-transform ${isCategoryOpen ? "rotate-90" : ""}`} />
+                                                        </div>
+                                                    </button>
+                                                    {isCategoryOpen && (
+                                                        <div className="space-y-1 border-l border-slate-100 pl-5">
+                                                            {section.items.map((algorithm) => {
+                                                                const isActive = algorithm.slug === slug;
+                                                                return (
+                                                                    <Link
+                                                                        key={algorithm.slug}
+                                                                        href={`/algoritmi/${algorithm.slug}`}
+                                                                        onClick={() => setSidebarOpen(false)}
+                                                                        className={`block rounded-xl px-3 py-2 text-sm transition-all ${
+                                                                            isActive
+                                                                                ? `${sectionTheme.active} font-bold ring-1`
+                                                                                : `text-slate-600 ${sectionTheme.hover}`
+                                                                        }`}
+                                                                    >
+                                                                        {cleanAlgorithmName(algorithm.name)}
+                                                                    </Link>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    )}
                                                 </div>
-                                                <div className="space-y-1 border-l border-slate-100 pl-5">
-                                                    {section.items.map((algorithm) => {
-                                                        const isActive = algorithm.slug === slug;
-                                                        return (
-                                                            <Link
-                                                                key={algorithm.slug}
-                                                                href={`/algoritmi/${algorithm.slug}`}
-                                                                onClick={() => setSidebarOpen(false)}
-                                                                className={`block rounded-xl px-3 py-2 text-sm transition-all ${
-                                                                    isActive
-                                                                        ? `${sectionTheme.active} font-bold ring-1`
-                                                                        : `text-slate-600 ${sectionTheme.hover}`
-                                                                }`}
-                                                            >
-                                                                {cleanAlgorithmName(algorithm.name)}
-                                                            </Link>
-                                                        );
-                                                    })}
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
+                                            );
+                                        })}
+                                    </div>
                                 </div>
                             </div>
                         </aside>
                     </>
                 )}
 
-                <div className="min-w-0">
-                    <AlgorithmPlayer meta={{ ...meta, name: cleanAlgorithmName(meta.name) }} docMarkdown={docMarkdown} />
-                </div>
-            </main>
-                        </div>
+                <main className="w-full px-4 py-6 sm:py-8 sm:px-6 lg:px-8">
+                    <div className="min-w-0">
+                        <AlgorithmPlayer meta={{ ...meta, name: cleanAlgorithmName(meta.name) }} docMarkdown={docMarkdown} />
+                    </div>
+                </main>
+            </div>
+        </div>
 	);
 }

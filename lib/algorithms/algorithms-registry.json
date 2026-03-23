@@ -7,8 +7,8 @@
     "description": "Produce toate combinațiile valide de n perechi de paranteze care se închid corect. Algoritmul folosește backtracking pentru a asigura că nicio paranteză nu se închide înainte de a fi deschisă.",
     "sourcePath": "lib/algorithms/backtracking/generateparentheses.ts",
     "markdownPath": "lib/algorithms/backtracking/generateparentheses.md",
-    "visualizerType": "generic",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "backtracking_all_combinations_of_size_k",
@@ -18,8 +18,8 @@
     "description": "Generează toate submulțimile posibile de exact k elemente dintr-o mulțime de n numere. Este util în probleme de optimizare unde trebuie să verificăm toate grupările posibile.",
     "sourcePath": "lib/algorithms/backtracking/all_combinations_of_size_k.ts",
     "markdownPath": "lib/algorithms/backtracking/all_combinations_of_size_k.md",
-    "visualizerType": "generic",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "cifru_xor_cipher",
@@ -29,7 +29,7 @@
     "description": "O metodă simplă de criptare care aplică operația logică XOR între fiecare caracter al textului și o cheie secretă.",
     "sourcePath": "lib/algorithms/cifru/xor_cipher.ts",
     "markdownPath": "lib/algorithms/cifru/xor_cipher.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -52,7 +52,7 @@
     "sourcePath": "lib/algorithms/cautare/exponential_search.ts",
     "markdownPath": "lib/algorithms/cautare/exponential_search.md",
     "visualizerType": "search",
-    "status": "instrumented"
+    "status": "source-only"
   },
   {
     "slug": "cautare_fibonacci_search",
@@ -63,7 +63,7 @@
     "sourcePath": "lib/algorithms/cautare/fibonacci_search.ts",
     "markdownPath": "lib/algorithms/cautare/fibonacci_search.md",
     "visualizerType": "search",
-    "status": "instrumented"
+    "status": "source-only"
   },
   {
     "slug": "cautare_linear_search",
@@ -74,7 +74,7 @@
     "sourcePath": "lib/algorithms/cautare/linear_search.ts",
     "markdownPath": "lib/algorithms/cautare/linear_search.md",
     "visualizerType": "search",
-    "status": "instrumented"
+    "status": "source-only"
   },
   {
     "slug": "cautare_interpolation_search",
@@ -85,7 +85,7 @@
     "sourcePath": "lib/algorithms/cautare/interpolation_search.ts",
     "markdownPath": "lib/algorithms/cautare/interpolation_search.md",
     "visualizerType": "search",
-    "status": "instrumented"
+    "status": "source-only"
   },
   {
     "slug": "cautare_jump_search",
@@ -96,7 +96,7 @@
     "sourcePath": "lib/algorithms/cautare/jump_search.ts",
     "markdownPath": "lib/algorithms/cautare/jump_search.md",
     "visualizerType": "search",
-    "status": "instrumented"
+    "status": "source-only"
   },
   {
     "slug": "cautare_sentinel_search",
@@ -107,7 +107,7 @@
     "sourcePath": "lib/algorithms/cautare/sentinel_search.ts",
     "markdownPath": "lib/algorithms/cautare/sentinel_search.md",
     "visualizerType": "search",
-    "status": "instrumented"
+    "status": "source-only"
   },
   {
     "slug": "diverse_is_sorted_array",
@@ -117,7 +117,7 @@
     "description": "Verifică dacă elementele unui vector sunt aranjate în ordine crescătoare.",
     "sourcePath": "lib/algorithms/diverse/is_sorted_array.ts",
     "markdownPath": "lib/algorithms/diverse/is_sorted_array.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -128,7 +128,7 @@
     "description": "Analizează un șir de caractere și verifică dacă parantezele sunt corect imbricate și echilibrate.",
     "sourcePath": "lib/algorithms/diverse/parse_nested_brackets.ts",
     "markdownPath": "lib/algorithms/diverse/parse_nested_brackets.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -139,8 +139,8 @@
     "description": "Amestecă aleatoriu elementele unui vector folosind algoritmul Fisher-Yates.",
     "sourcePath": "lib/algorithms/diverse/shuffle_array.ts",
     "markdownPath": "lib/algorithms/diverse/shuffle_array.md",
-    "visualizerType": "generic",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "grafuri_bellman_ford",
@@ -150,8 +150,8 @@
     "description": "Găsește drumurile minime de la o sursă, putând detecta cicluri de cost negativ.",
     "sourcePath": "lib/algorithms/grafuri/bellman_ford.ts",
     "markdownPath": "lib/algorithms/grafuri/bellman_ford.md",
-    "visualizerType": "graph",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "grafuri_dijkstra",
@@ -172,7 +172,7 @@
     "description": "Verifică dacă un graf poate fi împărțit în două mulțimi disjuncte de noduri astfel încât fiecare muchie să conecteze noduri din mulțimi diferite.",
     "sourcePath": "lib/algorithms/grafuri/bipartite_graph.ts",
     "markdownPath": "lib/algorithms/grafuri/bipartite_graph.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -183,7 +183,7 @@
     "description": "Implementare BFS a algoritmului Ford-Fulkerson pentru fluxul maxim într-o rețea.",
     "sourcePath": "lib/algorithms/grafuri/edmonds_karp.ts",
     "markdownPath": "lib/algorithms/grafuri/edmonds_karp.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -191,11 +191,11 @@
     "name": "Floyd Warshall",
     "category": "Grafuri",
     "complexity": "",
-    "description": "Floyd Warshall este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Găsește drumurile minime între toate perechile de noduri dintr-un graf ponderat.",
     "sourcePath": "lib/algorithms/grafuri/floyd_warshall.ts",
     "markdownPath": "lib/algorithms/grafuri/floyd_warshall.md",
-    "visualizerType": "graph",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "grafuri_johnson",
@@ -205,18 +205,18 @@
     "description": "Algoritm pentru calculul drumurilor minime între toate perechile de noduri într-un graf cu ponderi, inclusiv negative.",
     "sourcePath": "lib/algorithms/grafuri/johnson.ts",
     "markdownPath": "lib/algorithms/grafuri/johnson.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
-    "slug": "grafuri_kosajaru",
-    "name": "Kosajaru",
+    "slug": "grafuri_kosaraju",
+    "name": "Kosaraju",
     "category": "Grafuri",
     "complexity": "",
     "description": "Găsește componentele tare conexe ale unui graf orientat folosind două parcurgeri DFS.",
-    "sourcePath": "lib/algorithms/grafuri/kosajaru.ts",
-    "markdownPath": "lib/algorithms/grafuri/kosajaru.md",
-    "visualizerType": "generic",
+    "sourcePath": "lib/algorithms/grafuri/kosaraju.ts",
+    "markdownPath": "lib/algorithms/grafuri/kosaraju.md",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -224,11 +224,11 @@
     "name": "Kruskal",
     "category": "Grafuri",
     "complexity": "",
-    "description": "Kruskal este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Construiește arborele parțial de cost minim prin selectarea succesivă a muchiilor cu ponderea cea mai mică.",
     "sourcePath": "lib/algorithms/grafuri/kruskal.ts",
     "markdownPath": "lib/algorithms/grafuri/kruskal.md",
-    "visualizerType": "graph",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "grafuri_dfs",
@@ -257,11 +257,11 @@
     "name": "Prim",
     "category": "Grafuri",
     "complexity": "",
-    "description": "Prim este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Determină arborele parțial de cost minim pornind de la un nod și adăugând iterativ cea mai apropiată muchie conectată.",
     "sourcePath": "lib/algorithms/grafuri/prim.ts",
     "markdownPath": "lib/algorithms/grafuri/prim.md",
-    "visualizerType": "graph",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "grafuri_tarjan",
@@ -271,7 +271,7 @@
     "description": "Identifică componentele tare conexe ale unui graf orientat într-o singură parcurgere DFS.",
     "sourcePath": "lib/algorithms/grafuri/tarjan.ts",
     "markdownPath": "lib/algorithms/grafuri/tarjan.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -282,8 +282,8 @@
     "description": "Adună două numere reprezentate ca șiruri de caractere binare (0 și 1), simulând adunarea pe hârtie cu transport (carry).",
     "sourcePath": "lib/algorithms/manipulare-biti/add_binary.ts",
     "markdownPath": "lib/algorithms/manipulare-biti/add_binary.md",
-    "visualizerType": "generic",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "manipulare-biti_log_two",
@@ -293,8 +293,8 @@
     "description": "Calculează partea întreagă a logaritmului în baza 2 a unui număr prin deplasări succesive la dreapta ale biților.",
     "sourcePath": "lib/algorithms/manipulare-biti/log_two.ts",
     "markdownPath": "lib/algorithms/manipulare-biti/log_two.md",
-    "visualizerType": "generic",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "manipulare-biti_is_power_of_2",
@@ -304,8 +304,8 @@
     "description": "Verifică dacă un număr este o putere a lui 2 folosind proprietatea că în format binar, puterile lui 2 au un singur bit de 1.",
     "sourcePath": "lib/algorithms/manipulare-biti/is_power_of_2.ts",
     "markdownPath": "lib/algorithms/manipulare-biti/is_power_of_2.md",
-    "visualizerType": "generic",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "manipulare-biti_is_power_of_4",
@@ -315,29 +315,29 @@
     "description": "Verifică dacă un număr este o putere a lui 4 prin confirmarea că este putere a lui 2 și că bitul de 1 se află pe o poziție pară.",
     "sourcePath": "lib/algorithms/manipulare-biti/is_power_of_4.ts",
     "markdownPath": "lib/algorithms/manipulare-biti/is_power_of_4.md",
-    "visualizerType": "generic",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "matematica_absolute_value",
     "name": "Valoare Absolută",
     "category": "Matematică",
     "complexity": "",
-    "description": "Absolute Value este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Calculează valoarea absolută (modulul) a unui număr real, reprezentând distanța sa față de origine.",
     "sourcePath": "lib/algorithms/matematica/absolute_value.ts",
     "markdownPath": "lib/algorithms/matematica/absolute_value.md",
-    "visualizerType": "generic",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "matematica_aliquot_sum",
     "name": "Suma Alicotă",
     "category": "Matematică",
     "complexity": "",
-    "description": "Aliquot Sum este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Calculează suma tuturor divizorilor proprii ai unui număr întreg pozitiv, excluzând numărul însuși.",
     "sourcePath": "lib/algorithms/matematica/aliquot_sum.ts",
     "markdownPath": "lib/algorithms/matematica/aliquot_sum.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -345,10 +345,10 @@
     "name": "Număr Armstrong",
     "category": "Matematică",
     "complexity": "",
-    "description": "Armstrong Number este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Verifică dacă un număr este egal cu suma propriilor cifre ridicate la puterea numărului de cifre.",
     "sourcePath": "lib/algorithms/matematica/armstrong_number.ts",
     "markdownPath": "lib/algorithms/matematica/armstrong_number.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -356,10 +356,10 @@
     "name": "Conversie în Binar",
     "category": "Matematică",
     "complexity": "",
-    "description": "Binară Convert este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Realizează conversia numerelor între sistemul zecimal și cel binar.",
     "sourcePath": "lib/algorithms/matematica/binary_convert.ts",
     "markdownPath": "lib/algorithms/matematica/binary_convert.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -367,10 +367,10 @@
     "name": "Coeficientul Binomial",
     "category": "Matematică",
     "complexity": "",
-    "description": "Binomial Coefficient este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Calculează numărul de moduri în care se pot alege k elemente dintr-o mulțime de n elemente.",
     "sourcePath": "lib/algorithms/matematica/binomial_coefficient.ts",
     "markdownPath": "lib/algorithms/matematica/binomial_coefficient.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -378,10 +378,10 @@
     "name": "Calculul Mediei Aritmetice",
     "category": "Matematică",
     "complexity": "",
-    "description": "Calculate Mean este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Determină media aritmetică a unui set de numere prin raportul dintre suma lor și numărul total de elemente.",
     "sourcePath": "lib/algorithms/matematica/calculate_mean.ts",
     "markdownPath": "lib/algorithms/matematica/calculate_mean.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -389,10 +389,10 @@
     "name": "Calculul Medianei",
     "category": "Matematică",
     "complexity": "",
-    "description": "Calculate Median este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Găsește valoarea centrală a unui set de date ordonate, care separă jumătatea superioară de cea inferioară.",
     "sourcePath": "lib/algorithms/matematica/calculate_median.ts",
     "markdownPath": "lib/algorithms/matematica/calculate_median.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -400,10 +400,10 @@
     "name": "Grade în Radiani",
     "category": "Matematică",
     "complexity": "",
-    "description": "Degrees To Radians este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Transformă măsura unui unghi din grade sexagesimale în radiani folosind constanta PI.",
     "sourcePath": "lib/algorithms/matematica/degrees_to_radians.ts",
     "markdownPath": "lib/algorithms/matematica/degrees_to_radians.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -411,10 +411,10 @@
     "name": "Suma Cifrelor",
     "category": "Matematică",
     "complexity": "",
-    "description": "Digit Sum este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Calculează suma cifrelor unui număr întreg în baza 10.",
     "sourcePath": "lib/algorithms/matematica/digit_sum.ts",
     "markdownPath": "lib/algorithms/matematica/digit_sum.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -422,10 +422,10 @@
     "name": "Dublu Factorial Iterativ",
     "category": "Matematică",
     "complexity": "",
-    "description": "Double Factorial Iterative este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Calculează produsul numerelor întregi pozitive care au aceeași paritate ca n și sunt mai mici sau egale cu acesta.",
     "sourcePath": "lib/algorithms/matematica/double_factorial_iterative.ts",
     "markdownPath": "lib/algorithms/matematica/double_factorial_iterative.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -433,10 +433,10 @@
     "name": "Funcția Euler Totient",
     "category": "Matematică",
     "complexity": "",
-    "description": "Euler Totient este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Determină numărul de numere întregi pozitive mai mici decât n care sunt prime cu n.",
     "sourcePath": "lib/algorithms/matematica/euler_totient.ts",
     "markdownPath": "lib/algorithms/matematica/euler_totient.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -444,21 +444,21 @@
     "name": "Factorial",
     "category": "Matematică",
     "complexity": "",
-    "description": "Factorial este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Calculează produsul tuturor numerelor întregi pozitive mai mici sau egale cu n.",
     "sourcePath": "lib/algorithms/matematica/factorial.ts",
     "markdownPath": "lib/algorithms/matematica/factorial.md",
-    "visualizerType": "generic",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "matematica_factors",
     "name": "Factorizare",
     "category": "Matematică",
     "complexity": "",
-    "description": "Factors este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Identifică toți divizorii întregi ai unui număr dat.",
     "sourcePath": "lib/algorithms/matematica/factors.ts",
     "markdownPath": "lib/algorithms/matematica/factors.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -466,21 +466,21 @@
     "name": "Fibonacci",
     "category": "Matematică",
     "complexity": "",
-    "description": "Fibonacci este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Generează termenii șirului în care fiecare număr este suma celor două precedente.",
     "sourcePath": "lib/algorithms/matematica/fibonacci.ts",
     "markdownPath": "lib/algorithms/matematica/fibonacci.md",
-    "visualizerType": "generic",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "matematica_find_min",
     "name": "Valoarea Minimă",
     "category": "Matematică",
     "complexity": "",
-    "description": "Find Min este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Identifică cel mai mic element dintr-o listă sau un set de date numerice.",
     "sourcePath": "lib/algorithms/matematica/find_min.ts",
     "markdownPath": "lib/algorithms/matematica/find_min.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -488,10 +488,10 @@
     "name": "Eliminarea Gaussiană",
     "category": "Matematică",
     "complexity": "",
-    "description": "Gaussian Elimination este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Rezolvă sisteme de ecuații liniare prin transformarea matricei coeficienților într-o formă eșalonată.",
     "sourcePath": "lib/algorithms/matematica/gaussian_elimination.ts",
     "markdownPath": "lib/algorithms/matematica/gaussian_elimination.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -499,21 +499,21 @@
     "name": "Cel mai Mare Divizor Comun",
     "category": "Matematică",
     "complexity": "",
-    "description": "Greatest Common Factor este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Determină cel mai mare număr întreg care divide fără rest două sau mai multe numere date.",
     "sourcePath": "lib/algorithms/matematica/greatest_common_factor.ts",
     "markdownPath": "lib/algorithms/matematica/greatest_common_factor.md",
-    "visualizerType": "generic",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "matematica_hamming_distance",
     "name": "Distanța Hamming",
     "category": "Matematică",
     "complexity": "",
-    "description": "Hamming Distance este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Măsoară numărul de poziții în care simbolurile corespunzătoare a două șiruri de lungime egală sunt diferite.",
     "sourcePath": "lib/algorithms/matematica/hamming_distance.ts",
     "markdownPath": "lib/algorithms/matematica/hamming_distance.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -521,10 +521,10 @@
     "name": "Șirul Numerelor Hexagonale",
     "category": "Matematică",
     "complexity": "",
-    "description": "Series Hexagonal Numbers este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Generează numerele dintr-un șir figurativ care reprezintă puncte aranjate sub formă de hexagoane.",
     "sourcePath": "lib/algorithms/matematica/series/hexagonal_numbers.ts",
     "markdownPath": "lib/algorithms/matematica/series_hexagonal_numbers.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -532,10 +532,10 @@
     "name": "Verificare Divizibilitate",
     "category": "Matematică",
     "complexity": "",
-    "description": "Verificare Divisible este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Verifică dacă un număr se divide exact la un alt număr, fără a lăsa rest.",
     "sourcePath": "lib/algorithms/matematica/is_divisible.ts",
     "markdownPath": "lib/algorithms/matematica/is_divisible.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -543,10 +543,10 @@
     "name": "Verificare Număr Par",
     "category": "Matematică",
     "complexity": "",
-    "description": "Verificare Even este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Verifică dacă un număr întreg este par (divizibil cu 2).",
     "sourcePath": "lib/algorithms/matematica/is_even.ts",
     "markdownPath": "lib/algorithms/matematica/is_even.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -554,10 +554,10 @@
     "name": "Verificare An Bisect",
     "category": "Matematică",
     "complexity": "",
-    "description": "Verificare Leap Year este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Determină dacă un an calendaristic are 366 de zile conform regulilor calendarului gregorian.",
     "sourcePath": "lib/algorithms/matematica/is_leap_year.ts",
     "markdownPath": "lib/algorithms/matematica/is_leap_year.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -565,10 +565,10 @@
     "name": "Verificare Număr Impar",
     "category": "Matematică",
     "complexity": "",
-    "description": "Verificare Odd este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Verifică dacă un număr întreg este impar (nu se divide exact cu 2).",
     "sourcePath": "lib/algorithms/matematica/is_odd.ts",
     "markdownPath": "lib/algorithms/matematica/is_odd.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -576,21 +576,21 @@
     "name": "Verificare Palindrom",
     "category": "Matematică",
     "complexity": "",
-    "description": "Verificare Palindrome este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Verifică dacă un număr sau un șir de caractere se citește la fel de la stânga la dreapta și de la dreapta la stânga.",
     "sourcePath": "lib/algorithms/matematica/is_palindrome.ts",
     "markdownPath": "lib/algorithms/matematica/is_palindrome.md",
-    "visualizerType": "generic",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "matematica_is_square_free",
     "name": "Verificare Număr Liber de Pătrate",
     "category": "Matematică",
     "complexity": "",
-    "description": "Verificare Square Free este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Verifică dacă un număr nu este divizibil cu niciun pătrat perfect mai mare decât 1.",
     "sourcePath": "lib/algorithms/matematica/is_square_free.ts",
     "markdownPath": "lib/algorithms/matematica/is_square_free.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -598,10 +598,10 @@
     "name": "Șirul Juggler",
     "category": "Matematică",
     "complexity": "",
-    "description": "Juggler Sequence este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Generează o secvență iterativă de numere întregi folosind puteri fracționare, care începe de la un număr pozitiv.",
     "sourcePath": "lib/algorithms/matematica/juggler_sequence.ts",
     "markdownPath": "lib/algorithms/matematica/juggler_sequence.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -609,10 +609,10 @@
     "name": "Cel mai Mic Multiplu Comun",
     "category": "Matematică",
     "complexity": "",
-    "description": "Lowest Common Multiple este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Calculează cel mai mic număr întreg care este divizibil cu toate numerele dintr-un set dat.",
     "sourcePath": "lib/algorithms/matematica/lowest_common_multiple.ts",
     "markdownPath": "lib/algorithms/matematica/lowest_common_multiple.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -620,10 +620,10 @@
     "name": "Înmulțirea Matricelor",
     "category": "Matematică",
     "complexity": "",
-    "description": "Matrix Multiplication este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Realizează operația aritmetică de înmulțire a două matrice pentru a produce o matrice nouă.",
     "sourcePath": "lib/algorithms/matematica/matrix_multiplication.ts",
     "markdownPath": "lib/algorithms/matematica/matrix_multiplication.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -631,10 +631,10 @@
     "name": "Numărul de Cifre",
     "category": "Matematică",
     "complexity": "",
-    "description": "Number de Digits este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Calculează numărul total de cifre ale unui număr întreg.",
     "sourcePath": "lib/algorithms/matematica/number_of_digits.ts",
     "markdownPath": "lib/algorithms/matematica/number_of_digits.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -642,10 +642,10 @@
     "name": "Triunghiul lui Pascal",
     "category": "Matematică",
     "complexity": "",
-    "description": "Pascals Triangle este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Generează un aranjament triunghiular de numere unde fiecare valoare este suma celor două numere de deasupra sa.",
     "sourcePath": "lib/algorithms/matematica/pascals_triangle.ts",
     "markdownPath": "lib/algorithms/matematica/pascals_triangle.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -653,10 +653,10 @@
     "name": "Cub Perfect",
     "category": "Matematică",
     "complexity": "",
-    "description": "Perfect Cube este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Verifică dacă un număr este rezultatul ridicării la puterea a treia a unui alt număr întreg.",
     "sourcePath": "lib/algorithms/matematica/perfect_cube.ts",
     "markdownPath": "lib/algorithms/matematica/perfect_cube.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -664,10 +664,10 @@
     "name": "Număr Perfect",
     "category": "Matematică",
     "complexity": "",
-    "description": "Perfect Number este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Verifică dacă un număr este egal cu suma divizorilor săi proprii pozitivi.",
     "sourcePath": "lib/algorithms/matematica/perfect_number.ts",
     "markdownPath": "lib/algorithms/matematica/perfect_number.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -675,10 +675,10 @@
     "name": "Pătrat Perfect",
     "category": "Matematică",
     "complexity": "",
-    "description": "Perfect Square este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Verifică dacă un număr este pătratul unui alt număr întreg.",
     "sourcePath": "lib/algorithms/matematica/perfect_square.ts",
     "markdownPath": "lib/algorithms/matematica/perfect_square.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -686,21 +686,21 @@
     "name": "Descompunere în Factori Primi",
     "category": "Matematică",
     "complexity": "",
-    "description": "Prime Factorization este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Descompune un număr întreg în produs de numere prime.",
     "sourcePath": "lib/algorithms/matematica/prime_factorization.ts",
     "markdownPath": "lib/algorithms/matematica/prime_factorization.md",
-    "visualizerType": "generic",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "matematica_primes",
     "name": "Numere Prime",
     "category": "Matematică",
     "complexity": "",
-    "description": "Primes este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Identifică sau generează numerele naturale mai mari decât 1 care au exact doi divizori: 1 și ele însele.",
     "sourcePath": "lib/algorithms/matematica/primes.ts",
     "markdownPath": "lib/algorithms/matematica/primes.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -708,10 +708,10 @@
     "name": "Număr Pronic",
     "category": "Matematică",
     "complexity": "",
-    "description": "Pronic Number este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Verifică dacă un număr este produsul a două numere întregi consecutive.",
     "sourcePath": "lib/algorithms/matematica/pronic_number.ts",
     "markdownPath": "lib/algorithms/matematica/pronic_number.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -719,10 +719,10 @@
     "name": "Radiani în Grade",
     "category": "Matematică",
     "complexity": "",
-    "description": "Radians To Degrees este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Transformă măsura unui unghi din radiani în grade sexagesimale.",
     "sourcePath": "lib/algorithms/matematica/radians_to_degrees.ts",
     "markdownPath": "lib/algorithms/matematica/radians_to_degrees.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -730,21 +730,21 @@
     "name": "Ciurul lui Eratostene",
     "category": "Matematică",
     "complexity": "",
-    "description": "Sieve de Eratosthenes este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Algoritm eficient pentru găsirea tuturor numerelor prime până la o limită dată.",
     "sourcePath": "lib/algorithms/matematica/sieve_of_eratosthenes.ts",
     "markdownPath": "lib/algorithms/matematica/sieve_of_eratosthenes.md",
-    "visualizerType": "generic",
-    "status": "instrumented"
+    "visualizerType": "none",
+    "status": "source-only"
   },
   {
     "slug": "matematica_signum",
     "name": "Funcția Signum",
     "category": "Matematică",
     "complexity": "",
-    "description": "Signum este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Extrage semnul unui număr real, returnând -1, 0 sau 1 în funcție de valoarea acestuia.",
     "sourcePath": "lib/algorithms/matematica/signum.ts",
     "markdownPath": "lib/algorithms/matematica/signum.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -752,10 +752,10 @@
     "name": "Rădăcina Pătrată",
     "category": "Matematică",
     "complexity": "",
-    "description": "Square Root este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Calculează rădăcina pătrată a unui număr, adică valoarea care înmulțită cu ea însăși dă numărul inițial.",
     "sourcePath": "lib/algorithms/matematica/square_root.ts",
     "markdownPath": "lib/algorithms/matematica/square_root.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -763,10 +763,10 @@
     "name": "Numere Urâte",
     "category": "Matematică",
     "complexity": "",
-    "description": "Ugly Numbers este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Identifică numerele ai căror singuri factori primi sunt 2, 3 sau 5.",
     "sourcePath": "lib/algorithms/matematica/ugly_numbers.ts",
     "markdownPath": "lib/algorithms/matematica/ugly_numbers.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -774,10 +774,10 @@
     "name": "Congruența Zeller",
     "category": "Matematică",
     "complexity": "",
-    "description": "Zellers Congruence este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Calculează ziua săptămânii pentru orice dată calendaristică din trecut sau viitor.",
     "sourcePath": "lib/algorithms/matematica/zellers_congruence.ts",
     "markdownPath": "lib/algorithms/matematica/zellers_congruence.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -789,7 +789,7 @@
     "sourcePath": "lib/algorithms/programare-dinamica/lcs.ts",
     "markdownPath": "lib/algorithms/programare-dinamica/lcs.md",
     "visualizerType": "dp",
-    "status": "instrumented"
+    "status": "source-only"
   },
   {
     "slug": "programare-dinamica_coin_change",
@@ -800,7 +800,7 @@
     "sourcePath": "lib/algorithms/programare-dinamica/coin_change.ts",
     "markdownPath": "lib/algorithms/programare-dinamica/coin_change.md",
     "visualizerType": "dp",
-    "status": "instrumented"
+    "status": "source-only"
   },
   {
     "slug": "programare-dinamica_knapsack",
@@ -811,14 +811,14 @@
     "sourcePath": "lib/algorithms/programare-dinamica/knapsack.ts",
     "markdownPath": "lib/algorithms/programare-dinamica/knapsack.md",
     "visualizerType": "dp",
-    "status": "instrumented"
+    "status": "source-only"
   },
   {
     "slug": "sortare_tree_sort",
     "name": "Sortare cu Arbore",
     "category": "Sortare",
     "complexity": "",
-    "description": "Arbore Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Construiește un arbore binar de căutare din elementele unui tablou și apoi îl parcurge în inordine pentru a obține elementele sortate.",
     "sourcePath": "lib/algorithms/sortare/tree_sort.ts",
     "markdownPath": "lib/algorithms/sortare/tree_sort.md",
     "visualizerType": "sorting",
@@ -829,7 +829,7 @@
     "name": "Bogo Sortare",
     "category": "Sortare",
     "complexity": "",
-    "description": "Bogo Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "O metodă de sortare extrem de ineficientă care generează permutări aleatorii până când tabloul devine ordonat.",
     "sourcePath": "lib/algorithms/sortare/bogo_sort.ts",
     "markdownPath": "lib/algorithms/sortare/bogo_sort.md",
     "visualizerType": "sorting",
@@ -840,66 +840,66 @@
     "name": "Sortare prin Numărare",
     "category": "Sortare",
     "complexity": "",
-    "description": "Counting Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Sortează elementele prin numărarea aparițiilor fiecărei valori unice, fiind eficient pentru intervale mici de valori.",
     "sourcePath": "lib/algorithms/sortare/counting_sort.ts",
     "markdownPath": "lib/algorithms/sortare/counting_sort.md",
     "visualizerType": "sorting",
-    "status": "instrumented"
+    "status": "source-only"
   },
   {
     "slug": "sortare_cycle_sort",
     "name": "Sortare Ciclică",
     "category": "Sortare",
     "complexity": "",
-    "description": "Cycle Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Un algoritm de sortare pe loc care minimizează numărul total de scrieri în memorie.",
     "sourcePath": "lib/algorithms/sortare/cycle_sort.ts",
     "markdownPath": "lib/algorithms/sortare/cycle_sort.md",
     "visualizerType": "sorting",
-    "status": "instrumented"
+    "status": "source-only"
   },
   {
     "slug": "sortare_gnome_sort",
     "name": "Sortare Gnome",
     "category": "Sortare",
     "complexity": "",
-    "description": "Gnome Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Sortează o listă prin mutarea repetată a unui element spre poziția sa corectă, similar cu sortarea prin inserție dar cu un singur ciclu.",
     "sourcePath": "lib/algorithms/sortare/gnome_sort.ts",
     "markdownPath": "lib/algorithms/sortare/gnome_sort.md",
     "visualizerType": "sorting",
-    "status": "instrumented"
+    "status": "source-only"
   },
   {
     "slug": "sortare_heap_sort",
     "name": "Sortare cu Heap",
     "category": "Sortare",
     "complexity": "",
-    "description": "Heap Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Utilizează o structură de date de tip heap pentru a extrage succesiv elementul maxim sau minim și a ordona tabloul.",
     "sourcePath": "lib/algorithms/sortare/heap_sort.ts",
     "markdownPath": "lib/algorithms/sortare/heap_sort.md",
     "visualizerType": "sorting",
-    "status": "instrumented"
+    "status": "source-only"
   },
   {
     "slug": "sortare_quick_select",
     "name": "Selecție Rapidă",
     "category": "Sortare",
     "complexity": "",
-    "description": "Quick Select este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Un algoritm de selecție pentru a găsi al k-lea cel mai mic element dintr-o listă neordonată.",
     "sourcePath": "lib/algorithms/sortare/quick_select.ts",
     "markdownPath": "lib/algorithms/sortare/quick_select.md",
     "visualizerType": "sorting",
-    "status": "instrumented"
+    "status": "source-only"
   },
   {
     "slug": "sortare_shell_sort",
     "name": "Sortare Shell",
     "category": "Sortare",
     "complexity": "",
-    "description": "Shell Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "O generalizare a sortării prin inserție care permite schimbul de elemente aflate la distanțe mari.",
     "sourcePath": "lib/algorithms/sortare/shell_sort.ts",
     "markdownPath": "lib/algorithms/sortare/shell_sort.md",
     "visualizerType": "sorting",
-    "status": "instrumented"
+    "status": "source-only"
   },
   {
     "slug": "sortare_quickSort",
@@ -939,7 +939,7 @@
     "name": "Sortare prin Interschimb",
     "category": "Sortare",
     "complexity": "",
-    "description": "Swap Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Sortează elementele prin interschimbări directe bazate pe compararea valorilor adiacente sau a pozițiilor corecte.",
     "sourcePath": "lib/algorithms/sortare/swap_sort.ts",
     "markdownPath": "lib/algorithms/sortare/swap_sort.md",
     "visualizerType": "sorting",
@@ -950,7 +950,7 @@
     "name": "Sortare prin Inserție",
     "category": "Sortare",
     "complexity": "",
-    "description": "Insertion Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Construiește lista sortată finală prin inserarea succesivă a fiecărui element nou pe poziția sa corectă.",
     "sourcePath": "lib/algorithms/sortare/insertionSort.ts",
     "markdownPath": "lib/algorithms/sortare/insertionSort.md",
     "visualizerType": "sorting",
@@ -961,7 +961,7 @@
     "name": "Sortare prin Selecție",
     "category": "Sortare",
     "complexity": "",
-    "description": "Selection Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Sortează un tablou prin selectarea repetată a celui mai mic element din partea neordonată și mutarea lui la început.",
     "sourcePath": "lib/algorithms/sortare/selectionSort.ts",
     "markdownPath": "lib/algorithms/sortare/selectionSort.md",
     "visualizerType": "sorting",
@@ -975,7 +975,7 @@
     "description": "Arbore în care nodul stâng < părinte < nodul drept. Permite căutări, inserări și ștergeri eficiente.",
     "sourcePath": "lib/algorithms/structuri-de-date/tree/binary_search_tree.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/tree_binary_search_tree.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -983,10 +983,10 @@
     "name": "Coadă Circulară",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Coadă Circulară Coadă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Implementează o coadă folosind un tablou fix unde ultima poziție este conectată la prima pentru a reutiliza spațiul.",
     "sourcePath": "lib/algorithms/structuri-de-date/queue/circular_queue.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/queue_circular_queue.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -994,10 +994,10 @@
     "name": "Listă Dublu Înlănțuită",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Listă Dublu Înlănțuită Listă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "O listă în care fiecare element conține referințe atât către nodul următor, cât și către cel anterior.",
     "sourcePath": "lib/algorithms/structuri-de-date/list/doubly_linked_list.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/list_doubly_linked_list.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1005,10 +1005,10 @@
     "name": "Tabelă Hash",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Hartă Hash Hartă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "O structură de date care asociază chei cu valori folosind o funcție de dispersie (hash) pentru acces rapid.",
     "sourcePath": "lib/algorithms/structuri-de-date/map/hash_map.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/map_hash_map.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1016,10 +1016,10 @@
     "name": "Mulțime Hash",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Set Hash Hartă Set este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Implementează o mulțime de elemente unice folosind mecanismul intern al unui tabel de dispersie.",
     "sourcePath": "lib/algorithms/structuri-de-date/set/hash_map_set.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/set_hash_map_set.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1030,7 +1030,7 @@
     "description": "O structură de date arborescentă care permite accesul rapid la elementul minim sau maxim. Este baza algoritmului HeapSort.",
     "sourcePath": "lib/algorithms/structuri-de-date/heap/heap.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/heap_heap.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1038,10 +1038,10 @@
     "name": "Coadă Înlănțuită",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Coadă Înlănțuită Coadă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "O coadă implementată dinamic folosind noduri de listă înlănțuită pentru a permite dimensiuni variabile.",
     "sourcePath": "lib/algorithms/structuri-de-date/queue/linked_queue.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/queue_linked_queue.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1049,10 +1049,10 @@
     "name": "Listă Înlănțuită",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Listă Înlănțuită Listă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "O structură de date liniară în care elementele sunt stocate în noduri conectate prin pointeri.",
     "sourcePath": "lib/algorithms/structuri-de-date/list/linked_list.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/list_linked_list.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1060,10 +1060,10 @@
     "name": "Stivă Înlănțuită",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Stivă Înlănțuită Listă Stivă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Implementează o stivă folosind o listă înlănțuită, urmând principiul LIFO (Last-In, First-Out).",
     "sourcePath": "lib/algorithms/structuri-de-date/stack/linked_list_stack.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/stack_linked_list_stack.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1071,10 +1071,10 @@
     "name": "Hartă (Map)",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Hartă Hartă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "O colecție de perechi cheie-valoare care garantează unicitatea cheilor și permite regăsirea rapidă a datelor.",
     "sourcePath": "lib/algorithms/structuri-de-date/map/map.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/map_map.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1082,10 +1082,10 @@
     "name": "Mulțime cu Hartă",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Set Hartă Set este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "O implementare a unei mulțimi bazată pe structura de date de tip Map pentru a asigura elemente distincte.",
     "sourcePath": "lib/algorithms/structuri-de-date/set/map_set.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/set_map_set.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1096,7 +1096,7 @@
     "description": "Gestionează o colecție de elemente divizate în submulțimi care nu se suprapun. Este esențial pentru algoritmi precum Kruskal.",
     "sourcePath": "lib/algorithms/structuri-de-date/disjoint_set/disjoint_set.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/disjoint_set_disjoint_set.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1104,10 +1104,10 @@
     "name": "Coadă",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Coadă Coadă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "O structură de date liniară care urmează principiul FIFO (First-In, First-Out) pentru gestionarea elementelor.",
     "sourcePath": "lib/algorithms/structuri-de-date/queue/queue.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/queue_queue.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1115,10 +1115,10 @@
     "name": "Mulțime (Set)",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Set Set este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Reprezintă o colecție de elemente distincte, fără o ordine specifică.",
     "sourcePath": "lib/algorithms/structuri-de-date/set/set.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/set_set.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1126,10 +1126,10 @@
     "name": "Listă Simplu Înlănțuită",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Listă Simplă Înlănțuită Listă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "O listă înlănțuită în care fiecare nod conține date și o referință către elementul următor.",
     "sourcePath": "lib/algorithms/structuri-de-date/list/singly_linked_list.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/list_singly_linked_list.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1137,10 +1137,10 @@
     "name": "Coadă din Stive",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Coadă Stivă Coadă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "Implementează comportamentul unei cozi folosind două stive pentru a gestiona ordinea elementelor.",
     "sourcePath": "lib/algorithms/structuri-de-date/queue/stack_queue.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/queue_stack_queue.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1151,7 +1151,7 @@
     "description": "Structură de date liniară bazată pe principiul LIFO. Adăugarea și eliminarea se fac doar pe la 'vârf'.",
     "sourcePath": "lib/algorithms/structuri-de-date/stack/stack.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/stack_stack.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1162,7 +1162,7 @@
     "description": "Structură arborescentă specializată în stocarea și căutarea șirurilor de caractere (ex: dicționare).",
     "sourcePath": "lib/algorithms/structuri-de-date/tries/tries.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/tries_tries.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   },
   {
@@ -1170,10 +1170,10 @@
     "name": "Coadă pe Tablou",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Coadă Array Coadă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică.",
+    "description": "O coadă implementată clasic folosind un tablou pentru stocarea elementelor.",
     "sourcePath": "lib/algorithms/structuri-de-date/queue/array_queue.ts",
     "markdownPath": "lib/algorithms/structuri-de-date/queue_array_queue.md",
-    "visualizerType": "generic",
+    "visualizerType": "none",
     "status": "source-only"
   }
 ]

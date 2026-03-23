@@ -1,64 +1,41 @@
 <!-- custom-doc -->
-# Cycle Sortare
 
-Cycle Sortare este un algoritm de sortare in-place, care are ca scop organizarea unui set de date prin mutarea elementelor în pozițiile lor corecte, minimizând numărul de scrieri. Este un algoritm eficient pentru sortarea unui tablou, având o complexitate de timp de $O(n^2)$, dar se distinge prin faptul că efectuează un număr minim de scrieri, ceea ce îl face util în anumite aplicații.
+# 🚀 **Sortarea prin Ciclu (Cycle Sort)**
 
-## Reprezentare Vizuală
+## 📝 **Descriere**
 
-Considerăm un exemplu simplu de sortare a unui tablou: `[3, 1, 5, 2]`.
+**Cycle Sort** este un algoritm de sortare *in-place* și instabil, care este optim din punct de vedere al numărului total de scrieri în memorie. Se bazează pe ideea că orice permutare poate fi descompusă în cicluri. Algoritmul identifică aceste cicluri și rotește elementele pentru a le plasa direct în poziția lor finală.
 
-1. **Pasul 1**: Identificăm elementul curent (3) și determinăm poziția sa corectă (2).
-2. **Pasul 2**: Mutăm elementele pentru a face loc pentru 3.
+## 🖼️ **Reprezentare Vizuală**
 
-```
-Index:   0   1   2   3
-Array: [3] [1] [5] [2]
-```
-După mutarea elementului 3:
-```
-Index:   0   1   2   3
-Array: [2] [1] [5] [3]
-```
-Continuăm procesul pentru fiecare element până când tabloul este complet sortat.
+![Cycle Sort Animation](https://upload.wikimedia.org/wikipedia/commons/e/ea/Cycle_sort.gif)
 
-```
-Index:   0   1   2   3
-Array: [1] [2] [3] [5]
+```text
+Input: [3, 1, 5, 2]
+1. 3 ar trebui să fie la index 2. Interschimbă 3 cu 5.
+2. Noul element (5) ar trebui să fie la index 3. Interschimbă cu 2.
+3. Continuă până când ciclul se închide.
+Rezultat: [1, 2, 3, 5]
 ```
 
-## Matematică / Logică
+## ⚖️ **Avantaje și Dezavantaje**
 
-Algoritmul funcționează prin identificarea poziției corecte a fiecărui element și mutarea acestuia. Complexitatea sa de timp este dată de formula:
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Minimizarea Scrierilor:** Fiecare element este scris fie zero, fie o singură dată în poziția sa finală. | ⚠️ **Ineficiență Timp:** Complexitate $O(n^2)$, mult mai lent decât QuickSort. |
+| 📊 **In-place:** Necesită memorie suplimentară minimă $O(1)$. | 📉 **Instabilitate:** Nu păstrează ordinea relativă a elementelor egale. |
 
-$$
-T(n) = n + (n-1) + (n-2) + ... + 1 = \frac{n(n-1)}{2} = O(n^2)
-$$
+## 🔢 **Analiză Matematică și Complexitate**
 
-## Tabel de Complextitate
+Deși este optim pentru scrieri, numărul de comparații rămâne ridicat.
 
-| Caz               | Complexitate Timp | Complexitate Spațiu |
-|-------------------|-------------------|---------------------|
-| Cel mai bun       | $O(n^2)$          | $O(1)$              |
-| Caz mediu         | $O(n^2)$          | $O(1)$              |
-| Cel mai rău       | $O(n^2)$          | $O(1)$              |
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Worst Case)** | $O(n^2)$ |
+| **Timp (Average Case)** | $O(n^2)$ |
+| **Spațiu (Space)** | $O(1)$ |
 
-## Avantaje și Dezavantaje
+## 💡 **Aplicații Practice**
 
-**Avantaje:**
-- Eficient în ceea ce privește numărul de scrieri.
-- Algoritm in-place, nu necesită memorie suplimentară semnificativă.
-- Stabil în anumite implementări.
-
-**Dezavantaje:**
-- Complexitate de timp $O(n^2)$, ineficient pentru seturi mari de date.
-- Nu este un algoritm stabil în mod implicit.
-
-## Aplicații Practice
-
-Cycle Sortare este utilizat în aplicații unde numărul de scrieri este critic, cum ar fi:
-- Sortarea datelor în memorie limitată.
-- Sortarea datelor în sisteme de fișiere unde scrierea pe disc este costisitoare.
-- Algoritmi de sortare în bazele de date care necesită minimizarea operațiunilor de scriere.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **Memorie Flash (EEPROM):** Unde durata de viață este limitată de numărul de scrieri.
+- **Sisteme Embedded:** Când scrierea datelor este mult mai costisitoare decât citirea sau compararea lor.

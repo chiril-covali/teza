@@ -1,63 +1,38 @@
 <!-- custom-doc -->
-# Verificare Odd
 
-Verificarea dacă un număr este impar (odd) este o operație fundamentală în matematică și informatică. Un număr întreg este considerat impar dacă nu este divizibil cu 2, adică există un rest de 1 atunci când este împărțit la 2. Această verificare este esențială în diverse aplicații, de la algoritmi simpli la structuri de date complexe.
+# 🚀 **Număr Impar (Is Odd)**
 
-## Reprezentare Vizuală
+## 📝 **Descriere**
 
-Pentru a verifica dacă un număr $n$ este impar, se poate utiliza următoarea logică:
+Un număr întreg $n$ se numește **impar** dacă nu este divizibil cu 2. Din punct de vedere matematic, un număr impar are întotdeauna forma $n = 2k + 1$, unde $k$ este un număr întreg. În informatică, această verificare este una dintre cele mai simple și frecvente operații.
 
-```
-n % 2 == 1
-```
+## 🖼️ **Reprezentare Vizuală**
+![Even and Odd Numbers](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Even_and_odd_numbers.svg/300px-Even_and_odd_numbers.svg.png)
 
-### Exemplu Pas cu Pas
+```text
+7 / 2 = 3 rest 1  ==> IMPAR (True)
+6 / 2 = 3 rest 0  ==> NU ESTE IMPAR (False)
 
-Să considerăm numărul $7$:
-
-1. Se calculează $7 \mod 2$.
-2. Rezultatul este $1$.
-3. Deoarece restul este $1$, concluzionăm că $7$ este un număr impar.
-
-```
-Număr: 7
-  |
-  +-- 7 % 2 = 1 (impar)
+Bitwise:
+7 (binar: 0111) & 1 = 1  ==> IMPAR
+6 (binar: 0110) & 1 = 0  ==> PAR
 ```
 
-## Matematică / Logică
+## ⚖️ **Avantaje și Dezavantaje**
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Performanță Maximă:** Verificarea bitwise este aproape instantanee la nivel hardware. | ⚠️ **Tipuri de Date:** Nu se aplică direct numerelor în virgulă mobilă (floating point). |
+| 📊 **Simplitate:** Codul este extrem de scurt și ușor de citit (ex: `n % 2 != 0`). | 📉 **Semn:** La unele limbaje (ex: C++), modulo pentru numere negative poate fi diferit de cel pentru pozitive. |
 
-Logica de verificare a parității unui număr poate fi exprimată matematic prin:
+## 🔢 **Analiză Matematică și Complexitate**
+$n \text{ este impar} \iff n \equiv 1 \pmod 2$.
 
-$$
-n \text{ este impar} \iff n \mod 2 = 1
-$$
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Time)** | $O(1)$ |
+| **Spațiu (Space)** | $O(1)$ |
 
-## Tabel de Complextitate
-
-| Caz           | Complexitate Timp | Complexitate Spațiu |
-|---------------|-------------------|---------------------|
-| Cel mai bun   | $O(1)$            | $O(1)$              |
-| Mediu         | $O(1)$            | $O(1)$              |
-| Cel mai rău   | $O(1)$            | $O(1)$              |
-
-## Avantaje și Dezavantaje
-
-### Avantaje
-- Simplu de implementat.
-- Eficiență ridicată (complexitate constantă).
-- Utilizare frecventă în algoritmi și structuri de date.
-
-### Dezavantaje
-- Limitat la verificarea parității (nu oferă informații suplimentare despre număr).
-- Nu se aplică direct pentru numere reale sau fracționare.
-
-## Aplicații Practice
-
-- Determinarea parității în algoritmi de sortare.
-- Utilizarea în jocuri pentru a decide cine începe primul.
-- Implementarea de funcții de hash care depind de paritate.
-- Filtrarea datelor în baze de date sau structuri de date.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+## 💡 **Aplicații Practice**
+- **Logica Jocului:** Alternarea între doi jucători (ex: jucătorul 1 la ture impare).
+- **Stilizare Interfață:** Colorarea diferită a rândurilor impare într-un tabel (zebra striping).
+- **Algoritmi de Tip Divide et Impera:** Gestionarea cazurilor în care dimensiunea problemei este impară.

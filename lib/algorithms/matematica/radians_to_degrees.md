@@ -1,72 +1,44 @@
 <!-- custom-doc -->
-# Radians To Degrees
 
-Conversia radianilor în grade este un proces matematic esențial în domeniul trigonometriei, care permite transformarea unui unghi exprimat în radiani într-un unghi echivalent exprimat în grade. Această conversie este utilă în diverse aplicații, inclusiv în programare, grafică computerizată și inginerie.
+# 🚀 **Conversie Radiani în Grade (Radians to Degrees)**
 
-## Reprezentare Vizuală
+## 📝 **Descriere**
 
-Pentru a înțelege mai bine procesul de conversie, putem utiliza următoarea formulă:
+Conversia de la **Radiani la Grade** este o transformare fundamentală în geometrie și trigonometrie. În timp ce gradele sunt unitatea de măsură convențională pentru unghiuri în viața de zi cu zi (360° pentru un cerc), radianii sunt unitatea standard în analiză matematică și fizică, fiind definiți pe baza lungimii arcului de cerc.
 
-```
-Grade = Radiani * (180 / π)
-```
+## 🖼️ **Reprezentare Vizuală**
 
-### Exemplu Pas cu Pas
+![Degree Radian Conversion](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Degree-Radian_Conversion.svg/400px-Degree-Radian_Conversion.svg.png)
 
-Să considerăm un exemplu în care dorim să convertim 1 radian în grade:
+```text
+Formula: Grade = Radiani * (180 / π)
 
-1. Aplicăm formula:
-   - Grade = 1 * (180 / π)
-2. Calculăm valoarea:
-   - Grade ≈ 1 * 57.2958 ≈ 57.30 grade
-
-```
-+-----------+-----------------+
-| Radiani   | Grade           |
-+-----------+-----------------+
-| 0         | 0               |
-| π/6       | 30              |
-| π/4       | 45              |
-| π/3       | 60              |
-| π/2       | 90              |
-| π         | 180             |
-| 2π        | 360             |
-+-----------+-----------------+
+Corespondențe cheie:
+π rad    = 180°
+π/2 rad  = 90°
+2π rad   = 360°
+1 rad    ≈ 57.2958°
 ```
 
-## Matematică / Logică
+## ⚖️ **Avantaje și Dezavantaje**
 
-Formula de conversie între radiani și grade este derivată din definiția unghiurilor în cercul trigonometric. Un cerc complet are o măsură de $2\pi$ radiani, care corespunde la 360 de grade. Astfel, raportul dintre grade și radiani este:
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| ✅ **Intuitivitate:** Gradele sunt mult mai ușor de vizualizat pentru oameni în design și arhitectură. | ⚠️ **Precizie:** Dependența de constanta $\pi$ poate introduce erori de rotunjire în calculele pe calculator. |
+| ✅ **Compatibilitate:** Majoritatea bibliotecilor grafice de nivel înalt acceptă grade ca input pentru rotații. | ❌ **Incompatibilitate Matematică:** Funcțiile de calcul (sin, cos, derivate) necesită obligatoriu radiani. |
 
-$$
-\frac{360 \text{ grade}}{2\pi \text{ radiani}} = \frac{180}{\pi}
-$$
+## 🔢 **Analiză Matematică și Complexitate**
 
-## Tabel de Complextitate
+Transformarea se bazează pe raportul constant $\frac{180}{\pi}$.
 
-| Caz          | Complexitate Timp | Complexitate Spațiu |
-|--------------|-------------------|---------------------|
-| Cel mai bun  | O(1)              | O(1)                |
-| Mediu        | O(1)              | O(1)                |
-| Cel mai rău  | O(1)              | O(1)                |
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Time)** | $O(1)$ |
+| **Spațiu (Space)** | $O(1)$ |
 
-## Avantaje și Dezavantaje
+## 💡 **Aplicații Practice**
 
-### Avantaje
-- Simplifică calculele trigonometrice.
-- Ușor de implementat în coduri de programare.
-- Utilizare frecventă în grafică și simulări.
-
-### Dezavantaje
-- Poate provoca confuzii pentru cei care nu sunt familiarizați cu unitățile de măsură.
-- Necesită o conversie suplimentară în anumite aplicații, ceea ce poate introduce erori.
-
-## Aplicații Practice
-
-Conversia radianilor în grade este utilizată în diverse domenii, inclusiv:
-- Programarea grafică, unde unghiurile sunt adesea exprimate în grade.
-- Simulările fizice, unde este necesară o precizie în calculul unghiurilor.
-- Navigația, unde unghiurile de direcție sunt frecvent exprimate în grade.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **Grafică 3D și Jocuri:** Transformarea unghiurilor introduse de utilizator în valori utilizabile de GPU.
+- **Inginerie și Arhitectură:** Proiectarea unghiurilor de construcție și a sistemelor mecanice.
+- **Navigație:** Calcularea direcțiilor și a rumburilor pe busolă.
+- **Robotetică:** Controlul servomotoarelor care sunt adesea calibrate în grade.

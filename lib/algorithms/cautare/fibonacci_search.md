@@ -1,39 +1,42 @@
 <!-- custom-doc -->
-# 📈 Căutare Fibonacci
 
-## 📝 Descriere
-Căutarea Fibonacci este un algoritm eficient pentru găsirea unui element într-o listă sortată. Acesta utilizează o abordare bazată pe secvența Fibonacci pentru a reduce intervalul de căutare, îmbunătățind astfel performanța în comparație cu căutarea binară în anumite cazuri. Algoritmul împarte lista în subliste bazate pe numerele din secvența Fibonacci, ceea ce permite o căutare rapidă.
+# 🚀 **Căutarea Fibonacci (Fibonacci Search)**
 
-## 🖼️ Reprezentare Vizuală
-![Căutare Fibonacci](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Fibonacci_search.svg/640px-Fibonacci_search.svg.png)
+## 📝 **Descriere**
 
+**Căutarea Fibonacci** este un algoritm de căutare pentru tablouri **sortate** care utilizează numerele din șirul lui Fibonacci pentru a determina punctele de divizare a intervalului de căutare. Similar cu căutarea binară, acesta folosește o strategie de tip "divide et impera", dar cu o distribuție diferită a intervalelor, ceea ce poate fi avantajos în sisteme unde operațiile de acces la memorie sunt costisitoare.
+
+## 🖼️ **Reprezentare Vizuală**
+
+![Fibonacci Search Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Fibonacci_search.svg/640px-Fibonacci_search.svg.png)
+
+```text
+n=11, Fib(k)=13, Fib(k-1)=8, Fib(k-2)=5
+1. Identifică cel mai mic număr Fibonacci ≥ n (aici 13).
+2. Divizează tabloul folosind Fib(k-2).
+3. Offset inițial = -1. i = min(offset + Fib(k-2), n-1).
+4. Ajustează Fib(k) și offset-ul în funcție de comparație.
 ```
-   |-------------------|
-   |   Lista Sortată   |
-   |-------------------|
-   |  1 | 2 | 3 | 4 | 5 |
-   |-------------------|
-```
 
-## ⚖️ Avantaje și Dezavantaje
+## ⚖️ **Avantaje și Dezavantaje**
 
-| Avantaj                                   | Dezavantaj                              |
-|-------------------------------------------|-----------------------------------------|
-| Eficient pentru liste mari                | Necesită o listă sortată               |
-| Reduce numărul de comparații               | Implementarea poate fi complexă         |
-| Folosește secvența Fibonacci pentru a reduce intervalul de căutare | Performanța poate fi inferioară în cazul listelor mici |
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Fără împărțiri:** Folosește doar adunări și scăderi (mai rapid pe CPU-uri vechi). | ⚠️ **Precondiție:** Necesită tabloul sortat și acces la șirul Fibonacci. |
+| 📊 **Localitate cache:** Accesează datele în intervale mai restrânse decât căutarea binară. | 📉 **Complexitate:** Mai greu de implementat corect decât căutarea binară. |
 
-## 🔢 Analiză Matematică și Complexitate
+## 🔢 **Analiză Matematică și Complexitate**
 
-| Tip de Complexitate | Complexitate      |
-|---------------------|-------------------|
-| Timp                | $O(\log n)$       |
-| Spațiu              | $O(1)$            |
+Algoritmul reduce intervalul de căutare folosind raportul numerelor Fibonacci adiacente (care tinde spre Secțiunea de Aur $\phi \approx 1.618$).
 
-Analiza complexității se bazează pe faptul că algoritmul împarte lista în subliste utilizând numerele Fibonacci, ceea ce permite o reducere rapidă a intervalului de căutare.
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Worst Case)** | $O(\log n)$ |
+| **Timp (Best Case)** | $O(1)$ |
+| **Spațiu (Space)** | $O(1)$ |
 
-## 💡 Aplicații Practice
-Căutarea Fibonacci este utilizată în diverse aplicații, cum ar fi:
-- Căutarea în baze de date sortate.
-- Implementarea algoritmilor de căutare în structuri de date avansate, cum ar fi arborii binari.
-- Optimizarea căutărilor în aplicații de tip search engine, unde rapiditatea este esențială.
+## 💡 **Aplicații Practice**
+
+- **Sisteme cu resurse limitate:** Unde operația de împărțire (necesară la căutarea binară) este lentă sau absentă hardware.
+- **Optimizarea cache-ului:** Când se caută în seturi de date care nu încap complet în cache-ul L1.
+- **Baze de date:** Ca alternativă la alte metode de căutare logaritmică.

@@ -1,60 +1,42 @@
 <!-- custom-doc -->
-# Quick Select
 
-Quick Select este un algoritm eficient utilizat pentru a găsi k-ul cel mai mic element dintr-un array nesortat. Este o variantă a algoritmului Quick Sort, dar în loc să sorteze întregul array, se concentrează pe a găsi un singur element, ceea ce îl face mai rapid în anumite scenarii.
+# 🚀 **Selecție Rapidă (Quick Select)**
 
-## Reprezentare Vizuală
+## 📝 **Descriere**
 
-Considerăm array-ul următor: `[3, 6, 2, 7, 5, 1, 4]` și dorim să găsim al 3-lea cel mai mic element (k=3).
+**Quick Select** este un algoritm eficient utilizat pentru a găsi al k-lea cel mai mic element dintr-un tablou nesortat. Este o variantă a algoritmului Quick Sort, dar în loc să sorteze întregul tablou, se concentrează pe a explora doar sub-tabloul care conține elementul căutat, ceea ce îl face extrem de rapid în medie.
 
-1. Alegem un pivot, de exemplu, `4`.
-2. Reorganizăm array-ul în funcție de pivot:
+## 🖼️ **Reprezentare Vizuală**
 
-```
-Initial:      [3, 6, 2, 7, 5, 1, 4]
-După pivot:   [3, 2, 1, 4, 5, 7, 6]
-```
+![Quick Select Animation](https://upload.wikimedia.org/wikipedia/commons/0/04/Quickselect_Animation.gif)
 
-3. Comparăm poziția pivotului cu k:
-
-```
-Index Pivot:  3 (elementul 4)
-K:            3
+```text
+K=3 (Găsește al 3-lea cel mai mic element)
+Tablou: [3, 6, 2, 7, 5, 1, 4]
+1. Alegem Pivot = 4
+2. Partitionare: [3, 2, 1] [4] [6, 7, 5]
+3. Index pivot = 3. Deoarece 3 == K, elementul 4 este rezultatul!
 ```
 
-Deoarece indexul pivotului este exact k, am găsit elementul dorit: `4`.
+## ⚖️ **Avantaje și Dezavantaje**
 
-## Matematică / Logică
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Eficiență:** Foarte rapid pentru găsirea unui singur element (medie $O(n)$). | ⚠️ **Worst Case:** Poate ajunge la $O(n^2)$ dacă pivotul este ales prost. |
+| 📊 **In-place:** Nu necesită memorie suplimentară semnificativă. | 📉 **Instabilitate:** Nu păstrează ordinea relativă a elementelor egale. |
 
-Algoritmul Quick Select funcționează pe baza divizării array-ului în sub-array-uri, similar cu Quick Sort. Complexitatea sa temporală este dată de:
+## 🔢 **Analiză Matematică și Complexitate**
 
-- Cazul mediu: $O(n)$
-- Cazul cel mai rău: $O(n^2)$ (când pivotul ales este întotdeauna cel mai mic sau cel mai mare element)
+Algoritmul elimină o parte din date la fiecare pas, similar cu căutarea binară, dar cu un efort de partitionare liniar.
 
-## Tabel de Complextitate
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Worst Case)** | $O(n^2)$ |
+| **Timp (Average Case)** | $O(n)$ |
+| **Spațiu (Space)** | $O(1)$ |
 
-| Caz                | Complexitate Timp | Complexitate Spațiu |
-|--------------------|-------------------|---------------------|
-| Cel mai bun        | $O(n)$            | $O(1)$              |
-| Caz mediu          | $O(n)$            | $O(1)$              |
-| Cel mai rău       | $O(n^2)$          | $O(1)$              |
+## 💡 **Aplicații Practice**
 
-## Avantaje și Dezavantaje
-
-**Avantaje:**
-- Eficient pentru găsirea unui singur element.
-- Spațiu de memorie constant $O(1)$.
-- Funcționează bine pe array-uri mari.
-
-**Dezavantaje:**
-- Cazul cel mai rău poate fi ineficient ($O(n^2)$).
-- Necesită o alegere bună a pivotului pentru a menține eficiența.
-
-## Aplicații Practice
-
-- Găsirea mediei, medianei sau altor statistici descriptive într-un set de date.
-- Algoritmi de selecție în baze de date și aplicații de procesare a datelor.
-- Probleme de optimizare în care se caută un element specific dintr-un set nesortat.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **Statistici descriptive:** Găsirea medianei sau a percentilelor într-un set de date masiv.
+- **Baze de date:** Selecția rapidă a elementelor de top dintr-o listă nesortată.
+- **Procesarea semnalelor:** Filtrarea valorilor aberante dintr-un flux de date.

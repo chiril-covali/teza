@@ -1,14 +1,17 @@
 <!-- custom-doc -->
-# 🚀 **Factorizarea în Numere Prime**
+
+# 🚀 **Factorizarea în Numere Prime (Prime Factorization)**
 
 ## 📝 **Descriere**
-**Factorizarea în numere prime** este procesul de descompunere a unui număr întreg compus în produs de numere prime. Conform **Teoremei Fundamentale a Aritmeticii**, fiecare număr întreg mai mare decât 1 are o descompunere unică în factori primi (făcând abstracție de ordinea factorilor).
+
+**Factorizarea în numere prime** este procesul de descompunere a unui număr întreg compus în produs de numere prime. Conform **Teoremei Fundamentale a Aritmeticii**, fiecare număr întreg mai mare decât 1 are o descompunere unică în factori primi (făcând abstracție de ordinea factorilor). Această "amprentă digitală" a numerelor este coloana vertebrală a multor sisteme de securitate moderne.
 
 ## 🖼️ **Reprezentare Vizuală**
+
 ![Factorization Tree](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Factor_tree_of_48.svg/300px-Factor_tree_of_48.svg.png)
 
-**Diagramă ASCII (Exemplu pentru 120):**
 ```text
+Exemplu: 120
           120
          /   \
        (2)   60
@@ -22,13 +25,15 @@ Rezultat: 2 * 2 * 2 * 3 * 5 = 2³ * 3 * 5
 ```
 
 ## ⚖️ **Avantaje și Dezavantaje**
+
 | Avantaj | Dezavantaj |
 | :--- | :--- |
-| 🚀 **Unicitate:** Oferă o "amprentă" matematică unică pentru fiecare număr. | ⚠️ **Complexitate:** Calcularea factorilor pentru numere gigantice este extrem de grea. |
-| 📊 **Utilitate:** Esențială pentru calculul CMMDC, CMMMC și simplificarea fracțiilor. | 📉 **Timp:** Algoritmii simpli (trial division) sunt lenți pentru numere mari. |
+| ✅ **Unicitate:** Oferă o reprezentare matematică unică pentru orice număr întreg. | ⚠️ **Dificultate Computațională:** Factorizarea numerelor imense este o problemă nerezolvată eficient (NP). |
+| ✅ **Utilitate:** Esențială pentru calculul CMMDC, CMMMC și simplificarea fracțiilor. | ❌ **Scalabilitate:** Algoritmii simpli devin inutilizabili pe măsură ce numărul de cifre crește. |
 
 ## 🔢 **Analiză Matematică și Complexitate**
-Algoritmul de diviziune trială parcurge numerele până la $\sqrt{n}$.
+
+Algoritmul standard de diviziune trială parcurge numerele până la $\sqrt{n}$.
 
 | Tip Complexitate | Valoare |
 | :--- | :--- |
@@ -36,6 +41,8 @@ Algoritmul de diviziune trială parcurge numerele până la $\sqrt{n}$.
 | **Spațiu (Space)** | $O(\log n)$ (pentru stocarea factorilor) |
 
 ## 💡 **Aplicații Practice**
-- **Criptografie:** Securitatea RSA se bazează pe dificultatea factorizării numerelor imense.
-- **Teoria Numerelor:** Demonstrarea multor teoreme legate de divizibilitate.
-- **Securitate Cibernetică:** Generarea cheilor publice și private.
+
+- **Criptografie:** Securitatea algoritmului RSA se bazează pe dificultatea factorizării numerelor gigantice.
+- **Securitate Cibernetică:** Generarea și validarea cheilor publice în comunicațiile securizate.
+- **Teoria Numerelor:** Demonstrarea teoremelor legate de divizibilitate și structura numerelor.
+- **Inginerie:** Analiza armonică și prelucrarea semnalelor unde factorizarea frecvențelor este necesară.

@@ -1,68 +1,42 @@
 <!-- custom-doc -->
-# Verificare Divisible
 
-Verificarea divisibilității este un proces matematic prin care se determină dacă un număr întreg este divizibil cu un alt număr întreg, fără a lăsa rest. Această operație este fundamentală în teoria numerelor și are aplicații în diverse domenii, inclusiv criptografie, algoritmi și programare.
+# 🚀 **Verificare Divizibilitate (Is Divisible)**
 
-## Reprezentare Vizuală
+## 📝 **Descriere**
 
-Un exemplu simplu de verificare a divisibilității poate fi ilustrat printr-un algoritm care verifică dacă un număr $n$ este divizibil cu un număr $d$. Algoritmul poate fi descris astfel:
+**Verificarea Divizibilității** este procesul prin care determinăm dacă un număr întreg $n$ se împarte exact (fără rest) la un număr întreg $d$. Aceasta este o operație fundamentală în **Teoria Numerelor** și se realizează prin calcularea restului împărțirii (operatorul **modulo**).
 
-1. Se calculează restul împărțirii lui $n$ la $d$.
-2. Dacă restul este 0, atunci $n$ este divizibil cu $d$; altfel, nu este.
+## 🖼️ **Reprezentare Vizuală**
 
-```
-Verificare Divisible(n, d):
-    rest = n % d
-    dacă rest == 0:
-        return True
-    altfel:
-        return False
-```
+![Divisibility Concept](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Divisibility_rules_for_2%2C_5%2C_and_10.svg/300px-Divisibility_rules_for_2%2C_5%2C_and_10.svg.png)
 
-### Exemplu Pas cu Pas
+```text
+Exemplu:
+n = 10, d = 2
+10 / 2 = 5 rest 0  ==> DIVIZIBIL (True)
 
-Să considerăm $n = 10$ și $d = 2$:
-
-```
-1. rest = 10 % 2
-2. rest = 0
-3. 10 este divizibil cu 2
+n = 10, d = 3
+10 / 3 = 3 rest 1  ==> NU ESTE DIVIZIBIL (False)
 ```
 
-## Matematică / Logică
+## ⚖️ **Avantaje și Dezavantaje**
 
-Verificarea divisibilității se bazează pe următoarea formulă:
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Eficiență:** Operația de modulo este implementată direct în hardware. | ⚠️ **Tipuri de Date:** Se aplică exclusiv numerelor întregi. |
+| 📊 **Universalitate:** Baza pentru algoritmi de paritate, CMMDC și numere prime. | 📉 **Zero:** Modulo la 0 nu este definit și cauzează erori fatale. |
 
-$$
-n \mod d = 0 \implies n \text{ este divizibil cu } d
-$$
+## 🔢 **Analiză Matematică și Complexitate**
 
-unde $\mod$ reprezintă operația de calculare a restului.
+Formal, $n$ este divizibil cu $d$ dacă $n \pmod d = 0$.
 
-## Tabel de Complextitate
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Time)** | $O(1)$ |
+| **Spațiu (Space)** | $O(1)$ |
 
-| Caz               | Complexitate Timp | Complexitate Spațiu |
-|-------------------|-------------------|---------------------|
-| Cel mai bun       | $O(1)$            | $O(1)$              |
-| Caz mediu        | $O(1)$            | $O(1)$              |
-| Cel mai rău      | $O(1)$            | $O(1)$              |
+## 💡 **Aplicații Practice**
 
-## Avantaje și Dezavantaje
-
-**Avantaje:**
-- Simplu de implementat.
-- Eficient din punct de vedere al timpului de execuție.
-- Utilizat frecvent în algoritmi și structuri de date.
-
-**Dezavantaje:**
-- Limitat la numere întregi.
-- Nu oferă informații suplimentare despre numerele verificate (de exemplu, nu identifică factorii).
-
-## Aplicații Practice
-
-- **Criptografie**: Verificarea divisibilității este esențială în algoritmi de criptare, cum ar fi RSA.
-- **Algoritmi de sortare**: Folosit în algoritmi care necesită gruparea numerelor în funcție de criterii de divisibilitate.
-- **Analiza datelor**: Utilizat în statistici pentru a verifica condiții de grupare.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **Criptografie:** Validarea cheilor și a parametrilor în algoritmi asimetrici.
+- **Validarea Datelor:** Verificarea formatelor sau a parității pachetelor de date.
+- **Logica Programării:** Executarea periodică a unor acțiuni în bucle (throttling).

@@ -1,76 +1,44 @@
 <!-- custom-doc -->
-# Hartă Hash Hartă
 
-Harta Hash Hartă este o structură de date care asociază chei cu valori, utilizând o funcție de hash pentru a determina indexul în care sunt stocate valorile. Această structură permite accesul rapid la date, având un timp mediu de acces constant, $O(1)$, datorită distribuției eficiente a datelor.
+# 🚀 **Tabelă Hash (Hash Map)**
 
-## Reprezentare Vizuală
+## 📝 **Descriere**
 
-O hartă hash poate fi reprezentată printr-un array în care fiecare index conține o listă de perechi cheie-valoare. Iată un exemplu simplu:
+O **Tabelă Hash** (sau Hash Map) este o structură de date care implementează un tablou asociativ, o structură care corelează **chei** cu **valori**. Folosește o **funcție de hash** pentru a transforma cheia într-un index într-un tablou de "bucket-uri" sau "slot-uri", de unde valoarea dorită poate fi găsită rapid. Este una dintre cele mai eficiente structuri pentru căutări și inserări.
 
-```
-Index:   0       1       2       3       4
-        +-------+-------+-------+-------+-------+
-        |       |       |       |       |       |
-        |       |       |       |       |       |
-        +-------+-------+-------+-------+-------+
-        |       |       |       |       |       |
-        |       |       |       |       |       |
-        +-------+-------+-------+-------+-------+
-        |       |       |       |       |       |
-        |       |       |       |       |       |
-        +-------+-------+-------+-------+-------+
+## 🖼️ **Reprezentare Vizuală**
+
+![Hash Map Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Hash_table_3_1_1_0_1_0_0_SP.svg/400px-Hash_table_3_1_1_0_1_0_0_SP.svg.png)
+
+```text
+Cheie (Key) ----> [ Funcție Hash ] ----> Index [0...N] ----> Valoare (Value)
+
+Exemplu:
+"Nume"   ----> Hash("Nume") % 10 = 4 ----> Index 4: "Ion"
+"Vârstă" ----> Hash("Vârstă") % 10 = 7 ----> Index 7: 25
 ```
 
-Să presupunem că dorim să inserăm următoarele perechi cheie-valoare: (1, "A"), (2, "B"), (3, "C"). Funcția de hash folosită este simplă: $hash(key) = key \mod 5$.
+## ⚖️ **Avantaje și Dezavantaje**
 
-1. `hash(1) = 1` → Stocăm "A" la indexul 1.
-2. `hash(2) = 2` → Stocăm "B" la indexul 2.
-3. `hash(3) = 3` → Stocăm "C" la indexul 3.
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Viteză Uimitoare:** Timp mediu de acces constant $O(1)$ pentru toate operațiile de bază. | ⚠️ **Coliziuni:** Mai multe chei pot genera același index, necesitând mecanisme de rezolvare. |
+| 📊 **Versatilitate:** Permite utilizarea oricărui tip de date ca și cheie (șiruri, obiecte). | 📉 **Consum Memorie:** Necesită un spațiu mai mare decât datele stocate pentru a minimiza coliziunile. |
 
-Reprezentarea finală va fi:
+## 🔢 **Analiză Matematică și Complexitate**
 
-```
-Index:   0       1       2       3       4
-        +-------+-------+-------+-------+-------+
-        |       |  (1, A)| (2, B)| (3, C)|       |
-        +-------+-------+-------+-------+-------+
-```
+Performanța depinde de uniformitatea funcției de hash și de "Load Factor" ($\lambda = n/m$).
 
-## Matematică / Logică
+| Tip Complexitate | Caz Mediu | Caz Defavorabil |
+| :--- | :--- | :--- |
+| **Căutare** | $O(1)$ | $O(n)$ |
+| **Inserare** | $O(1)$ | $O(n)$ |
+| **Ștergere** | $O(1)$ | $O(n)$ |
+| **Spațiu (Space)** | $O(n)$ | $O(n)$ |
 
-Complexitatea timpului pentru operațiile de inserare, căutare și ștergere într-o hartă hash este, în medie, $O(1)$, dar în cel mai rău caz poate ajunge la $O(n)$, atunci când toate cheile sunt mapate la același index (coliziune). Formula generală pentru complexitatea timpului este:
+## 💡 **Aplicații Practice**
 
-- Căutare: $O(1)$ (medie), $O(n)$ (rău)
-- Inserare: $O(1)$ (medie), $O(n)$ (rău)
-- Ștergere: $O(1)$ (medie), $O(n)$ (rău)
-
-## Tabel de Complextitate
-
-| Operație  | Caz Favorabil | Caz Mediu | Caz Defavorabil |
-|-----------|----------------|-----------|-----------------|
-| Căutare   | $O(1)$         | $O(1)$    | $O(n)$          |
-| Inserare  | $O(1)$         | $O(1)$    | $O(n)$          |
-| Ștergere  | $O(1)$         | $O(1)$    | $O(n)$          |
-
-## Avantaje și Dezavantaje
-
-**Avantaje:**
-- Acces rapid la date (timp constant mediu).
-- Ușor de implementat și utilizat.
-- Flexibilitate în gestionarea datelor.
-
-**Dezavantaje:**
-- Posibilitatea coliziunilor, care pot afecta performanța.
-- Necesită o funcție de hash eficientă.
-- Spațiul de memorie poate fi ineficient utilizat.
-
-## Aplicații Practice
-
-Harta Hash Hartă este utilizată pe scară largă în diverse aplicații, cum ar fi:
-- Implementarea bazelor de date pentru stocarea rapidă a informațiilor.
-- Gestionarea sesiunilor în aplicațiile web.
-- Implementarea cache-urilor pentru acces rapid la date frecvent utilizate.
-- Algoritmi de căutare și sortare care necesită acces rapid la elemente.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **Baze de Date:** Indexarea rapidă a înregistrărilor.
+- **Caching:** Stocarea temporară a rezultatelor costisitoare (ex. Redis).
+- **Compilatoare:** Tabele de simboluri pentru identificatori și variabile.
+- **Securitate:** Verificarea integrității datelor prin funcții hash.

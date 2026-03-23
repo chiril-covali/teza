@@ -1,42 +1,47 @@
 <!-- custom-doc -->
-# 🚀 Algoritmul Dijkstra
 
-## 📝 Descriere
-Algoritmul Dijkstra este o metodă eficientă pentru găsirea celui mai scurt drum într-un graf cu greutăți pozitive. Acesta a fost dezvoltat de către Edsger W. Dijkstra în 1956 și publicat în 1959. Algoritmul funcționează prin explorarea treptată a nodurilor din graf, actualizând distanțele minime către fiecare nod pe măsură ce progresează.
+# 🚀 **Algoritmul Dijkstra (Dijkstra's Algorithm)**
 
-## 🖼️ Reprezentare Vizuală
-![Reprezentare Vizuală](https://upload.wikimedia.org/wikipedia/commons/5/57/Dijkstra_Animation.gif)
+## 📝 **Descriere**
 
+**Algoritmul Dijkstra** este unul dintre cei mai celebri algoritmi de grafuri, utilizat pentru a găsi cel mai scurt drum de la un nod sursă către toate celelalte noduri dintr-un graf ponderat cu **costuri non-negative**. Funcționează pe principiul "greedy", alegând mereu nodul cel mai apropiat care nu a fost încă procesat.
+
+## 🖼️ **Reprezentare Vizuală**
+
+![Dijkstra Animation](https://upload.wikimedia.org/wikipedia/commons/5/57/Dijkstra_Animation.gif)
+
+```text
+   (A)---1---(B)
+    | \       |
+    4  2      5
+    |   \     |
+   (C)---3---(D)
+
+Pas 1: dist[A]=0, restul inf. Vizităm A.
+Pas 2: Update vecini A: dist[B]=1, dist[D]=2, dist[C]=4.
+Pas 3: Alegem cel mai mic (B). Update vecini B...
 ```
-   A
-  / \
- 1   4
-/     \
-B-------C
- \     /
-  2   3
-   \ /
-    D
-```
 
-## ⚖️ Avantaje și Dezavantaje
+## ⚖️ **Avantaje și Dezavantaje**
 
-| Avantaj                               | Dezavantaj                           |
-|---------------------------------------|--------------------------------------|
-| Găsește cel mai scurt drum optim     | Nu funcționează cu greutăți negative |
-| Eficient pentru grafuri dense        | Complexitate O(V^2) în implementări simple |
-| Ușor de implementat                   | Necesită memorie suplimentară pentru stocarea distanțelor |
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Optimalitate:** Garantează găsirea drumului minim dacă toate ponderile sunt pozitive. | ⚠️ **Ponderi Negative:** Eșuează sau produce rezultate greșite dacă există muchii negative. |
+| 📊 **Performanță:** Foarte eficient când este implementat cu un Min-Heap (Priority Queue). | 📉 **Complexitate:** Mai complex de implementat corect față de BFS. |
 
-## 🔢 Analiză Matematică și Complexitate
+## 🔢 **Analiză Matematică și Complexitate**
 
-| Tipul Algoritmului | Complexitate Timp | Complexitate Spațiu |
-|--------------------|-------------------|---------------------|
-| Implementare simplă | O(V^2)            | O(V)                |
-| Implementare cu heap (min-heap) | O(E log V)        | O(V)                |
+Eficiența algoritmului depinde critic de structura de date folosită pentru a extrage minimul.
 
-## 💡 Aplicații Practice
-Algoritmul este utilizat în diverse domenii, cum ar fi:
-- **Sisteme de navigație**: pentru determinarea celor mai scurte rute între puncte.
-- **Rețele de calculatoare**: pentru optimizarea rutei datelor.
-- **Planificarea transportului**: pentru a minimiza costurile și timpul de livrare.
-- **Jocuri video**: pentru a calcula rutele optime pentru personaje sau unități.
+| Tip Implementare | Complexitate Timp |
+| :--- | :--- |
+| **Cu Tablou (Array)** | $O(V^2)$ |
+| **Cu Binary Heap** | $O(E \log V)$ |
+| **Spațiu (Space)** | $O(V)$ |
+
+## 💡 **Aplicații Practice**
+
+- **Sisteme de Navigație:** Calcularea rutelor optime în Google Maps sau Waze.
+- **Protocoale de Rețea:** Utilizat în OSPF pentru a direcționa traficul de date.
+- **Robotica:** Planificarea traiectoriei unui robot pentru a evita obstacolele cu cost minim.
+- **Jocuri Video:** Algoritmi de pathfinding pentru AI (inteligența artificială a personajelor).

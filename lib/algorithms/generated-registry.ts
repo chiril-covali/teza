@@ -24,7 +24,7 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "cautare_binarySearch",
-    "name": "Căutare Binară (Vizualizat)",
+    "name": "Căutare Binară",
     "category": "Căutare",
     "complexity": "T: O(log N), S: O(1)",
     "description": "Versiune interactivă a căutării binare, ideală pentru înțelegerea procesului de divizare."
@@ -52,45 +52,45 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "cautare_interpolation_search",
-    "name": "Interpolare Căutare",
+    "name": "Căutare prin Interpolare",
     "category": "Căutare",
     "complexity": "",
-    "description": "Interpolare Căutare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Estimează poziția elementului folosind interpolarea liniară, accelerând căutarea în vectori cu distribuție uniformă."
   },
   {
     "slug": "cautare_jump_search",
-    "name": "Salturi Căutare",
+    "name": "Căutare prin Salturi",
     "category": "Căutare",
     "complexity": "",
-    "description": "Salturi Căutare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Sare cu pași de √n în vectorul sortat, apoi aplică căutare liniară în blocul potrivit."
   },
   {
     "slug": "cautare_sentinel_search",
-    "name": "Santinelă Căutare",
+    "name": "Căutare cu Santinelă",
     "category": "Căutare",
     "complexity": "",
-    "description": "Santinelă Căutare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Varianta optimizată a căutării liniare care elimină verificarea limitei de array prin plasarea elementului căutat la final."
   },
   {
     "slug": "diverse_is_sorted_array",
-    "name": "Verificare Sorted Array",
+    "name": "Verificare Vector Sortat",
     "category": "Diverse",
     "complexity": "",
-    "description": "Verificare Sorted Array este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Verifică dacă elementele unui vector sunt aranjate în ordine crescătoare."
   },
   {
     "slug": "diverse_parse_nested_brackets",
-    "name": "Parse Nested Brackets",
+    "name": "Analiza Parantezelor Imbricate",
     "category": "Diverse",
     "complexity": "",
-    "description": "Parse Nested Brackets este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Analizează un șir de caractere și verifică dacă parantezele sunt corect imbricate și echilibrate."
   },
   {
     "slug": "diverse_shuffle_array",
-    "name": "Shuffle Array",
+    "name": "Amestecarea Elementelor",
     "category": "Diverse",
     "complexity": "",
-    "description": "Shuffle Array este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Amestecă aleatoriu elementele unui vector folosind algoritmul Fisher-Yates."
   },
   {
     "slug": "grafuri_bellman_ford",
@@ -108,45 +108,45 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "grafuri_bipartite_graph",
-    "name": "Bipartite Graf",
+    "name": "Graf Bipartit",
     "category": "Grafuri",
     "complexity": "",
-    "description": "Bipartite Graf este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Verifică dacă un graf poate fi împărțit în două mulțimi disjuncte de noduri astfel încât fiecare muchie să conecteze noduri din mulțimi diferite."
   },
   {
     "slug": "grafuri_edmonds_karp",
     "name": "Edmonds Karp",
     "category": "Grafuri",
     "complexity": "",
-    "description": "Edmonds Karp este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Implementare BFS a algoritmului Ford-Fulkerson pentru fluxul maxim într-o rețea."
   },
   {
     "slug": "grafuri_floyd_warshall",
     "name": "Floyd Warshall",
     "category": "Grafuri",
     "complexity": "",
-    "description": "Floyd Warshall este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Găsește drumurile minime între toate perechile de noduri dintr-un graf ponderat."
   },
   {
     "slug": "grafuri_johnson",
     "name": "Johnson",
     "category": "Grafuri",
     "complexity": "",
-    "description": "Johnson este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Algoritm pentru calculul drumurilor minime între toate perechile de noduri într-un graf cu ponderi, inclusiv negative."
   },
   {
-    "slug": "grafuri_kosajaru",
-    "name": "Kosajaru",
+    "slug": "grafuri_kosaraju",
+    "name": "Kosaraju",
     "category": "Grafuri",
     "complexity": "",
-    "description": "Kosajaru este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Găsește componentele tare conexe ale unui graf orientat folosind două parcurgeri DFS."
   },
   {
     "slug": "grafuri_kruskal",
     "name": "Kruskal",
     "category": "Grafuri",
     "complexity": "",
-    "description": "Kruskal este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Construiește arborele parțial de cost minim prin selectarea succesivă a muchiilor cu ponderea cea mai mică."
   },
   {
     "slug": "grafuri_dfs",
@@ -167,14 +167,14 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
     "name": "Prim",
     "category": "Grafuri",
     "complexity": "",
-    "description": "Prim este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Determină arborele parțial de cost minim pornind de la un nod și adăugând iterativ cea mai apropiată muchie conectată."
   },
   {
     "slug": "grafuri_tarjan",
     "name": "Tarjan",
     "category": "Grafuri",
     "complexity": "",
-    "description": "Tarjan este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Identifică componentele tare conexe ale unui graf orientat într-o singură parcurgere DFS."
   },
   {
     "slug": "manipulare-biti_add_binary",
@@ -206,308 +206,308 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "matematica_absolute_value",
-    "name": "Absolute Value",
+    "name": "Valoare Absolută",
     "category": "Matematică",
     "complexity": "",
-    "description": "Absolute Value este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Calculează valoarea absolută (modulul) a unui număr real, reprezentând distanța sa față de origine."
   },
   {
     "slug": "matematica_aliquot_sum",
-    "name": "Aliquot Sum",
+    "name": "Suma Alicotă",
     "category": "Matematică",
     "complexity": "",
-    "description": "Aliquot Sum este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Calculează suma tuturor divizorilor proprii ai unui număr întreg pozitiv, excluzând numărul însuși."
   },
   {
     "slug": "matematica_armstrong_number",
-    "name": "Armstrong Number",
+    "name": "Număr Armstrong",
     "category": "Matematică",
     "complexity": "",
-    "description": "Armstrong Number este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Verifică dacă un număr este egal cu suma propriilor cifre ridicate la puterea numărului de cifre."
   },
   {
     "slug": "matematica_binary_convert",
-    "name": "Binară Convert",
+    "name": "Conversie în Binar",
     "category": "Matematică",
     "complexity": "",
-    "description": "Binară Convert este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Realizează conversia numerelor între sistemul zecimal și cel binar."
   },
   {
     "slug": "matematica_binomial_coefficient",
-    "name": "Binomial Coefficient",
+    "name": "Coeficientul Binomial",
     "category": "Matematică",
     "complexity": "",
-    "description": "Binomial Coefficient este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Calculează numărul de moduri în care se pot alege k elemente dintr-o mulțime de n elemente."
   },
   {
     "slug": "matematica_calculate_mean",
-    "name": "Calculate Mean",
+    "name": "Calculul Mediei Aritmetice",
     "category": "Matematică",
     "complexity": "",
-    "description": "Calculate Mean este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Determină media aritmetică a unui set de numere prin raportul dintre suma lor și numărul total de elemente."
   },
   {
     "slug": "matematica_calculate_median",
-    "name": "Calculate Median",
+    "name": "Calculul Medianei",
     "category": "Matematică",
     "complexity": "",
-    "description": "Calculate Median este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Găsește valoarea centrală a unui set de date ordonate, care separă jumătatea superioară de cea inferioară."
   },
   {
     "slug": "matematica_degrees_to_radians",
-    "name": "Degrees To Radians",
+    "name": "Grade în Radiani",
     "category": "Matematică",
     "complexity": "",
-    "description": "Degrees To Radians este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Transformă măsura unui unghi din grade sexagesimale în radiani folosind constanta PI."
   },
   {
     "slug": "matematica_digit_sum",
-    "name": "Digit Sum",
+    "name": "Suma Cifrelor",
     "category": "Matematică",
     "complexity": "",
-    "description": "Digit Sum este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Calculează suma cifrelor unui număr întreg în baza 10."
   },
   {
     "slug": "matematica_double_factorial_iterative",
-    "name": "Double Factorial Iterative",
+    "name": "Dublu Factorial Iterativ",
     "category": "Matematică",
     "complexity": "",
-    "description": "Double Factorial Iterative este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Calculează produsul numerelor întregi pozitive care au aceeași paritate ca n și sunt mai mici sau egale cu acesta."
   },
   {
     "slug": "matematica_euler_totient",
-    "name": "Euler Totient",
+    "name": "Funcția Euler Totient",
     "category": "Matematică",
     "complexity": "",
-    "description": "Euler Totient este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Determină numărul de numere întregi pozitive mai mici decât n care sunt prime cu n."
   },
   {
     "slug": "matematica_factorial",
     "name": "Factorial",
     "category": "Matematică",
     "complexity": "",
-    "description": "Factorial este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Calculează produsul tuturor numerelor întregi pozitive mai mici sau egale cu n."
   },
   {
     "slug": "matematica_factors",
-    "name": "Factors",
+    "name": "Factorizare",
     "category": "Matematică",
     "complexity": "",
-    "description": "Factors este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Identifică toți divizorii întregi ai unui număr dat."
   },
   {
     "slug": "matematica_fibonacci",
     "name": "Fibonacci",
     "category": "Matematică",
     "complexity": "",
-    "description": "Fibonacci este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Generează termenii șirului în care fiecare număr este suma celor două precedente."
   },
   {
     "slug": "matematica_find_min",
-    "name": "Find Min",
+    "name": "Valoarea Minimă",
     "category": "Matematică",
     "complexity": "",
-    "description": "Find Min este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Identifică cel mai mic element dintr-o listă sau un set de date numerice."
   },
   {
     "slug": "matematica_gaussian_elimination",
-    "name": "Gaussian Elimination",
+    "name": "Eliminarea Gaussiană",
     "category": "Matematică",
     "complexity": "",
-    "description": "Gaussian Elimination este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Rezolvă sisteme de ecuații liniare prin transformarea matricei coeficienților într-o formă eșalonată."
   },
   {
     "slug": "matematica_greatest_common_factor",
-    "name": "Greatest Common Factor",
+    "name": "Cel mai Mare Divizor Comun",
     "category": "Matematică",
     "complexity": "",
-    "description": "Greatest Common Factor este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Determină cel mai mare număr întreg care divide fără rest două sau mai multe numere date."
   },
   {
     "slug": "matematica_hamming_distance",
-    "name": "Hamming Distance",
+    "name": "Distanța Hamming",
     "category": "Matematică",
     "complexity": "",
-    "description": "Hamming Distance este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Măsoară numărul de poziții în care simbolurile corespunzătoare a două șiruri de lungime egală sunt diferite."
   },
   {
     "slug": "matematica_series_hexagonal_numbers",
-    "name": "Series Hexagonal Numbers",
+    "name": "Șirul Numerelor Hexagonale",
     "category": "Matematică",
     "complexity": "",
-    "description": "Series Hexagonal Numbers este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Generează numerele dintr-un șir figurativ care reprezintă puncte aranjate sub formă de hexagoane."
   },
   {
     "slug": "matematica_is_divisible",
-    "name": "Verificare Divisible",
+    "name": "Verificare Divizibilitate",
     "category": "Matematică",
     "complexity": "",
-    "description": "Verificare Divisible este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Verifică dacă un număr se divide exact la un alt număr, fără a lăsa rest."
   },
   {
     "slug": "matematica_is_even",
-    "name": "Verificare Even",
+    "name": "Verificare Număr Par",
     "category": "Matematică",
     "complexity": "",
-    "description": "Verificare Even este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Verifică dacă un număr întreg este par (divizibil cu 2)."
   },
   {
     "slug": "matematica_is_leap_year",
-    "name": "Verificare Leap Year",
+    "name": "Verificare An Bisect",
     "category": "Matematică",
     "complexity": "",
-    "description": "Verificare Leap Year este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Determină dacă un an calendaristic are 366 de zile conform regulilor calendarului gregorian."
   },
   {
     "slug": "matematica_is_odd",
-    "name": "Verificare Odd",
+    "name": "Verificare Număr Impar",
     "category": "Matematică",
     "complexity": "",
-    "description": "Verificare Odd este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Verifică dacă un număr întreg este impar (nu se divide exact cu 2)."
   },
   {
     "slug": "matematica_is_palindrome",
-    "name": "Verificare Palindrome",
+    "name": "Verificare Palindrom",
     "category": "Matematică",
     "complexity": "",
-    "description": "Verificare Palindrome este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Verifică dacă un număr sau un șir de caractere se citește la fel de la stânga la dreapta și de la dreapta la stânga."
   },
   {
     "slug": "matematica_is_square_free",
-    "name": "Verificare Square Free",
+    "name": "Verificare Număr Liber de Pătrate",
     "category": "Matematică",
     "complexity": "",
-    "description": "Verificare Square Free este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Verifică dacă un număr nu este divizibil cu niciun pătrat perfect mai mare decât 1."
   },
   {
     "slug": "matematica_juggler_sequence",
-    "name": "Juggler Sequence",
+    "name": "Șirul Juggler",
     "category": "Matematică",
     "complexity": "",
-    "description": "Juggler Sequence este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Generează o secvență iterativă de numere întregi folosind puteri fracționare, care începe de la un număr pozitiv."
   },
   {
     "slug": "matematica_lowest_common_multiple",
-    "name": "Lowest Common Multiple",
+    "name": "Cel mai Mic Multiplu Comun",
     "category": "Matematică",
     "complexity": "",
-    "description": "Lowest Common Multiple este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Calculează cel mai mic număr întreg care este divizibil cu toate numerele dintr-un set dat."
   },
   {
     "slug": "matematica_matrix_multiplication",
-    "name": "Matrix Multiplication",
+    "name": "Înmulțirea Matricelor",
     "category": "Matematică",
     "complexity": "",
-    "description": "Matrix Multiplication este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Realizează operația aritmetică de înmulțire a două matrice pentru a produce o matrice nouă."
   },
   {
     "slug": "matematica_number_of_digits",
-    "name": "Number de Digits",
+    "name": "Numărul de Cifre",
     "category": "Matematică",
     "complexity": "",
-    "description": "Number de Digits este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Calculează numărul total de cifre ale unui număr întreg."
   },
   {
     "slug": "matematica_pascals_triangle",
-    "name": "Pascals Triangle",
+    "name": "Triunghiul lui Pascal",
     "category": "Matematică",
     "complexity": "",
-    "description": "Pascals Triangle este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Generează un aranjament triunghiular de numere unde fiecare valoare este suma celor două numere de deasupra sa."
   },
   {
     "slug": "matematica_perfect_cube",
-    "name": "Perfect Cube",
+    "name": "Cub Perfect",
     "category": "Matematică",
     "complexity": "",
-    "description": "Perfect Cube este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Verifică dacă un număr este rezultatul ridicării la puterea a treia a unui alt număr întreg."
   },
   {
     "slug": "matematica_perfect_number",
-    "name": "Perfect Number",
+    "name": "Număr Perfect",
     "category": "Matematică",
     "complexity": "",
-    "description": "Perfect Number este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Verifică dacă un număr este egal cu suma divizorilor săi proprii pozitivi."
   },
   {
     "slug": "matematica_perfect_square",
-    "name": "Perfect Square",
+    "name": "Pătrat Perfect",
     "category": "Matematică",
     "complexity": "",
-    "description": "Perfect Square este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Verifică dacă un număr este pătratul unui alt număr întreg."
   },
   {
     "slug": "matematica_prime_factorization",
-    "name": "Prime Factorization",
+    "name": "Descompunere în Factori Primi",
     "category": "Matematică",
     "complexity": "",
-    "description": "Prime Factorization este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Descompune un număr întreg în produs de numere prime."
   },
   {
     "slug": "matematica_primes",
-    "name": "Primes",
+    "name": "Numere Prime",
     "category": "Matematică",
     "complexity": "",
-    "description": "Primes este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Identifică sau generează numerele naturale mai mari decât 1 care au exact doi divizori: 1 și ele însele."
   },
   {
     "slug": "matematica_pronic_number",
-    "name": "Pronic Number",
+    "name": "Număr Pronic",
     "category": "Matematică",
     "complexity": "",
-    "description": "Pronic Number este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Verifică dacă un număr este produsul a două numere întregi consecutive."
   },
   {
     "slug": "matematica_radians_to_degrees",
-    "name": "Radians To Degrees",
+    "name": "Radiani în Grade",
     "category": "Matematică",
     "complexity": "",
-    "description": "Radians To Degrees este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Transformă măsura unui unghi din radiani în grade sexagesimale."
   },
   {
     "slug": "matematica_sieve_of_eratosthenes",
-    "name": "Sieve de Eratosthenes",
+    "name": "Ciurul lui Eratostene",
     "category": "Matematică",
     "complexity": "",
-    "description": "Sieve de Eratosthenes este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Algoritm eficient pentru găsirea tuturor numerelor prime până la o limită dată."
   },
   {
     "slug": "matematica_signum",
-    "name": "Signum",
+    "name": "Funcția Signum",
     "category": "Matematică",
     "complexity": "",
-    "description": "Signum este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Extrage semnul unui număr real, returnând -1, 0 sau 1 în funcție de valoarea acestuia."
   },
   {
     "slug": "matematica_square_root",
-    "name": "Square Root",
+    "name": "Rădăcina Pătrată",
     "category": "Matematică",
     "complexity": "",
-    "description": "Square Root este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Calculează rădăcina pătrată a unui număr, adică valoarea care înmulțită cu ea însăși dă numărul inițial."
   },
   {
     "slug": "matematica_ugly_numbers",
-    "name": "Ugly Numbers",
+    "name": "Numere Urâte",
     "category": "Matematică",
     "complexity": "",
-    "description": "Ugly Numbers este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Identifică numerele ai căror singuri factori primi sunt 2, 3 sau 5."
   },
   {
     "slug": "matematica_zellers_congruence",
-    "name": "Zellers Congruence",
+    "name": "Congruența Zeller",
     "category": "Matematică",
     "complexity": "",
-    "description": "Zellers Congruence este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Calculează ziua săptămânii pentru orice dată calendaristică din trecut sau viitor."
   },
   {
     "slug": "programare-dinamica_lcs",
-    "name": "Cel mai lung subșir comun (LCS)",
+    "name": "Subsecvența Comună Maximă (LCS)",
     "category": "Programare Dinamică",
     "complexity": "T: O(N*M), S: O(N*M)",
     "description": "Găsește cel mai lung șir de caractere care apare în aceeași ordine în două șiruri."
   },
   {
     "slug": "programare-dinamica_coin_change",
-    "name": "Problema Restului (Coin Change)",
+    "name": "Problema Restului (Schimb Monede)",
     "category": "Programare Dinamică",
     "complexity": "T: O(S*n), S: O(S)",
     "description": "Determină numărul minim de monede pentru a obține o sumă, optimizând subproblemele repetate."
@@ -521,101 +521,101 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "sortare_tree_sort",
-    "name": "Arbore Sortare",
+    "name": "Sortare cu Arbore",
     "category": "Sortare",
     "complexity": "",
-    "description": "Arbore Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Construiește un arbore binar de căutare din elementele unui tablou și apoi îl parcurge în inordine pentru a obține elementele sortate."
   },
   {
     "slug": "sortare_bogo_sort",
     "name": "Bogo Sortare",
     "category": "Sortare",
     "complexity": "",
-    "description": "Bogo Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "O metodă de sortare extrem de ineficientă care generează permutări aleatorii până când tabloul devine ordonat."
   },
   {
     "slug": "sortare_counting_sort",
-    "name": "Counting Sortare",
+    "name": "Sortare prin Numărare",
     "category": "Sortare",
     "complexity": "",
-    "description": "Counting Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Sortează elementele prin numărarea aparițiilor fiecărei valori unice, fiind eficient pentru intervale mici de valori."
   },
   {
     "slug": "sortare_cycle_sort",
-    "name": "Cycle Sortare",
+    "name": "Sortare Ciclică",
     "category": "Sortare",
     "complexity": "",
-    "description": "Cycle Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Un algoritm de sortare pe loc care minimizează numărul total de scrieri în memorie."
   },
   {
     "slug": "sortare_gnome_sort",
-    "name": "Gnome Sortare",
+    "name": "Sortare Gnome",
     "category": "Sortare",
     "complexity": "",
-    "description": "Gnome Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Sortează o listă prin mutarea repetată a unui element spre poziția sa corectă, similar cu sortarea prin inserție dar cu un singur ciclu."
   },
   {
     "slug": "sortare_heap_sort",
-    "name": "Heap Sortare",
+    "name": "Sortare cu Heap",
     "category": "Sortare",
     "complexity": "",
-    "description": "Heap Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Utilizează o structură de date de tip heap pentru a extrage succesiv elementul maxim sau minim și a ordona tabloul."
   },
   {
     "slug": "sortare_quick_select",
-    "name": "Quick Select",
+    "name": "Selecție Rapidă",
     "category": "Sortare",
     "complexity": "",
-    "description": "Quick Select este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Un algoritm de selecție pentru a găsi al k-lea cel mai mic element dintr-o listă neordonată."
   },
   {
     "slug": "sortare_shell_sort",
-    "name": "Shell Sortare",
+    "name": "Sortare Shell",
     "category": "Sortare",
     "complexity": "",
-    "description": "Shell Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "O generalizare a sortării prin inserție care permite schimbul de elemente aflate la distanțe mari."
   },
   {
     "slug": "sortare_quickSort",
-    "name": "Sortare Rapidă (Vizualizat)",
+    "name": "Sortare Rapidă",
     "category": "Sortare",
     "complexity": "T: O(N log N), S: O(log N)",
     "description": "Vizualizare interactivă a partiționării și recursivității în Quick Sort."
   },
   {
     "slug": "sortare_mergeSort",
-    "name": "Sortare prin Interclasare (Vizualizat)",
+    "name": "Sortare prin Interclasare",
     "category": "Sortare",
     "complexity": "T: O(N log N), S: O(N)",
     "description": "Animație clară a procesului de 'Divide et Impera' în Merge Sort."
   },
   {
     "slug": "sortare_bubbleSort",
-    "name": "Sortare prin Metoda Bulelor (Vizualizat)",
+    "name": "Sortare prin Metoda Bulelor",
     "category": "Sortare",
     "complexity": "T: O(N^2), S: O(1)",
     "description": "O animație pas-cu-pas a modului în care Bubble Sort ordonează elementele."
   },
   {
     "slug": "sortare_swap_sort",
-    "name": "Swap Sortare",
+    "name": "Sortare prin Interschimb",
     "category": "Sortare",
     "complexity": "",
-    "description": "Swap Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Sortează elementele prin interschimbări directe bazate pe compararea valorilor adiacente sau a pozițiilor corecte."
   },
   {
     "slug": "sortare_insertionSort",
-    "name": "Insertion Sortare",
+    "name": "Sortare prin Inserție",
     "category": "Sortare",
     "complexity": "",
-    "description": "Insertion Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Construiește lista sortată finală prin inserarea succesivă a fiecărui element nou pe poziția sa corectă."
   },
   {
     "slug": "sortare_selectionSort",
-    "name": "Selection Sortare",
+    "name": "Sortare prin Selecție",
     "category": "Sortare",
     "complexity": "",
-    "description": "Selection Sortare este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Sortează un tablou prin selectarea repetată a celui mai mic element din partea neordonată și mutarea lui la început."
   },
   {
     "slug": "structuri-de-date_tree_binary_search_tree",
@@ -626,73 +626,73 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "structuri-de-date_queue_circular_queue",
-    "name": "Coadă Circulară Coadă",
+    "name": "Coadă Circulară",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Coadă Circulară Coadă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Implementează o coadă folosind un tablou fix unde ultima poziție este conectată la prima pentru a reutiliza spațiul."
   },
   {
     "slug": "structuri-de-date_list_doubly_linked_list",
-    "name": "Listă Dublu Înlănțuită Listă",
+    "name": "Listă Dublu Înlănțuită",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Listă Dublu Înlănțuită Listă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "O listă în care fiecare element conține referințe atât către nodul următor, cât și către cel anterior."
   },
   {
     "slug": "structuri-de-date_map_hash_map",
-    "name": "Hartă Hash Hartă",
+    "name": "Tabelă Hash",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Hartă Hash Hartă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "O structură de date care asociază chei cu valori folosind o funcție de dispersie (hash) pentru acces rapid."
   },
   {
     "slug": "structuri-de-date_set_hash_map_set",
-    "name": "Set Hash Hartă Set",
+    "name": "Mulțime Hash",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Set Hash Hartă Set este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Implementează o mulțime de elemente unice folosind mecanismul intern al unui tabel de dispersie."
   },
   {
     "slug": "structuri-de-date_heap_heap",
-    "name": "Heap (Grămadă)",
+    "name": "Heap (Grămadă de Prioritate)",
     "category": "Structuri de Date",
     "complexity": "T: O(log N), S: O(N)",
     "description": "O structură de date arborescentă care permite accesul rapid la elementul minim sau maxim. Este baza algoritmului HeapSort."
   },
   {
     "slug": "structuri-de-date_queue_linked_queue",
-    "name": "Coadă Înlănțuită Coadă",
+    "name": "Coadă Înlănțuită",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Coadă Înlănțuită Coadă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "O coadă implementată dinamic folosind noduri de listă înlănțuită pentru a permite dimensiuni variabile."
   },
   {
     "slug": "structuri-de-date_list_linked_list",
-    "name": "Listă Înlănțuită Listă",
+    "name": "Listă Înlănțuită",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Listă Înlănțuită Listă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "O structură de date liniară în care elementele sunt stocate în noduri conectate prin pointeri."
   },
   {
     "slug": "structuri-de-date_stack_linked_list_stack",
-    "name": "Stivă Înlănțuită Listă Stivă",
+    "name": "Stivă Înlănțuită",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Stivă Înlănțuită Listă Stivă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Implementează o stivă folosind o listă înlănțuită, urmând principiul LIFO (Last-In, First-Out)."
   },
   {
     "slug": "structuri-de-date_map_map",
-    "name": "Hartă Hartă",
+    "name": "Hartă (Map)",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Hartă Hartă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "O colecție de perechi cheie-valoare care garantează unicitatea cheilor și permite regăsirea rapidă a datelor."
   },
   {
     "slug": "structuri-de-date_set_map_set",
-    "name": "Set Hartă Set",
+    "name": "Mulțime cu Hartă",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Set Hartă Set este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "O implementare a unei mulțimi bazată pe structura de date de tip Map pentru a asigura elemente distincte."
   },
   {
     "slug": "structuri-de-date_disjoint_set_disjoint_set",
@@ -703,31 +703,31 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "structuri-de-date_queue_queue",
-    "name": "Coadă Coadă",
+    "name": "Coadă",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Coadă Coadă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "O structură de date liniară care urmează principiul FIFO (First-In, First-Out) pentru gestionarea elementelor."
   },
   {
     "slug": "structuri-de-date_set_set",
-    "name": "Set Set",
+    "name": "Mulțime (Set)",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Set Set este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Reprezintă o colecție de elemente distincte, fără o ordine specifică."
   },
   {
     "slug": "structuri-de-date_list_singly_linked_list",
-    "name": "Listă Simplă Înlănțuită Listă",
+    "name": "Listă Simplu Înlănțuită",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Listă Simplă Înlănțuită Listă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "O listă înlănțuită în care fiecare nod conține date și o referință către elementul următor."
   },
   {
     "slug": "structuri-de-date_queue_stack_queue",
-    "name": "Coadă Stivă Coadă",
+    "name": "Coadă din Stive",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Coadă Stivă Coadă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "Implementează comportamentul unei cozi folosind două stive pentru a gestiona ordinea elementelor."
   },
   {
     "slug": "structuri-de-date_stack_stack",
@@ -745,9 +745,9 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "structuri-de-date_queue_array_queue",
-    "name": "Coadă Array Coadă",
+    "name": "Coadă pe Tablou",
     "category": "Structuri de Date",
     "complexity": "",
-    "description": "Coadă Array Coadă este prezentat într-o variantă educațională, clară și ușor de urmărit. Analizează codul sursă pas cu pas pentru a înțelege logica algoritmului și situațiile în care este util în practică."
+    "description": "O coadă implementată clasic folosind un tablou pentru stocarea elementelor."
   }
 ];

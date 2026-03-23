@@ -1,62 +1,36 @@
 <!-- custom-doc -->
-# Verificare Square Free
 
-Verificarea unui număr ca fiind "square free" se referă la determinarea dacă acesta nu este divizibil cu pătratul unui număr întreg mai mare decât 1. Un număr este considerat "square free" dacă nu există niciun întreg $k > 1$ astfel încât $k^2$ să fie un divizor al numărului respectiv.
+# 🚀 **Verificare Număr Square-Free (Square-Free Number)**
 
-## Reprezentare Vizuală
+## 📝 **Descriere**
+Un număr întreg $n$ se numește **Square-Free** (fără pătrate) dacă nu este divizibil cu niciun pătrat perfect mai mare decât 1 (adică $k^2 \nmid n$ pentru orice $k > 1$). Altfel spus, în descompunerea sa în **factori primi**, fiecare exponent este egal cu 1.
 
-Un exemplu simplu pentru a verifica dacă numărul 30 este "square free":
+## 🖼️ **Reprezentare Vizuală**
+![Square-Free Numbers](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Square-free_numbers_up_to_100.svg/400px-Square-free_numbers_up_to_100.svg.png)
 
-1. Factorizăm 30: $30 = 2 \times 3 \times 5$
-2. Verificăm pătratele numerelor întregi:
-   - $2^2 = 4$ (nu este divizor)
-   - $3^2 = 9$ (nu este divizor)
-   - $5^2 = 25$ (nu este divizor)
-
-Astfel, 30 este un număr "square free".
-
-```
-30
-├── 2
-├── 3
-└── 5
+```text
+30 = 2 × 3 × 5  (Toți exponenții sunt 1)  ==> Square-Free
+12 = 2² × 3     (Exponentul lui 2 este 2) ==> NU este Square-Free
 ```
 
-## Matematică / Logică
+## ⚖️ **Avantaje și Dezavantaje**
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Structură Simplă:** Oferă o bază clară pentru funcția Möbius. | ⚠️ **Complexitate:** Verificarea necesită factorizare, care este grea pentru numere mari. |
+| 📊 **Teoretic:** Esențial în distribuția numerelor prime și teoria funcțiilor. | 📉 **Eficiență:** Algoritmii naivi pot fi lenți fără pre-calcularea numerelor prime. |
 
-Pentru a verifica dacă un număr $n$ este "square free", putem utiliza următoarea logică:
+## 🔢 **Analiză Matematică și Complexitate**
+Dacă $n = p_1^{e_1} p_2^{e_2} \dots p_k^{e_k}$, atunci $n$ este square-free $\iff e_i = 1$ pentru toți $i$.
 
-1. Calculăm toți factorii primi ai lui $n$.
-2. Verificăm dacă pentru fiecare factor prim $p$, $p^2$ nu divide $n$.
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Trial Division)** | $O(\sqrt{n})$ |
+| **Spațiu (Space)** | $O(1)$ |
 
-Această verificare poate fi realizată eficient prin algoritmi care utilizează factorizarea.
-
-## Tabel de Complextitate
-
-| Caz                | Complexitate Timp | Complexitate Spațiu |
-|--------------------|-------------------|---------------------|
-| Cel mai bun        | $O(\sqrt{n})$     | $O(1)$              |
-| Caz mediu          | $O(\sqrt{n})$     | $O(1)$              |
-| Cel mai rău       | $O(\sqrt{n})$     | $O(1)$              |
-
-## Avantaje și Dezavantaje
-
-- **Avantaje**:
-  - Ușor de implementat.
-  - Eficient pentru numere mici și medii.
-  - Util în diverse aplicații matematice și de teorie a numerelor.
-
-- **Dezavantaje**:
-  - Poate deveni ineficient pentru numere foarte mari.
-  - Necesită o verificare exhaustivă a factorilor primi.
-
-## Aplicații Practice
-
-Algoritmul de verificare "square free" este utilizat în:
-
-- Teoria numerelor, pentru studierea proprietăților numerelor.
-- Criptografie, în generarea de chei și algoritmi de securitate.
-- Analiza datelor, în special în statistica combinatorială și în problemele de optimizare.
+## 💡 **Aplicații Practice**
+- **Funcția Möbius:** Utilizată în inversarea Möbius și în teoria numerelor avansată.
+- **Teoria Probabilităților:** Probabilitatea ca un număr ales la întâmplare să fie square-free este $6/\pi^2 \approx 0.6079$.
+- **Criptografie:** Studiul proprietăților numerelor mari pentru securitate.
 
 ---
 *Acest document face parte din biblioteca de algoritmi a proiectului Teza.*

@@ -1,61 +1,42 @@
 <!-- custom-doc -->
-# Verificare Even
 
-Verificarea parității unui număr se referă la determinarea dacă un număr întreg este par sau impar. Un număr este considerat par dacă este divizibil cu 2, adică nu are rest la împărțirea cu 2. În schimb, un număr este impar dacă are un rest de 1 la această împărțire.
+# 🚀 **Verificare Paritate (Is Even)**
 
-## Reprezentare Vizuală
+## 📝 **Descriere**
 
+**Verificarea Parității** este procesul de a determina dacă un număr întreg este **par** sau **impar**. Un număr este par dacă este divizibil cu 2 (restul împărțirii este 0). Aceasta este una dintre cele mai elementare și frecvente operații în programare.
+
+## 🖼️ **Reprezentare Vizuală**
+
+![Even Odd Numbers](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Even-odd-numbers.svg/300px-Even-odd-numbers.svg.png)
+
+```text
+Număr: 8 -> 8 / 2 = 4 (Rest 0) -> PAR ✅
+Număr: 7 -> 7 / 2 = 3 (Rest 1) -> IMPAR ❌
+
+Binar:
+8: 1000 (Ultimul bit este 0) -> PAR
+7: 0111 (Ultimul bit este 1) -> IMPAR
 ```
-Număr: 8
-Verificare: 8 % 2 = 0 (Par)
 
-Număr: 7
-Verificare: 7 % 2 = 1 (Impar)
-```
+## ⚖️ **Avantaje și Dezavantaje**
 
-### Exemplu Pas cu Pas
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Viteză:** Execuție instantanee la nivel de procesor. | ⚠️ **Limitare:** Se aplică exclusiv numerelor întregi. |
+| 📊 **Simplitate:** Cod minim și ușor de citit. | 📉 **Specificitate:** Nu oferă informații despre alți factori. |
 
-1. Primul număr: 10
-   - 10 % 2 = 0 → Par
-2. Al doilea număr: 15
-   - 15 % 2 = 1 → Impar
+## 🔢 **Analiză Matematică și Complexitate**
 
-## Matematică / Logică
+Proprietate: $n \text{ este par } \iff n \equiv 0 \pmod 2$.
 
-Pentru un număr întreg $n$, verificarea parității se poate exprima prin următoarea formulă:
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Time)** | $O(1)$ |
+| **Spațiu (Space)** | $O(1)$ |
 
-$$
-\text{Paritate}(n) = 
-\begin{cases} 
-\text{Par} & \text{dacă } n \mod 2 = 0 \\
-\text{Impar} & \text{dacă } n \mod 2 = 1 
-\end{cases}
-$$
+## 💡 **Aplicații Practice**
 
-## Tabel de Complextitate
-
-| Caz          | Complexitate Timp | Complexitate Spațiu |
-|--------------|-------------------|---------------------|
-| Cel mai bun  | $O(1)$            | $O(1)$              |
-| Mediu        | $O(1)$            | $O(1)$              |
-| Cel mai rău  | $O(1)$            | $O(1)$              |
-
-## Avantaje și Dezavantaje
-
-**Avantaje:**
-- Simplu de implementat.
-- Timp de execuție constant, $O(1)$.
-- Utilizare eficientă a resurselor de memorie.
-
-**Dezavantaje:**
-- Nu oferă informații suplimentare despre număr (ex: divizibilitate cu alte numere).
-- Limitat la numere întregi.
-
-## Aplicații Practice
-
-- **Programare**: Verificarea parității este frecvent utilizată în algoritmi de sortare și filtrare.
-- **Teoria numerelor**: Utilizată în studii de divizibilitate și în probleme de combinatorică.
-- **Criptografie**: Paritatea este folosită în generarea de chei și în algoritmi de verificare a integrității datelor.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **UI/UX:** Colorarea rândurilor alternante într-un tabel (zebra striping).
+- **Algoritmi:** Împărțirea sarcinilor în algoritmi de tip "Divide and Conquer".
+- **Hardware:** Verificarea biților de paritate pentru detectarea erorilor de transmisie.

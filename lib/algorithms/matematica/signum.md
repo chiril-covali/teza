@@ -1,75 +1,46 @@
 <!-- custom-doc -->
-# Signum
 
-Signum este o funcție matematică care determină semnul unui număr real. Aceasta este adesea utilizată în analize matematice și algoritmi pentru a simplifica calculele și a determina direcția unei valori. Funcția este definită astfel:
+# 🚀 **Funcția Signum (Signum Function)**
 
-$$
-\text{signum}(x) = 
-\begin{cases} 
-1 & \text{dacă } x > 0 \\
-0 & \text{dacă } x = 0 \\
--1 & \text{dacă } x < 0 
-\end{cases}
-$$
+## 📝 **Descriere**
 
-## Reprezentare Vizuală
+Funcția **Signum** (sau funcția semn) este o funcție matematică care extrage semnul unui număr real. Aceasta returnează valoarea -1 pentru numere negative, 1 pentru numere pozitive și 0 pentru valoarea zero. Este un instrument esențial în analiza matematică și programare pentru a simplifica condițiile logice și a normaliza direcțiile.
 
-Funcția signum poate fi reprezentată grafic printr-o diagramă simplă:
+## 🖼️ **Reprezentare Vizuală**
 
-```
-    |
-  1 |       *
-    |       |
-    |       |
-  0 |-------|-------*-------*-------*-------*
-    |       |       |       |       |
- -1 |       *       |       |       |
-    |       |       |       |       |
-    |-------|-------|-------|-------|
-          -1      0       1       x
+![Signum Function](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Signum_function.svg/400px-Signum_function.svg.png)
+
+```text
+Definiție:
+sgn(x) = { -1, dacă x < 0
+          {  0, dacă x = 0
+          {  1, dacă x > 0
+
+Exemple:
+sgn(-15) = -1
+sgn(0)   =  0
+sgn(42)  =  1
 ```
 
-### Exemplu Pas cu Pas
+## ⚖️ **Avantaje și Dezavantaje**
 
-Să considerăm un exemplu cu un set de valori: [-3, -1, 0, 2, 4].
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| ✅ **Simplificare Cod:** Înlocuiește multiple blocuri `if-else` cu o singură operație matematică. | ⚠️ **Discontinuitate:** Funcția nu este continuă în punctul x=0, ceea ce poate pune probleme în anumite calcule numerice fine. |
+| ✅ **Performanță:** Implementările la nivel de bit (bit-twiddling) sunt extrem de rapide pe CPU modern. | ❌ **Pierdere de Date:** Se pierde magnitudinea numărului, păstrându-se doar direcția acestuia. |
 
-1. **Pentru -3**: $\text{signum}(-3) = -1$
-2. **Pentru -1**: $\text{signum}(-1) = -1$
-3. **Pentru 0**: $\text{signum}(0) = 0$
-4. **Pentru 2**: $\text{signum}(2) = 1$
-5. **Pentru 4**: $\text{signum}(4) = 1$
+## 🔢 **Analiză Matematică și Complexitate**
 
-Rezultatul final al funcției signum pentru acest set de valori este: [-1, -1, 0, 1, 1].
+Funcția poate fi definită și ca $\text{sgn}(x) = \frac{x}{|x|}$ pentru $x \neq 0$.
 
-## Matematică / Logică
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Time)** | $O(1)$ |
+| **Spațiu (Space)** | $O(1)$ |
 
-Funcția semnului este un instrument util în analiza matematică, având aplicații în optimizarea algoritmilor și în determinarea comportamentului funcțiilor. Aceasta poate fi folosită pentru a simplifica expresii matematice complexe.
+## 💡 **Aplicații Practice**
 
-## Tabel de Complextitate
-
-| Caz            | Complexitate Timp | Complexitate Spațiu |
-|----------------|-------------------|---------------------|
-| Cel mai bun    | $O(1)$            | $O(1)$              |
-| Mediu          | $O(1)$            | $O(1)$              |
-| Cel mai rău    | $O(1)$            | $O(1)$              |
-
-## Avantaje și Dezavantaje
-
-**Avantaje:**
-- Simplifică calculele matematice.
-- Permite determinarea rapidă a semnului unui număr.
-- Utilizată frecvent în algoritmi de optimizare.
-
-**Dezavantaje:**
-- Nu oferă informații despre magnitudinea valorii.
-- Poate fi confuză pentru cei care nu sunt familiarizați cu conceptele matematice.
-
-## Aplicații Practice
-
-Funcția signum este utilizată în diverse domenii, inclusiv:
-- Analiza numerică pentru determinarea direcției de creștere sau descreștere a funcțiilor.
-- Algoritmi de optimizare în inteligența artificială.
-- Procesarea semnalelor pentru a determina polaritatea semnalelor electrice.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **Inteligență Artificială:** Utilizată ca funcție de activare simplă în anumite tipuri de neuroni.
+- **Fizică și Motoare de Jocuri:** Determinarea direcției forțelor sau a vectorilor de deplasare.
+- **Procesarea Semnalelor:** Identificarea polarității unui curent sau a unei unde sonore.
+- **Sisteme de Control:** Utilizată în controlerele de tip "bang-bang" pentru a comuta între stări.

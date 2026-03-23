@@ -1,60 +1,62 @@
 import { AlgorithmMeta, AlgorithmResult } from "./types";
-import { bubbleSort } from "./sortare/bubbleSort";
-import { insertionSort } from "./sortare/insertionSort";
-import { selectionSort } from "./sortare/selectionSort";
-import { quickSort } from "./sortare/quickSort";
-import { mergeSort } from "./sortare/mergeSort";
-import { binarySearch } from "./cautare/binarySearch";
-import { bfs } from "./grafuri/bfs";
-import { dfs } from "./grafuri/dfs";
-import { dijkstra } from "./grafuri/dijkstra";
+import { bubbleSort } from "../runtime/algorithms/sortare/bubbleSort";
+import { insertionSort } from "../runtime/algorithms/sortare/insertionSort";
+import { selectionSort } from "../runtime/algorithms/sortare/selectionSort";
+import { quickSort } from "../runtime/algorithms/sortare/quickSort";
+import { mergeSort } from "../runtime/algorithms/sortare/mergeSort";
+import { binarySearch } from "../runtime/algorithms/cautare/binarySearch";
+import { bfs } from "../runtime/algorithms/grafuri/bfs";
+import { dfs } from "../runtime/algorithms/grafuri/dfs";
+import { dijkstra } from "../runtime/algorithms/grafuri/dijkstra";
 // Search algorithms
-import { linearSearchInstrumented } from "./cautare/linearSearch";
-import { exponentialSearchInstrumented } from "./cautare/exponentialSearchInstrumented";
-import { jumpSearchInstrumented } from "./cautare/jumpSearchInstrumented";
-import { interpolationSearchInstrumented } from "./cautare/interpolationSearchInstrumented";
-import { fibonacciSearchInstrumented } from "./cautare/fibonacciSearchInstrumented";
-import { sentinelSearchInstrumented } from "./cautare/sentinelSearchInstrumented";
+import { linearSearchInstrumented } from "../runtime/algorithms/cautare/linearSearch";
+import { exponentialSearchInstrumented } from "../runtime/algorithms/cautare/exponentialSearchInstrumented";
+import { jumpSearchInstrumented } from "../runtime/algorithms/cautare/jumpSearchInstrumented";
+import { interpolationSearchInstrumented } from "../runtime/algorithms/cautare/interpolationSearchInstrumented";
+import { fibonacciSearchInstrumented } from "../runtime/algorithms/cautare/fibonacciSearchInstrumented";
+import { sentinelSearchInstrumented } from "../runtime/algorithms/cautare/sentinelSearchInstrumented";
 // Sorting algorithms
-import { countingSortInstrumented } from "./sortare/countingSortInstrumented";
-import { gnomeSortInstrumented } from "./sortare/gnomeSortInstrumented";
-import { heapSortInstrumented } from "./sortare/heapSortInstrumented";
-import { shellSortInstrumented } from "./sortare/shellSortInstrumented";
-import { cycleSortInstrumented } from "./sortare/cycleSortInstrumented";
-import { quickSelectInstrumented } from "./sortare/quickSelectInstrumented";
+import { countingSortInstrumented } from "../runtime/algorithms/sortare/countingSortInstrumented";
+import { gnomeSortInstrumented } from "../runtime/algorithms/sortare/gnomeSortInstrumented";
+import { heapSortInstrumented } from "../runtime/algorithms/sortare/heapSortInstrumented";
+import { shellSortInstrumented } from "../runtime/algorithms/sortare/shellSortInstrumented";
+import { cycleSortInstrumented } from "../runtime/algorithms/sortare/cycleSortInstrumented";
+import { quickSelectInstrumented } from "../runtime/algorithms/sortare/quickSelectInstrumented";
 // Graph algorithms
-import { bellmanFordInstrumented } from "./grafuri/bellmanFordInstrumented";
-import { primInstrumented } from "./grafuri/primInstrumented";
-import { kruskalInstrumented } from "./grafuri/kruskalInstrumented";
-import { floydWarshallInstrumented } from "./grafuri/floydWarshallInstrumented";
+import { bellmanFordInstrumented } from "../runtime/algorithms/grafuri/bellmanFordInstrumented";
+import { primInstrumented } from "../runtime/algorithms/grafuri/primInstrumented";
+import { kruskalInstrumented } from "../runtime/algorithms/grafuri/kruskalInstrumented";
+import { floydWarshallInstrumented } from "../runtime/algorithms/grafuri/floydWarshallInstrumented";
 // DP algorithms
-import { lcsInstrumented } from "./programare-dinamica/lcsInstrumented";
-import { coinChangeInstrumented } from "./programare-dinamica/coinChangeInstrumented";
-import { knapsackInstrumented } from "./programare-dinamica/knapsackInstrumented";
+import { lcsInstrumented } from "../runtime/algorithms/programare-dinamica/lcsInstrumented";
+import { coinChangeInstrumented } from "../runtime/algorithms/programare-dinamica/coinChangeInstrumented";
+import { knapsackInstrumented } from "../runtime/algorithms/programare-dinamica/knapsackInstrumented";
 // Math algorithms
-import { fibonacciInstrumented } from "./matematica/fibonacciInstrumented";
-import { factorialInstrumented } from "./matematica/factorialInstrumented";
-import { sieveInstrumented } from "./matematica/sieveInstrumented";
-import { absoluteValueInstrumented } from "./matematica/absoluteValueInstrumented";
-import { isPalindromeInstrumented } from "./matematica/isPalindromeInstrumented";
-import { gcdInstrumented } from "./matematica/gcdInstrumented";
-import { primeFactorizationInstrumented } from "./matematica/primeFactorizationInstrumented";
+import { fibonacciInstrumented } from "../runtime/algorithms/matematica/fibonacciInstrumented";
+import { factorialInstrumented } from "../runtime/algorithms/matematica/factorialInstrumented";
+import { sieveInstrumented } from "../runtime/algorithms/matematica/sieveInstrumented";
+import { absoluteValueInstrumented } from "../runtime/algorithms/matematica/absoluteValueInstrumented";
+import { isPalindromeInstrumented } from "../runtime/algorithms/matematica/isPalindromeInstrumented";
+import { gcdInstrumented } from "../runtime/algorithms/matematica/gcdInstrumented";
+import { primeFactorizationInstrumented } from "../runtime/algorithms/matematica/primeFactorizationInstrumented";
 // Bit manipulation
-import { addBinaryInstrumented } from "./manipulare-biti/addBinaryInstrumented";
-import { logTwoInstrumented } from "./manipulare-biti/logTwoInstrumented";
-import { isPowerOfTwoInstrumented } from "./manipulare-biti/isPowerOfTwoInstrumented";
-import { isPowerOfFourInstrumented } from "./manipulare-biti/isPowerOfFourInstrumented";
+import { addBinaryInstrumented } from "../runtime/algorithms/manipulare-biti/addBinaryInstrumented";
+import { logTwoInstrumented } from "../runtime/algorithms/manipulare-biti/logTwoInstrumented";
+import { isPowerOfTwoInstrumented } from "../runtime/algorithms/manipulare-biti/isPowerOfTwoInstrumented";
+import { isPowerOfFourInstrumented } from "../runtime/algorithms/manipulare-biti/isPowerOfFourInstrumented";
 // Diverse
-import { shuffleArrayInstrumented } from "./diverse/shuffleArrayInstrumented";
+import { shuffleArrayInstrumented } from "../runtime/algorithms/diverse/shuffleArrayInstrumented";
 // Backtracking
-import { generateParenthesesInstrumented } from "./backtracking/generateParenthesesInstrumented";
-import { allCombinationsInstrumented } from "./backtracking/allCombinationsInstrumented";
+import { generateParenthesesInstrumented } from "../runtime/algorithms/backtracking/generateParenthesesInstrumented";
+import { allCombinationsInstrumented } from "../runtime/algorithms/backtracking/allCombinationsInstrumented";
+import { sourceOnlyMathAlgorithms } from "../runtime/algorithms/matematica/sourceOnlyMathRunners";
 import registry from "./algorithms-registry.json";
 
 export * from "./types";
 
 // Map slugs to instrumented implementations
 export const algorithms: Record<string, (input: any) => AlgorithmResult> = {
+  ...sourceOnlyMathAlgorithms,
   // Original
   sortare_bubbleSort: bubbleSort,
   sortare_insertionSort: insertionSort,

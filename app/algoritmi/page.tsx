@@ -79,7 +79,7 @@ const tokenMapRo: Record<string, string> = {
 	floyd: "Floyd",
 	warshall: "Warshall",
 	johnson: "Johnson",
-	kosajaru: "Kosaraju",
+	kosaraju: "Kosaraju",
 	kruskal: "Kruskal",
 	prim: "Prim",
 	tarjan: "Tarjan",
@@ -250,7 +250,7 @@ function getDescriptionRo(algo: AlgorithmMeta, displayNameRo: string): string {
 	}
 
 	const fallbackName = displayNameRo || titleCaseRo(algo.slug.replace(/_/g, " "));
-	return `${fallbackName} rezolvă problema definită în implementare, urmând pașii specifici din codul sursă.`;
+	return `${fallbackName} oferă o soluție eficientă pentru problema specificată, detaliată prin pașii din codul sursă.`;
 }
 
 export default function AlgorithmsPage() {
@@ -403,7 +403,7 @@ export default function AlgorithmsPage() {
 										<Link
 											key={algo.slug}
 											href={`/algoritmi/${algo.slug}`}
-											className={`group relative overflow-visible p-6 bg-white rounded-3xl border border-slate-100 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1 hover:z-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${categoryTheme.cardHover}`}
+											className={`group relative overflow-visible p-6 bg-white rounded-3xl border border-slate-100 shadow-sm transition-all hover:shadow-xl hover:z-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${categoryTheme.cardHover}`}
 										>
 											<div className="flex items-center justify-center text-center">
 												<h3 className={`text-base font-bold text-slate-900 transition-colors leading-snug ${categoryTheme.cardAccent}`}>
@@ -411,7 +411,7 @@ export default function AlgorithmsPage() {
 												</h3>
 											</div>
 
-											<div className="pointer-events-none absolute left-1/2 top-full z-30 mt-2 w-[min(32rem,92vw)] -translate-x-1/2 translate-y-1 rounded-2xl border border-slate-200 bg-white p-4 opacity-0 shadow-xl transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+											<div className="pointer-events-none invisible absolute left-1/2 top-full z-30 mt-1 w-[min(26rem,88vw)] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white p-4 opacity-0 shadow-lg transition-opacity duration-150 group-hover:visible group-hover:opacity-100 group-focus-visible:visible group-focus-visible:opacity-100">
 												<p className="text-center text-xs font-semibold uppercase tracking-wider text-slate-400">Detalii algoritm</p>
 												<p className="mt-2 text-center text-sm text-slate-600 leading-relaxed">
 													{algo.descriptionRo}

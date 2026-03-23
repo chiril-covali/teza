@@ -1,15 +1,15 @@
 <!-- custom-doc -->
-# Coadă Circulară (Circular Queue)
 
-**Coadă Circulară** este o variantă avansată a structurii de date de tip coadă (liniară) în care ultima poziție este conectată înapoi la prima poziție, formând un cerc logic. Aceasta rezolvă principala problemă a cozii liniare: **risipa de spațiu**.
+# 🚀 **Coadă Circulară (Circular Queue)**
 
----
+## 📝 **Descriere**
 
-## 🏗️ Reprezentare Vizuală
+**Coadă Circulară** este o variantă optimizată a cozii liniare în care ultima poziție a vectorului este conectată logic cu prima poziție, formând un cerc. Această structură rezolvă problema majoră a cozii bazate pe vector: **risipa de spațiu**. Într-o coadă circulară, spațiul eliberat prin eliminarea elementelor (dequeue) este reutilizat imediat pentru noi adăugări (enqueue).
 
-Într-o coadă liniară, odată ce elementele sunt eliminate (dequeue), spațiul eliberat la începutul vectorului rămâne neutilizat. Coada circulară refolosește acest spațiu prin „întoarcerea” indicatorului la început.
+## 🖼️ **Reprezentare Vizuală**
 
-### Structura logică:
+![Circular Queue Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Circular_buffer.svg/400px-Circular_buffer.svg.png)
+
 ```text
            [0]  [1]  [2]
           +----+----+----+
@@ -21,54 +21,28 @@
             Circular Wrap
 ```
 
----
+## ⚖️ **Avantaje și Dezavantaje**
 
-## 🌟 Avantajele Cozii Circulare față de Coada Liniară
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Eficiență Maximă:** Reutilizează complet spațiul din memorie fără a muta elementele. | ⚠️ **Capacitate Fixă:** În varianta standard, dimensiunea trebuie cunoscută de la început. |
+| 📊 **Performanță Constantă:** Atât `enqueue` cât și `dequeue` se execută în $O(1)$. | 📉 **Logică Complexă:** Necesită utilizarea aritmeticii modulare pentru gestionarea indicilor. |
 
-Utilizarea unei cozi circulare oferă mai multe beneficii critice în dezvoltarea software-ului:
+## 🔢 **Analiză Matematică și Complexitate**
 
-### 1. Utilizarea Eficientă a Memoriei
-În coada liniară, dacă `rear` (spatele) ajunge la capătul vectorului, nu mai putem adăuga elemente noi, chiar dacă există spațiu liber la începutul vectorului creat prin operații de eliminare. Coada circulară elimină acest „fals overflow” prin reutilizarea spațiului eliberat.
+Calculul indicilor se bazează pe operația **modulo** ($n$ fiind dimensiunea cozii):
+`index_nou = (index_actual + 1) % n`
 
-### 2. Complexitate Constantă $O(1)$
-Toate operațiile fundamentale (`enqueue` și `dequeue`) se realizează în timp constant, $O(1)$. În coada liniară, pentru a refolosi spațiul, ar fi necesară deplasarea tuturor elementelor la stânga, o operație costisitoare de $O(n)$.
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Enqueue** | $O(1)$ |
+| **Dequeue** | $O(1)$ |
+| **Condiție Full** | `(rear + 1) % n == front` |
+| **Spațiu (Space)** | $O(n)$ |
 
-### 3. Ideală pentru Sisteme în Timp Real
-Datorită performanței predictibile și gestionării automate a buffer-ului, este utilizată intens în:
-- **Programarea proceselor (CPU Scheduling):** Algoritmul Round-robin.
-- **Transmiterea datelor (Data Streaming):** Buffere audio/video.
-- **Gestionarea întreruperilor:** În sistemele embedded.
+## 💡 **Aplicații Practice**
 
----
-
-## 📊 Analiza Comparativă
-
-| Caracteristică | Coadă Liniară | Coadă Circulară |
-| :--- | :--- | :--- |
-| **Utilizarea Memoriei** | Ineficientă (spațiu irosit la început) | Eficientă (reutilizează spațiul liber) |
-| **Condiție de "Full"** | `rear == size - 1` | `(rear + 1) % size == front` |
-| **Performanță** | $O(1)$ sau $O(n)$ (dacă se face shift) | Întotdeauna $O(1)$ |
-| **Complexitate Logică** | Simplă | Puțin mai complexă (aritmetică modulară) |
-
----
-
-## 🔢 Detalii Matematice
-
-Operațiile se bazează pe **aritmetica modulară**. Dacă $n$ este dimensiunea vectorului, noua poziție a indexului se calculează astfel:
-
-$$ \text{index\_nou} = (\text{index\_actual} + 1) \pmod{n} $$
-
-### Condiții critice:
-- **Coadă Golică:** `front == -1`
-- **Coadă Plină:** `(rear + 1) % size == front`
-
----
-
-## 🚀 Implementare (Sumar)
-Implementarea folosește un vector de dimensiune fixă și doi indicatori, `frontIndex` și `rearIndex`. 
-
-- **Enqueue:** Crește `rearIndex` circular și adaugă elementul.
-- **Dequeue:** Returnează elementul de la `frontIndex` și îl avansează circular.
-
----
-*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*
+- **CPU Scheduling:** Algoritmul Round-Robin pentru partajarea timpului procesorului.
+- **Streaming Audio/Video:** Buffere care trebuie să mențină un flux continuu de date.
+- **Sisteme Embedded:** Gestionarea întreruperilor și a bufferelor de memorie limitată.
+- **Networking:** Gestionarea pachetelor de date în routere.

@@ -18,7 +18,7 @@
   "grafuri_edmonds_karp": "TypeScript-master/graph/edmonds_karp.ts",
   "grafuri_floyd_warshall": "TypeScript-master/graph/floyd_warshall.ts",
   "grafuri_johnson": "TypeScript-master/graph/johnson.ts",
-  "grafuri_kosajaru": "TypeScript-master/graph/kosajaru.ts",
+  "grafuri_kosaraju": "TypeScript-master/graph/kosaraju.ts",
   "grafuri_kruskal": "TypeScript-master/graph/kruskal.ts",
   "grafuri_dfs": "TypeScript-master/graph/parcurgere_n_adancime_dfs.ts",
   "grafuri_bfs": "TypeScript-master/graph/parcurgere_n_latime_bfs.ts",

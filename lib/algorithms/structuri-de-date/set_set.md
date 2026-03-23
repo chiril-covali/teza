@@ -1,4 +1,5 @@
 <!-- custom-doc -->
+
 # Set Set
 
 Un set este o structură de date care stochează o colecție de elemente unice, fără o ordine specifică. Aceasta permite operații eficiente de adăugare, eliminare și căutare a elementelor. Seturile sunt utilizate frecvent în programare datorită capacității lor de a gestiona datele fără duplicare.
@@ -14,6 +15,7 @@ Set = {a, b, c, d}
 ### Exemplu pas cu pas
 
 1. Adăugăm elemente:
+
    - Set = {}
    - Adaugă 'a' → Set = {a}
    - Adaugă 'b' → Set = {a, b}
@@ -21,6 +23,7 @@ Set = {a, b, c, d}
    - Adaugă 'c' → Set = {a, b, c}
 
 2. Eliminăm un element:
+
    - Set = {a, b, c}
    - Elimină 'b' → Set = {a, c}
 
@@ -45,11 +48,13 @@ Aceste operații sunt eficiente datorită utilizării unor structuri de date de 
 ## Avantaje și Dezavantaje
 
 **Avantaje:**
+
 - Permite stocarea de elemente unice.
 - Operații rapide de adăugare, eliminare și căutare.
 - Ușor de implementat și utilizat.
 
 **Dezavantaje:**
+
 - Nu păstrează ordinea elementelor.
 - Poate consuma mai multă memorie în cazul coliziunilor în structurile de tip hash.
 - Nu permite duplicate, ceea ce poate fi o limitare în anumite aplicații.
@@ -57,6 +62,7 @@ Aceste operații sunt eficiente datorită utilizării unor structuri de date de 
 ## Aplicații Practice
 
 Seturile sunt utilizate în diverse domenii, printre care:
+
 - Eliminarea duplicatelor din liste.
 - Implementarea funcțiilor de căutare rapidă.
 - Analiza datelor, cum ar fi identificarea elementelor comune între două colecții.

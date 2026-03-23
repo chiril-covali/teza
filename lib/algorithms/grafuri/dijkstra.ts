@@ -1,113 +1,43 @@
-import { AlgorithmResult, TraceEvent } from "../types";
-
-export function dijkstra(input: {
-  nodes: string[];
-  edges: Array<{ from: string; to: string; weight: number }>;
-  start: string;
-}): AlgorithmResult {
-  const { nodes, edges, start } = input;
-  const graph: Record<string, Array<[string, number]>> = {};
-
-  nodes.forEach((node) => {
-    graph[node] = [];
-  });
-
-  edges.forEach((edge) => {
-    if (graph[edge.from]) {
-      graph[edge.from].push([edge.to, edge.weight || 1]);
-    }
-  });
-
+/**
+ * Dijkstra simplificat pentru grafuri cu ponderi pozitive.
+ * Graful este: { A: [{ to: "B", weight: 3 }, ...] }
+ */
+export const dijkstra = (
+  graph: Record<string, Array<{ to: string; weight: number }>>,
+  start: string
+): Record<string, number> => {
   const distances: Record<string, number> = {};
-  nodes.forEach((node) => {
-    distances[node] = Infinity;
-  });
+  const visited = new Set<string>();
 
-  if (!distances.hasOwnProperty(start)) {
-    return {
-      trace: [{ type: "done", result: { distances } }],
-      result: { distances },
-    };
+  for (const node of Object.keys(graph)) {
+    distances[node] = Number.POSITIVE_INFINITY;
   }
-
   distances[start] = 0;
-  const trace: TraceEvent[] = [
-    {
-      type: "update_distance",
-      node: start,
-      distance: 0,
-      note: "inițializez distanța pentru sursă",
-      vars: { distances: { ...distances } },
-    },
-  ];
 
-  const heap: Array<[number, string]> = [[0, start]];
+  while (visited.size < Object.keys(graph).length) {
+    let current: string | null = null;
+    let best = Number.POSITIVE_INFINITY;
 
-  trace.push({
-    type: "queue",
-    action: "enqueue",
-    node: start,
-    note: "adaug sursa în coadă",
-    vars: { heap: heap.map((h) => h[1]) },
-  });
+    for (const [node, distance] of Object.entries(distances)) {
+      if (!visited.has(node) && distance < best) {
+        best = distance;
+        current = node;
+      }
+    }
 
-  while (heap.length > 0) {
-    heap.sort((a, b) => a[0] - b[0]);
-    const [currentDistance, node] = heap.shift()!;
+    if (!current) {
+      break;
+    }
 
-    trace.push({
-      type: "queue",
-      action: "dequeue",
-      node,
-      note: "extrag nodul cu distanța minimă",
-      vars: { current_distance: currentDistance },
-    });
+    visited.add(current);
 
-    if (currentDistance > distances[node]) continue;
-
-    trace.push({
-      type: "visit_node",
-      node,
-      note: "marchez nodul ca procesat",
-      vars: { distances: { ...distances } },
-    });
-
-    for (const [neighbor, weight] of graph[node] || []) {
-      const newDistance = currentDistance + weight;
-      if (newDistance < distances[neighbor]) {
-        distances[neighbor] = newDistance;
-
-        trace.push({
-          type: "update_distance",
-          node: neighbor,
-          distance: newDistance,
-          note: "găsesc drum mai scurt",
-          vars: {
-            from: node,
-            neighbor,
-            weight,
-            distances: { ...distances },
-          },
-        });
-
-        heap.push([newDistance, neighbor]);
-
-        trace.push({
-          type: "queue",
-          action: "enqueue",
-          node: neighbor,
-          note: "actualizez coada cu noua distanță",
-          vars: { heap: heap.map((h) => h[1]) },
-        });
+    for (const edge of graph[current] || []) {
+      const candidate = distances[current] + edge.weight;
+      if (candidate < (distances[edge.to] ?? Number.POSITIVE_INFINITY)) {
+        distances[edge.to] = candidate;
       }
     }
   }
 
-  trace.push({
-    type: "done",
-    result: { distances },
-    vars: { nodes },
-  });
-
-  return { trace, result: { distances } };
-}
+  return distances;
+};
