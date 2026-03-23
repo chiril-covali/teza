@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useMemo } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 import { AlgorithmMeta, TraceEvent, allAlgorithms } from "@/lib/algorithms";
 import { getCategoryDisplayName, getCategoryVisual, normalizeCategoryKey as normalizeThemeCategoryKey } from "@/lib/algorithm-category-theme";
@@ -13,6 +13,8 @@ import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
+
+const algorithmDocCache = new Map<string, { markdown: string; html: string }>();
 
 function cleanMarkdown(md: string) {
     if (!md) return md;
@@ -1521,9 +1523,12 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const bPadded = b.padStart(maxLen, "0");
         const carryPadded = carry.length > 0 ? carry : Array(maxLen).fill(0);
         
-        const aNum = parseInt(a, 2);
-        const bNum = parseInt(b, 2);
-        const sumNum = parseInt(result, 2);
+        const parsedA = parseInt(a, 2);
+        const parsedB = parseInt(b, 2);
+        const parsedSum = parseInt(result, 2);
+        const aNum = Number.isFinite(parsedA) ? parsedA : null;
+        const bNum = Number.isFinite(parsedB) ? parsedB : null;
+        const sumNum = Number.isFinite(parsedSum) ? parsedSum : null;
 
         return (
             <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
@@ -1578,15 +1583,15 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                 <div className="grid grid-cols-3 gap-3 w-full">
                     <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center">
                         <div className="text-[10px] uppercase font-black text-slate-400">Num 1 (zecimal)</div>
-                        <div className="font-black text-lg text-slate-800">{aNum}</div>
+                        <div className="font-black text-lg text-slate-800">{aNum ?? "-"}</div>
                     </div>
                     <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center">
                         <div className="text-[10px] uppercase font-black text-slate-400">Num 2 (zecimal)</div>
-                        <div className="font-black text-lg text-slate-800">{bNum}</div>
+                        <div className="font-black text-lg text-slate-800">{bNum ?? "-"}</div>
                     </div>
                     <div className="rounded-xl border border-indigo-200 bg-indigo-50 px-3 py-2 text-center">
                         <div className="text-[10px] uppercase font-black text-indigo-400">Suma (zecimal)</div>
-                        <div className="font-black text-lg text-indigo-700">{sumNum}</div>
+                        <div className="font-black text-lg text-indigo-700">{sumNum ?? "-"}</div>
                     </div>
                 </div>
             </div>
@@ -1846,6 +1851,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 	useEffect(() => {
         const baseVizType = meta.visualizerType || "none";
         const isDataStructure = DATA_STRUCTURE_SLUGS.has(meta.slug);
+    const isGraphCategory = normalizeCategoryKey(meta.category) === "grafuri";
         const vizType = isDataStructure ? "datastructure" : baseVizType;
     const isSortingCategory = normalizeCategoryKey(meta.category) === "sortare";
         const slug = meta.slug;
@@ -1858,7 +1864,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
     setInputDrafts({});
 
         const slugDefaultInput = GENERIC_INPUT_DEFAULTS[slug];
-        if (slugDefaultInput && vizType !== "sorting" && vizType !== "search" && vizType !== "graph" && vizType !== "dp") {
+        if (slugDefaultInput && vizType !== "sorting" && vizType !== "search" && vizType !== "graph" && vizType !== "dp" && !isGraphCategory) {
             setInput(slugDefaultInput);
             setRawInput(JSON.stringify(slugDefaultInput, null, 2));
             return;
@@ -1880,7 +1886,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
             const defaultArray = [11, 12, 22, 25, 34, 64, 90];
 			setInput({ array: defaultArray, target: 22 });
             setRawInput(defaultArray.join(", "));
-        } else if (vizType === "graph") {
+        } else if (vizType === "graph" || isGraphCategory) {
             const defaultData = {
 				nodes: ["A", "B", "C", "D", "E"],
 				edges: [
@@ -1929,6 +1935,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
         try {
             const baseVizType = meta.visualizerType || "none";
             const isDataStructure = DATA_STRUCTURE_SLUGS.has(meta.slug);
+            const isGraphCategory = normalizeCategoryKey(meta.category) === "grafuri";
             const vizType = isDataStructure ? "datastructure" : baseVizType;
             let finalInput = overrideInput ?? input;
 
@@ -1948,6 +1955,21 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                     .filter((n) => !isNaN(n));
                 finalInput = { ...input, array: arr };
                 setInput(finalInput);
+            } else if (!overrideInput && (vizType === "graph" || isGraphCategory)) {
+                if (!finalInput?.nodes || !finalInput?.edges) {
+                    finalInput = {
+                        nodes: ["A", "B", "C", "D", "E"],
+                        edges: [
+                            { from: "A", to: "B", weight: 4 },
+                            { from: "A", to: "C", weight: 2 },
+                            { from: "B", to: "D", weight: 3 },
+                            { from: "C", to: "D", weight: 1 },
+                            { from: "D", to: "E", weight: 5 },
+                        ],
+                        start: "A",
+                    };
+                    setInput(finalInput);
+                }
             }
 
             const result = await api.run(meta.slug, finalInput);
@@ -1976,10 +1998,13 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 
         const baseVizType = meta.visualizerType || "none";
         const isDataStructure = DATA_STRUCTURE_SLUGS.has(meta.slug);
+        const isGraphCategory = normalizeCategoryKey(meta.category) === "grafuri";
         const vizType = isDataStructure ? "datastructure" : baseVizType;
         const isSortingCategory = normalizeCategoryKey(meta.category) === "sortare";
         const needsRawInput = (vizType === "sorting" || vizType === "search" || isSortingCategory) && !rawInput.trim();
         if (needsRawInput) return;
+
+        if ((vizType === "graph" || isGraphCategory) && (!input?.nodes || !input?.edges)) return;
 
         autoRunSlugRef.current = meta.slug;
         runAlgorithm(input, { autoplay: false, switchTab: false });
@@ -2062,6 +2087,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 	const currentEvent = trace[currentStep];
     const baseVizType = meta.visualizerType || "none";
     const isDataStructure = DATA_STRUCTURE_SLUGS.has(meta.slug);
+    const isGraphCategory = normalizeCategoryKey(meta.category) === "grafuri";
     const vizType = isDataStructure ? "datastructure" : baseVizType;
     const isSortingCategory = normalizeCategoryKey(meta.category) === "sortare";
     const isArrayAlgo = vizType === "sorting" || vizType === "search" || isSortingCategory;
@@ -2181,7 +2207,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                                 <SortingVisualizer event={currentEvent} input={input} slug={meta.slug} />
                                             ) : vizType === "search" ? (
                                                 <SearchVisualizer event={currentEvent} input={input} />
-                                            ) : vizType === "graph" ? (
+                                            ) : vizType === "graph" || isGraphCategory ? (
                                                 <GraphVisualizer event={currentEvent} input={input} />
                                             ) : vizType === "dp" ? (
                                                 <DPVisualizer event={currentEvent} input={input} />
@@ -2380,6 +2406,8 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                     ? "Introdu numerele separate prin virgulă (ex: 64, 34, 25, 12)."
                                     : vizType === "search"
                                     ? "Introdu un tablou sortat, separate prin virgulă. Specifică și valoarea căutată."
+                                    : vizType === "graph" || isGraphCategory
+                                    ? "Configurează nodurile și muchiile în format JSON pentru a vizualiza graful pas cu pas."
                                     : vizType === "generic"
                                     ? "Modifică parametrii de mai jos și apasă «Aplică și Rulează» pentru a vizualiza execuția."
                                     : vizType === "dp"
@@ -2691,8 +2719,12 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 
 export default function AlgorithmPage() {
 	const params = useParams();
+    const router = useRouter();
 	const slug = params.slug as string;
-	const [meta, setMeta] = useState<AlgorithmMeta | null>(null);
+    const meta = useMemo(
+        () => allAlgorithms.find((algorithm) => algorithm.slug === slug) || null,
+        [slug]
+    );
     const [docMarkdown, setDocMarkdown] = useState("");
     const [docHtml, setDocHtml] = useState("");
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -2709,10 +2741,7 @@ export default function AlgorithmPage() {
     const mobileSidebarScrollRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
-        const found = allAlgorithms.find((a) => a.slug === slug);
-        setMeta(found || null);
-
-        if (!found) {
+    if (!meta) {
             setDocMarkdown("");
             setDocHtml("");
             return;
@@ -2720,13 +2749,27 @@ export default function AlgorithmPage() {
 
         let cancelled = false;
 
+        const cachedDoc = algorithmDocCache.get(slug);
+        if (cachedDoc) {
+            setDocMarkdown(cachedDoc.markdown);
+            setDocHtml(cachedDoc.html);
+            return () => {
+                cancelled = true;
+            };
+        }
+
         api
             .getAlgorithmDoc(slug)
 
             .then((res) => {
                 if (cancelled) return;
-                setDocMarkdown(res.markdown || "");
-                setDocHtml(res.html || "");
+                const nextDoc = {
+                    markdown: res.markdown || "",
+                    html: res.html || "",
+                };
+                algorithmDocCache.set(slug, nextDoc);
+                setDocMarkdown(nextDoc.markdown);
+                setDocHtml(nextDoc.html);
             })
             .catch(() => {
                 if (cancelled) return;
@@ -2737,7 +2780,42 @@ export default function AlgorithmPage() {
 		return () => {
             cancelled = true;
         };
-	}, [slug]);
+    }, [slug, meta]);
+
+    useEffect(() => {
+        if (!meta) return;
+
+        const activeKey = normalizeCategoryKey(meta.category).replace(/-/g, "_");
+        const peers = allAlgorithms
+            .filter((algorithm) => normalizeCategoryKey(algorithm.category).replace(/-/g, "_") === activeKey)
+            .sort((a, b) => cleanAlgorithmName(a.name).localeCompare(cleanAlgorithmName(b.name), "ro"));
+
+        const currentIndex = peers.findIndex((algorithm) => algorithm.slug === slug);
+        if (currentIndex === -1) return;
+
+        const start = Math.max(0, currentIndex - 6);
+        const end = Math.min(peers.length, currentIndex + 7);
+        const nearby = peers.slice(start, end).filter((algorithm) => algorithm.slug !== slug);
+
+        nearby.forEach((algorithm) => {
+            const href = `/algoritmi/${algorithm.slug}`;
+            router.prefetch(href);
+
+            if (!algorithmDocCache.has(algorithm.slug)) {
+                api
+                    .getAlgorithmDoc(algorithm.slug)
+                    .then((res) => {
+                        algorithmDocCache.set(algorithm.slug, {
+                            markdown: res.markdown || "",
+                            html: res.html || "",
+                        });
+                    })
+                    .catch(() => {
+                        // Ignore prefetch errors for non-critical warm-up.
+                    });
+            }
+        });
+    }, [meta, slug, router]);
 
     useEffect(() => {
         if (typeof window === "undefined") return;

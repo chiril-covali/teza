@@ -1,4 +1,4 @@
-import { AlgorithmMeta, AlgorithmResult } from "./types";
+import { AlgorithmMeta, AlgorithmResult, TraceEvent } from "./types";
 import { bubbleSort } from "../runtime/algorithms/sortare/bubbleSort";
 import { insertionSort } from "../runtime/algorithms/sortare/insertionSort";
 import { selectionSort } from "../runtime/algorithms/sortare/selectionSort";
@@ -149,9 +149,90 @@ export const allAlgorithms: AlgorithmMeta[] = registry as AlgorithmMeta[];
 export const allAlgorithmsList: Array<Omit<AlgorithmMeta, "source">> =
   allAlgorithms.map(({ source, ...rest }) => rest);
 
+function genericGraphFallback(input: any): AlgorithmResult {
+  const nodes: string[] = Array.isArray(input?.nodes) && input.nodes.length > 0
+    ? input.nodes.map((node: unknown) => String(node))
+    : ["A", "B", "C", "D", "E"];
+  const edges: Array<{ from: string; to: string; weight?: number }> = Array.isArray(input?.edges) && input.edges.length > 0
+    ? input.edges.map((edge: any) => ({
+        from: String(edge?.from ?? ""),
+        to: String(edge?.to ?? ""),
+        ...(edge?.weight !== undefined ? { weight: Number(edge.weight) } : {}),
+      }))
+    : [
+        { from: "A", to: "B", weight: 4 },
+        { from: "A", to: "C", weight: 2 },
+        { from: "B", to: "D", weight: 3 },
+        { from: "C", to: "D", weight: 1 },
+        { from: "D", to: "E", weight: 5 },
+      ];
+  const start = String(input?.start ?? nodes[0] ?? "A");
+
+  const trace: TraceEvent[] = [
+    {
+      type: "visit_node",
+      node: start,
+      note: `Pornim explorarea din nodul ${start}.`,
+      vars: { current: start, queue: [start], visited: [], nodes, edges },
+    } as any,
+  ];
+
+  const visited = new Set<string>();
+  const queue: string[] = [start];
+
+  while (queue.length > 0) {
+    const current = queue.shift() as string;
+    if (visited.has(current)) continue;
+    visited.add(current);
+
+    const neighbors = edges
+      .filter((edge) => edge.from === current)
+      .map((edge) => edge.to)
+      .filter((neighbor) => !visited.has(neighbor));
+
+    neighbors.forEach((neighbor) => {
+      if (!queue.includes(neighbor)) queue.push(neighbor);
+    });
+
+    trace.push({
+      type: "visit_node",
+      node: current,
+      note: `Vizităm nodul ${current} și descoperim vecinii: ${neighbors.length ? neighbors.join(", ") : "niciunul"}.`,
+      vars: {
+        current,
+        visited: Array.from(visited),
+        queue: [...queue],
+        neighbors,
+        nodes,
+        edges,
+      },
+    } as any);
+  }
+
+  trace.push({
+    type: "done",
+    note: `Explorare finalizată. Noduri vizitate: ${Array.from(visited).join(", ")}.`,
+    vars: { visited: Array.from(visited), nodes, edges },
+  });
+
+  return {
+    trace,
+    result: {
+      visited: Array.from(visited),
+      nodes,
+      edges,
+      start,
+    },
+  };
+}
+
 export function runAlgorithm(slug: string, input: any): AlgorithmResult {
   const algo = algorithms[slug];
   if (!algo) {
+    if (slug.startsWith("grafuri_")) {
+      return genericGraphFallback(input);
+    }
+
     return {
       trace: [
         {
