@@ -22,6 +22,8 @@ import { heapSortInstrumented } from "../runtime/algorithms/sortare/heapSortInst
 import { shellSortInstrumented } from "../runtime/algorithms/sortare/shellSortInstrumented";
 import { cycleSortInstrumented } from "../runtime/algorithms/sortare/cycleSortInstrumented";
 import { quickSelectInstrumented } from "../runtime/algorithms/sortare/quickSelectInstrumented";
+import { swapSortInstrumented } from "../runtime/algorithms/sortare/swapSortInstrumented";
+import { bogoSortInstrumented } from "../runtime/algorithms/sortare/bogoSortInstrumented";
 // Graph algorithms
 import { bellmanFordInstrumented } from "../runtime/algorithms/grafuri/bellmanFordInstrumented";
 import { primInstrumented } from "../runtime/algorithms/grafuri/primInstrumented";
@@ -46,6 +48,8 @@ import { isPowerOfTwoInstrumented } from "../runtime/algorithms/manipulare-biti/
 import { isPowerOfFourInstrumented } from "../runtime/algorithms/manipulare-biti/isPowerOfFourInstrumented";
 // Diverse
 import { shuffleArrayInstrumented } from "../runtime/algorithms/diverse/shuffleArrayInstrumented";
+import { isSortedArrayInstrumented } from "../runtime/algorithms/diverse/isSortedArrayInstrumented";
+import { parseNestedBracketsInstrumented } from "../runtime/algorithms/diverse/parseNestedBracketsInstrumented";
 // Backtracking
 import { generateParenthesesInstrumented } from "../runtime/algorithms/backtracking/generateParenthesesInstrumented";
 import { allCombinationsInstrumented } from "../runtime/algorithms/backtracking/allCombinationsInstrumented";
@@ -81,6 +85,8 @@ export const algorithms: Record<string, (input: any) => AlgorithmResult> = {
   sortare_shell_sort: shellSortInstrumented,
   sortare_cycle_sort: cycleSortInstrumented,
   sortare_quick_select: quickSelectInstrumented,
+  sortare_swap_sort: swapSortInstrumented,
+  sortare_bogo_sort: bogoSortInstrumented,
   // New graph
   grafuri_bellman_ford: bellmanFordInstrumented,
   grafuri_prim: primInstrumented,
@@ -103,6 +109,8 @@ export const algorithms: Record<string, (input: any) => AlgorithmResult> = {
   "manipulare-biti_is_power_of_2": isPowerOfTwoInstrumented,
   "manipulare-biti_is_power_of_4": isPowerOfFourInstrumented,
   diverse_shuffle_array: shuffleArrayInstrumented,
+  diverse_is_sorted_array: isSortedArrayInstrumented,
+  diverse_parse_nested_brackets: parseNestedBracketsInstrumented,
   backtracking_generateparentheses: generateParenthesesInstrumented,
   backtracking_all_combinations_of_size_k: allCombinationsInstrumented,
 };

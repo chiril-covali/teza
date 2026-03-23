@@ -505,6 +505,12 @@ const GENERIC_INPUT_DEFAULTS: Record<string, Record<string, any>> = {
     "manipulare-biti_is_power_of_2": { n: 16 },
     "manipulare-biti_is_power_of_4": { n: 16 },
     diverse_shuffle_array: { array: [1, 2, 3, 4, 5, 6] },
+    diverse_is_sorted_array: { array: [1, 2, 3, 4, 5, 6] },
+    diverse_parse_nested_brackets: {
+        text: "THIS IS SAMPLE TEXT(MAIN hoge 0.1 fuga(ITEM fuga hoge)hoge(ITEM2 nogami(ABBR)))",
+        openBrackets: "(",
+        closingBrackets: ")",
+    },
     backtracking_generateparentheses: { n: 3 },
     backtracking_all_combinations_of_size_k: { n: 5, k: 2 },
 };
@@ -525,6 +531,7 @@ function SortingVisualizer({ event, input, slug }: { event: TraceEvent; input: a
     const highlightIndices = (event as any).indices || [];
     const currentIndex = (event as any).index !== undefined ? [(event as any).index] : [];
     const vars = (event as any).vars || {};
+    const eventType = String((event as any).type || "").toLowerCase();
     
     const lo = vars.lo !== undefined ? vars.lo : -1;
     const hi = vars.hi !== undefined ? vars.hi : -1;
@@ -533,22 +540,66 @@ function SortingVisualizer({ event, input, slug }: { event: TraceEvent; input: a
     const normalizedArray = array.map((v: number) => (Number.isFinite(v) ? Math.max(0, v) : 0));
     const maxVal = Math.max(...normalizedArray, 1);
     const chartHeight = 360;
+    const primaryCompareIdx = highlightIndices[0];
+    const secondaryCompareIdx = highlightIndices[1];
+    const isSwapEvent = eventType.includes("swap");
+    const hasCompareLegend = highlightIndices.length > 0;
+    const hasSecondCompareLegend = highlightIndices.length > 1;
+    const hasIndicatorLegend = mid !== -1 || currentIndex.length > 0;
+    const hasSwapLegend = isSwapEvent;
+
+    if (!Array.isArray(array) || array.length === 0) {
+        return (
+            <div className="w-full h-full min-h-[520px] flex items-center justify-center text-slate-400 font-semibold text-sm">
+                Datele pentru sortare nu sunt disponibile. Verifică tab-ul „Date Intrare” și apasă Restart.
+            </div>
+        );
+    }
 
     return (
-        <div className="w-full h-full min-h-[520px] flex items-end justify-center gap-2 px-3 pb-4">
+        <div className="w-full h-full min-h-[520px] flex flex-col justify-end gap-3 px-3 pb-4 items-center">
+            <div className="flex flex-wrap items-center justify-center gap-2 text-[10px] font-bold text-slate-500">
+                {hasCompareLegend && <span className="inline-flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-sky-500" /> comparație A</span>}
+                {hasSecondCompareLegend && <span className="inline-flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-rose-500" /> comparație B</span>}
+                {hasSwapLegend && <span className="inline-flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> swap</span>}
+                {hasIndicatorLegend && <span className="inline-flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-violet-500" /> indicator (mid/index)</span>}
+                <span className="inline-flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-slate-300" /> normal</span>
+            </div>
+            <div className="w-full flex items-end justify-center gap-2">
             {array.map((val: number, idx: number) => {
                 let color = "bg-slate-200";
                 let shadow = "";
+                const isPrimaryCompare = idx === primaryCompareIdx;
+                const isSecondaryCompare = idx === secondaryCompareIdx;
                 const isHighlighted = highlightIndices.includes(idx) || currentIndex.includes(idx) || idx === mid;
                 const isInRange = lo !== -1 && hi !== -1 && idx >= lo && idx <= hi;
             const normalizedVal = Number.isFinite(val) ? Math.max(0, val) : 0;
             const barHeightPx = Math.min(chartHeight, Math.max(12, (normalizedVal / maxVal) * chartHeight));
+                const swapDelta = isSwapEvent && primaryCompareIdx !== undefined && secondaryCompareIdx !== undefined
+                    ? secondaryCompareIdx - primaryCompareIdx
+                    : 0;
 
-                if (isHighlighted) {
-                    color = "bg-gradient-to-t from-indigo-600 to-indigo-400 ring-2 ring-indigo-500 ring-offset-2";
-                    shadow = "shadow-[0_-4px_20px_rgba(79,70,229,0.4)]";
+                let swapTransform = "translateX(0px)";
+                if (isSwapEvent && idx === primaryCompareIdx) {
+                    swapTransform = `translateX(${Math.min(180, Math.abs(swapDelta) * 28)}px)`;
+                } else if (isSwapEvent && idx === secondaryCompareIdx) {
+                    swapTransform = `translateX(-${Math.min(180, Math.abs(swapDelta) * 28)}px)`;
+                }
+
+                if (isSwapEvent && (isPrimaryCompare || isSecondaryCompare)) {
+                    color = "bg-gradient-to-t from-emerald-600 to-emerald-400 ring-2 ring-emerald-500 ring-offset-2";
+                    shadow = "shadow-[0_-4px_20px_rgba(16,185,129,0.35)]";
+                } else if (isPrimaryCompare) {
+                    color = "bg-gradient-to-t from-sky-600 to-sky-400 ring-2 ring-sky-500 ring-offset-2";
+                    shadow = "shadow-[0_-4px_20px_rgba(14,165,233,0.35)]";
+                } else if (isSecondaryCompare) {
+                    color = "bg-gradient-to-t from-rose-600 to-rose-400 ring-2 ring-rose-500 ring-offset-2";
+                    shadow = "shadow-[0_-4px_20px_rgba(244,63,94,0.35)]";
+                } else if (isHighlighted) {
+                    color = "bg-gradient-to-t from-violet-600 to-violet-400 ring-2 ring-violet-500 ring-offset-2";
+                    shadow = "shadow-[0_-4px_20px_rgba(124,58,237,0.35)]";
                 } else if (isInRange) {
-                    color = "bg-indigo-100";
+                    color = "bg-sky-100";
                 }
 
                 return (
@@ -556,7 +607,11 @@ function SortingVisualizer({ event, input, slug }: { event: TraceEvent; input: a
                         <div className="w-full h-[360px] flex items-end">
                         <div 
                             className={`w-full rounded-t-xl transition-all duration-500 ease-out ${color} ${shadow}`}
-                            style={{ height: `${barHeightPx}px` }}
+                            style={{
+                                height: `${barHeightPx}px`,
+                                transform: swapTransform,
+                                transition: "height 500ms ease-out, transform 450ms ease-in-out, box-shadow 450ms ease-in-out",
+                            }}
                         >
                             <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded-md transition-opacity pointer-events-none font-bold">
                                 {val}
@@ -572,6 +627,7 @@ function SortingVisualizer({ event, input, slug }: { event: TraceEvent; input: a
                     </div>
                 );
             })}
+            </div>
         </div>
     );
 }
@@ -584,12 +640,26 @@ function SearchVisualizer({ event, input }: { event: TraceEvent; input: any }) {
     const mid = vars.mid !== undefined ? vars.mid : -1;
     const current = vars.current !== undefined ? vars.current : -1;
     const activeIdx = mid !== -1 ? mid : current;
+    const target = Number(vars.target ?? input?.target);
+    const activeVal = activeIdx >= 0 && activeIdx < array.length ? Number(array[activeIdx]) : NaN;
+    const hasComparable = Number.isFinite(target) && Number.isFinite(activeVal);
+    const compareText = hasComparable
+        ? activeVal === target
+            ? "egal"
+            : activeVal < target
+            ? "mai mic"
+            : "mai mare"
+        : "—";
     const isFound = (event as any).type === "mark_found" && (event as any).found === true;
     const isNotFound = (event as any).type === "mark_found" && (event as any).found === false;
 
+    if (!Array.isArray(array) || array.length === 0) {
+        return <GenericVisualizer event={event} />;
+    }
+
     return (
-        <div className="w-full overflow-x-auto pb-6">
-            <div className="flex items-stretch justify-center gap-2 min-w-max mx-auto px-4">
+        <div className="w-full overflow-x-auto pb-6 flex flex-col items-center gap-4">
+            <div className="flex items-stretch justify-center gap-3 min-w-max mx-auto px-4">
                 {array.map((val: number, idx: number) => {
                     const isActive = idx === activeIdx;
                     const inRange = lo !== -1 && hi !== -1 && idx >= lo && idx <= hi;
@@ -605,19 +675,37 @@ function SearchVisualizer({ event, input }: { event: TraceEvent; input: any }) {
 
                     return (
                         <div key={idx} className="flex flex-col items-center gap-1">
-                            <div className={`w-12 h-12 flex items-center justify-center rounded-xl font-mono font-black text-sm transition-all duration-300 ${cellClass}`}>
+                            <div className={`w-16 h-16 flex items-center justify-center rounded-2xl font-mono font-black text-base transition-all duration-300 ${cellClass}`}>
                                 {val}
                             </div>
-                            <div className="h-5 flex items-center justify-center gap-0.5">
-                                {idx === lo && <span className="text-[9px] font-black text-sky-600 uppercase">lo</span>}
-                                {idx === hi && <span className="text-[9px] font-black text-amber-600 uppercase">hi</span>}
-                                {idx === mid && <span className="text-[9px] font-black text-indigo-700 uppercase">mid</span>}
-                                {idx === current && mid === -1 && <span className="text-[9px] font-black text-indigo-700 uppercase">cur</span>}
+                            <div className="h-6 flex items-center justify-center gap-1">
+                                {idx === lo && <span className="text-[10px] font-black text-sky-600 uppercase">lo</span>}
+                                {idx === hi && <span className="text-[10px] font-black text-amber-600 uppercase">hi</span>}
+                                {idx === mid && <span className="text-[10px] font-black text-indigo-700 uppercase">mid</span>}
+                                {idx === current && mid === -1 && <span className="text-[10px] font-black text-indigo-700 uppercase">cur</span>}
                             </div>
-                            <span className="text-[9px] text-slate-300 font-mono">{idx}</span>
+                            <span className="text-[10px] text-slate-300 font-mono">{idx}</span>
                         </div>
                     );
                 })}
+            </div>
+            <div className="w-full max-w-2xl grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center">
+                    <div className="text-[10px] uppercase font-black text-slate-400">Target</div>
+                    <div className="text-sm font-black text-slate-700">{Number.isFinite(target) ? target : "—"}</div>
+                </div>
+                <div className="rounded-xl border border-indigo-200 bg-indigo-50 px-3 py-2 text-center">
+                    <div className="text-[10px] uppercase font-black text-indigo-400">Valoare curentă</div>
+                    <div className="text-sm font-black text-indigo-700">{Number.isFinite(activeVal) ? activeVal : "—"}</div>
+                </div>
+                <div className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-center">
+                    <div className="text-[10px] uppercase font-black text-rose-400">Comparare</div>
+                    <div className="text-sm font-black text-rose-700">{compareText}</div>
+                </div>
+                <div className="rounded-xl border border-sky-200 bg-sky-50 px-3 py-2 text-center">
+                    <div className="text-[10px] uppercase font-black text-sky-400">Interval verificat</div>
+                    <div className="text-sm font-black text-sky-700">{lo >= 0 && hi >= 0 ? `[${lo}, ${hi}]` : "—"}</div>
+                </div>
             </div>
             {isFound && (
                 <p className="text-center mt-4 text-emerald-600 font-black text-sm">✓ Elementul a fost găsit</p>
@@ -655,6 +743,10 @@ function GraphVisualizer({ event, input }: { event: TraceEvent; input: any }) {
             y: cy + r * Math.sin(angle),
         };
     });
+
+    if (!nodes.length) {
+        return <GenericVisualizer event={event} />;
+    }
 
     return (
         <div className="w-full flex flex-col items-center gap-4">
@@ -753,11 +845,7 @@ function DPVisualizer({ event, input }: { event: TraceEvent; input: any }) {
     const currentCol: number = ev.col !== undefined ? ev.col : -1;
 
     if (table.length === 0) {
-        return (
-            <div className="text-slate-400 text-sm font-medium py-8 text-center">
-                Tabelul DP va apărea odată ce algoritmul începe execuția.
-            </div>
-        );
+        return <GenericVisualizer event={event} />;
     }
 
     const maxRows = Math.min(table.length, 12);
@@ -803,6 +891,33 @@ function DPVisualizer({ event, input }: { event: TraceEvent; input: any }) {
 function GenericVisualizer({ event }: { event: TraceEvent }) {
     const ev = event as any;
     const array: number[] = ev.array || [];
+    const vars = ev.vars || {};
+
+    const comparePairs: Array<{ label: string; left: unknown; right: unknown; result: string }> = [];
+    if (vars.i !== undefined && vars.j !== undefined) {
+        comparePairs.push({
+            label: "i vs j",
+            left: vars.i,
+            right: vars.j,
+            result: Number(vars.i) === Number(vars.j) ? "=" : Number(vars.i) < Number(vars.j) ? "<" : ">",
+        });
+    }
+    if (vars.left !== undefined && vars.right !== undefined) {
+        comparePairs.push({
+            label: "left vs right",
+            left: vars.left,
+            right: vars.right,
+            result: Number(vars.left) === Number(vars.right) ? "=" : Number(vars.left) < Number(vars.right) ? "<" : ">",
+        });
+    }
+    if (vars.current !== undefined && vars.target !== undefined) {
+        comparePairs.push({
+            label: "current vs target",
+            left: vars.current,
+            right: vars.target,
+            result: Number(vars.current) === Number(vars.target) ? "=" : Number(vars.current) < Number(vars.target) ? "<" : ">",
+        });
+    }
 
     const renderValue = (val: any): string => {
         if (Array.isArray(val)) return `[${val.join(", ")}]`;
@@ -811,9 +926,9 @@ function GenericVisualizer({ event }: { event: TraceEvent }) {
     };
 
     return (
-        <div className="w-full space-y-6">
+        <div className="w-full h-full min-h-[420px] space-y-6 flex flex-col items-center justify-center">
             {array.length > 0 && (
-                <div className="overflow-x-auto pb-4">
+                <div className="overflow-x-auto pb-4 w-full">
                     <div className="flex items-stretch justify-center gap-2 min-w-max mx-auto px-4">
                         {array.map((val, idx) => {
                             const isCurrent = ev.index === idx;
@@ -832,9 +947,28 @@ function GenericVisualizer({ event }: { event: TraceEvent }) {
                 </div>
             )}
 
-            {ev.vars && Object.keys(ev.vars).length > 0 && (
+            {comparePairs.length > 0 && (
+                <div className="w-full max-w-2xl grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {comparePairs.map((pair) => (
+                        <div key={pair.label} className="rounded-xl border border-sky-200 bg-sky-50 px-3 py-2 text-center">
+                            <div className="text-[10px] uppercase font-black text-sky-500">{pair.label}</div>
+                            <div className="text-sm font-black text-sky-700 font-mono">
+                                {String(pair.left)} {pair.result} {String(pair.right)}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            {ev.note && (
+                <div className="w-full max-w-3xl rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 text-center">
+                    {ev.note}
+                </div>
+            )}
+
+            {vars && Object.keys(vars).length > 0 && (
                 <div className="flex flex-wrap justify-center gap-3">
-                    {Object.entries(ev.vars).map(([key, val]) => {
+                    {Object.entries(vars).map(([key, val]) => {
                         const rendered = renderValue(val);
                         const compact = toCompactValueLabel(rendered, 70);
                         return (
@@ -848,6 +982,12 @@ function GenericVisualizer({ event }: { event: TraceEvent }) {
                     })}
                 </div>
             )}
+
+            {array.length === 0 && (!vars || Object.keys(vars).length === 0) && (
+                <div className="w-full max-w-3xl rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-500 text-center">
+                    Vizualizarea algoritmului este disponibilă, dar acest pas nu conține date structurate (array/vars).
+                </div>
+            )}
         </div>
     );
 }
@@ -858,6 +998,12 @@ const CUSTOM_MATH_VISUAL_SLUGS = new Set([
     "matematica_prime_factorization",
     "matematica_binary_convert",
     "matematica_lowest_common_multiple",
+    "matematica_binomial_coefficient",
+    "matematica_is_leap_year",
+    "matematica_zellers_congruence",
+    "matematica_double_factorial_iterative",
+    "matematica_factorial",
+    "matematica_factors",
 ]);
 
 function primeFactorsList(value: number) {
@@ -1138,6 +1284,200 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         );
     }
 
+    if (slug === "matematica_binomial_coefficient") {
+        const n = Math.max(0, Number(vars.n ?? input?.n ?? 5));
+        const k = Math.max(0, Number(vars.k ?? input?.k ?? 2));
+        const triangle: number[][] = Array.isArray(vars.triangle)
+            ? vars.triangle
+            : Array.from({ length: n + 1 }, (_, row) =>
+                  Array.from({ length: row + 1 }, (_, col) => {
+                      if (col === 0 || col === row) return 1;
+                      const prevRow = row > 0 ? Array.from({ length: row }, (_, c) => c) : [];
+                      return prevRow.length ? 0 : 1;
+                  })
+              );
+
+        const value = Number(vars.value ?? triangle[n]?.[k] ?? 0);
+
+        return (
+            <div className="w-full max-w-4xl space-y-4 flex flex-col items-center justify-center">
+                <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-center">
+                    <div className="text-[11px] uppercase font-black text-indigo-400">Coeficient Binomial</div>
+                    <div className="text-xl font-black text-indigo-700">C({n}, {k}) = {value}</div>
+                </div>
+                <div className="w-full rounded-2xl border border-slate-200 bg-white p-4 overflow-x-auto">
+                    <div className="min-w-max space-y-1">
+                        {(Array.isArray(vars.triangle) ? vars.triangle : []).map((row: number[], rowIdx: number) => (
+                            <div key={rowIdx} className="flex justify-center gap-1.5">
+                                {row.map((cell: number, colIdx: number) => {
+                                    const isTarget = rowIdx === n && colIdx === k;
+                                    return (
+                                        <div
+                                            key={`${rowIdx}-${colIdx}`}
+                                            className={`min-w-[34px] h-8 px-2 rounded-lg text-xs font-black flex items-center justify-center border ${
+                                                isTarget
+                                                    ? "bg-emerald-500 text-white border-emerald-600"
+                                                    : "bg-slate-50 text-slate-700 border-slate-200"
+                                            }`}
+                                        >
+                                            {cell}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (slug === "matematica_is_leap_year") {
+        const year = Number(vars.year ?? input?.year ?? 2024);
+        const div4 = Boolean(vars.div4 ?? (year % 4 === 0));
+        const div100 = Boolean(vars.div100 ?? (year % 100 === 0));
+        const div400 = Boolean(vars.div400 ?? (year % 400 === 0));
+        const isLeap = Boolean(vars.isLeap ?? (div4 && (!div100 || div400)));
+
+        return (
+            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
+                <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center">
+                    <div className="text-[11px] uppercase font-black text-slate-400">An analizat</div>
+                    <div className="text-2xl font-black text-slate-800">{year}</div>
+                </div>
+                <div className="grid sm:grid-cols-3 gap-3 w-full">
+                    <div className={`rounded-xl border px-3 py-3 text-center ${div4 ? "bg-emerald-50 border-emerald-200" : "bg-rose-50 border-rose-200"}`}>
+                        <div className="text-[10px] font-black uppercase text-slate-500">Divizibil cu 4</div>
+                        <div className="text-lg font-black">{div4 ? "DA" : "NU"}</div>
+                    </div>
+                    <div className={`rounded-xl border px-3 py-3 text-center ${div100 ? "bg-amber-50 border-amber-200" : "bg-emerald-50 border-emerald-200"}`}>
+                        <div className="text-[10px] font-black uppercase text-slate-500">Divizibil cu 100</div>
+                        <div className="text-lg font-black">{div100 ? "DA" : "NU"}</div>
+                    </div>
+                    <div className={`rounded-xl border px-3 py-3 text-center ${div400 ? "bg-emerald-50 border-emerald-200" : "bg-rose-50 border-rose-200"}`}>
+                        <div className="text-[10px] font-black uppercase text-slate-500">Divizibil cu 400</div>
+                        <div className="text-lg font-black">{div400 ? "DA" : "NU"}</div>
+                    </div>
+                </div>
+                <div className={`rounded-2xl px-5 py-4 text-center font-black text-lg ${isLeap ? "bg-emerald-600 text-white" : "bg-slate-900 text-white"}`}>
+                    {isLeap ? "An bisect" : "An obișnuit"}
+                </div>
+            </div>
+        );
+    }
+
+    if (slug === "matematica_zellers_congruence") {
+        const day = Number(vars.day ?? vars.original?.day ?? input?.day ?? 1);
+        const monthTerm = Number(vars.monthTerm ?? 0);
+        const K = Number(vars.K ?? 0);
+        const yearQuarter = Number(vars.yearQuarter ?? 0);
+        const centuryQuarter = Number(vars.centuryQuarter ?? 0);
+        const centuryTerm = Number(vars.centuryTerm ?? 0);
+        const h = Number(vars.h ?? 0);
+        const weekdayName = String(vars.weekdayName ?? "-");
+
+        return (
+            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
+                <div className="rounded-2xl border border-slate-200 bg-white p-4 w-full">
+                    <div className="text-[10px] uppercase font-black text-slate-400 mb-2">Formula Zeller (mod 7)</div>
+                    <div className="font-mono text-sm sm:text-base font-black text-slate-700 break-words text-center">
+                        h = ({day} + {monthTerm} + {K} + {yearQuarter} + {centuryQuarter} + {centuryTerm}) mod 7 = {h}
+                    </div>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full">
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center"><div className="text-[10px] uppercase font-black text-slate-400">q (zi)</div><div className="font-black">{day}</div></div>
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center"><div className="text-[10px] uppercase font-black text-slate-400">⌊2.6(m+1)⌋</div><div className="font-black">{monthTerm}</div></div>
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center"><div className="text-[10px] uppercase font-black text-slate-400">K</div><div className="font-black">{K}</div></div>
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center"><div className="text-[10px] uppercase font-black text-slate-400">⌊K/4⌋</div><div className="font-black">{yearQuarter}</div></div>
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center"><div className="text-[10px] uppercase font-black text-slate-400">⌊J/4⌋</div><div className="font-black">{centuryQuarter}</div></div>
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center"><div className="text-[10px] uppercase font-black text-slate-400">Termen secol</div><div className="font-black">{centuryTerm}</div></div>
+                </div>
+                <div className="rounded-2xl bg-indigo-600 text-white px-5 py-4 text-center font-black text-lg w-full max-w-xl">
+                    Ziua rezultată: {weekdayName}
+                </div>
+            </div>
+        );
+    }
+
+    if (slug === "matematica_double_factorial_iterative") {
+        const n = Number(vars.n ?? input?.n ?? 8);
+        const sequence: number[] = Array.isArray(vars.sequence)
+            ? vars.sequence
+            : (() => {
+                  const out: number[] = [];
+                  for (let i = n; i > 0; i -= 2) out.push(i);
+                  return out;
+              })();
+        const result = Number(vars.result ?? vars.partial ?? sequence.reduce((acc, v) => acc * v, 1));
+
+        return (
+            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
+                <div className="flex flex-wrap justify-center gap-2">
+                    {sequence.map((x, idx) => (
+                        <span key={`${x}-${idx}`} className="px-3 py-2 rounded-xl bg-indigo-100 border border-indigo-200 text-indigo-700 font-black">
+                            {x}
+                        </span>
+                    ))}
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 w-full text-center font-mono font-black text-slate-700">
+                    {sequence.length ? `${n}!! = ${sequence.join(" * ")} = ${result}` : `${n}!! = 1`}
+                </div>
+                <div className="grid sm:grid-cols-2 gap-3 w-full">
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-sm">8!! = 8 * 6 * 4 * 2 = 384</div>
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-sm">7!! = 7 * 5 * 3 * 1 = 105</div>
+                </div>
+            </div>
+        );
+    }
+
+    if (slug === "matematica_factorial") {
+        const n = Math.max(0, Math.floor(Number(input?.n ?? 5)));
+        const i = Math.max(1, Math.floor(Number(vars.i ?? n)));
+        const result = Math.max(1, Math.floor(Number(vars.result ?? 1)));
+        const chain = Array.from({ length: n }, (_, idx) => n - idx);
+        const recursiveLines = chain.map((v, idx) => `${" ".repeat(idx * 4)}${v}! = ${v}${v > 1 ? ` * ${v - 1}!` : ""}`);
+
+        return (
+            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
+                <pre className="w-full rounded-2xl border border-slate-200 bg-white p-4 text-xs sm:text-sm font-mono text-slate-700 overflow-x-auto">
+{recursiveLines.join("\n")}
+                </pre>
+                <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-center w-full font-mono font-black text-indigo-700">
+                    {n}! = {chain.join(" * ")} = {result}
+                </div>
+                <div className="text-xs text-slate-500 font-semibold">Pas curent în execuție: i = {i}</div>
+            </div>
+        );
+    }
+
+    if (slug === "matematica_factors") {
+        const n = Math.max(1, Math.floor(Number(vars.n ?? input?.n ?? 36)));
+        const i = Math.max(1, Math.floor(Number(vars.i ?? 1)));
+        const limit = Math.max(1, Math.floor(Number(vars.limit ?? Math.sqrt(n))));
+        const divisible = Boolean(vars.divisible ?? false);
+        const pair = vars.pair ?? (divisible ? Math.floor(n / i) : "-");
+        const divisors: number[] = Array.isArray(vars.divisors) ? vars.divisors : [];
+
+        return (
+            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
+                <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center w-full">
+                    <div className="text-[11px] uppercase font-black text-slate-400">Căutare până la sqrt({n}) = {limit}</div>
+                    <div className="font-mono text-sm font-black text-slate-700 mt-1">
+                        {divisible ? `${i} | ${n} (Pereche: ${i}${pair === i ? " - singur" : `, ${pair}`})` : `${i} nu divide pe ${n}`}
+                    </div>
+                </div>
+                <div className="w-full rounded-2xl border border-slate-200 bg-white p-4">
+                    <div className="text-[10px] uppercase font-black text-slate-400 mb-2">Divizori detectați</div>
+                    <div className="flex flex-wrap gap-2 justify-center">
+                        {divisors.length ? divisors.map((d) => (
+                            <span key={d} className="px-2.5 py-1.5 rounded-lg bg-emerald-100 border border-emerald-200 text-emerald-700 font-black text-xs">{d}</span>
+                        )) : <span className="text-xs text-slate-400">Niciun divizor încă.</span>}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return <GenericVisualizer event={event} />;
 }
 
@@ -1185,6 +1525,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 
 	useEffect(() => {
         const vizType = meta.visualizerType || "none";
+    const isSortingCategory = normalizeCategoryKey(meta.category) === "sortare";
         const slug = meta.slug;
     setTrace([]);
     setCurrentStep(0);
@@ -1209,7 +1550,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
             return;
         }
 
-		if (vizType === "sorting") {
+        if (vizType === "sorting" || isSortingCategory) {
             const defaultArray = [64, 34, 25, 12, 22, 11, 90];
 			setInput({ array: defaultArray });
             setRawInput(defaultArray.join(", "));
@@ -1267,7 +1608,9 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
             const vizType = meta.visualizerType || "none";
             let finalInput = overrideInput ?? input;
 
-            if (!overrideInput && vizType === "sorting") {
+            const isSortingCategory = normalizeCategoryKey(meta.category) === "sortare";
+
+            if (!overrideInput && (vizType === "sorting" || isSortingCategory)) {
                 const arr = rawInput
                     .split(",")
                     .map((n) => parseInt(n.trim()))
@@ -1308,7 +1651,8 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
         if (!input || Object.keys(input).length === 0) return;
 
         const vizType = meta.visualizerType || "none";
-        const needsRawInput = (vizType === "sorting" || vizType === "search") && !rawInput.trim();
+        const isSortingCategory = normalizeCategoryKey(meta.category) === "sortare";
+        const needsRawInput = (vizType === "sorting" || vizType === "search" || isSortingCategory) && !rawInput.trim();
         if (needsRawInput) return;
 
         autoRunSlugRef.current = meta.slug;
@@ -1392,7 +1736,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 	const currentEvent = trace[currentStep];
     const vizType = meta.visualizerType || "none";
     const isSortingCategory = normalizeCategoryKey(meta.category) === "sortare";
-    const isArrayAlgo = vizType === "sorting" || vizType === "search";
+    const isArrayAlgo = vizType === "sorting" || vizType === "search" || isSortingCategory;
     const sourceFileName = getSourceFileName(meta.slug);
     const accentTheme = getAlgorithmAccentTheme(meta.category);
     const accentClasses = getCategoryAccentClasses(meta.category);
@@ -1516,13 +1860,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                             ) : vizType === "generic" ? (
                                                 <GenericVisualizer event={currentEvent} />
                                             ) : (
-                                                <div className="py-10 text-center px-6">
-                                                    {currentEvent.note && (
-                                                        <h3 className="text-2xl sm:text-3xl font-black text-slate-900 max-w-xl mx-auto leading-tight">
-                                                            {currentEvent.note}
-                                                        </h3>
-                                                    )}
-                                                </div>
+                                                <GenericVisualizer event={currentEvent} />
                                             )}
                                         </div>
                                     </div>

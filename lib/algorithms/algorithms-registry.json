@@ -8,7 +8,7 @@
     "sourcePath": "lib/algorithms/backtracking/generateparentheses.ts",
     "markdownPath": "lib/algorithms/backtracking/generateparentheses.md",
     "visualizerType": "none",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "backtracking_all_combinations_of_size_k",
@@ -118,7 +118,7 @@
     "sourcePath": "lib/algorithms/diverse/is_sorted_array.ts",
     "markdownPath": "lib/algorithms/diverse/is_sorted_array.md",
     "visualizerType": "none",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "diverse_parse_nested_brackets",
@@ -129,7 +129,7 @@
     "sourcePath": "lib/algorithms/diverse/parse_nested_brackets.ts",
     "markdownPath": "lib/algorithms/diverse/parse_nested_brackets.md",
     "visualizerType": "none",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "diverse_shuffle_array",
@@ -833,7 +833,7 @@
     "sourcePath": "lib/algorithms/sortare/bogo_sort.ts",
     "markdownPath": "lib/algorithms/sortare/bogo_sort.md",
     "visualizerType": "sorting",
-    "status": "source-only"
+    "status": "instrumented"
   },
   {
     "slug": "sortare_counting_sort",

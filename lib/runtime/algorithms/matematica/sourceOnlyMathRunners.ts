@@ -1,21 +1,17 @@
 import { AlgorithmResult, TraceEvent } from "@/lib/algorithms/types";
 import { aliquotSum } from "@/lib/algorithms/matematica/aliquot_sum";
 import { armstrongNumber } from "@/lib/algorithms/matematica/armstrong_number";
-import { binomialCoefficient } from "@/lib/algorithms/matematica/binomial_coefficient";
 import { calculateMean } from "@/lib/algorithms/matematica/calculate_mean";
 import { calculateMedian } from "@/lib/algorithms/matematica/calculate_median";
 import { degreesToRadians } from "@/lib/algorithms/matematica/degrees_to_radians";
 import { digitSum } from "@/lib/algorithms/matematica/digit_sum";
-import { DoubleFactorialIterative } from "@/lib/algorithms/matematica/double_factorial_iterative";
 import { phi } from "@/lib/algorithms/matematica/euler_totient";
-import { findFactors } from "@/lib/algorithms/matematica/factors";
 import { findMin } from "@/lib/algorithms/matematica/find_min";
 import { gaussianElimination } from "@/lib/algorithms/matematica/gaussian_elimination";
 import { hammingDistance } from "@/lib/algorithms/matematica/hamming_distance";
 import { HexagonalNumbers } from "@/lib/algorithms/matematica/series/hexagonal_numbers";
 import { isDivisible } from "@/lib/algorithms/matematica/is_divisible";
 import { isEven } from "@/lib/algorithms/matematica/is_even";
-import { isLeapYear } from "@/lib/algorithms/matematica/is_leap_year";
 import { isOdd } from "@/lib/algorithms/matematica/is_odd";
 import { isSquareFree } from "@/lib/algorithms/matematica/is_square_free";
 import { jugglerSequence } from "@/lib/algorithms/matematica/juggler_sequence";
@@ -31,7 +27,7 @@ import { radiansToDegrees } from "@/lib/algorithms/matematica/radians_to_degrees
 import { signum } from "@/lib/algorithms/matematica/signum";
 import { squareRoot } from "@/lib/algorithms/matematica/square_root";
 import { uglyNumbers } from "@/lib/algorithms/matematica/ugly_numbers";
-import { Calendar, getWeekday } from "@/lib/algorithms/matematica/zellers_congruence";
+import { Calendar } from "@/lib/algorithms/matematica/zellers_congruence";
 
 type Runner = (input: any) => AlgorithmResult;
 
@@ -324,25 +320,253 @@ function lowestCommonMultipleRunner(input: any): AlgorithmResult {
   };
 }
 
+function binomialCoefficientRunner(input: any): AlgorithmResult {
+  const n = Math.max(0, Math.floor(Number(input?.n ?? 0)));
+  const k = Math.max(0, Math.floor(Number(input?.k ?? 0)));
+  const trace: TraceEvent[] = [];
+
+  if (k > n) {
+    return {
+      trace: [
+        {
+          type: "done",
+          note: "k nu poate fi mai mare decât n.",
+          vars: { n, k, value: 0 },
+        },
+      ],
+      result: { value: 0 },
+    };
+  }
+
+  const triangle: number[][] = [];
+  for (let row = 0; row <= n; row += 1) {
+    const current: number[] = [];
+    for (let col = 0; col <= row; col += 1) {
+      if (col === 0 || col === row) current.push(1);
+      else current.push((triangle[row - 1][col - 1] ?? 0) + (triangle[row - 1][col] ?? 0));
+    }
+    triangle.push(current);
+
+    trace.push({
+      type: "set",
+      index: row,
+      value: current[Math.min(k, current.length - 1)] ?? current[current.length - 1],
+      array: [...current],
+      note: `Construim rândul ${row} din triunghiul lui Pascal.`,
+      vars: { n, k, row, rowValues: [...current], triangle: triangle.map((r) => [...r]) },
+    });
+  }
+
+  const value = triangle[n]?.[k] ?? 0;
+  trace.push({
+    type: "done",
+    note: `C(${n}, ${k}) = ${value}`,
+    vars: { n, k, value, triangle },
+    array: [...(triangle[n] ?? [])],
+  });
+
+  return { trace, result: { value, triangle } };
+}
+
+function doubleFactorialRunner(input: any): AlgorithmResult {
+  const n = Math.max(0, Math.floor(Number(input?.n ?? 0)));
+  const trace: TraceEvent[] = [];
+  const sequence: number[] = [];
+  let result = 1;
+
+  for (let i = n; i > 0; i -= 2) {
+    sequence.push(i);
+    const previous = result;
+    result *= i;
+    trace.push({
+      type: "set",
+      index: sequence.length - 1,
+      value: result,
+      array: [...sequence],
+      note: `${n}!!: ${previous} × ${i} = ${result}`,
+      vars: {
+        n,
+        i,
+        partial: result,
+        sequence: [...sequence],
+        expression: `${n}!! = ${sequence.join(" * ")}`,
+      },
+    });
+  }
+
+  if (sequence.length === 0) {
+    trace.push({
+      type: "set",
+      index: 0,
+      value: 1,
+      array: [1],
+      note: "0!! = 1",
+      vars: { n, partial: 1, sequence: [1], expression: "0!! = 1" },
+    });
+  }
+
+  trace.push({
+    type: "done",
+    note: `${n}!! = ${sequence.length ? `${sequence.join(" * ")} = ${result}` : "1"}`,
+    vars: { n, sequence, result },
+    array: sequence.length ? [...sequence] : [1],
+  });
+
+  return { trace, result: { value: result, sequence } };
+}
+
+function factorsRunner(input: any): AlgorithmResult {
+  const n = Math.floor(Number(input?.n ?? 0));
+  const trace: TraceEvent[] = [];
+
+  if (!Number.isFinite(n) || n <= 0) {
+    return {
+      trace: [{ type: "done", note: "n trebuie să fie număr natural pozitiv.", vars: { n } }],
+      result: { error: "invalid n" },
+    };
+  }
+
+  const divisors = new Set<number>();
+  const limit = Math.floor(Math.sqrt(n));
+
+  for (let i = 1; i <= limit; i += 1) {
+    const divisible = n % i === 0;
+    const pair = divisible ? Math.floor(n / i) : null;
+    if (divisible) {
+      divisors.add(i);
+      if (pair !== null) divisors.add(pair);
+    }
+
+    const sorted = Array.from(divisors).sort((a, b) => a - b);
+    trace.push({
+      type: "compare",
+      indices: [i, limit],
+      values: [i, n],
+      array: sorted,
+      note: divisible
+        ? `${i} | ${n} (pereche: ${i}${pair === i ? " - singur" : `, ${pair}`})`
+        : `${i} nu divide pe ${n}`,
+      vars: { n, i, limit, divisible, pair, divisors: sorted },
+    });
+  }
+
+  const sorted = Array.from(divisors).sort((a, b) => a - b);
+  trace.push({
+    type: "done",
+    note: `Divizori finali: {${sorted.join(", ")}}`,
+    vars: { n, sqrt: limit, divisors: sorted },
+    array: sorted,
+  });
+
+  return { trace, result: { divisors: sorted } };
+}
+
+function leapYearRunner(input: any): AlgorithmResult {
+  const year = Math.floor(Number(input?.year ?? 0));
+  const trace: TraceEvent[] = [];
+
+  const div4 = year % 4 === 0;
+  const div100 = year % 100 === 0;
+  const div400 = year % 400 === 0;
+  const isLeap = div4 && (!div100 || div400);
+
+  trace.push({
+    type: "compare",
+    note: `Verific ${year} % 4 = ${year % 4}`,
+    vars: { year, rule: "year % 4 == 0", value: div4, div4, div100, div400 },
+  });
+  trace.push({
+    type: "compare",
+    note: `Verific ${year} % 100 = ${year % 100}`,
+    vars: { year, rule: "year % 100 == 0", value: div100, div4, div100, div400 },
+  });
+  trace.push({
+    type: "compare",
+    note: `Verific ${year} % 400 = ${year % 400}`,
+    vars: { year, rule: "year % 400 == 0", value: div400, div4, div100, div400 },
+  });
+  trace.push({
+    type: "done",
+    note: isLeap ? `${year} este an bisect.` : `${year} nu este an bisect.`,
+    vars: { year, div4, div100, div400, isLeap },
+    result: { isLeap },
+  });
+
+  return { trace, result: { isLeap, year } };
+}
+
+function zellerRunner(input: any): AlgorithmResult {
+  let year = Math.floor(Number(input?.year ?? 2024));
+  let month = Math.floor(Number(input?.month ?? 3));
+  const day = Math.floor(Number(input?.day ?? 23));
+  const calendar = resolveCalendar(input?.calendar);
+  const trace: TraceEvent[] = [];
+
+  const original = { year, month, day };
+
+  if (month < 3) {
+    month += 12;
+    year -= 1;
+  }
+
+  const K = year % 100;
+  const J = Math.floor(year / 100);
+  const monthTerm = Math.floor(2.6 * (month + 1));
+  const yearQuarter = Math.floor(K / 4);
+  const centuryQuarter = Math.floor(J / 4);
+  const centuryTerm = calendar === Calendar.Gregorian ? 5 * J : 6 * J + 5;
+  const raw = day + monthTerm + K + yearQuarter + centuryQuarter + centuryTerm;
+  const h = raw % 7;
+  const weekday = (h + 6) % 7;
+  const names = ["Duminica", "Luni", "Marti", "Miercuri", "Joi", "Vineri", "Sambata"];
+
+  trace.push({
+    type: "set",
+    index: 0,
+    value: month,
+    array: [day, month, year],
+    note: "Normalizare pentru ianuarie/februarie (dacă este cazul).",
+    vars: { original, normalized: { day, month, year }, calendar: calendar === Calendar.Gregorian ? "Gregorian" : "Julian" },
+  });
+
+  trace.push({
+    type: "set",
+    index: 1,
+    value: h,
+    array: [day, monthTerm, K, yearQuarter, centuryQuarter, centuryTerm, raw, h, weekday],
+    note: `h = (${day} + ${monthTerm} + ${K} + ${yearQuarter} + ${centuryQuarter} + ${centuryTerm}) mod 7 = ${h}`,
+    vars: { day, monthTerm, K, J, yearQuarter, centuryQuarter, centuryTerm, raw, h, weekday },
+  });
+
+  trace.push({
+    type: "done",
+    note: `Ziua săptămânii: ${names[weekday]}`,
+    vars: { weekday, weekdayName: names[weekday], h, original, normalized: { day, month, year } },
+    result: { index: weekday, weekday: names[weekday] },
+  });
+
+  return { trace, result: { index: weekday, weekday: names[weekday] } };
+}
+
 export const sourceOnlyMathAlgorithms: Record<string, Runner> = {
   matematica_aliquot_sum: safeMathRunner("Aliquot Sum", ({ n }) => aliquotSum(Number(n))),
   matematica_armstrong_number: safeMathRunner("Armstrong Number", ({ n }) => armstrongNumber(Number(n))),
   matematica_binary_convert: binaryConvertRunner,
-  matematica_binomial_coefficient: safeMathRunner("Binomial Coefficient", ({ n, k }) => binomialCoefficient(Number(n), Number(k))),
+  matematica_binomial_coefficient: binomialCoefficientRunner,
   matematica_calculate_mean: safeMathRunner("Calculate Mean", ({ numbers }) => calculateMean(Array.isArray(numbers) ? numbers.map(Number) : [])),
   matematica_calculate_median: safeMathRunner("Calculate Median", ({ numbers }) => calculateMedian(Array.isArray(numbers) ? numbers.map(Number) : [])),
   matematica_degrees_to_radians: safeMathRunner("Degrees to Radians", ({ degrees }) => degreesToRadians(Number(degrees))),
   matematica_digit_sum: safeMathRunner("Digit Sum", ({ n }) => digitSum(Number(n))),
-  matematica_double_factorial_iterative: safeMathRunner("Double Factorial", ({ n }) => DoubleFactorialIterative(Number(n))),
+  matematica_double_factorial_iterative: doubleFactorialRunner,
   matematica_euler_totient: safeMathRunner("Euler Totient", ({ n }) => phi(Number(n))),
-  matematica_factors: safeMathRunner("Factors", ({ n }) => findFactors(Number(n))),
+  matematica_factors: factorsRunner,
   matematica_find_min: safeMathRunner("Find Min", ({ numbers }) => findMin(Array.isArray(numbers) ? numbers.map(Number) : [])),
   matematica_gaussian_elimination: safeMathRunner("Gaussian Elimination", ({ matrix }) => gaussianElimination(Array.isArray(matrix) ? matrix.map((row: number[]) => [...row]) : [])),
   matematica_hamming_distance: safeMathRunner("Hamming Distance", ({ str1, str2 }) => hammingDistance(String(str1 ?? ""), String(str2 ?? ""))),
   matematica_series_hexagonal_numbers: safeMathRunner("Hexagonal Numbers", ({ n }) => HexagonalNumbers(Number(n))),
   matematica_is_divisible: safeMathRunner("Is Divisible", ({ num1, num2 }) => isDivisible(Number(num1), Number(num2))),
   matematica_is_even: safeMathRunner("Is Even", ({ n }) => isEven(Number(n))),
-  matematica_is_leap_year: safeMathRunner("Is Leap Year", ({ year }) => isLeapYear(Number(year))),
+  matematica_is_leap_year: leapYearRunner,
   matematica_is_odd: safeMathRunner("Is Odd", ({ n }) => isOdd(Number(n))),
   matematica_is_square_free: safeMathRunner("Is Square Free", ({ n }) => isSquareFree(Number(n))),
   matematica_juggler_sequence: safeMathRunner("Juggler Sequence", ({ a, n }) => jugglerSequence(Number(a), Number(n))),
@@ -373,9 +597,5 @@ export const sourceOnlyMathAlgorithms: Record<string, Runner> = {
     return squareRoot(Number(n));
   }),
   matematica_ugly_numbers: safeMathRunner("Ugly Numbers", ({ n }) => getUglyNumberPrefix(Number(n))),
-  matematica_zellers_congruence: safeMathRunner("Zeller Congruence", ({ year, month, day, calendar }) => {
-    const weekday = getWeekday(Number(year), Number(month), Number(day), resolveCalendar(calendar));
-    const names = ["Duminica", "Luni", "Marti", "Miercuri", "Joi", "Vineri", "Sambata"];
-    return { index: weekday, weekday: names[weekday] };
-  }),
+  matematica_zellers_congruence: zellerRunner,
 };
