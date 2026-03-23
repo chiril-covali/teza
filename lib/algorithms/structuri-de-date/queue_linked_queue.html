@@ -1,0 +1,242 @@
+<section class="md-doc-shell">
+  <article class="md-doc-content">
+<h1><span class="md-doc-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5" fill="#2563eb"/><path d="M7.5 12h9M12 7.5v9" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></span><span><strong>Coadă bazată pe Listă Înlănțuită</strong></span></h1>
+<h2><span class="md-doc-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5" fill="#0ea5e9"/><path d="M8 8h8M8 12h8M8 16h6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></span><span><strong>Descriere</strong></span></h2>
+<p><strong>Coadă bazată pe Listă Înlănțuită</strong> (Linked Queue) este o implementare dinamică a cozii care utilizează noduri înlănțuite în loc de un vector fix. Aceasta permite cozii să crească și să scadă în dimensiune în mod natural, fără a irosi memorie și fără a necesita operații costisitoare de redimensionare. Elementele sunt adăugate la &quot;Rear&quot; și eliminate de la &quot;Front&quot;.</p>
+<h2><span class="md-doc-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5" fill="#22c55e"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/><path d="M5.5 12s2.5-4 6.5-4 6.5 4 6.5 4-2.5 4-6.5 4-6.5-4-6.5-4Z" stroke="white" stroke-width="1.4"/></svg></span><span><strong>Reprezentare Vizuală</strong></span></h2>
+<p><img src="/docs-images/structuri-de-date/queue_linked_queue.svg" alt="Linked Queue Diagram"></p>
+<!-- external-visual -->
+<p><img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80" alt="Resursă vizuală externă (structuri-de-date)"></p>
+<pre><code class="language-text">      Front -&gt; [D1 | *] -&gt; [D2 | *] -&gt; [D3 | NULL] &lt;- Rear
+                Nod 1       Nod 2       Nod 3
+</code></pre>
+<h2><span class="md-doc-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5" fill="#f59e0b"/><path d="M7 9h10M7 12h6M7 15h8" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></span><span><strong>Avantaje și Dezavantaje</strong></span></h2>
+<table>
+<thead>
+<tr>
+<th align="left">Avantaj</th>
+<th align="left">Dezavantaj</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><span class="md-doc-inline-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7" fill="#dbeafe"/><path d="M5 8h6M8 5v6" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/></svg></span> <strong>Dimensiune Dinamică:</strong> Nu necesită declararea unei mărimi maxime la inițializare.</td>
+<td align="left"><span class="md-doc-inline-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7" fill="#dbeafe"/><path d="M5 8h6M8 5v6" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/></svg></span> <strong>Overhead Memorie:</strong> Fiecare element consumă spațiu suplimentar pentru pointer.</td>
+</tr>
+<tr>
+<td align="left"><span class="md-doc-inline-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7" fill="#dbeafe"/><path d="M5 8h6M8 5v6" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/></svg></span> <strong>Operații Rapide:</strong> Atât adăugarea cât și eliminarea sunt garantate <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span>.</td>
+<td align="left"><span class="md-doc-inline-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7" fill="#dbeafe"/><path d="M5 8h6M8 5v6" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/></svg></span> <strong>Localitate Memorie:</strong> Nodurile pot fi dispersate în memorie, afectând performanța cache-ului.</td>
+</tr>
+</tbody></table>
+<h2><span class="md-doc-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5" fill="#7c3aed"/><path d="M7 15l3-3 2 2 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 18h10" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg></span><span><strong>Analiză Matematică și Complexitate</strong></span></h2>
+<p>Implementarea folosește doi pointeri externi: <code>front</code> (pentru eliminare) și <code>rear</code> (pentru adăugare).</p>
+<table>
+<thead>
+<tr>
+<th align="left">Tip Complexitate</th>
+<th align="left">Valoare</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Enqueue (Adăugare)</strong></td>
+<td align="left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></td>
+</tr>
+<tr>
+<td align="left"><strong>Dequeue (Eliminare)</strong></td>
+<td align="left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></td>
+</tr>
+<tr>
+<td align="left"><strong>IsEmpty</strong></td>
+<td align="left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></td>
+</tr>
+<tr>
+<td align="left"><strong>Spațiu (Space)</strong></td>
+<td align="left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></td>
+</tr>
+</tbody></table>
+<h2><span class="md-doc-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5" fill="#ef4444"/><path d="M12 7v10M7 12h10" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></span><span><strong>Aplicații Practice</strong></span></h2>
+<ul>
+<li><strong>Algoritmi de Căutare:</strong> Implementarea BFS (Breadth-First Search) în grafuri și arbori.</li>
+<li><strong>Sisteme de Mesagerie:</strong> Gestionarea cozilor de așteptare în aplicații asincrone.</li>
+<li><strong>Sisteme de Operare:</strong> Gestionarea cozilor de procese (Ready Queue).</li>
+<li><strong>Simulări:</strong> Modelarea cozilor de așteptare din lumea reală (bănci, supermarket-uri).</li>
+</ul>
+
+  </article>
+</section>
+
+<style>
+  .md-doc-shell {
+    --ink: #0f172a;
+    --muted: #334155;
+    --line: #dbeafe;
+    --soft: #eff6ff;
+    --accent: #2563eb;
+    --accent-2: #0ea5e9;
+    color: var(--ink);
+    font-family: "IBM Plex Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .md-doc-content {
+    border: 1px solid #e2e8f0;
+    border-radius: 1.1rem;
+    background: #ffffff;
+    padding: 1.2rem 1.3rem;
+    box-shadow: 0 20px 42px -36px rgba(15, 23, 42, 0.55);
+    line-height: 1.75;
+    color: var(--muted);
+    overflow-x: auto;
+    background-image:
+      radial-gradient(circle at 12% 4%, rgba(56, 189, 248, 0.08) 0, transparent 32%),
+      radial-gradient(circle at 92% 0%, rgba(37, 99, 235, 0.08) 0, transparent 28%);
+  }
+
+  .md-doc-content > :first-child { margin-top: 0; }
+  .md-doc-content > :last-child { margin-bottom: 0; }
+
+  .md-doc-content h1,
+  .md-doc-content h2,
+  .md-doc-content h3,
+  .md-doc-content h4 {
+    color: #0f172a;
+    line-height: 1.3;
+    margin: 1.25rem 0 0.65rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .md-doc-content h1 { font-size: 1.6rem; }
+  .md-doc-content h2 { font-size: 1.3rem; border-top: 1px solid #e2e8f0; padding-top: 0.95rem; }
+  .md-doc-content h3 { font-size: 1.1rem; }
+
+  .md-doc-heading-icon {
+    width: 1.1em;
+    height: 1.1em;
+    display: inline-flex;
+    flex: 0 0 auto;
+  }
+
+  .md-doc-heading-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .md-doc-inline-icon {
+    width: 1em;
+    height: 1em;
+    display: inline-flex;
+    vertical-align: -0.12em;
+    margin-right: 0.18em;
+  }
+
+  .md-doc-inline-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .md-doc-content p { margin: 0.8rem 0; }
+  .md-doc-content ul, .md-doc-content ol { margin: 0.65rem 0 0.9rem; padding-left: 1.2rem; }
+  .md-doc-content li { margin: 0.35rem 0; }
+
+  .md-doc-content blockquote {
+    margin: 0.9rem 0;
+    border-left: 4px solid #93c5fd;
+    background: #eff6ff;
+    padding: 0.75rem 0.9rem;
+    border-radius: 0.55rem;
+    color: #1e3a8a;
+  }
+
+  .md-doc-content code {
+    background: #eef2ff;
+    border: 1px solid #dbeafe;
+    color: #1e3a8a;
+    padding: 0.14rem 0.38rem;
+    border-radius: 0.4rem;
+    font-size: 0.88em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
+  .md-doc-content pre {
+    margin: 0.95rem 0;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 0.95rem 1rem;
+    border-radius: 0.8rem;
+    overflow: auto;
+    border: 1px solid #1e293b;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+  }
+
+  .md-doc-content pre code {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    padding: 0;
+  }
+
+  .md-doc-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    border-radius: 0.8rem;
+    overflow: hidden;
+    border: 1px solid #dbeafe;
+  }
+
+  .md-doc-content th,
+  .md-doc-content td {
+    border: 1px solid #e2e8f0;
+    padding: 0.62rem 0.7rem;
+    vertical-align: top;
+    text-align: left;
+  }
+
+  .md-doc-content th {
+    background: #eff6ff;
+    color: #1e3a8a;
+    font-weight: 700;
+  }
+
+  .md-doc-content img {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    border-radius: 0.9rem;
+    border: 1px solid #dbeafe;
+    margin: 0.8rem 0 0.95rem;
+    box-shadow: 0 14px 28px -24px rgba(14, 165, 233, 0.75);
+  }
+
+  .md-doc-content hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 1rem 0;
+  }
+
+  .md-doc-content .katex-display {
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+
+  @media (max-width: 768px) {
+    .md-doc-content {
+      padding: 1rem;
+      border-radius: 0.9rem;
+    }
+
+    .md-doc-content table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .md-doc-content img {
+      max-height: 280px;
+    }
+  }
+</style>

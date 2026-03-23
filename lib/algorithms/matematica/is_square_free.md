@@ -1,12 +1,15 @@
 <!-- custom-doc -->
 
-# 🚀 **Verificare Număr Square-Free (Square-Free Number)**
+# 🚀 **Verificare Număr Square-Free**
 
 ## 📝 **Descriere**
 Un număr întreg $n$ se numește **Square-Free** (fără pătrate) dacă nu este divizibil cu niciun pătrat perfect mai mare decât 1 (adică $k^2 \nmid n$ pentru orice $k > 1$). Altfel spus, în descompunerea sa în **factori primi**, fiecare exponent este egal cu 1.
 
 ## 🖼️ **Reprezentare Vizuală**
-![Square-Free Numbers](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Square-free_numbers_up_to_100.svg/400px-Square-free_numbers_up_to_100.svg.png)
+![Square-Free Numbers](/docs-images/matematica/is_square_free.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 30 = 2 × 3 × 5  (Toți exponenții sunt 1)  ==> Square-Free

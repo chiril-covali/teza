@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Parcurgere în Adâncime (Depth-First Search)**
+# 🚀 **Parcurgere în Adâncime**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![DFS Animation](https://upload.wikimedia.org/wikipedia/commons/7/7f/Depth-First-Search.gif)
+![DFS Animation](/docs-images/grafuri/dfs.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (grafuri)](https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg)
+
 
 ```text
       (1)

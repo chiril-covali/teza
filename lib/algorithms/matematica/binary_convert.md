@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Conversie Binară (Decimal to Binary)**
+# 🚀 **Conversie Binară**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Binary Conversion](https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Decimal_to_Binary_Conversion.svg/300px-Decimal_to_Binary_Conversion.svg.png)
+![Binary Conversion](/docs-images/matematica/binary_convert.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 13 / 2 = 6 rest 1  ↑

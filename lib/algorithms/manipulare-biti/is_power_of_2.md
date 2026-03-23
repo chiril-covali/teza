@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Verificare Putere a lui 2 (Is Power of 2)**
+# 🚀 **Verificare Putere a lui 2**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Verificarea dacă un număr $n$ este o putere a lui 2 ($2^0, 2^1, 2^2 \dots$) se
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Binary Powers Table](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Power_of_two_binary.svg/300px-Power_of_two_binary.svg.png)
+![Binary Powers Table](/docs-images/manipulare-biti/is_power_of_2.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (manipulare-biti)](https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 n = 8  (1000)

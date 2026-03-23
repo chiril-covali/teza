@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Factorial Dublu (Double Factorial)**
+# 🚀 **Factorial Dublu**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Factorial Comparison](https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Comparison_of_factorial_functions.svg/400px-Comparison_of_factorial_functions.svg.png)
+![Factorial Comparison](/docs-images/matematica/double_factorial_iterative.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 8!! = 8 * 6 * 4 * 2 = 384

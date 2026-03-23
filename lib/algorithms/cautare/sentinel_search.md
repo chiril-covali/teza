@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Căutare prin Santinelă (Sentinel Search)**
+# 🚀 **Căutare prin Santinelă**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Sentinel Search Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Sentinel_node.svg/1200px-Sentinel_node.svg.png)
+![Sentinel Search Diagram](/docs-images/cautare/sentinel_search.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (cautare)](https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg)
+
 
 ```text
 Căutare: 30

@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Număr Perfect (Perfect Number)**
+# 🚀 **Număr Perfect**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Un **Număr Perfect** este un număr întreg pozitiv care este egal cu suma divi
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Perfect Number 6](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Perfect_number_6.svg/200px-Perfect_number_6.svg.png)
+![Perfect Number 6](/docs-images/matematica/perfect_number.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Număr: 6

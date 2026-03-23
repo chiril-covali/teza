@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![LCM Visualization](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Symmetrical_5-set_Venn_diagram_LCM_2_3_4_5_7.svg/500px-Symmetrical_5-set_Venn_diagram_LCM_2_3_4_5_7.svg.png)
+![LCM Visualization](/docs-images/matematica/lowest_common_multiple.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Multipli 4: 4, 8, 12, 16, 20...

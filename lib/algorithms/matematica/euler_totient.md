@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Funcția Totient a lui Euler (Euler's Totient Function)**
+# 🚀 **Funcția Totient a lui Euler**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Euler Totient Function](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Euler_Totient_Function.svg/500px-Euler_Totient_Function.svg.png)
+![Euler Totient Function](/docs-images/matematica/euler_totient.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg)
+
 
 ```text
 Exemplu pentru n = 10:

@@ -1,13 +1,16 @@
 <!-- custom-doc -->
 
-# 🚀 **Număr Impar (Is Odd)**
+# 🚀 **Număr Impar**
 
 ## 📝 **Descriere**
 
 Un număr întreg $n$ se numește **impar** dacă nu este divizibil cu 2. Din punct de vedere matematic, un număr impar are întotdeauna forma $n = 2k + 1$, unde $k$ este un număr întreg. În informatică, această verificare este una dintre cele mai simple și frecvente operații.
 
 ## 🖼️ **Reprezentare Vizuală**
-![Even and Odd Numbers](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Even_and_odd_numbers.svg/300px-Even_and_odd_numbers.svg.png)
+![Even and Odd Numbers](/docs-images/matematica/is_odd.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 7 / 2 = 3 rest 1  ==> IMPAR (True)

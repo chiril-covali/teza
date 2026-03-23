@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Amestecarea unui Tablou (Fisher-Yates Shuffle)**
+# 🚀 **Amestecare Tablou**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Fisher-Yates Shuffle](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Fisher-Yates_shuffle.svg/400px-Fisher-Yates_shuffle.svg.png)
+![Fisher-Yates Shuffle](/docs-images/diverse/shuffle_array.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (diverse)](https://cdn.pixabay.com/photo/2015/05/31/10/55/man-791049_1280.jpg)
+
 
 ```text
 Tablou inițial: [A, B, C, D, E] (n=5)

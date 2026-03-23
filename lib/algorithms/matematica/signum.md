@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Funcția Signum (Signum Function)**
+# 🚀 **Funcția Signum**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Funcția **Signum** (sau funcția semn) este o funcție matematică care extrage
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Signum Function](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Signum_function.svg/400px-Signum_function.svg.png)
+![Signum Function](/docs-images/matematica/signum.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Definiție:

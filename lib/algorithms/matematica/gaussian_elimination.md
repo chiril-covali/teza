@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Eliminarea Gaussiană (Gaussian Elimination)**
+# 🚀 **Eliminarea Gaussiană**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Gaussian Elimination](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Gaussian_elimination_steps.svg/400px-Gaussian_elimination_steps.svg.png)
+![Gaussian Elimination](/docs-images/matematica/gaussian_elimination.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Matrice Inițială:      Matrice Treaptă:

@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Numere Urâte (Ugly Numbers)**
+# 🚀 **Numere Urâte**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Prime Factors](https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Primes_through_20.svg/300px-Primes_through_20.svg.png)
+![Prime Factors](/docs-images/matematica/ugly_numbers.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Verificare:

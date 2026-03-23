@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Coeficient Binomial (Binomial Coefficient)**
+# 🚀 **Coeficient Binomial**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Pascal Triangle](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Pascal%27s_triangle_5.svg/300px-Pascal%27s_triangle_5.svg.png)
+![Pascal Triangle](/docs-images/matematica/binomial_coefficient.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
       1          (n=0)

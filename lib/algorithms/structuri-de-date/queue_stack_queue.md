@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Coadă implementată cu Stive (Queue using Stacks)**
+# 🚀 **Coadă implementată cu Stive**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ O **Coadă implementată cu Stive** este o structură de date care simulează co
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Queue using Stacks Animation](https://upload.wikimedia.org/wikipedia/commons/e/e0/QueueStack.gif)
+![Queue using Stacks Animation](/docs-images/structuri-de-date/queue_stack_queue.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg)
+
 
 ```text
 Stiva 1 (Inbox): Folosită pentru Enqueue (Adăugare)

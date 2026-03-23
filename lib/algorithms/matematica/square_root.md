@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Rădăcină Pătrată (Square Root)**
+# 🚀 **Rădăcină Pătrată**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Calcularea **Rădăcinii Pătrate** este o operație fundamentală care determin
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Newton Method](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/NewtonIteration_Ani.gif/300px-NewtonIteration_Ani.gif)
+![Newton Method](/docs-images/matematica/square_root.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg)
+
 
 ```text
 Exemplu: √25 (Newton)

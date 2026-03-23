@@ -66,28 +66,28 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "cautare_sentinel_search",
-    "name": "Căutare cu Santinelă",
+    "name": "Căutare prin Santinelă",
     "category": "Căutare",
     "complexity": "",
     "description": "Varianta optimizată a căutării liniare care elimină verificarea limitei de array prin plasarea elementului căutat la final."
   },
   {
     "slug": "diverse_is_sorted_array",
-    "name": "Verificare Vector Sortat",
+    "name": "Verificare Tablou Sortat",
     "category": "Diverse",
     "complexity": "",
     "description": "Verifică dacă elementele unui vector sunt aranjate în ordine crescătoare."
   },
   {
     "slug": "diverse_parse_nested_brackets",
-    "name": "Analiza Parantezelor Imbricate",
+    "name": "Analiză Parantezelor Imbricate",
     "category": "Diverse",
     "complexity": "",
     "description": "Analizează un șir de caractere și verifică dacă parantezele sunt corect imbricate și echilibrate."
   },
   {
     "slug": "diverse_shuffle_array",
-    "name": "Amestecarea Elementelor",
+    "name": "Amestecare Tablou",
     "category": "Diverse",
     "complexity": "",
     "description": "Amestecă aleatoriu elementele unui vector folosind algoritmul Fisher-Yates."
@@ -115,63 +115,63 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "grafuri_edmonds_karp",
-    "name": "Edmonds Karp",
+    "name": "Algoritmul Edmonds-Karp",
     "category": "Grafuri",
     "complexity": "",
     "description": "Implementare BFS a algoritmului Ford-Fulkerson pentru fluxul maxim într-o rețea."
   },
   {
     "slug": "grafuri_floyd_warshall",
-    "name": "Floyd Warshall",
+    "name": "Algoritmul Floyd-Warshall",
     "category": "Grafuri",
     "complexity": "",
     "description": "Găsește drumurile minime între toate perechile de noduri dintr-un graf ponderat."
   },
   {
     "slug": "grafuri_johnson",
-    "name": "Johnson",
+    "name": "Algoritmul lui Johnson",
     "category": "Grafuri",
     "complexity": "",
     "description": "Algoritm pentru calculul drumurilor minime între toate perechile de noduri într-un graf cu ponderi, inclusiv negative."
   },
   {
     "slug": "grafuri_kosaraju",
-    "name": "Kosaraju",
+    "name": "Algoritmul Kosaraju",
     "category": "Grafuri",
     "complexity": "",
     "description": "Găsește componentele tare conexe ale unui graf orientat folosind două parcurgeri DFS."
   },
   {
     "slug": "grafuri_kruskal",
-    "name": "Kruskal",
+    "name": "Algoritmul lui Kruskal",
     "category": "Grafuri",
     "complexity": "",
     "description": "Construiește arborele parțial de cost minim prin selectarea succesivă a muchiilor cu ponderea cea mai mică."
   },
   {
     "slug": "grafuri_dfs",
-    "name": "Parcurgere în Adâncime (DFS)",
+    "name": "Parcurgere în Adâncime",
     "category": "Grafuri",
     "complexity": "T: O(V+E), S: O(V)",
     "description": "Explorează graful mergând cât mai adânc pe fiecare ramură înainte de a reveni (backtracking)."
   },
   {
     "slug": "grafuri_bfs",
-    "name": "Parcurgere în Lățime (BFS)",
+    "name": "Parcurgere în Lățime",
     "category": "Grafuri",
     "complexity": "T: O(V+E), S: O(V)",
     "description": "Explorează un graf nivel cu nivel, fiind util pentru găsirea celui mai scurt drum în grafuri neponderate."
   },
   {
     "slug": "grafuri_prim",
-    "name": "Prim",
+    "name": "Algoritmul lui Prim",
     "category": "Grafuri",
     "complexity": "",
     "description": "Determină arborele parțial de cost minim pornind de la un nod și adăugând iterativ cea mai apropiată muchie conectată."
   },
   {
     "slug": "grafuri_tarjan",
-    "name": "Tarjan",
+    "name": "Algoritmul lui Tarjan",
     "category": "Grafuri",
     "complexity": "",
     "description": "Identifică componentele tare conexe ale unui graf orientat într-o singură parcurgere DFS."
@@ -213,7 +213,7 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "matematica_aliquot_sum",
-    "name": "Suma Alicotă",
+    "name": "Suma Divizorilor Proprii",
     "category": "Matematică",
     "complexity": "",
     "description": "Calculează suma tuturor divizorilor proprii ai unui număr întreg pozitiv, excluzând numărul însuși."
@@ -227,35 +227,35 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "matematica_binary_convert",
-    "name": "Conversie în Binar",
+    "name": "Conversie Binară",
     "category": "Matematică",
     "complexity": "",
     "description": "Realizează conversia numerelor între sistemul zecimal și cel binar."
   },
   {
     "slug": "matematica_binomial_coefficient",
-    "name": "Coeficientul Binomial",
+    "name": "Coeficient Binomial",
     "category": "Matematică",
     "complexity": "",
     "description": "Calculează numărul de moduri în care se pot alege k elemente dintr-o mulțime de n elemente."
   },
   {
     "slug": "matematica_calculate_mean",
-    "name": "Calculul Mediei Aritmetice",
+    "name": "Media Aritmetică",
     "category": "Matematică",
     "complexity": "",
     "description": "Determină media aritmetică a unui set de numere prin raportul dintre suma lor și numărul total de elemente."
   },
   {
     "slug": "matematica_calculate_median",
-    "name": "Calculul Medianei",
+    "name": "Mediana",
     "category": "Matematică",
     "complexity": "",
     "description": "Găsește valoarea centrală a unui set de date ordonate, care separă jumătatea superioară de cea inferioară."
   },
   {
     "slug": "matematica_degrees_to_radians",
-    "name": "Grade în Radiani",
+    "name": "Conversie Grade în Radiani",
     "category": "Matematică",
     "complexity": "",
     "description": "Transformă măsura unui unghi din grade sexagesimale în radiani folosind constanta PI."
@@ -269,14 +269,14 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "matematica_double_factorial_iterative",
-    "name": "Dublu Factorial Iterativ",
+    "name": "Factorial Dublu",
     "category": "Matematică",
     "complexity": "",
     "description": "Calculează produsul numerelor întregi pozitive care au aceeași paritate ca n și sunt mai mici sau egale cu acesta."
   },
   {
     "slug": "matematica_euler_totient",
-    "name": "Funcția Euler Totient",
+    "name": "Funcția Totient a lui Euler",
     "category": "Matematică",
     "complexity": "",
     "description": "Determină numărul de numere întregi pozitive mai mici decât n care sunt prime cu n."
@@ -290,21 +290,21 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "matematica_factors",
-    "name": "Factorizare",
+    "name": "Găsire Divizorilor",
     "category": "Matematică",
     "complexity": "",
     "description": "Identifică toți divizorii întregi ai unui număr dat."
   },
   {
     "slug": "matematica_fibonacci",
-    "name": "Fibonacci",
+    "name": "Șirul lui Fibonacci",
     "category": "Matematică",
     "complexity": "",
     "description": "Generează termenii șirului în care fiecare număr este suma celor două precedente."
   },
   {
     "slug": "matematica_find_min",
-    "name": "Valoarea Minimă",
+    "name": "Găsire Minimului",
     "category": "Matematică",
     "complexity": "",
     "description": "Identifică cel mai mic element dintr-o listă sau un set de date numerice."
@@ -318,7 +318,7 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "matematica_greatest_common_factor",
-    "name": "Cel mai Mare Divizor Comun",
+    "name": "Cel mai mare divizor comun",
     "category": "Matematică",
     "complexity": "",
     "description": "Determină cel mai mare număr întreg care divide fără rest două sau mai multe numere date."
@@ -332,7 +332,7 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "matematica_series_hexagonal_numbers",
-    "name": "Șirul Numerelor Hexagonale",
+    "name": "Numere Hexagonale",
     "category": "Matematică",
     "complexity": "",
     "description": "Generează numerele dintr-un șir figurativ care reprezintă puncte aranjate sub formă de hexagoane."
@@ -346,21 +346,21 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "matematica_is_even",
-    "name": "Verificare Număr Par",
+    "name": "Verificare Paritate",
     "category": "Matematică",
     "complexity": "",
     "description": "Verifică dacă un număr întreg este par (divizibil cu 2)."
   },
   {
     "slug": "matematica_is_leap_year",
-    "name": "Verificare An Bisect",
+    "name": "An Bisect",
     "category": "Matematică",
     "complexity": "",
     "description": "Determină dacă un an calendaristic are 366 de zile conform regulilor calendarului gregorian."
   },
   {
     "slug": "matematica_is_odd",
-    "name": "Verificare Număr Impar",
+    "name": "Număr Impar",
     "category": "Matematică",
     "complexity": "",
     "description": "Verifică dacă un număr întreg este impar (nu se divide exact cu 2)."
@@ -374,28 +374,28 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "matematica_is_square_free",
-    "name": "Verificare Număr Liber de Pătrate",
+    "name": "Verificare Număr Square-Free",
     "category": "Matematică",
     "complexity": "",
     "description": "Verifică dacă un număr nu este divizibil cu niciun pătrat perfect mai mare decât 1."
   },
   {
     "slug": "matematica_juggler_sequence",
-    "name": "Șirul Juggler",
+    "name": "Secvența Juggler",
     "category": "Matematică",
     "complexity": "",
     "description": "Generează o secvență iterativă de numere întregi folosind puteri fracționare, care începe de la un număr pozitiv."
   },
   {
     "slug": "matematica_lowest_common_multiple",
-    "name": "Cel mai Mic Multiplu Comun",
+    "name": "Cel mai mic multiplu comun",
     "category": "Matematică",
     "complexity": "",
     "description": "Calculează cel mai mic număr întreg care este divizibil cu toate numerele dintr-un set dat."
   },
   {
     "slug": "matematica_matrix_multiplication",
-    "name": "Înmulțirea Matricelor",
+    "name": "Înmulțire Matricelor",
     "category": "Matematică",
     "complexity": "",
     "description": "Realizează operația aritmetică de înmulțire a două matrice pentru a produce o matrice nouă."
@@ -437,7 +437,7 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "matematica_prime_factorization",
-    "name": "Descompunere în Factori Primi",
+    "name": "Factorizarea în Numere Prime",
     "category": "Matematică",
     "complexity": "",
     "description": "Descompune un număr întreg în produs de numere prime."
@@ -458,14 +458,14 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "matematica_radians_to_degrees",
-    "name": "Radiani în Grade",
+    "name": "Conversie Radiani în Grade",
     "category": "Matematică",
     "complexity": "",
     "description": "Transformă măsura unui unghi din radiani în grade sexagesimale."
   },
   {
     "slug": "matematica_sieve_of_eratosthenes",
-    "name": "Ciurul lui Eratostene",
+    "name": "Sita lui Eratostene",
     "category": "Matematică",
     "complexity": "",
     "description": "Algoritm eficient pentru găsirea tuturor numerelor prime până la o limită dată."
@@ -479,7 +479,7 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "matematica_square_root",
-    "name": "Rădăcina Pătrată",
+    "name": "Rădăcină Pătrată",
     "category": "Matematică",
     "complexity": "",
     "description": "Calculează rădăcina pătrată a unui număr, adică valoarea care înmulțită cu ea însăși dă numărul inițial."
@@ -493,7 +493,7 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "matematica_zellers_congruence",
-    "name": "Congruența Zeller",
+    "name": "Congruența lui Zeller",
     "category": "Matematică",
     "complexity": "",
     "description": "Calculează ziua săptămânii pentru orice dată calendaristică din trecut sau viitor."
@@ -507,7 +507,7 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "programare-dinamica_coin_change",
-    "name": "Problema Restului (Schimb Monede)",
+    "name": "Problema Restului",
     "category": "Programare Dinamică",
     "complexity": "T: O(S*n), S: O(S)",
     "description": "Determină numărul minim de monede pentru a obține o sumă, optimizând subproblemele repetate."
@@ -521,14 +521,14 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "sortare_tree_sort",
-    "name": "Sortare cu Arbore",
+    "name": "Sortare prin Arbori",
     "category": "Sortare",
     "complexity": "",
     "description": "Construiește un arbore binar de căutare din elementele unui tablou și apoi îl parcurge în inordine pentru a obține elementele sortate."
   },
   {
     "slug": "sortare_bogo_sort",
-    "name": "Bogo Sortare",
+    "name": "Bogo Sort",
     "category": "Sortare",
     "complexity": "",
     "description": "O metodă de sortare extrem de ineficientă care generează permutări aleatorii până când tabloul devine ordonat."
@@ -542,21 +542,21 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "sortare_cycle_sort",
-    "name": "Sortare Ciclică",
+    "name": "Sortare prin Ciclu",
     "category": "Sortare",
     "complexity": "",
     "description": "Un algoritm de sortare pe loc care minimizează numărul total de scrieri în memorie."
   },
   {
     "slug": "sortare_gnome_sort",
-    "name": "Sortare Gnome",
+    "name": "Sortare Gnomului",
     "category": "Sortare",
     "complexity": "",
     "description": "Sortează o listă prin mutarea repetată a unui element spre poziția sa corectă, similar cu sortarea prin inserție dar cu un singur ciclu."
   },
   {
     "slug": "sortare_heap_sort",
-    "name": "Sortare cu Heap",
+    "name": "Sortare prin Heap",
     "category": "Sortare",
     "complexity": "",
     "description": "Utilizează o structură de date de tip heap pentru a extrage succesiv elementul maxim sau minim și a ordona tabloul."
@@ -598,7 +598,7 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "sortare_swap_sort",
-    "name": "Sortare prin Interschimb",
+    "name": "Sortare prin Interschimbare",
     "category": "Sortare",
     "complexity": "",
     "description": "Sortează elementele prin interschimbări directe bazate pe compararea valorilor adiacente sau a pozițiilor corecte."
@@ -647,21 +647,21 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "structuri-de-date_set_hash_map_set",
-    "name": "Mulțime Hash",
+    "name": "Set bazat pe Tabelă Hash",
     "category": "Structuri de Date",
     "complexity": "",
     "description": "Implementează o mulțime de elemente unice folosind mecanismul intern al unui tabel de dispersie."
   },
   {
     "slug": "structuri-de-date_heap_heap",
-    "name": "Heap (Grămadă de Prioritate)",
+    "name": "Heap",
     "category": "Structuri de Date",
     "complexity": "T: O(log N), S: O(N)",
     "description": "O structură de date arborescentă care permite accesul rapid la elementul minim sau maxim. Este baza algoritmului HeapSort."
   },
   {
     "slug": "structuri-de-date_queue_linked_queue",
-    "name": "Coadă Înlănțuită",
+    "name": "Coadă bazată pe Listă Înlănțuită",
     "category": "Structuri de Date",
     "complexity": "",
     "description": "O coadă implementată dinamic folosind noduri de listă înlănțuită pentru a permite dimensiuni variabile."
@@ -675,21 +675,21 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "structuri-de-date_stack_linked_list_stack",
-    "name": "Stivă Înlănțuită",
+    "name": "Stivă (Listă Înlănțuită)",
     "category": "Structuri de Date",
     "complexity": "",
     "description": "Implementează o stivă folosind o listă înlănțuită, urmând principiul LIFO (Last-In, First-Out)."
   },
   {
     "slug": "structuri-de-date_map_map",
-    "name": "Hartă (Map)",
+    "name": "Hartă",
     "category": "Structuri de Date",
     "complexity": "",
     "description": "O colecție de perechi cheie-valoare care garantează unicitatea cheilor și permite regăsirea rapidă a datelor."
   },
   {
     "slug": "structuri-de-date_set_map_set",
-    "name": "Mulțime cu Hartă",
+    "name": "Set bazat pe Map",
     "category": "Structuri de Date",
     "complexity": "",
     "description": "O implementare a unei mulțimi bazată pe structura de date de tip Map pentru a asigura elemente distincte."
@@ -710,7 +710,7 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "structuri-de-date_set_set",
-    "name": "Mulțime (Set)",
+    "name": "Set",
     "category": "Structuri de Date",
     "complexity": "",
     "description": "Reprezintă o colecție de elemente distincte, fără o ordine specifică."
@@ -724,7 +724,7 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "structuri-de-date_queue_stack_queue",
-    "name": "Coadă din Stive",
+    "name": "Coadă implementată cu Stive",
     "category": "Structuri de Date",
     "complexity": "",
     "description": "Implementează comportamentul unei cozi folosind două stive pentru a gestiona ordinea elementelor."
@@ -745,7 +745,7 @@ export const allAlgorithmsMeta: AlgorithmMeta[] = [
   },
   {
     "slug": "structuri-de-date_queue_array_queue",
-    "name": "Coadă pe Tablou",
+    "name": "Coadă bazată pe Vector",
     "category": "Structuri de Date",
     "complexity": "",
     "description": "O coadă implementată clasic folosind un tablou pentru stocarea elementelor."

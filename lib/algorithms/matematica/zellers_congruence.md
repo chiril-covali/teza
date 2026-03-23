@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Congruența lui Zeller (Zeller's Congruence)**
+# 🚀 **Congruența lui Zeller**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Zeller's Congruence Formula](https://upload.wikimedia.org/wikipedia/commons/e/e1/Zeller%27s_Congruence.png)
+![Zeller's Congruence Formula](/docs-images/matematica/zellers_congruence.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Exemplu: 4 Iulie 2023

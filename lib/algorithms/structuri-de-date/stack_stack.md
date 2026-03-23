@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Stivă (Stack)**
+# 🚀 **Stivă**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Stack Representation](https://upload.wikimedia.org/wikipedia/commons/b/b4/Lifo_stack.png)
+![Stack Representation](/docs-images/structuri-de-date/stack_stack.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg)
+
 
 ```text
        [3]          Top

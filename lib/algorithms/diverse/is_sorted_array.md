@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Verificarea unui Tablou Sortat (Is Sorted Array)**
+# 🚀 **Verificare Tablou Sortat**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Linear Scan](https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Linear_Search_Algorithm.png/300px-Linear_Search_Algorithm.png)
+![Linear Scan](/docs-images/diverse/is_sorted_array.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (diverse)](https://cdn.pixabay.com/photo/2015/05/31/10/55/man-791049_1280.jpg)
+
 
 ```text
 Tablou: [10, 20, 30, 45, 50]

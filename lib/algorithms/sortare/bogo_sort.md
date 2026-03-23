@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Bogo Sort (Bogo Sort)**
+# 🚀 **Bogo Sort**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Bogo Sort Animation](https://upload.wikimedia.org/wikipedia/commons/2/2b/Bogo_sort_animation.gif)
+![Bogo Sort Animation](/docs-images/sortare/bogo_sort.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (sortare)](https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 [3, 1, 2] -> Verifică: Nu e sortat.

@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Valoare Absolută (Absolute Value)**
+# 🚀 **Valoare Absolută**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Absolute Value Function](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Absolute_value.svg/300px-Absolute_value.svg.png)
+![Absolute Value Function](/docs-images/matematica/absolute_value.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
  <---(-3)---(-2)---(-1)---(0)---(1)---(2)---(3)--->

@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Șirul lui Fibonacci (Fibonacci Sequence)**
+# 🚀 **Șirul lui Fibonacci**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Fibonacci Spiral](https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Fibonacci_spiral_34.svg/400px-Fibonacci_spiral_34.svg.png)
+![Fibonacci Spiral](/docs-images/matematica/fibonacci.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg)
+
 
 ```text
            F(4)

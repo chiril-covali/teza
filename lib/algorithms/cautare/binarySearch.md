@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Căutarea Binară (Binary Search)**
+# 🚀 **Căutare Binară**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Binary Search Animation](https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Binary_Search_Depiction.svg/400px-Binary_Search_Depiction.svg.png)
+![Binary Search Animation](/docs-images/cautare/binarySearch.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (cautare)](https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 Țintă: 70

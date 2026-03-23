@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Numere Prime (Primes)**
+# 🚀 **Numere Prime**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Un **Număr Prim** este un număr natural mai mare decât 1 care are exact doi d
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Primes Table](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Primes-table.svg/500px-Primes-table.svg.png)
+![Primes Table](/docs-images/matematica/primes.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Identificare (Sita lui Eratostene):

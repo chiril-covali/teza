@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Sortarea Shell (Shell Sort)**
+# 🚀 **Sortare Shell**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Shell Sort Animation](https://upload.wikimedia.org/wikipedia/commons/d/d8/Sorting_shellsort_anim.gif)
+![Shell Sort Animation](/docs-images/sortare/shell_sort.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (sortare)](https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg)
+
 
 ```text
 Gap=3

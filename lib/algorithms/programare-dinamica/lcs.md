@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Cel mai lung subșir comun (Longest Common Subsequence - LCS)**
+# 🚀 **Subsecvența Comună Maximă (LCS)**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Algoritmul **LCS** determină lungimea celui mai lung subșir care apare în dou
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![LCS Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Longest_common_subsequence.svg/400px-Longest_common_subsequence.svg.png)
+![LCS Diagram](/docs-images/programare-dinamica/lcs.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (programare-dinamica)](https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 Matricea de Programare Dinamică (Exemplu):

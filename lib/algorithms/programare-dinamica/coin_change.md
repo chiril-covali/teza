@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Problema Restului (Coin Change)**
+# 🚀 **Problema Restului**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Coin Change Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Coin_Change_Problem.png/400px-Coin_Change_Problem.png)
+![Coin Change Diagram](/docs-images/programare-dinamica/coin_change.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (programare-dinamica)](https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 Suma (S): 5, Monede: [1, 2, 5]

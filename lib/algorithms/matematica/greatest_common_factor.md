@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Cel mai mare divizor comun (Greatest Common Factor)**
+# 🚀 **Cel mai mare divizor comun**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Euclidean Algorithm](https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Euclid_algorithm_252_105.svg/300px-Euclid_algorithm_252_105.svg.png)
+![Euclidean Algorithm](/docs-images/matematica/greatest_common_factor.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 48 / 18 = 2 rest 12

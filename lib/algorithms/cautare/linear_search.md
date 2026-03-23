@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Căutare Liniară (Linear Search)**
+# 🚀 **Căutare Liniară**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Linear Search Animation](https://upload.wikimedia.org/wikipedia/commons/b/be/Linear_Search_Algorithm.gif)
+![Linear Search Animation](/docs-images/cautare/linear_search.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (cautare)](https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg)
+
 
 ```text
 Target: 15

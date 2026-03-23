@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Sortarea prin Arbori (Tree Sort)**
+# 🚀 **Sortare prin Arbori**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Tree Sort Animation](https://upload.wikimedia.org/wikipedia/commons/0/0c/Binary_search_tree_insertion_animation.gif)
+![Tree Sort Animation](/docs-images/sortare/tree_sort.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (sortare)](https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 Intrare: [5, 3, 8, 1, 4]

@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Heap (Grămadă)**
+# 🚀 **Heap**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Un **Heap** (sau Grămadă) este o structură de date ierarhică de tip arbore b
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Max Heap Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Max-Heap.svg/300px-Max-Heap.svg.png)
+![Max Heap Diagram](/docs-images/structuri-de-date/heap_heap.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg)
+
 
 ```text
 Arbore (Max-Heap):             Vector (Reprezentare):

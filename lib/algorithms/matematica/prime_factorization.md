@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Factorizarea în Numere Prime (Prime Factorization)**
+# 🚀 **Factorizarea în Numere Prime**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Factorization Tree](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Factor_tree_of_48.svg/300px-Factor_tree_of_48.svg.png)
+![Factorization Tree](/docs-images/matematica/prime_factorization.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg)
+
 
 ```text
 Exemplu: 120

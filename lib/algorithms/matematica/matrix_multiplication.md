@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Înmulțirea Matricelor (Matrix Multiplication)**
+# 🚀 **Înmulțire Matricelor**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Matrix Multiplication](https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Matrix_multiplication_diagram.svg/400px-Matrix_multiplication_diagram.svg.png)
+![Matrix Multiplication](/docs-images/matematica/matrix_multiplication.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg)
+
 
 ```text
 A (2x3) x B (3x2) = C (2x2)

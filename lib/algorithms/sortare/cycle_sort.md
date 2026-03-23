@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Sortarea prin Ciclu (Cycle Sort)**
+# 🚀 **Sortare prin Ciclu**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Cycle Sort Animation](https://upload.wikimedia.org/wikipedia/commons/e/ea/Cycle_sort.gif)
+![Cycle Sort Animation](/docs-images/sortare/cycle_sort.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (sortare)](https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg)
+
 
 ```text
 Input: [3, 1, 5, 2]

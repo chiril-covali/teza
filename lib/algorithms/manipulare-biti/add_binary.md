@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Adunare Binară (Binary Addition)**
+# 🚀 **Adunare Binară**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Binary Addition](https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Binary_addition.svg/300px-Binary_addition.svg.png)
+![Binary Addition](/docs-images/manipulare-biti/add_binary.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (manipulare-biti)](https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg)
+
 
 ```text
    Carry:  1 1 0 0

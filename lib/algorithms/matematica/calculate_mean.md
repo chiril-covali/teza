@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Media Aritmetică (Arithmetic Mean)**
+# 🚀 **Media Aritmetică**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Mean Visualization](https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Visualisation_mode_median_mean.svg/400px-Visualisation_mode_median_mean.svg.png)
+![Mean Visualization](/docs-images/matematica/calculate_mean.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Set date: [10, 20, 30, 40]

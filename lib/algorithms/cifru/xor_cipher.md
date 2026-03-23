@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Cifrul XOR (XOR Cipher)**
+# 🚀 **Cifrul XOR**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![XOR Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/XOR_ANSI.svg/200px-XOR_ANSI.svg.png)
+![XOR Diagram](/docs-images/cifru/xor_cipher.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (cifru)](https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 Mesaj (A): 1 0 1 0 (10 în decimal)

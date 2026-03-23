@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Verificare Putere a lui 4 (Is Power of 4)**
+# 🚀 **Verificare Putere a lui 4**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Verificarea dacă un număr întreg $n$ este o putere a lui 4 ($4^0, 4^1, 4^2 \d
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Power of 4 Binary](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Power_of_two_binary.svg/300px-Power_of_two_binary.svg.png)
+![Power of 4 Binary](/docs-images/manipulare-biti/is_power_of_4.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (manipulare-biti)](https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 n = 16 (4^2)

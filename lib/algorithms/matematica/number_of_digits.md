@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Numărul de Cifre (Number of Digits)**
+# 🚀 **Numărul de Cifre**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Digits Count](https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Decimal_place_value_chart.svg/400px-Decimal_place_value_chart.svg.png)
+![Digits Count](/docs-images/matematica/number_of_digits.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Număr: 12345

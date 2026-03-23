@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Parcurgere în Lățime (Breadth-First Search)**
+# 🚀 **Parcurgere în Lățime**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![BFS Animation](https://upload.wikimedia.org/wikipedia/commons/4/46/Animated_BFS.gif)
+![BFS Animation](/docs-images/grafuri/bfs.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (grafuri)](https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg)
+
 
 ```text
       (1)         Nivel 0

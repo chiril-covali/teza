@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Algoritmul Dijkstra (Dijkstra's Algorithm)**
+# 🚀 **Algoritmul Dijkstra**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Dijkstra Animation](https://upload.wikimedia.org/wikipedia/commons/5/57/Dijkstra_Animation.gif)
+![Dijkstra Animation](/docs-images/grafuri/dijkstra.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (grafuri)](https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
    (A)---1---(B)

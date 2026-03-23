@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Algoritmul lui Johnson (Johnson's Algorithm)**
+# 🚀 **Algoritmul lui Johnson**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Johnson's Algorithm](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Johnsons_algorithm_example.svg/400px-Johnsons_algorithm_example.svg.png)
+![Johnson's Algorithm](/docs-images/grafuri/johnson.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (grafuri)](https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg)
+
 
 ```text
 1. Adaugă un nod fictiv S legat de toate celelalte cu cost 0.

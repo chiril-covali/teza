@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Căutarea Fibonacci (Fibonacci Search)**
+# 🚀 **Căutare Fibonacci**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Fibonacci Search Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Fibonacci_search.svg/640px-Fibonacci_search.svg.png)
+![Fibonacci Search Diagram](/docs-images/cautare/fibonacci_search.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (cautare)](https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 n=11, Fib(k)=13, Fib(k-1)=8, Fib(k-2)=5

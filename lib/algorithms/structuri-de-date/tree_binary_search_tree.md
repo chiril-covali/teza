@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Arbore Binar de Căutare (Binary Search Tree - BST)**
+# 🚀 **Arbore Binar de Căutare (BST)**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![BST Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Binary_search_tree.svg/300px-Binary_search_tree.svg.png)
+![BST Diagram](/docs-images/structuri-de-date/tree_binary_search_tree.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg)
+
 
 ```text
           (50)

@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Hartă (Map / Dictionary)**
+# 🚀 **Hartă**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ O **Hartă** (Map), cunoscută și sub numele de **Dicționar** sau **Tablou Aso
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Map Conceptual Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Map_data_structure.svg/400px-Map_data_structure.svg.png)
+![Map Conceptual Diagram](/docs-images/structuri-de-date/map_map.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg)
+
 
 ```text
      [ Cheie ]           [ Valoare ]

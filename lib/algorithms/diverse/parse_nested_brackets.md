@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Analiza Parantezelor Imbricate (Parse Nested Brackets)**
+# 🚀 **Analiză Parantezelor Imbricate**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Stack Visualization](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Stack_data_structure_diagram.svg/300px-Stack_data_structure_diagram.svg.png)
+![Stack Visualization](/docs-images/diverse/parse_nested_brackets.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (diverse)](https://cdn.pixabay.com/photo/2015/05/31/10/55/man-791049_1280.jpg)
+
 
 ```text
 Expresie: ( [ ] )

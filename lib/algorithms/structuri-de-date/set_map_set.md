@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Set bazat pe Map (Map Set)**
+# 🚀 **Set bazat pe Map**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Un **Set bazat pe Map** este o implementare a structurii de date de tip mulțime
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Venn Diagram for Set](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Venn_A_subset_B.svg/400px-Venn_A_subset_B.svg.png)
+![Venn Diagram for Set](/docs-images/structuri-de-date/set_map_set.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg)
+
 
 ```text
 Map Intern (Element -> Există?):

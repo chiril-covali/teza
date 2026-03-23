@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Algoritmul lui Tarjan (Tarjan's Algorithm)**
+# 🚀 **Algoritmul lui Tarjan**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Tarjan Animation](https://upload.wikimedia.org/wikipedia/commons/6/60/Tarjan%27s_Algorithm_Animation.gif)
+![Tarjan Animation](/docs-images/grafuri/tarjan.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (grafuri)](https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
  (A) ---> (B)      SCC 1: {A, B, C}

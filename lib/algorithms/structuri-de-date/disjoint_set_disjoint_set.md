@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Mulțimi Disjuncte (Disjoint Set Union - DSU)**
+# 🚀 **Mulțimi Disjuncte (Union-Find)**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Structura de date **Mulțimi Disjuncte** (Disjoint Set Union - DSU), cunoscută 
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Union Find Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Dsu_disjoint_set_union.svg/400px-Dsu_disjoint_set_union.svg.png)
+![Union Find Diagram](/docs-images/structuri-de-date/disjoint_set_disjoint_set.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg)
+
 
 ```text
 (Set 1)      (Set 2)          Operația Union(3, 5):

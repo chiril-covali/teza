@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Sortarea Rapidă (Quick Sort)**
+# 🚀 **Sortare Rapidă**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Quick Sort Animation](https://upload.wikimedia.org/wikipedia/commons/6/6a/Sorting_quicksort_anim.gif)
+![Quick Sort Animation](/docs-images/sortare/quickSort.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (sortare)](https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 Pivot: 30

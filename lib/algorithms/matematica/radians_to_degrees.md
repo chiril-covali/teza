@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Conversie Radiani în Grade (Radians to Degrees)**
+# 🚀 **Conversie Radiani în Grade**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Conversia de la **Radiani la Grade** este o transformare fundamentală în geome
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Degree Radian Conversion](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Degree-Radian_Conversion.svg/400px-Degree-Radian_Conversion.svg.png)
+![Degree Radian Conversion](/docs-images/matematica/radians_to_degrees.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Formula: Grade = Radiani * (180 / π)

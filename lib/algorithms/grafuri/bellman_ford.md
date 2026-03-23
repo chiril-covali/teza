@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Algoritmul Bellman-Ford (Bellman-Ford Algorithm)**
+# 🚀 **Algoritmul Bellman-Ford**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Bellman-Ford Animation](https://upload.wikimedia.org/wikipedia/commons/2/2e/Bellman-Ford_algorithm_example.gif)
+![Bellman-Ford Animation](/docs-images/grafuri/bellman_ford.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (grafuri)](https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 (A) --(-1)--> (B)

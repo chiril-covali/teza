@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Sortarea prin Selecție (Selection Sort)**
+# 🚀 **Sortare prin Selecție**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Selection Sort Animation](https://upload.wikimedia.org/wikipedia/commons/9/94/Selection-Sort-Animation.gif)
+![Selection Sort Animation](/docs-images/sortare/selectionSort.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (sortare)](https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 S: [Sortat]  N: [Nesortat]

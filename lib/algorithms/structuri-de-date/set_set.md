@@ -1,12 +1,15 @@
 <!-- custom-doc -->
 
-# 🚀 **Set (Set)**
+# 🚀 **Set**
 
 ## 📝 **Descriere**
 Un set este o structură de date care stochează o colecție de elemente unice, fără o ordine specifică. Aceasta permite operații eficiente de adăugare, eliminare și căutare a elementelor, de regulă având o complexitate medie de $O(1)$. Seturile sunt fundamentale în informatică pentru gestionarea colecțiilor unde duplicatele nu sunt permise și unde apartenența unui element trebuie verificată rapid.
 
 ## 🖼️ **Reprezentare Vizuală**
-![Diagramă Set](https://upload.wikimedia.org/wikipedia/commons/6/6d/Venn_A_subset_B.svg)
+![Diagramă Set](/docs-images/structuri-de-date/set_set.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg)
+
 
 ```text
 Set A: {1, 2, 3, 4}

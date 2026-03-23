@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Sortarea Gnomului (Gnome Sort)**
+# 🚀 **Sortare Gnomului**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Gnome Sort Animation](https://upload.wikimedia.org/wikipedia/commons/3/37/Sorting_gnomesort_anim.gif)
+![Gnome Sort Animation](/docs-images/sortare/gnome_sort.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (sortare)](https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg)
+
 
 ```text
 [5, 3, 2, 4] (Gnomul e la index 1)

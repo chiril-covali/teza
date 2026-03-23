@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Listă Simplu Înlănțuită (Singly Linked List)**
+# 🚀 **Listă Simplu Înlănțuită**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ O **Listă Simplu Înlănțuită** este cea mai elementară formă de listă în
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Singly Linked List Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Singly-linked-list.svg/400px-Singly-linked-list.svg.png)
+![Singly Linked List Diagram](/docs-images/structuri-de-date/list_singly_linked_list.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg)
+
 
 ```text
       [ 10 | * ] -> [ 20 | * ] -> [ 30 | NULL ]

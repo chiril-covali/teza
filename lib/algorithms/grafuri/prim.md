@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Algoritmul lui Prim (Prim's Algorithm)**
+# 🚀 **Algoritmul lui Prim**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Prim Animation](https://upload.wikimedia.org/wikipedia/commons/9/9b/PrimAlgDemo.gif)
+![Prim Animation](/docs-images/grafuri/prim.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (grafuri)](https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 (A) --2-- (B)

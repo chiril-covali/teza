@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Selecție Rapidă (Quick Select)**
+# 🚀 **Selecție Rapidă**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Quick Select Animation](https://upload.wikimedia.org/wikipedia/commons/0/04/Quickselect_Animation.gif)
+![Quick Select Animation](/docs-images/sortare/quick_select.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (sortare)](https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg)
+
 
 ```text
 K=3 (Găsește al 3-lea cel mai mic element)

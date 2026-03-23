@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Set bazat pe Tabelă Hash (Hash Map Set)**
+# 🚀 **Set bazat pe Tabelă Hash**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Un **Set bazat pe Tabelă Hash** (sau simplu, `HashSet`) este o structură de da
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Hash Table Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Hash_table_3_1_1_0_1_0_0_SP.svg/400px-Hash_table_3_1_1_0_1_0_0_SP.svg.png)
+![Hash Table Diagram](/docs-images/structuri-de-date/set_hash_map_set.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 Cheie (x) -> h(x) -> Index în Tabelă

@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Knapsack Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Knapsack.svg/300px-Knapsack.svg.png)
+![Knapsack Diagram](/docs-images/programare-dinamica/knapsack.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (programare-dinamica)](https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg)
+
 
 ```text
 Greutate (W): 4

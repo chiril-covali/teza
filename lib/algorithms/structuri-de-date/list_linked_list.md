@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Listă Înlănțuită (Linked List)**
+# 🚀 **Listă Înlănțuită**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Linked List Representation](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Singly-linked-list.svg/400px-Singly-linked-list.svg.png)
+![Linked List Representation](/docs-images/structuri-de-date/list_linked_list.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
       Head -> [Data | Next] -> [Data | Next] -> [Data | NULL]

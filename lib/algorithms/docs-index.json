@@ -55,25 +55,25 @@
   },
   {
     "slug": "cautare_sentinel_search",
-    "name": "Căutare cu Santinelă",
+    "name": "Căutare prin Santinelă",
     "category": "Căutare",
     "markdownPath": "lib/algorithms/cautare/sentinel_search.md"
   },
   {
     "slug": "diverse_is_sorted_array",
-    "name": "Verificare Vector Sortat",
+    "name": "Verificare Tablou Sortat",
     "category": "Diverse",
     "markdownPath": "lib/algorithms/diverse/is_sorted_array.md"
   },
   {
     "slug": "diverse_parse_nested_brackets",
-    "name": "Analiza Parantezelor Imbricate",
+    "name": "Analiză Parantezelor Imbricate",
     "category": "Diverse",
     "markdownPath": "lib/algorithms/diverse/parse_nested_brackets.md"
   },
   {
     "slug": "diverse_shuffle_array",
-    "name": "Amestecarea Elementelor",
+    "name": "Amestecare Tablou",
     "category": "Diverse",
     "markdownPath": "lib/algorithms/diverse/shuffle_array.md"
   },
@@ -97,55 +97,55 @@
   },
   {
     "slug": "grafuri_edmonds_karp",
-    "name": "Edmonds Karp",
+    "name": "Algoritmul Edmonds-Karp",
     "category": "Grafuri",
     "markdownPath": "lib/algorithms/grafuri/edmonds_karp.md"
   },
   {
     "slug": "grafuri_floyd_warshall",
-    "name": "Floyd Warshall",
+    "name": "Algoritmul Floyd-Warshall",
     "category": "Grafuri",
     "markdownPath": "lib/algorithms/grafuri/floyd_warshall.md"
   },
   {
     "slug": "grafuri_johnson",
-    "name": "Johnson",
+    "name": "Algoritmul lui Johnson",
     "category": "Grafuri",
     "markdownPath": "lib/algorithms/grafuri/johnson.md"
   },
   {
     "slug": "grafuri_kosaraju",
-    "name": "Kosaraju",
+    "name": "Algoritmul Kosaraju",
     "category": "Grafuri",
     "markdownPath": "lib/algorithms/grafuri/kosaraju.md"
   },
   {
     "slug": "grafuri_kruskal",
-    "name": "Kruskal",
+    "name": "Algoritmul lui Kruskal",
     "category": "Grafuri",
     "markdownPath": "lib/algorithms/grafuri/kruskal.md"
   },
   {
     "slug": "grafuri_dfs",
-    "name": "Parcurgere în Adâncime (DFS)",
+    "name": "Parcurgere în Adâncime",
     "category": "Grafuri",
     "markdownPath": "lib/algorithms/grafuri/dfs.md"
   },
   {
     "slug": "grafuri_bfs",
-    "name": "Parcurgere în Lățime (BFS)",
+    "name": "Parcurgere în Lățime",
     "category": "Grafuri",
     "markdownPath": "lib/algorithms/grafuri/bfs.md"
   },
   {
     "slug": "grafuri_prim",
-    "name": "Prim",
+    "name": "Algoritmul lui Prim",
     "category": "Grafuri",
     "markdownPath": "lib/algorithms/grafuri/prim.md"
   },
   {
     "slug": "grafuri_tarjan",
-    "name": "Tarjan",
+    "name": "Algoritmul lui Tarjan",
     "category": "Grafuri",
     "markdownPath": "lib/algorithms/grafuri/tarjan.md"
   },
@@ -181,7 +181,7 @@
   },
   {
     "slug": "matematica_aliquot_sum",
-    "name": "Suma Alicotă",
+    "name": "Suma Divizorilor Proprii",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/aliquot_sum.md"
   },
@@ -193,31 +193,31 @@
   },
   {
     "slug": "matematica_binary_convert",
-    "name": "Conversie în Binar",
+    "name": "Conversie Binară",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/binary_convert.md"
   },
   {
     "slug": "matematica_binomial_coefficient",
-    "name": "Coeficientul Binomial",
+    "name": "Coeficient Binomial",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/binomial_coefficient.md"
   },
   {
     "slug": "matematica_calculate_mean",
-    "name": "Calculul Mediei Aritmetice",
+    "name": "Media Aritmetică",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/calculate_mean.md"
   },
   {
     "slug": "matematica_calculate_median",
-    "name": "Calculul Medianei",
+    "name": "Mediana",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/calculate_median.md"
   },
   {
     "slug": "matematica_degrees_to_radians",
-    "name": "Grade în Radiani",
+    "name": "Conversie Grade în Radiani",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/degrees_to_radians.md"
   },
@@ -229,13 +229,13 @@
   },
   {
     "slug": "matematica_double_factorial_iterative",
-    "name": "Dublu Factorial Iterativ",
+    "name": "Factorial Dublu",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/double_factorial_iterative.md"
   },
   {
     "slug": "matematica_euler_totient",
-    "name": "Funcția Euler Totient",
+    "name": "Funcția Totient a lui Euler",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/euler_totient.md"
   },
@@ -247,19 +247,19 @@
   },
   {
     "slug": "matematica_factors",
-    "name": "Factorizare",
+    "name": "Găsire Divizorilor",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/factors.md"
   },
   {
     "slug": "matematica_fibonacci",
-    "name": "Fibonacci",
+    "name": "Șirul lui Fibonacci",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/fibonacci.md"
   },
   {
     "slug": "matematica_find_min",
-    "name": "Valoarea Minimă",
+    "name": "Găsire Minimului",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/find_min.md"
   },
@@ -271,7 +271,7 @@
   },
   {
     "slug": "matematica_greatest_common_factor",
-    "name": "Cel mai Mare Divizor Comun",
+    "name": "Cel mai mare divizor comun",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/greatest_common_factor.md"
   },
@@ -283,7 +283,7 @@
   },
   {
     "slug": "matematica_series_hexagonal_numbers",
-    "name": "Șirul Numerelor Hexagonale",
+    "name": "Numere Hexagonale",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/series_hexagonal_numbers.md"
   },
@@ -295,19 +295,19 @@
   },
   {
     "slug": "matematica_is_even",
-    "name": "Verificare Număr Par",
+    "name": "Verificare Paritate",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/is_even.md"
   },
   {
     "slug": "matematica_is_leap_year",
-    "name": "Verificare An Bisect",
+    "name": "An Bisect",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/is_leap_year.md"
   },
   {
     "slug": "matematica_is_odd",
-    "name": "Verificare Număr Impar",
+    "name": "Număr Impar",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/is_odd.md"
   },
@@ -319,25 +319,25 @@
   },
   {
     "slug": "matematica_is_square_free",
-    "name": "Verificare Număr Liber de Pătrate",
+    "name": "Verificare Număr Square-Free",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/is_square_free.md"
   },
   {
     "slug": "matematica_juggler_sequence",
-    "name": "Șirul Juggler",
+    "name": "Secvența Juggler",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/juggler_sequence.md"
   },
   {
     "slug": "matematica_lowest_common_multiple",
-    "name": "Cel mai Mic Multiplu Comun",
+    "name": "Cel mai mic multiplu comun",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/lowest_common_multiple.md"
   },
   {
     "slug": "matematica_matrix_multiplication",
-    "name": "Înmulțirea Matricelor",
+    "name": "Înmulțire Matricelor",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/matrix_multiplication.md"
   },
@@ -373,7 +373,7 @@
   },
   {
     "slug": "matematica_prime_factorization",
-    "name": "Descompunere în Factori Primi",
+    "name": "Factorizarea în Numere Prime",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/prime_factorization.md"
   },
@@ -391,13 +391,13 @@
   },
   {
     "slug": "matematica_radians_to_degrees",
-    "name": "Radiani în Grade",
+    "name": "Conversie Radiani în Grade",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/radians_to_degrees.md"
   },
   {
     "slug": "matematica_sieve_of_eratosthenes",
-    "name": "Ciurul lui Eratostene",
+    "name": "Sita lui Eratostene",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/sieve_of_eratosthenes.md"
   },
@@ -409,7 +409,7 @@
   },
   {
     "slug": "matematica_square_root",
-    "name": "Rădăcina Pătrată",
+    "name": "Rădăcină Pătrată",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/square_root.md"
   },
@@ -421,7 +421,7 @@
   },
   {
     "slug": "matematica_zellers_congruence",
-    "name": "Congruența Zeller",
+    "name": "Congruența lui Zeller",
     "category": "Matematică",
     "markdownPath": "lib/algorithms/matematica/zellers_congruence.md"
   },
@@ -433,7 +433,7 @@
   },
   {
     "slug": "programare-dinamica_coin_change",
-    "name": "Problema Restului (Schimb Monede)",
+    "name": "Problema Restului",
     "category": "Programare Dinamică",
     "markdownPath": "lib/algorithms/programare-dinamica/coin_change.md"
   },
@@ -445,13 +445,13 @@
   },
   {
     "slug": "sortare_tree_sort",
-    "name": "Sortare cu Arbore",
+    "name": "Sortare prin Arbori",
     "category": "Sortare",
     "markdownPath": "lib/algorithms/sortare/tree_sort.md"
   },
   {
     "slug": "sortare_bogo_sort",
-    "name": "Bogo Sortare",
+    "name": "Bogo Sort",
     "category": "Sortare",
     "markdownPath": "lib/algorithms/sortare/bogo_sort.md"
   },
@@ -463,19 +463,19 @@
   },
   {
     "slug": "sortare_cycle_sort",
-    "name": "Sortare Ciclică",
+    "name": "Sortare prin Ciclu",
     "category": "Sortare",
     "markdownPath": "lib/algorithms/sortare/cycle_sort.md"
   },
   {
     "slug": "sortare_gnome_sort",
-    "name": "Sortare Gnome",
+    "name": "Sortare Gnomului",
     "category": "Sortare",
     "markdownPath": "lib/algorithms/sortare/gnome_sort.md"
   },
   {
     "slug": "sortare_heap_sort",
-    "name": "Sortare cu Heap",
+    "name": "Sortare prin Heap",
     "category": "Sortare",
     "markdownPath": "lib/algorithms/sortare/heap_sort.md"
   },
@@ -511,7 +511,7 @@
   },
   {
     "slug": "sortare_swap_sort",
-    "name": "Sortare prin Interschimb",
+    "name": "Sortare prin Interschimbare",
     "category": "Sortare",
     "markdownPath": "lib/algorithms/sortare/swap_sort.md"
   },
@@ -553,19 +553,19 @@
   },
   {
     "slug": "structuri-de-date_set_hash_map_set",
-    "name": "Mulțime Hash",
+    "name": "Set bazat pe Tabelă Hash",
     "category": "Structuri de Date",
     "markdownPath": "lib/algorithms/structuri-de-date/set_hash_map_set.md"
   },
   {
     "slug": "structuri-de-date_heap_heap",
-    "name": "Heap (Grămadă de Prioritate)",
+    "name": "Heap",
     "category": "Structuri de Date",
     "markdownPath": "lib/algorithms/structuri-de-date/heap_heap.md"
   },
   {
     "slug": "structuri-de-date_queue_linked_queue",
-    "name": "Coadă Înlănțuită",
+    "name": "Coadă bazată pe Listă Înlănțuită",
     "category": "Structuri de Date",
     "markdownPath": "lib/algorithms/structuri-de-date/queue_linked_queue.md"
   },
@@ -577,19 +577,19 @@
   },
   {
     "slug": "structuri-de-date_stack_linked_list_stack",
-    "name": "Stivă Înlănțuită",
+    "name": "Stivă (Listă Înlănțuită)",
     "category": "Structuri de Date",
     "markdownPath": "lib/algorithms/structuri-de-date/stack_linked_list_stack.md"
   },
   {
     "slug": "structuri-de-date_map_map",
-    "name": "Hartă (Map)",
+    "name": "Hartă",
     "category": "Structuri de Date",
     "markdownPath": "lib/algorithms/structuri-de-date/map_map.md"
   },
   {
     "slug": "structuri-de-date_set_map_set",
-    "name": "Mulțime cu Hartă",
+    "name": "Set bazat pe Map",
     "category": "Structuri de Date",
     "markdownPath": "lib/algorithms/structuri-de-date/set_map_set.md"
   },
@@ -607,7 +607,7 @@
   },
   {
     "slug": "structuri-de-date_set_set",
-    "name": "Mulțime (Set)",
+    "name": "Set",
     "category": "Structuri de Date",
     "markdownPath": "lib/algorithms/structuri-de-date/set_set.md"
   },
@@ -619,7 +619,7 @@
   },
   {
     "slug": "structuri-de-date_queue_stack_queue",
-    "name": "Coadă din Stive",
+    "name": "Coadă implementată cu Stive",
     "category": "Structuri de Date",
     "markdownPath": "lib/algorithms/structuri-de-date/queue_stack_queue.md"
   },
@@ -637,7 +637,7 @@
   },
   {
     "slug": "structuri-de-date_queue_array_queue",
-    "name": "Coadă pe Tablou",
+    "name": "Coadă bazată pe Vector",
     "category": "Structuri de Date",
     "markdownPath": "lib/algorithms/structuri-de-date/queue_array_queue.md"
   }

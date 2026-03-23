@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Secvența Juggler (Juggler Sequence)**
+# 🚀 **Secvența Juggler**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Juggler Sequence Graph](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Juggler_sequence_graph.svg/400px-Juggler_sequence_graph.svg.png)
+![Juggler Sequence Graph](/docs-images/matematica/juggler_sequence.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 3 este impar: floor(3^1.5) = floor(5.19) = 5

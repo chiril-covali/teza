@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Număr Armstrong (Armstrong Number)**
+# 🚀 **Număr Armstrong**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Un **Număr Armstrong** (sau număr narcisist) este un număr care este egal cu 
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Armstrong Number](https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Digit_Sum_Table.svg/200px-Digit_Sum_Table.svg.png)
+![Armstrong Number](/docs-images/matematica/armstrong_number.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Cifre: 1, 5, 3 (Total: 3 cifre)

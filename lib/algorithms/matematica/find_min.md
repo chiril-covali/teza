@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Găsirea Minimului (Find Minimum)**
+# 🚀 **Găsire Minimului**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Algoritmul pentru **Găsirea Minimului** este unul dintre cei mai simpli și int
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Find Min Visual](https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Linear_search_v2.svg/300px-Linear_search_v2.svg.png)
+![Find Min Visual](/docs-images/matematica/find_min.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Array: [5, 3, 8, 1, 4]

@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Factorial (Factorial)**
+# 🚀 **Factorial**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Factorial Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Factorial_recursion_diagram.svg/300px-Factorial_recursion_diagram.svg.png)
+![Factorial Diagram](/docs-images/matematica/factorial.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg)
+
 
 ```text
 5! = 5 * 4!

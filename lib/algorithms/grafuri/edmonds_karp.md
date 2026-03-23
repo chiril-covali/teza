@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Algoritmul Edmonds-Karp (Edmonds-Karp Algorithm)**
+# 🚀 **Algoritmul Edmonds-Karp**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Edmonds-Karp Animation](https://upload.wikimedia.org/wikipedia/commons/e/e5/Ford-Fulkerson_example.gif)
+![Edmonds-Karp Animation](/docs-images/grafuri/edmonds_karp.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (grafuri)](https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 Sursa (S) --- (5/10) ---> (A) --- (5/5) ---> (T) Sina

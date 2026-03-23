@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Suma Cifrelor (Digit Sum)**
+# 🚀 **Suma Cifrelor**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Digit Sum Concept](https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Digit_Sum_Table.svg/200px-Digit_Sum_Table.svg.png)
+![Digit Sum Concept](/docs-images/matematica/digit_sum.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg)
+
 
 ```text
 Număr: 456

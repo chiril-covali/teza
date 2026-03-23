@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Pătrat Perfect (Perfect Square)**
+# 🚀 **Pătrat Perfect**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Un **Pătrat Perfect** este un număr întreg care poate fi exprimat ca pătratu
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Perfect Square](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Square_number_4.svg/200px-Square_number_4.svg.png)
+![Perfect Square](/docs-images/matematica/perfect_square.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Exemplu: 16 (4x4)

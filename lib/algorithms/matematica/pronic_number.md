@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Număr Pronic (Pronic Number)**
+# 🚀 **Număr Pronic**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Un **Număr Pronic** (sau număr oblong) este un număr care reprezintă produsu
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Pronic Number](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Pronic_number_12.svg/200px-Pronic_number_12.svg.png)
+![Pronic Number](/docs-images/matematica/pronic_number.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg)
+
 
 ```text
 Exemplu: 12 (3 x 4)

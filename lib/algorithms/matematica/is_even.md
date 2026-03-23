@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Verificare Paritate (Is Even)**
+# 🚀 **Verificare Paritate**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Even Odd Numbers](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Even-odd-numbers.svg/300px-Even-odd-numbers.svg.png)
+![Even Odd Numbers](/docs-images/matematica/is_even.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg)
+
 
 ```text
 Număr: 8 -> 8 / 2 = 4 (Rest 0) -> PAR ✅

@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Sortarea prin Numărare (Counting Sort)**
+# 🚀 **Sortare prin Numărare**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Counting Sort Animation](https://upload.wikimedia.org/wikipedia/commons/6/60/Counting_Sort_Animation.gif)
+![Counting Sort Animation](/docs-images/sortare/counting_sort.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (sortare)](https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 Input: [4, 2, 2, 8, 3, 3, 1]

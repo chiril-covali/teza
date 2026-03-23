@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Găsirea Divizorilor (All Factors)**
+# 🚀 **Găsire Divizorilor**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Acest algoritm găsește toți divizorii unui număr întreg pozitiv $n$. Un div
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Divisors Chart](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Divisors_of_12.svg/300px-Divisors_of_12.svg.png)
+![Divisors Chart](/docs-images/matematica/factors.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg)
+
 
 ```text
 Căutare până la sqrt(36) = 6:

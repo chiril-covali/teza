@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Logaritm în Baza 2 (Binary Logarithm)**
+# 🚀 **Logaritm în Baza 2**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Calcularea **Logaritmului în baza 2** al unui număr întreg pozitiv $n$ revine
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Binary Powers](https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Binary_tree_powers_of_2.svg/300px-Binary_tree_powers_of_2.svg.png)
+![Binary Powers](/docs-images/manipulare-biti/log_two.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (manipulare-biti)](https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 n = 16

@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Sortarea prin Metoda Bulelor (Bubble Sort)**
+# 🚀 **Sortare prin Metoda Bulelor**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Bubble Sort Animation](https://upload.wikimedia.org/wikipedia/commons/c/c8/Bubble-sort-example-300px.gif)
+![Bubble Sort Animation](/docs-images/sortare/bubbleSort.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (sortare)](https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg)
+
 
 ```text
 [5, 1, 4, 2, 8]  (5 > 1, Interschimbă)

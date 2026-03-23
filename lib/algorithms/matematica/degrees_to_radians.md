@@ -1,12 +1,15 @@
 <!-- custom-doc -->
 
-# 🚀 **Conversie Grade în Radiani (Degrees to Radians)**
+# 🚀 **Conversie Grade în Radiani**
 
 ## 📝 **Descriere**
 **Conversia din Grade în Radiani** este un proces matematic fundamental în **trigonometrie** și **geometrie**. Un **grad** este o unitate de măsură a unghiurilor bazată pe divizarea unui cerc în 360 de părți egale, în timp ce **radianul** este unitatea standard în SI, definită prin lungimea arcului de cerc egală cu raza acestuia. Această conversie este esențială pentru utilizarea funcțiilor matematice în majoritatea limbajelor de programare.
 
 ## 🖼️ **Reprezentare Vizuală**
-![Degree-Radian Conversion](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Degree-Radian_Conversion.svg/400px-Degree-Radian_Conversion.svg.png)
+![Degree-Radian Conversion](/docs-images/matematica/degrees_to_radians.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
        +-------------------+

@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Numere Hexagonale (Hexagonal Numbers)**
+# 🚀 **Numere Hexagonale**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Un **Număr Hexagonal** este un număr figurativ care poate fi reprezentat sub f
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Hexagonal Numbers](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Hexagonal_numbers.svg/610px-Hexagonal_numbers.svg.png)
+![Hexagonal Numbers](/docs-images/matematica/series_hexagonal_numbers.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 n=1:  ●  (1)

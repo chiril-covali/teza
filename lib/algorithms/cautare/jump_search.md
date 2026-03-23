@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Căutarea prin Salturi (Jump Search)**
+# 🚀 **Căutare prin Salturi**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Jump Search Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Jump_Search_Algorithm.png/400px-Jump_Search_Algorithm.png)
+![Jump Search Diagram](/docs-images/cautare/jump_search.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (cautare)](https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg)
+
 
 ```text
 Țintă: 55, Salt: 4

@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Coadă bazată pe Vector (Array Queue)**
+# 🚀 **Coadă bazată pe Vector**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Queue Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Data_Queue.svg/400px-Data_Queue.svg.png)
+![Queue Diagram](/docs-images/structuri-de-date/queue_array_queue.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg)
+
 
 ```text
        Eliminare (Dequeue)                     Adăugare (Enqueue)

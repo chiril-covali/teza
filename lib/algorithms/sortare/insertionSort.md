@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Sortarea prin Inserție (Insertion Sort)**
+# 🚀 **Sortare prin Inserție**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Insertion Sort Animation](https://upload.wikimedia.org/wikipedia/commons/0/05/Insertion-sort-example-300px.gif)
+![Insertion Sort Animation](/docs-images/sortare/insertionSort.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (sortare)](https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 S: [Sortat]  N: [Nesortat]

@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Mediana (Median)**
+# 🚀 **Mediana**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Median Visualization](https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Comparison_mean_median_mode.svg/400px-Comparison_mean_median_mode.svg.png)
+![Median Visualization](/docs-images/matematica/calculate_median.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Date nesortate: [7, 1, 3, 9, 2]

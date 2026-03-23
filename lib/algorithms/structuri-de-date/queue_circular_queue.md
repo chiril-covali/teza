@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Coadă Circulară (Circular Queue)**
+# 🚀 **Coadă Circulară**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Circular Queue Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Circular_buffer.svg/400px-Circular_buffer.svg.png)
+![Circular Queue Diagram](/docs-images/structuri-de-date/queue_circular_queue.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
            [0]  [1]  [2]

@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Graf Bipartit (Bipartite Graph)**
+# 🚀 **Graf Bipartit**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Un **Graf Bipartit** este un graf ale cărui noduri pot fi împărțite în dou�
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Bipartite Graph](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Simple-bipartite-graph.svg/300px-Simple-bipartite-graph.svg.png)
+![Bipartite Graph](/docs-images/grafuri/bipartite_graph.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (grafuri)](https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg)
+
 
 ```text
       (A:Albastru)

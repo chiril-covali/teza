@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Suma Divizorilor Proprii (Aliquot Sum)**
+# 🚀 **Suma Divizorilor Proprii**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Divisors Concept](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Divisors_of_12.svg/300px-Divisors_of_12.svg.png)
+![Divisors Concept](/docs-images/matematica/aliquot_sum.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg)
+
 
 ```text
 Număr: 12

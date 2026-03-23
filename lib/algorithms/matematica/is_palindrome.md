@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Verificare Palindrom (Is Palindrome)**
+# 🚀 **Verificare Palindrom**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Un **palindrom** este un număr sau un șir de caractere care se citește la fel
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Palindrome Concept](https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Palindrome_Mirror.svg/300px-Palindrome_Mirror.svg.png)
+![Palindrome Concept](/docs-images/matematica/is_palindrome.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg)
+
 
 ```text
 Original: 12321

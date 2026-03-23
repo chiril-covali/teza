@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Sita lui Eratostene (Sieve of Eratosthenes)**
+# 🚀 **Sita lui Eratostene**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Sieve Animation](https://upload.wikimedia.org/wikipedia/commons/b/b9/Sieve_of_Eratosthenes_animation.gif)
+![Sieve Animation](/docs-images/matematica/sieve_of_eratosthenes.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg)
+
 
 ```text
 Exemplu pentru n = 10:

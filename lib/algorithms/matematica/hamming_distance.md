@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Distanța Hamming (Hamming Distance)**
+# 🚀 **Distanța Hamming**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Hamming Distance](https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Hamming_distance_3_bit_binary_cube.svg/300px-Hamming_distance_3_bit_binary_cube.svg.png)
+![Hamming Distance](/docs-images/matematica/hamming_distance.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Șir 1: 1 0 1 1 1 0 1

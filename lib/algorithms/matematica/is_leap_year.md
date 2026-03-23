@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **An Bisect (Leap Year Check)**
+# 🚀 **An Bisect**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Un **an bisect** este un an calendaristic care conține o zi suplimentară (29 f
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Earth Orbit](https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Earth_orbit_and_seasons.svg/300px-Earth_orbit_and_seasons.svg.png)
+![Earth Orbit](/docs-images/matematica/is_leap_year.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Anul X

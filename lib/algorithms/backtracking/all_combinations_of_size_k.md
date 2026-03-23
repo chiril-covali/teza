@@ -8,7 +8,10 @@ Acest algoritm de **Backtracking** generează toate subseturile posibile de dime
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Combinations Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Combination_locks.svg/200px-Combination_locks.svg.png)
+![Combinations Diagram](/docs-images/backtracking/all_combinations_of_size_k.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (backtracking)](https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg)
+
 
 ```text
 [1, 2, 3, 4]

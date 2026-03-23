@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Generare Paranteze (Generate Parentheses)**
+# 🚀 **Generare Paranteze**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Această problemă clasică de **Backtracking** solicită generarea tuturor comb
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Parentheses Tree](https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Catalan_number_binary_tree_3.svg/200px-Catalan_number_binary_tree_3.svg.png)
+![Parentheses Tree](/docs-images/backtracking/generateparentheses.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (backtracking)](https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
           (

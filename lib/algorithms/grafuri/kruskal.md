@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Algoritmul lui Kruskal (Kruskal's Algorithm)**
+# 🚀 **Algoritmul lui Kruskal**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Kruskal Animation](https://upload.wikimedia.org/wikipedia/commons/b/bb/KruskalDemo.gif)
+![Kruskal Animation](/docs-images/grafuri/kruskal.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (grafuri)](https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg)
+
 
 ```text
 (A) --4-- (B)

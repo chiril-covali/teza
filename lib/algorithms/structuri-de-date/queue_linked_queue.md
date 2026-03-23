@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Coadă bazată pe Listă Înlănțuită (Linked Queue)**
+# 🚀 **Coadă bazată pe Listă Înlănțuită**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Linked Queue Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Queue-linked-list.svg/400px-Queue-linked-list.svg.png)
+![Linked Queue Diagram](/docs-images/structuri-de-date/queue_linked_queue.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
       Front -> [D1 | *] -> [D2 | *] -> [D3 | NULL] <- Rear

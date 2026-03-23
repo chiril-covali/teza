@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Căutarea prin Interpolare (Interpolation Search)**
+# 🚀 **Căutare prin Interpolare**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Interpolation Search Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Interpolation_Search_Algorithm.png/400px-Interpolation_Search_Algorithm.png)
+![Interpolation Search Diagram](/docs-images/cautare/interpolation_search.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (cautare)](https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 Țintă: 90

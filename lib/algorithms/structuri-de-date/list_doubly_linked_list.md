@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Listă Dublu Înlănțuită (Doubly Linked List)**
+# 🚀 **Listă Dublu Înlănțuită**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Doubly Linked List Representation](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Doubly-linked-list.svg/400px-Doubly-linked-list.svg.png)
+![Doubly Linked List Representation](/docs-images/structuri-de-date/list_doubly_linked_list.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg)
+
 
 ```text
       [Prev|D1|Next] <-> [Prev|D2|Next] <-> [Prev|D3|Next]

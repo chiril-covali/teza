@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Tabelă Hash (Hash Map)**
+# 🚀 **Tabelă Hash**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ O **Tabelă Hash** (sau Hash Map) este o structură de date care implementează 
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Hash Map Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Hash_table_3_1_1_0_1_0_0_SP.svg/400px-Hash_table_3_1_1_0_1_0_0_SP.svg.png)
+![Hash Map Diagram](/docs-images/structuri-de-date/map_hash_map.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
 Cheie (Key) ----> [ Funcție Hash ] ----> Index [0...N] ----> Valoare (Value)

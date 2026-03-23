@@ -105,6 +105,87 @@ type CatalogAlgorithm = AlgorithmMeta & {
 	descriptionRo: string;
 };
 
+const CATALOG_NAME_OVERRIDES: Record<string, string> = {
+	// Matematica
+	"matematica_binary_convert": "Conversie Binară",
+	"matematica_binomial_coefficient": "Coeficient Binomial",
+	"matematica_calculate_mean": "Media Aritmetică",
+	"matematica_calculate_median": "Mediana",
+	"matematica_number_of_digits": "Număr de Cifre",
+	"matematica_degrees_to_radians": "Conversie Grade în Radiani",
+	"matematica_digit_sum": "Sumă Cifre",
+	"matematica_double_factorial_iterative": "Dublu Factorial (Iterativ)",
+	"matematica_euler_totient": "Funcția Totient a lui Euler",
+	"matematica_find_min": "Valoare Minimă",
+	"matematica_lowest_common_multiple": "Cel Mai Mic Multiplu Comun",
+	"matematica_matrix_multiplication": "Înmulțire de Matrici",
+	"matematica_pascals_triangle": "Triunghiul lui Pascal",
+	"matematica_perfect_number": "Număr Perfect",
+	"matematica_prime_factorization": "Descompunere în Factori Primi",
+	"matematica_primes": "Numere Prime",
+	"matematica_pronic_number": "Număr Pronic",
+	"matematica_radians_to_degrees": "Conversie Radiani în Grade",
+	"matematica_series_hexagonal_numbers": "Seria Numerelor Hexagonale",
+	"matematica_signum": "Funcția Signum",
+	"matematica_square_root": "Rădăcină Pătrată",
+	"matematica_ugly_numbers": "Numere Ugly",
+	"matematica_zellers_congruence": "Congruența lui Zeller",
+	"matematica_aliquot_sum": "Suma Alicotă",
+	"matematica_armstrong_number": "Număr Armstrong",
+	"matematica_absolute_value": "Valoare Absolută",
+	"matematica_is_divisible": "Verificare Divizibilitate",
+	"matematica_is_even": "Verificare Par",
+	"matematica_is_leap_year": "Verificare An Bisect",
+	"matematica_is_odd": "Verificare Impar",
+	"matematica_is_palindrome": "Verificare Palindrom",
+	"matematica_is_square_free": "Verificare Fără Pătrate",
+
+	// Structuri de date
+	"structuri-de-date_queue_queue": "Coadă",
+	"structuri-de-date_queue_circular_queue": "Coadă Circulară",
+	"structuri-de-date_queue_linked_queue": "Coadă Înlănțuită",
+	"structuri-de-date_queue_stack_queue": "Coadă bazată pe Stivă",
+	"structuri-de-date_queue_array_queue": "Coadă bazată pe Vector",
+	"structuri-de-date_map_map": "Hartă",
+	"structuri-de-date_map_hash_map": "Hartă Hash",
+	"structuri-de-date_list_doubly_linked_list": "Listă Dublu Înlănțuită",
+	"structuri-de-date_list_linked_list": "Listă Înlănțuită",
+	"structuri-de-date_list_singly_linked_list": "Listă Simplă Înlănțuită",
+	"structuri-de-date_disjoint_set_disjoint_set": "Mulțimi Disjuncte",
+	"structuri-de-date_set_set": "Set",
+	"structuri-de-date_set_map_set": "Set bazat pe Hartă",
+	"structuri-de-date_set_hash_map_set": "Set bazat pe Hartă Hash",
+	"structuri-de-date_stack_stack": "Stivă",
+	"structuri-de-date_stack_linked_list_stack": "Stivă Înlănțuită",
+	"structuri-de-date_tree_binary_search_tree": "Arbore Binar de Căutare",
+	"structuri-de-date_tries_tries": "Trie",
+
+	// Sortare
+	"sortare_bogo_sort": "Bogo Sort",
+	"sortare_bubbleSort": "Sortare cu Bule",
+	"sortare_counting_sort": "Sortare prin Numărare",
+	"sortare_cycle_sort": "Sortare Ciclică",
+	"sortare_gnome_sort": "Sortare Gnome",
+	"sortare_heap_sort": "Sortare Heap",
+	"sortare_insertionSort": "Sortare prin Inserție",
+	"sortare_mergeSort": "Sortare prin Interclasare",
+	"sortare_quickSort": "Sortare Rapidă",
+	"sortare_quick_select": "Selecție Rapidă",
+	"sortare_selectionSort": "Sortare prin Selecție",
+	"sortare_shell_sort": "Sortare Shell",
+	"sortare_swap_sort": "Sortare prin Schimb",
+	"sortare_tree_sort": "Sortare cu Arbore",
+
+	// Grafuri
+	"grafuri_bipartite_graph": "Graf Bipartit",
+	"grafuri_dfs": "Parcurgere în Adâncime (DFS)",
+	"grafuri_bfs": "Parcurgere în Lățime (BFS)",
+
+	// Diverse
+	"diverse_shuffle_array": "Amestecare Vector",
+	"diverse_is_sorted_array": "Verificare Vector Sortat",
+};
+
 function normalizeKey(value: string): string {
 	return value.toLowerCase().trim().replace(/\s+/g, "_");
 }
@@ -134,6 +215,32 @@ function dedupeWords(text: string): string {
 		out.push(w);
 	}
 	return out.join(" ");
+}
+
+function cleanCatalogAlgorithmName(name: string): string {
+	let normalized = (name || "").replace(/\s+/g, " ").trim();
+	if (!normalized) return normalized;
+
+	let words = normalized.split(" ");
+
+	// Collapse exact duplicated phrases: "Mulțimi Disjuncte Set Mulțimi Disjuncte Set"
+	if (words.length >= 4 && words.length % 2 === 0) {
+		const half = words.length / 2;
+		const left = words.slice(0, half).join(" ").toLowerCase();
+		const right = words.slice(half).join(" ").toLowerCase();
+		if (left === right) {
+			normalized = words.slice(0, half).join(" ");
+			words = normalized.split(" ");
+		}
+	}
+
+	// Remove repeated last token: "Coadă Circulară Coadă", "Tree ... Tree"
+	if (words.length > 1 && words[0].toLowerCase() === words[words.length - 1].toLowerCase()) {
+		words.pop();
+	}
+
+	normalized = dedupeWords(words.join(" "));
+	return normalized;
 }
 
 function isPlaceholderDescription(text?: string): boolean {
@@ -282,7 +389,10 @@ export default function AlgorithmsPage() {
 		return algorithms.map((algo) => {
 			const categoryKey = normalizeThemeCategoryKey(algo.category);
 			const categoryRo = getCategoryRo(algo.category);
-			const displayNameRo = buildRomanianName(algo);
+			const fallbackName = buildRomanianName(algo);
+			const displayNameRo = cleanCatalogAlgorithmName(
+				CATALOG_NAME_OVERRIDES[algo.slug] || algo.name?.trim() || fallbackName
+			);
 			return {
 				...algo,
 				displayNameRo,

@@ -1,12 +1,15 @@
 <!-- custom-doc -->
 
-# 🚀 **Stivă (Listă Înlănțuită) (Stack (Linked List Implementation))**
+# 🚀 **Stivă (Listă Înlănțuită)**
 
 ## 📝 **Descriere**
 O stivă este o structură de date de tip LIFO (Last-In, First-Out), unde ultimul element adăugat este primul extras. Implementarea prin listă simplu înlănțuită permite o gestionare dinamică a memoriei, evitând limitările de dimensiune fixă ale unui array, oferind performanțe constante ($O(1)$) pentru operațiile fundamentale la vârful stivei.
 
 ## 🖼️ **Reprezentare Vizuală**
-![Diagramă Stivă](https://upload.wikimedia.org/wikipedia/commons/b/b4/Lifo_stack.png)
+![Diagramă Stivă](/docs-images/structuri-de-date/stack_linked_list_stack.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (structuri-de-date)](https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg)
+
 
 ```text
 Starea Stivei: [ Vârf ] -> [ Nod 3 ] -> [ Nod 2 ] -> [ Nod 1 ] -> NULL

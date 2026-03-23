@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Cub Perfect (Perfect Cube)**
+# 🚀 **Cub Perfect**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@ Un **Cub Perfect** este un număr întreg care poate fi exprimat ca puterea a tr
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Perfect Cube Visualization](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/CubeChart.svg/960px-CubeChart.svg.png)
+![Perfect Cube Visualization](/docs-images/matematica/perfect_cube.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Număr (k) | Cub Perfect (k³)

@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Algoritmul Kosaraju (Kosaraju's Algorithm)**
+# 🚀 **Algoritmul Kosaraju**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Kosaraju Animation](https://upload.wikimedia.org/wikipedia/commons/b/b3/Kosaraju%27s_algorithm_animation.gif)
+![Kosaraju Animation](/docs-images/grafuri/kosaraju.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (grafuri)](https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80)
+
 
 ```text
     A → B → C

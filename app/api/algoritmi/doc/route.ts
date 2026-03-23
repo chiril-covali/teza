@@ -47,9 +47,22 @@ export async function GET(req: NextRequest) {
     );
   }
 
+  const htmlPath = absolutePath.replace(/\.md$/i, ".html");
+  let html = "";
+  let htmlRelativePath = "";
+  try {
+    html = await fs.readFile(htmlPath, "utf8");
+    htmlRelativePath = entry.markdownPath.replace(/\.md$/i, ".html");
+  } catch {
+    html = "";
+    htmlRelativePath = "";
+  }
+
   return NextResponse.json({
     slug: entry.slug,
     markdown,
     markdownPath: entry.markdownPath,
+    html,
+    htmlPath: htmlRelativePath,
   });
 }

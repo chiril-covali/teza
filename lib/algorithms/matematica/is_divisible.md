@@ -1,6 +1,6 @@
 <!-- custom-doc -->
 
-# 🚀 **Verificare Divizibilitate (Is Divisible)**
+# 🚀 **Verificare Divizibilitate**
 
 ## 📝 **Descriere**
 
@@ -8,7 +8,10 @@
 
 ## 🖼️ **Reprezentare Vizuală**
 
-![Divisibility Concept](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Divisibility_rules_for_2%2C_5%2C_and_10.svg/300px-Divisibility_rules_for_2%2C_5%2C_and_10.svg.png)
+![Divisibility Concept](/docs-images/matematica/is_divisible.svg)
+<!-- external-visual -->
+![Resursă vizuală externă (matematica)](https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg)
+
 
 ```text
 Exemplu:
