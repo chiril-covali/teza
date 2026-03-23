@@ -1,7 +1,38 @@
 import Link from "next/link";
 import { allAlgorithms } from "@/lib/algorithms";
 import P5HeroBackground from "./components/P5HeroBackground";
-import ComplexityFormula from "./components/ComplexityFormula";
+import LandingAlgorithmShowcaseNoSSR from "./components/LandingAlgorithmShowcaseNoSSR";
+
+const CATEGORY_DETAILS: Record<string, string> = {
+  sortare: "Algoritmi de ordonare pentru performanta pe seturi mici si mari de date.",
+  cautare: "Metode eficiente pentru identificare rapida in colectii ordonate sau neordonate.",
+  grafuri: "Parcurgeri, drumuri minime, flux maxim si probleme clasice pe retele.",
+  matematica: "Operatii numerice, factorizari si functii de baza folosite in multiple domenii.",
+  "programare-dinamica": "Strategii de optimizare bazate pe subprobleme si memoizare.",
+  backtracking: "Explorare controlata a spatiului de solutii pentru probleme combinatoriale.",
+  "structuri-de-date": "Stive, cozi, arbori si structuri avansate pentru modelarea datelor.",
+  "manipulare-biti": "Tehnici rapide cu operatii pe biti pentru calcule eficiente.",
+  cifru: "Algoritmi introductivi de criptare si transformari bitwise.",
+  cifrare: "Algoritmi introductivi de criptare si transformari bitwise.",
+  diverse: "Probleme utile in practica: validari, parsare si utilitare generale.",
+};
+
+const CATEGORY_COLORS = [
+  "from-sky-500/20 to-cyan-500/20 border-sky-400/40 text-sky-100",
+  "from-emerald-500/20 to-lime-500/20 border-emerald-400/40 text-emerald-100",
+  "from-rose-500/20 to-orange-500/20 border-rose-400/40 text-rose-100",
+  "from-fuchsia-500/20 to-violet-500/20 border-fuchsia-400/40 text-fuchsia-100",
+  "from-amber-500/20 to-yellow-500/20 border-amber-400/40 text-amber-100",
+  "from-indigo-500/20 to-blue-500/20 border-indigo-400/40 text-indigo-100",
+];
+
+function categoryKey(category: string): string {
+  return category
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+}
 
 function IconProject({ className = "h-5 w-5" }: { className?: string }) {
   return (
@@ -40,14 +71,6 @@ function IconSearch({ className = "h-5 w-5" }: { className?: string }) {
   );
 }
 
-function IconCode({ className = "h-5 w-5" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
-      <path d="M8 9l-3 3 3 3M16 9l3 3-3 3M14 5l-4 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 function IconComment({ className = "h-5 w-5" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
@@ -77,6 +100,12 @@ function IconRocket({ className = "h-5 w-5" }: { className?: string }) {
 
 export default function HomePage() {
   const totalAlgoritmi = allAlgorithms.length;
+  const categories = Array.from(new Set(allAlgorithms.map((algo) => algo.category)))
+    .map((category) => ({
+      category,
+      count: allAlgorithms.filter((algo) => algo.category === category).length,
+    }))
+    .sort((a, b) => b.count - a.count || a.category.localeCompare(b.category, "ro"));
 
   return (
     <div className="bg-white text-slate-900 font-sans selection:bg-indigo-100 selection:text-indigo-700">
@@ -94,8 +123,8 @@ export default function HomePage() {
             <a href="#algoritmi" className="transition-colors hover:text-indigo-600">Catalog</a>
             <a href="#about" className="transition-colors hover:text-indigo-600">Despre</a>
           </div>
-          <Link 
-            href="/algoritmi" 
+          <Link
+            href="/algoritmi"
             className="inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-slate-800 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2"
           >
             Începe acum
@@ -109,10 +138,10 @@ export default function HomePage() {
           <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
             <P5HeroBackground />
           </div>
-          
+
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <div className="inline-flex items-center rounded-full border border-indigo-100 bg-indigo-50/50 px-3 py-1 text-xs font-semibold text-indigo-600 mb-6">
+              <div className="mb-6 inline-flex items-center rounded-full border border-indigo-100 bg-indigo-50/50 px-3 py-1 text-xs font-semibold text-indigo-600">
                 Proiect de licență 2026 • Platformă Educatională
               </div>
               <h1 className="mx-auto max-w-5xl text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
@@ -123,39 +152,32 @@ export default function HomePage() {
                 pas cu pas, cu suport inteligent pentru înțelegerea conceptelor matematice.
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-                <Link 
-                  href="/algoritmi" 
-                  className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-8 py-4 text-base font-bold text-white shadow-xl shadow-indigo-200 transition-all hover:bg-indigo-700 hover:-translate-y-1"
+                <Link
+                  href="/algoritmi"
+                  className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-8 py-4 text-base font-bold text-white shadow-xl shadow-indigo-200 transition-all hover:-translate-y-1 hover:bg-indigo-700"
                 >
                   Explorează {totalAlgoritmi} algoritmi
                 </Link>
-                <a 
-                  href="#features" 
-                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-8 py-4 text-base font-bold text-slate-700 transition-all hover:bg-slate-50 hover:border-slate-300"
+                <a
+                  href="#features"
+                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-8 py-4 text-base font-bold text-slate-700 transition-all hover:border-slate-300 hover:bg-slate-50"
                 >
                   Vezi detalii
                 </a>
               </div>
             </div>
 
-            {/* Hero Image Placeholder */}
-            <div className="mt-20 relative mx-auto max-w-5xl rounded-2xl border border-slate-200 bg-slate-50 p-2 shadow-2xl overflow-hidden aspect-video group">
-                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 to-transparent pointer-events-none" />
-                <div className="h-full w-full rounded-xl border border-slate-200 bg-white flex items-center justify-center overflow-hidden">
-                    <div className="text-center p-8">
-                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600 group-hover:scale-110 transition-transform duration-500">
-                              <IconRocket className="h-8 w-8" />
-                        </div>
-                        <h3 className="text-xl font-bold text-slate-900">Interfață Vizuală Modernă</h3>
-                        <p className="text-slate-500 mt-2">Loc pentru preview video sau imagine din aplicație</p>
-                    </div>
-                </div>
+            <div className="group relative mx-auto mt-20 aspect-video max-w-5xl overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-2 shadow-2xl">
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-indigo-500/10 to-transparent" />
+              <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-white">
+                <LandingAlgorithmShowcaseNoSSR />
+              </div>
             </div>
           </div>
         </section>
 
         {/* Features Section */}
-        <section id="features" className="py-24 sm:py-32 bg-slate-50/50">
+        <section id="features" className="bg-slate-50/50 py-24 sm:py-32">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-16 text-center">
               <h2 className="text-base font-semibold uppercase tracking-wider text-indigo-600">Beneficii</h2>
@@ -168,54 +190,62 @@ export default function HomePage() {
               {[
                 {
                   title: "Vizualizare Step-by-Step",
-                  description: "Urmărește fiecare schimbare în date, de la comparații la interschimbări, în timp real.",
+                  description: "Vezi in timp real fiecare decizie a algoritmului: comparatii, actualizari de stare si rezultate intermediare.",
                   icon: <IconCpu className="h-6 w-6" />,
-                  color: "bg-blue-100 text-blue-600"
+                  color: "bg-blue-100 text-blue-600",
                 },
                 {
-                  title: "Asistență IA Integrată",
-                  description: "Nu înțelegi un pas? Întreabă asistentul virtual pentru o explicație clară în limba română.",
+                  title: "Asistență AI Integrată",
+                  description: "Pentru orice pas neclar, asistentul AI ofera explicatii contextuale in limba romana, direct langa simulare.",
+                  icon: <img src="/githubcopilot.svg" alt="Copilot" className="h-6 w-6 object-contain" />,
+                  color: "bg-purple-100 text-purple-600",
+                },
+                {
+                  title: "Descriere Clară pentru Fiecare Algoritm",
+                  description: "Fiecare algoritm are descrierea sa: explicatie pe inteles, context de utilizare si observatii practice.",
                   icon: <IconComment className="h-6 w-6" />,
-                  color: "bg-purple-100 text-purple-600"
+                  color: "bg-emerald-100 text-emerald-600",
                 },
                 {
-                  title: "Complexitate Analizată",
-                  description: (
-                    <>
-                      Fiecare algoritm vine cu detalii despre performanță: <ComplexityFormula value="O(n)" className="text-slate-700" />,{" "}
-                      <ComplexityFormula value="O(log n)" className="text-slate-700" /> și cazurile de utilizare.
-                    </>
-                  ),
-                  icon: <IconCode className="h-6 w-6" />,
-                  color: "bg-emerald-100 text-emerald-600"
+                  title: "Categorii Diverse",
+                  description: "Parcurgi un catalog complet: sortari, cautari, grafuri, programare dinamica, backtracking si multe altele.",
+                  icon: <IconGraph className="h-6 w-6" />,
+                  color: "bg-amber-100 text-amber-600",
                 },
                 {
-                    title: "Categorii Diverse",
-                    description: "De la sortări clasice la algoritmi pe grafuri și căutări avansate.",
-                    icon: <IconGraph className="h-6 w-6" />,
-                    color: "bg-amber-100 text-amber-600"
+                  title: "Interfață Intuitivă",
+                  description: "Interfata curata si focusata pe invatare, cu accent pe claritate, contrast bun si ritm vizual usor de urmarit.",
+                  icon: <IconBulb className="h-6 w-6" />,
+                  color: "bg-rose-100 text-rose-600",
                 },
                 {
-                    title: "Interfață Intuitivă",
-                    description: "Design minimalist care pune accentul pe conținutul educațional și lizibilitate.",
-                    icon: <IconBulb className="h-6 w-6" />,
-                    color: "bg-rose-100 text-rose-600"
+                  title: "Căutare Rapidă",
+                  description: "Filtrezi instant algoritmii doriti dupa nume si categorie, fara sa pierzi contextul paginii curente.",
+                  icon: <IconSearch className="h-6 w-6" />,
+                  color: "bg-cyan-100 text-cyan-600",
                 },
                 {
-                    title: "Căutare Rapidă",
-                    description: "Găsește instantaneu algoritmul de care ai nevoie prin sistemul de indexare.",
-                    icon: <IconSearch className="h-6 w-6" />,
-                    color: "bg-cyan-100 text-cyan-600"
-                }
+                  title: "Documentatie Unificata",
+                  description: "Fiecare pagina combina explicatie teoretica, cod sursa si simulare interactiva in acelasi flux de invatare.",
+                  icon: <IconProject className="h-6 w-6" />,
+                  color: "bg-indigo-100 text-indigo-600",
+                },
+                {
+                  title: "Exemple Pregatite",
+                  description: "Seturile de date predefinite accelereaza invatarea, iar parametrii se pot ajusta pentru scenarii proprii.",
+                  icon: <IconRocket className="h-6 w-6" />,
+                  color: "bg-lime-100 text-lime-700",
+                },
               ].map((feature, idx) => (
-                <div key={idx} className="relative p-8 bg-white rounded-3xl border border-slate-100 shadow-sm transition-all hover:shadow-md hover:-translate-y-1">
+                <div
+                  key={idx}
+                  className="relative rounded-3xl border border-slate-100 bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+                >
                   <div className={`mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl ${feature.color}`}>
                     {feature.icon}
                   </div>
                   <h3 className="text-xl font-bold text-slate-900">{feature.title}</h3>
-                  <p className="mt-4 text-base leading-relaxed text-slate-600">
-                    {feature.description}
-                  </p>
+                  <p className="mt-4 text-base leading-relaxed text-slate-600">{feature.description}</p>
                 </div>
               ))}
             </div>
@@ -228,18 +258,21 @@ export default function HomePage() {
                 <div className="grid items-center gap-16 lg:grid-cols-2">
                     <div>
                         <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-                            Arhitectură Modulară și Modernă
+                          Arhitectura scalabila, orientata pe invatare
                         </h2>
                         <p className="mt-6 text-lg leading-relaxed text-slate-600">
-                            Proiectul este structurat pentru a fi ușor de extins. Algoritmii sunt organizați pe categorii, 
-                            fiecare având propriul său sistem de vizualizare și logică de execuție.
+                          Platforma foloseste o arhitectura modulara in care fiecare algoritm are metadata, cod sursa,
+                          runner instrumentat si vizualizare proprie. Rezultatul este un flux coerent: explicatie, executie,
+                          analiza de complexitate si observabilitate pas cu pas.
                         </p>
                         <ul className="mt-8 space-y-4">
                             {[
-                                "Cod TypeScript tipizat pentru siguranță",
-                                "Componente React reutilizabile",
-                                "Stilizare precisă cu Tailwind CSS",
-                                "Animații fluide cu p5.js"
+                            "Next.js 16 (App Router) pentru randare rapida si rutare clara",
+                            "TypeScript + tipuri comune pentru algoritmi, trace-uri si inputuri",
+                            "Componente React reutilizabile pentru animatii, formule si panouri vizuale",
+                            "Tailwind CSS pentru design consistent si responsive",
+                            "p5.js pentru fundal interactiv in Hero",
+                            "KaTeX + React Markdown pentru redare corecta a formulelor si documentatiei"
                             ].map((item, i) => (
                                 <li key={i} className="flex items-center gap-3 text-slate-700">
                                     <div className="flex-shrink-0 h-5 w-5 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
@@ -252,11 +285,27 @@ export default function HomePage() {
                     </div>
                     <div className="relative">
                         <div className="absolute -inset-4 rounded-3xl bg-indigo-50/50 blur-2xl" />
-                        <div className="relative aspect-square sm:aspect-video rounded-3xl border border-slate-200 bg-white shadow-xl flex items-center justify-center overflow-hidden">
-                            <div className="text-center p-8">
-                                <IconCode className="mx-auto mb-4 h-12 w-12 text-slate-200" />
-                                <p className="text-slate-400 font-mono text-sm">PLACEHOLDER: CODE SNIPPET VISUAL</p>
-                            </div>
+                      <div className="relative aspect-square sm:aspect-video rounded-3xl border border-slate-200 bg-white shadow-xl overflow-hidden">
+                        <div className="h-full w-full bg-slate-950 text-slate-100 p-4 sm:p-5 font-mono text-[11px] sm:text-xs leading-relaxed overflow-auto">
+                          <div className="mb-3 flex items-center gap-2">
+                            <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
+                            <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
+                            <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+                            <span className="ml-2 text-slate-400">lib/algorithms/matematica/factorial.ts</span>
+                          </div>
+                          <pre className="whitespace-pre-wrap">
+                            <span className="text-slate-400">/**</span>{"\n"}
+                            <span className="text-slate-400"> * @function factorial</span>{"\n"}
+                            <span className="text-slate-400"> * @description Calculeaza factorialul unui numar natural.</span>{"\n"}
+                            <span className="text-slate-400"> */</span>{"\n"}
+                            <span className="text-fuchsia-300">export</span> <span className="text-fuchsia-300">const</span> <span className="text-cyan-300">factorial</span> <span className="text-slate-100">= (num: number): number =&gt; {'{'}</span>{"\n"}
+                            <span className="text-fuchsia-300">  if</span> <span className="text-slate-100">(num &lt; 0 || !Number.isInteger(num)) {'{'}</span>{"\n"}
+                            <span className="text-fuchsia-300">    throw</span> <span className="text-fuchsia-300">new</span> <span className="text-cyan-300">Error</span><span className="text-slate-100">(</span><span className="text-amber-300">'only natural numbers are supported'</span><span className="text-slate-100">)</span>{"\n"}
+                            <span className="text-slate-100">  {'}'}</span>{"\n\n"}
+                            <span className="text-fuchsia-300">  return</span> <span className="text-slate-100">num === 0 ? 1 : num * factorial(num - 1)</span>{"\n"}
+                            <span className="text-slate-100">{'}'}</span>
+                          </pre>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -268,19 +317,29 @@ export default function HomePage() {
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
                 <h2 className="text-3xl font-extrabold sm:text-4xl">Catalogul de algoritmi</h2>
                 <p className="mt-4 text-slate-400 max-w-2xl mx-auto">
-                    Alege dintr-o varietate de algoritmi fundamentali și începe simularea lor interactivă.
+                    Exploreaza toate categoriile disponibile, fiecare cu rol clar in invatarea algoritmilor.
                 </p>
-                <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                    {allAlgorithms.slice(0, 4).map((algo) => (
-                        <Link 
-                            key={algo.slug} 
-                            href={`/algoritmi/${algo.slug}`}
-                            className="group p-6 rounded-2xl bg-slate-800/50 border border-slate-700 hover:border-indigo-500 transition-all"
+                <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {categories.map((entry, idx) => {
+                      const key = categoryKey(entry.category);
+                      const count = entry.count;
+                      const description = CATEGORY_DETAILS[key] ?? "Colectie de algoritmi explicati vizual, cu exemple si scenarii de rulare.";
+                      const color = CATEGORY_COLORS[idx % CATEGORY_COLORS.length];
+
+                      return (
+                        <Link
+                          key={entry.category}
+                          href={`/algoritmi?categorie=${encodeURIComponent(entry.category)}`}
+                          className={`group rounded-2xl border bg-gradient-to-br p-6 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${color}`}
                         >
-                            <h3 className="font-bold text-lg group-hover:text-indigo-400 transition-colors">{algo.name}</h3>
-                            <p className="mt-2 text-sm text-slate-500">{algo.category}</p>
+                          <div className="mb-3 inline-flex rounded-full border border-white/30 bg-white/10 px-2.5 py-1 text-[11px] font-black uppercase tracking-wide text-white/90">
+                            {count} {count === 1 ? "algoritm" : "algoritmi"}
+                          </div>
+                          <h3 className="text-xl font-black text-white">{entry.category}</h3>
+                          <p className="mt-3 text-sm leading-relaxed text-white/80">{description}</p>
                         </Link>
-                    ))}
+                      );
+                    })}
                 </div>
                 <div className="mt-12">
                     <Link href="/algoritmi" className="text-indigo-400 font-bold hover:text-indigo-300 inline-flex items-center gap-2">
@@ -372,7 +431,7 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="border-t border-slate-100 bg-white py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-3">
+          <div className="grid gap-12 lg:grid-cols-2">
             <div>
                 <div className="flex items-center gap-2 mb-6">
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white">
@@ -384,26 +443,26 @@ export default function HomePage() {
                 </p>
             </div>
             <div>
-                <h4 className="font-bold text-slate-900 mb-6">Resurse</h4>
-                <ul className="space-y-4 text-sm text-slate-600">
-                    <li><Link href="/algoritmi" className="hover:text-indigo-600">Catalog Algoritmi</Link></li>
-                    <li><a href="#" className="hover:text-indigo-600">Documentație Tehnica</a></li>
-                    <li><a href="#" className="hover:text-indigo-600">Ghid Utilizare</a></li>
-                </ul>
-            </div>
-            <div>
                 <h4 className="font-bold text-slate-900 mb-6">Tehnologii</h4>
                 <div className="flex flex-wrap gap-2">
-                    {["Next.js", "TypeScript", "Tailwind", "p5.js", "OpenAI"].map(tech => (
+                  {[
+                    "Next.js 16",
+                    "React 19",
+                    "TypeScript",
+                    "Tailwind CSS",
+                    "p5.js",
+                    "KaTeX",
+                    "React Markdown",
+                    "Remark Math",
+                    "Rehype KaTeX",
+                    "Turbopack"
+                  ].map(tech => (
                         <span key={tech} className="px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-xs font-medium text-slate-600">
                             {tech}
                         </span>
                     ))}
                 </div>
             </div>
-          </div>
-          <div className="mt-16 border-t border-slate-100 pt-8 text-center text-sm text-slate-400">
-            © 2026 Laborator Algoritmi. Toate drepturile rezervate.
           </div>
         </div>
       </footer>
