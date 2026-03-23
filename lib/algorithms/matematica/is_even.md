@@ -1,67 +1,61 @@
-# Verificare Număr Par
+<!-- custom-doc -->
+# Verificare Even
 
-Slug: matematica_is_even
-Categorie: Matematică
+Verificarea parității unui număr se referă la determinarea dacă un număr întreg este par sau impar. Un număr este considerat par dacă este divizibil cu 2, adică nu are rest la împărțirea cu 2. În schimb, un număr este impar dacă are un rest de 1 la această împărțire.
 
-## Introducere
-
-Un număr întreg este **par** dacă este divizibil cu 2, adică împărțirea sa la 2 nu lasă rest. Această proprietate fundamentală a numerelor întregi este una din primele noțiuni studiate în aritmetică și teoria numerelor.
-
-Numerele pare formează mulțimea {..., -4, -2, 0, 2, 4, 6, ...}. Suma, diferența și produsul a două numere pare este tot par. Paritatea unui număr poate fi verificată rapid prin examinarea ultimei cifre zecimale sau a ultimului bit în reprezentarea binară.
-
-Verificarea parității este o operație extrem de frecventă în programare, folosită în algoritmi de sortare, generatori de numere, protocoale de comunicație și multe altele.
-
-## Descriere
-
-Există două metode principale pentru a verifica dacă un număr este par:
-
-1. **Metoda modulo:** verifică dacă restul împărțirii la 2 este zero: n % 2 == 0
-2. **Metoda bitwise:** verifică dacă ultimul bit este 0: (n & 1) == 0
-
-Metoda bitwise este mai eficientă deoarece operația AND pe biți este implementată direct în hardware și nu necesită o împărțire.
-
-**Pașii algoritmului:**
-1. Primește numărul întreg n.
-2. Verifică dacă n % 2 == 0 (sau echivalent (n & 1) == 0).
-3. Dacă da, returnează adevărat (numărul este par).
-4. Altfel, returnează fals.
-
-## Complexitate
-
-| Caz | Timp | Spațiu |
-|-----|------|--------|
-| General | O(1) | O(1) |
-
-**Explicație:** Operația se efectuează într-un număr constant de pași, indiferent de valoarea lui n. Atât modulo cât și AND pe biți sunt operații elementare O(1).
-
-## Pseudocod
+## Reprezentare Vizuală
 
 ```
-funcție estePar(n):
-    returnează (n % 2 == 0)
+Număr: 8
+Verificare: 8 % 2 = 0 (Par)
 
-// sau echivalent cu operație pe biți:
-funcție estePar(n):
-    returnează (n ȘI 1) == 0
+Număr: 7
+Verificare: 7 % 2 = 1 (Impar)
 ```
 
-## Exemple
+### Exemplu Pas cu Pas
 
-- estePar(4) → 4 % 2 = 0 → **adevărat**
-- estePar(7) → 7 % 2 = 1 → **fals**
-- estePar(0) → 0 % 2 = 0 → **adevărat** (0 este par)
-- estePar(-6) → -6 % 2 = 0 → **adevărat**
-- estePar(100) → **adevărat**
+1. Primul număr: 10
+   - 10 % 2 = 0 → Par
+2. Al doilea număr: 15
+   - 15 % 2 = 1 → Impar
 
-## Aplicații
+## Matematică / Logică
 
-- Parcurgerea alternativă a elementelor dintr-un șir (indici pari/impari)
-- Algoritmi de divide et impera (împărțire pe jumătăți)
-- Generarea tablelor de șah (celule albe/negre)
-- Protocoale de paritate pentru detectarea erorilor de transmisie
-- Criptografie: algoritmi RSA verifică paritatea exponenților
+Pentru un număr întreg $n$, verificarea parității se poate exprima prin următoarea formulă:
 
-## Resurse
+$$
+\text{Paritate}(n) = 
+\begin{cases} 
+\text{Par} & \text{dacă } n \mod 2 = 0 \\
+\text{Impar} & \text{dacă } n \mod 2 = 1 
+\end{cases}
+$$
 
-- [Wikipedia - Parity (mathematics)](https://en.wikipedia.org/wiki/Parity_(mathematics))
-- [GeeksForGeeks - Check if a number is even or odd](https://www.geeksforgeeks.org/check-if-a-number-is-even-or-odd/)
+## Tabel de Complextitate
+
+| Caz          | Complexitate Timp | Complexitate Spațiu |
+|--------------|-------------------|---------------------|
+| Cel mai bun  | $O(1)$            | $O(1)$              |
+| Mediu        | $O(1)$            | $O(1)$              |
+| Cel mai rău  | $O(1)$            | $O(1)$              |
+
+## Avantaje și Dezavantaje
+
+**Avantaje:**
+- Simplu de implementat.
+- Timp de execuție constant, $O(1)$.
+- Utilizare eficientă a resurselor de memorie.
+
+**Dezavantaje:**
+- Nu oferă informații suplimentare despre număr (ex: divizibilitate cu alte numere).
+- Limitat la numere întregi.
+
+## Aplicații Practice
+
+- **Programare**: Verificarea parității este frecvent utilizată în algoritmi de sortare și filtrare.
+- **Teoria numerelor**: Utilizată în studii de divizibilitate și în probleme de combinatorică.
+- **Criptografie**: Paritatea este folosită în generarea de chei și în algoritmi de verificare a integrității datelor.
+
+---
+*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*

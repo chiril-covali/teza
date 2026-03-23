@@ -4,10 +4,55 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { api } from "@/lib/api";
 import { AlgorithmMeta, TraceEvent, allAlgorithms } from "@/lib/algorithms";
+import { getCategoryDisplayName, getCategoryVisual, normalizeCategoryKey as normalizeThemeCategoryKey } from "@/lib/algorithm-category-theme";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
+
+function cleanMarkdown(md: string) {
+    if (!md) return md;
+    let cleaned = md.replace(/<!--\s*custom-doc\s*-->\n?/g, "");
+    
+    // Fix math delimiters that some LLMs use but KaTeX doesn't like by default
+    cleaned = cleaned.replace(/\\\[/g, "$$").replace(/\\\]/g, "$$");
+    cleaned = cleaned.replace(/\\\(/g, "$").replace(/\\\)/g, "$");
+
+    return cleaned;
+}
+
+function cleanAlgorithmName(name: string) {
+    if (!name) return name;
+    const parts = name.split(' ');
+    // Remove duplicates like "Listă Listă"
+    if (parts.length >= 2 && parts[0].toLowerCase() === parts[parts.length - 1].toLowerCase()) {
+        return parts.slice(0, -1).join(' ');
+    }
+    return name;
+}
+
+function normalizeCategoryKey(value: string) {
+    return normalizeThemeCategoryKey(value);
+}
+
+function categoryLabel(category: string) {
+    return getCategoryDisplayName(category);
+}
+
+function sidebarCategoryTheme(category: string) {
+    const visual = getCategoryVisual(category);
+    return {
+        active: visual.sidebarActive,
+        hover: visual.sidebarHover,
+        heading: visual.sidebarHeading,
+        iconWrap: visual.iconWrap,
+        icon: visual.icon,
+    };
+}
 import { 
   PlayIcon, 
   PauseIcon, 
@@ -17,96 +62,22 @@ import {
   CodeIcon,
   CommentDiscussionIcon,
   GearIcon,
-  EyeIcon
+    EyeIcon,
+    SearchIcon,
+    StackIcon,
+    OrganizationIcon,
+    PulseIcon,
+    ReplyIcon,
+    ShieldCheckIcon,
+    ChecklistIcon
 } from "@primer/octicons-react";
 
 function getCategoryTheme(category: string) {
-    const value = category.toLowerCase();
-
-    if (value.includes("backtracking")) {
-        return {
-            badge: "bg-amber-100 text-amber-800",
-            iconWrap: "bg-amber-600 text-white",
-            icon: <GearIcon size={16} />,
-        };
-    }
-
-    if (value.includes("sort")) {
-        return {
-            badge: "bg-rose-100 text-rose-800",
-            iconWrap: "bg-rose-600 text-white",
-            icon: <ProjectIcon size={16} />,
-        };
-    }
-
-    if (value.includes("cautare")) {
-        return {
-            badge: "bg-cyan-100 text-cyan-800",
-            iconWrap: "bg-cyan-600 text-white",
-            icon: <EyeIcon size={16} />,
-        };
-    }
-
-    if (value.includes("graf")) {
-        return {
-            badge: "bg-indigo-100 text-indigo-800",
-            iconWrap: "bg-indigo-600 text-white",
-            icon: <ProjectIcon size={16} />,
-        };
-    }
-
-    if (value.includes("dinamic")) {
-        return {
-            badge: "bg-emerald-100 text-emerald-800",
-            iconWrap: "bg-emerald-600 text-white",
-            icon: <CodeIcon size={16} />,
-        };
-    }
-
-    if (value.includes("structuri")) {
-        return {
-            badge: "bg-sky-100 text-sky-800",
-            iconWrap: "bg-sky-600 text-white",
-            icon: <CodeIcon size={16} />,
-        };
-    }
-
-    if (value.includes("matemat")) {
-        return {
-            badge: "bg-lime-100 text-lime-800",
-            iconWrap: "bg-lime-600 text-white",
-            icon: <CodeIcon size={16} />,
-        };
-    }
-
-    if (value.includes("bit")) {
-        return {
-            badge: "bg-violet-100 text-violet-800",
-            iconWrap: "bg-violet-600 text-white",
-            icon: <CodeIcon size={16} />,
-        };
-    }
-
-    if (value.includes("cifr")) {
-        return {
-            badge: "bg-fuchsia-100 text-fuchsia-800",
-            iconWrap: "bg-fuchsia-600 text-white",
-            icon: <CommentDiscussionIcon size={16} />,
-        };
-    }
-
-    if (value.includes("diverse")) {
-        return {
-            badge: "bg-orange-100 text-orange-800",
-            iconWrap: "bg-orange-600 text-white",
-            icon: <GearIcon size={16} />,
-        };
-    }
-
+    const visual = getCategoryVisual(category);
     return {
-        badge: "bg-slate-100 text-slate-700",
-        iconWrap: "bg-slate-700 text-white",
-        icon: <ProjectIcon size={16} />,
+        badge: visual.badge,
+        iconWrap: visual.iconWrap,
+        icon: visual.icon,
     };
 }
 
@@ -697,7 +668,7 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
             {/* Top Navigation & Info Bar */}
             <div className="p-4 bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
                 <div className="flex justify-center">
-                <div className="flex bg-slate-50 p-1.5 rounded-2xl gap-1 overflow-x-auto no-scrollbar w-full justify-center">
+                <div className="grid grid-cols-2 bg-slate-50 p-1.5 rounded-2xl gap-1 w-full sm:flex sm:flex-nowrap sm:overflow-x-auto sm:no-scrollbar sm:justify-center">
                     {[
                         { id: "descriere", label: "Descriere", icon: <CommentDiscussionIcon /> },
                         { id: "input", label: "Date Intrare", icon: <GearIcon /> },
@@ -708,7 +679,7 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                         <button
                             key={t.id}
                             onClick={() => setTab(t.id as any)}
-                            className={`flex items-center justify-center gap-2 min-w-[150px] px-4 sm:px-6 py-2.5 rounded-xl border font-bold text-sm transition-all whitespace-nowrap ${
+                            className={`flex items-center justify-center gap-1.5 sm:gap-2 min-w-0 sm:min-w-[150px] px-3 sm:px-6 py-2.5 rounded-xl border font-bold text-xs sm:text-sm transition-all text-center ${
                                 tab === t.id
                                     ? "bg-white border-slate-200 text-indigo-600 shadow-sm"
                                     : "border-transparent text-slate-500 hover:text-slate-900"
@@ -727,8 +698,11 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                     <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm">
                         <h3 className="text-xl font-bold text-slate-900 mb-5">Descriere algoritm</h3>
                         <article className="prose prose-slate max-w-none prose-headings:font-black prose-p:leading-relaxed prose-li:leading-relaxed">
-                            <ReactMarkdown>
-                                {docMarkdown || `# ${meta.name}\n\nDocumentația markdown nu este disponibilă încă pentru acest algoritm.`}
+                            <ReactMarkdown
+                                remarkPlugins={[remarkGfm, remarkMath]}
+                                rehypePlugins={[rehypeKatex]}
+                            >
+                                {cleanMarkdown(docMarkdown) || `# ${meta.name}\n\nDocumentația markdown nu este disponibilă încă pentru acest algoritm.`}
                             </ReactMarkdown>
                         </article>
                     </div>
@@ -999,7 +973,12 @@ function AlgorithmPlayer({ meta, docMarkdown }: AlgorithmPlayerProps) {
                                     >
                                         {msg.role === "assistant" ? (
                                             <article className="prose prose-sm prose-slate max-w-none prose-p:my-2 prose-strong:text-slate-900 prose-em:text-slate-700">
-                                                <ReactMarkdown>{msg.content}</ReactMarkdown>
+                                                <ReactMarkdown 
+                                                    remarkPlugins={[remarkGfm, remarkMath]} 
+                                                    rehypePlugins={[rehypeKatex]}
+                                                >
+                                                    {msg.content}
+                                                </ReactMarkdown>
                                             </article>
                                         ) : (
                                             <p className="text-sm font-medium whitespace-pre-wrap">{msg.content}</p>
@@ -1088,6 +1067,7 @@ export default function AlgorithmPage() {
 	const slug = params.slug as string;
 	const [meta, setMeta] = useState<AlgorithmMeta | null>(null);
     const [docMarkdown, setDocMarkdown] = useState("");
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
 	useEffect(() => {
         const found = allAlgorithms.find((a) => a.slug === slug);
@@ -1108,9 +1088,25 @@ export default function AlgorithmPage() {
 	}
 
     const theme = getCategoryTheme(meta.category);
+    const groupedAlgorithms = Object.entries(
+        allAlgorithms.reduce((acc, algorithm) => {
+            const key = normalizeCategoryKey(algorithm.category).replace(/-/g, "_");
+            if (!acc[key]) {
+                acc[key] = [];
+            }
+            acc[key].push(algorithm);
+            return acc;
+        }, {} as Record<string, AlgorithmMeta[]>)
+    )
+        .map(([categoryKey, items]) => ({
+            categoryKey,
+            label: categoryLabel(categoryKey),
+            items: [...items].sort((a, b) => cleanAlgorithmName(a.name).localeCompare(cleanAlgorithmName(b.name), "ro")),
+        }))
+        .sort((a, b) => (b.items.length - a.items.length) || a.label.localeCompare(b.label, "ro"));
 
 	return (
-		<div className="min-h-screen bg-slate-50">
+        <div className="min-h-screen bg-slate-50">
             {/* Sub Navigation */}
 			<nav className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
 				<div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
@@ -1125,17 +1121,128 @@ export default function AlgorithmPage() {
                                 {theme.icon}
 							</div>
                             <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${theme.badge}`}>
-                                {meta.category}
+                            {meta.category}
                             </span>
-							<span className="text-base font-bold tracking-tight text-slate-900">{meta.name}</span>
-						</div>
-					</div>
-				</div>
-			</nav>
+                            <span className="text-base font-bold tracking-tight text-slate-900">{cleanAlgorithmName(meta.name)}</span>
+                            </div>
+                            </div>
+                            </div>
+                            </nav>
+            {/* Desktop fixed sidebar (always visible) */}
+            <aside className="hidden lg:block fixed left-0 top-[61px] z-30 h-[calc(100vh-61px)] w-[300px] border-r border-slate-200 bg-white shadow-sm">
+                <div className="border-b border-slate-100 px-5 py-4">
+                    <h2 className="text-sm font-black uppercase tracking-widest text-slate-600">Toți algoritmii</h2>
+                </div>
+                <div className="h-[calc(100vh-61px-57px)] overflow-y-auto p-3">
+                    <div className="space-y-4">
+                        {groupedAlgorithms.map((section) => {
+                            const sectionTheme = sidebarCategoryTheme(section.categoryKey);
+                            return (
+                                <div key={section.categoryKey} className="space-y-2">
+                                    <div className="flex items-center justify-between px-2">
+                                        <div className={`flex items-center gap-2 text-[11px] font-black uppercase tracking-wider ${sectionTheme.heading}`}>
+                                            <span className={`inline-flex h-6 w-6 items-center justify-center rounded-lg shadow-sm ${sectionTheme.iconWrap}`}>
+                                                {sectionTheme.icon}
+                                            </span>
+                                            {section.label}
+                                        </div>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">{section.items.length}</span>
+                                    </div>
+                                    <div className="space-y-1 border-l border-slate-100 pl-5">
+                                        {section.items.map((algorithm) => {
+                                            const isActive = algorithm.slug === slug;
+                                            return (
+                                                <Link
+                                                    key={algorithm.slug}
+                                                    href={`/algoritmi/${algorithm.slug}`}
+                                                    className={`block rounded-xl px-3 py-2 text-sm transition-all ${
+                                                        isActive
+                                                            ? `${sectionTheme.active} font-bold ring-1`
+                                                            : `text-slate-600 ${sectionTheme.hover}`
+                                                    }`}
+                                                >
+                                                    {cleanAlgorithmName(algorithm.name)}
+                                                </Link>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </aside>
 
-			<main className="mx-auto max-w-7xl px-4 py-6 sm:py-8 sm:px-6 lg:px-8">
-                <AlgorithmPlayer meta={meta} docMarkdown={docMarkdown} />
+            {/* Mobile toggle + drawer sidebar */}
+            <main className="mx-auto max-w-7xl px-4 py-6 sm:py-8 sm:px-6 lg:px-8">
+                <div className="mb-4 flex items-center justify-between lg:hidden">
+                    <button
+                        onClick={() => setSidebarOpen((open) => !open)}
+                        className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-wider text-slate-600 hover:bg-slate-50"
+                    >
+                        {sidebarOpen ? "Ascunde" : "Afișează"} sidebar
+                    </button>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">Navigare algoritmi</span>
+                </div>
+
+                {sidebarOpen && (
+                    <>
+                        <div
+                            className="fixed inset-0 z-40 bg-slate-900/20 backdrop-blur-[1px] lg:hidden"
+                            onClick={() => setSidebarOpen(false)}
+                            aria-hidden="true"
+                        />
+                        <aside className="fixed left-0 top-[61px] z-50 h-[calc(100vh-61px)] w-[86vw] max-w-[320px] border-r border-slate-200 bg-white shadow-xl lg:hidden">
+                            <div className="border-b border-slate-100 px-5 py-4">
+                                <h2 className="text-sm font-black uppercase tracking-widest text-slate-600">Toți algoritmii</h2>
+                            </div>
+                            <div className="h-[calc(100vh-61px-57px)] overflow-y-auto p-3">
+                                <div className="space-y-4">
+                                    {groupedAlgorithms.map((section) => {
+                                        const sectionTheme = sidebarCategoryTheme(section.categoryKey);
+                                        return (
+                                            <div key={section.categoryKey} className="space-y-2">
+                                                <div className="flex items-center justify-between px-2">
+                                                    <div className={`flex items-center gap-2 text-[11px] font-black uppercase tracking-wider ${sectionTheme.heading}`}>
+                                                        <span className={`inline-flex h-6 w-6 items-center justify-center rounded-lg shadow-sm ${sectionTheme.iconWrap}`}>
+                                                            {sectionTheme.icon}
+                                                        </span>
+                                                        {section.label}
+                                                    </div>
+                                                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">{section.items.length}</span>
+                                                </div>
+                                                <div className="space-y-1 border-l border-slate-100 pl-5">
+                                                    {section.items.map((algorithm) => {
+                                                        const isActive = algorithm.slug === slug;
+                                                        return (
+                                                            <Link
+                                                                key={algorithm.slug}
+                                                                href={`/algoritmi/${algorithm.slug}`}
+                                                                onClick={() => setSidebarOpen(false)}
+                                                                className={`block rounded-xl px-3 py-2 text-sm transition-all ${
+                                                                    isActive
+                                                                        ? `${sectionTheme.active} font-bold ring-1`
+                                                                        : `text-slate-600 ${sectionTheme.hover}`
+                                                                }`}
+                                                            >
+                                                                {cleanAlgorithmName(algorithm.name)}
+                                                            </Link>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </aside>
+                    </>
+                )}
+
+                <div className="min-w-0">
+                    <AlgorithmPlayer meta={{ ...meta, name: cleanAlgorithmName(meta.name) }} docMarkdown={docMarkdown} />
+                </div>
             </main>
-		</div>
+                        </div>
 	);
 }

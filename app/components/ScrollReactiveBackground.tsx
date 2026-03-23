@@ -20,7 +20,6 @@ export default function ScrollReactiveBackground() {
 
     let isMounted = true;
     let instance: { remove: () => void } | null = null;
-    let rafId = 0;
 
     const setupSketch = async () => {
       const p5Module = await import("p5");
@@ -54,33 +53,6 @@ export default function ScrollReactiveBackground() {
         };
       });
 
-      let scrollProgress = 0;
-      let scrollImpulse = 0;
-      let lastScrollY = window.scrollY;
-      let lastScrollTime = performance.now();
-      let pendingScroll = false;
-
-      const updateScrollState = () => {
-        pendingScroll = false;
-        const currentY = window.scrollY;
-        const now = performance.now();
-        const dy = Math.abs(currentY - lastScrollY);
-        const dt = Math.max(16, now - lastScrollTime);
-
-        const speed = Math.min(1, dy / dt * 0.35);
-        scrollImpulse = Math.max(scrollImpulse, speed);
-        scrollProgress = Math.min(1, currentY / Math.max(window.innerHeight * 0.9, 1));
-
-        lastScrollY = currentY;
-        lastScrollTime = now;
-      };
-
-      const onScroll = () => {
-        if (pendingScroll) return;
-        pendingScroll = true;
-        rafId = window.requestAnimationFrame(updateScrollState);
-      };
-
       const sketch = (s: any) => {
         const resize = () => {
           const width = container.offsetWidth;
@@ -99,7 +71,13 @@ export default function ScrollReactiveBackground() {
         s.draw = () => {
           s.clear();
 
-          const energy = prefersReducedMotion ? 0.2 : Math.min(1, scrollProgress * 0.65 + scrollImpulse * 0.9);
+          // Always-visible baseline with a gentle autonomous pulse (no scroll dependency).
+          const pulse = (Math.sin(s.frameCount * 0.012) + 1) * 0.5;
+          const energy = prefersReducedMotion
+            ? 0.34
+            : isMobile
+              ? 0.38 + pulse * 0.08
+              : 0.34 + pulse * 0.1;
           const nodeAlpha = 12 + energy * 52;
           const lineAlphaBase = 6 + energy * 30;
           const driftMultiplier = 0.5 + energy * 0.65;
@@ -139,37 +117,16 @@ export default function ScrollReactiveBackground() {
             s.fill(particle.hue[0], particle.hue[1], particle.hue[2], nodeAlpha);
             s.circle(particle.x, particle.y, particle.radius * 2);
           }
-
-          scrollImpulse *= 0.92;
         };
       };
 
       instance = new P5(sketch, container);
-      window.addEventListener("scroll", onScroll, { passive: true });
-      updateScrollState();
-
-      const cleanupScroll = () => {
-        window.removeEventListener("scroll", onScroll);
-        if (rafId) {
-          window.cancelAnimationFrame(rafId);
-          rafId = 0;
-        }
-      };
-
-      const originalRemove = instance.remove.bind(instance);
-      instance.remove = () => {
-        cleanupScroll();
-        originalRemove();
-      };
     };
 
     setupSketch();
 
     return () => {
       isMounted = false;
-      if (rafId) {
-        window.cancelAnimationFrame(rafId);
-      }
       instance?.remove();
     };
   }, []);

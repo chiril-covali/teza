@@ -1,72 +1,38 @@
-# Coeficientul Binomial
+<!-- custom-doc -->
+# 🚀 **Coeficient Binomial (n luate câte k)**
 
-Slug: matematica_binomial_coefficient
-Categorie: Matematică
+## 📝 **Descriere**
+**Coeficientul Binomial**, notat $\binom{n}{k}$, reprezintă numărul de moduri în care putem alege un subset de $k$ elemente dintr-un set de $n$ elemente distincte, fără a conta ordinea. Este un concept central în combinatorică și apare în expansiunea binomială a lui $(x+y)^n$.
 
-## Introducere
+## 🖼️ **Reprezentare Vizuală**
+![Pascal Triangle](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Pascal%27s_triangle_5.svg/300px-Pascal%27s_triangle_5.svg.png)
 
-Coeficientul binomial C(n, k), citit „n alege k", reprezintă numărul de moduri de a alege k elemente dintr-o mulțime de n elemente, fără a ține cont de ordine. Este notat C(n,k) sau ⁿCₖ sau „n sub k" (binomial).
-
-Apare în teoria probabilităților, statistică, algebră combinatorică și în expansiunea binomului lui Newton: (a+b)ⁿ = Σ C(n,k) × aⁿ⁻ᵏ × bᵏ. Valorile C(n,k) formează rândurile triunghiului lui Pascal.
-
-## Descriere
-
-**Definiție:** C(n, k) = n! / (k! × (n-k)!)
-
-**Proprietăți:**
-- C(n, 0) = C(n, n) = 1
-- C(n, k) = C(n, n-k)
-- C(n, k) = C(n-1, k-1) + C(n-1, k) (recurența Pascal)
-
-**Pașii algoritmului (DP iterativ):**
-1. Inițializează dp[0] = 1.
-2. Pentru i de la 1 la n, actualizează dp de la k în jos: dp[j] += dp[j-1].
-3. Returnează dp[k].
-
-## Complexitate
-
-| Caz | Timp | Spațiu |
-|-----|------|--------|
-| Programare dinamică | O(n×k) | O(k) |
-| Formula directă | O(k) | O(1) |
-
-**Explicație:** Calculul direct al formulei poate provoca overflow pentru n mare; DP evită calculul factorialilor mari.
-
-## Pseudocod
-
-```
-funcție binomial(n, k):
-    dacă k > n: returnează 0
-    dacă k = 0 sau k = n: returnează 1
-    k ← min(k, n-k)  // optimizare simetrie
-    rezultat ← 1
-    pentru i de la 0 la k-1:
-        rezultat ← rezultat × (n - i) / (i + 1)
-    returnează rezultat
+**Diagramă ASCII (Triunghiul lui Pascal):**
+```text
+      1          (n=0)
+     1 1         (n=1)
+    1 2 1        (n=2)
+   1 3 3 1       (n=3)
+  1 4 6 4 1      (n=4)
 ```
 
-## Exemple
+## ⚖️ **Avantaje și Dezavantaje**
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Esențial:** Baza multor calcule în statistică și probabilități. | ⚠️ **Overflow:** Valorile cresc extrem de rapid, depășind limitele BigInt. |
+| 📊 **Proprietate de Simetrie:** $\binom{n}{k} = \binom{n}{n-k}$, simplificând calculul. | 📉 **Cost Calcul:** Formula cu factoriale este ineficientă pentru $n$ mare. |
 
-**C(5, 2):** 5! / (2! × 3!) = 120 / (2 × 6) = **10**
+## 🔢 **Analiză Matematică și Complexitate**
+Formula de bază: $\binom{n}{k} = \frac{n!}{k!(n-k)!}$.
+Proprietatea de recurență: $\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}$.
 
-Cele 10 perechi din {1,2,3,4,5}: {1,2},{1,3},{1,4},{1,5},{2,3},{2,4},{2,5},{3,4},{3,5},{4,5}.
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Programare Dinamică)** | $O(n \cdot k)$ |
+| **Timp (Optim)** | $O(k)$ |
+| **Spațiu (Space)** | $O(k)$ |
 
-**C(10, 3):** 10×9×8 / (3×2×1) = 720/6 = **120**
-
-**(a+b)³:** C(3,0)a³ + C(3,1)a²b + C(3,2)ab² + C(3,3)b³ = a³ + 3a²b + 3ab² + b³
-
-## Aplicații
-
-- **Probabilitate** – distribuția binomială P(X=k) = C(n,k) × pᵏ × (1-p)ⁿ⁻ᵏ.
-- **Combinatorică** – numărarea subseturilor, combinărilor.
-- **Teoria grafurilor** – numărarea subgrafurilor complete.
-- **Algoritmi** – în analiza algoritmilor randomizați.
-
-## Observații din implementare
-
-- Implementarea folosește funcții arrow/funcții compacte.
-
-## Resurse
-
-- [Wikipedia – Coeficient binomial](https://ro.wikipedia.org/wiki/Coeficient_binomial)
-- [GeeksForGeeks – Binomial Coefficient](https://www.geeksforgeeks.org/binomial-coefficient-dp-9/)
+## 💡 **Aplicații Practice**
+- **Statistică:** Calcularea probabilităților în distribuția binomială.
+- **Genetică:** Estimarea combinațiilor posibile de gene.
+- **Calcul numeric:** Expansiunea funcțiilor în serii de puteri.

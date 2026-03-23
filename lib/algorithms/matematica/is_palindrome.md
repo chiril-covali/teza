@@ -1,11 +1,36 @@
-# Verificare Palindrome
+<!-- custom-doc -->
+# 🚀 **Verificare Palindrom (Is Palindrome)**
 
-Slug: matematica_is_palindrome
-Categorie: Matematică
+## 📝 **Descriere**
+Un **palindrom** este un număr sau un șir de caractere care se citește la fel de la stânga la dreapta și de la dreapta la stânga (ex: 121, 44, "radar"). În cazul numerelor, algoritmul verifică dacă numărul original este egal cu inversul său, fără a converti neapărat numărul într-un șir de caractere (pentru eficiență).
 
-## Descriere
-A function to see if a number is a palindrome. Note that if the reversed number is larger than MAX_SAFE_INTEGER, rounding errors may occur and the result may be incorrect.
+## 🖼️ **Reprezentare Vizuală**
+![Palindrome Concept](https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Palindrome_Mirror.svg/300px-Palindrome_Mirror.svg.png)
 
-## Observații din implementare
-- Folosește cel puțin o buclă while în implementare.
-- Implementarea folosește funcții arrow/funcții compacte.
+**Diagramă ASCII (Proces):**
+```text
+Original: 12321
+1. Extrage cifrele: 1, 2, 3, 2, 1
+2. Reconstruiește invers: (((1*10+2)*10+3)*10+2)*10+1 = 12321
+3. Compară: 12321 == 12321 ✅
+Rezultat: Este palindrom.
+```
+
+## ⚖️ **Avantaje și Dezavantaje**
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Eficiență:** Se poate verifica în timp logaritmic raportat la mărimea numărului. | ⚠️ **Overflow:** Inversul unui număr mare poate depăși limita tipului de date (ex: 32-bit int). |
+| 📊 **Fără conversie de tip:** Operarea directă pe numere economisește memorie. | 📉 **Simetrie:** Ignoră semnele (numerele negative nu sunt de obicei considerate palindromuri). |
+
+## 🔢 **Analiză Matematică și Complexitate**
+Algoritmul parcurge fiecare cifră o singură dată.
+
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Time)** | $O(\log_{10} n)$ |
+| **Spațiu (Space)** | $O(1)$ |
+
+## 💡 **Aplicații Practice**
+- **Teoria Numerelor:** Studiul numerelor cu proprietăți simetrice (ex: primele palindromice).
+- **Prelucrarea Textului:** Verificarea simetriei în șiruri de caractere sau secvențe ADN.
+- **Logica de Interfață:** Validarea datelor introduse de utilizatori în jocuri de cuvinte.

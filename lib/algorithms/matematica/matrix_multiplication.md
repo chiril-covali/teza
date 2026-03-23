@@ -1,72 +1,39 @@
-# Înmulțirea Matricelor
+<!-- custom-doc -->
+# 🚀 **Înmulțirea Matricelor (Matrix Multiplication)**
 
-Slug: matematica_matrix_multiplication
-Categorie: Matematică
+## 📝 **Descriere**
+**Înmulțirea Matricelor** este o operație binară care produce o matrice dintr-o pereche de matrice. Pentru ca produsul $C = A \times B$ să fie definit, numărul de coloane ale primei matrice $A$ trebuie să fie egal cu numărul de rânduri ale celei de-a doua matrice $B$. Fiecare element $c_{ij}$ al matricei rezultat este obținut prin produsul scalar al rândului $i$ din $A$ cu coloana $j$ din $B$.
 
-## Introducere
+## 🖼️ **Reprezentare Vizuală**
+![Matrix Multiplication](https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Matrix_multiplication_diagram.svg/400px-Matrix_multiplication_diagram.svg.png)
 
-Înmulțirea matricelor este operația fundamentală a algebrei liniare, definită pentru o matrice A de dimensiune m×n și o matrice B de dimensiune n×p, producând o matrice C de dimensiune m×p. A fost formalizată de Arthur Cayley în 1855 și stă la baza calculului numeric modern.
+**Diagramă ASCII (Proces):**
+```text
+A (2x3) x B (3x2) = C (2x2)
 
-Această operație este esențială în grafică pe calculator (transformări geometrice), rețele neuronale (propagarea înainte), fizică (transformări de coordonate) și rezolvarea sistemelor de ecuații liniare.
+[ a11 a12 a13 ]   [ b11 b12 ]   [ c11 c12 ]
+[ a21 a22 a23 ] x [ b21 b22 ] = [ c21 c22 ]
+                  [ b31 b32 ]
 
-## Descriere
-
-**Definiție:** C[i][j] = Σ A[i][k] × B[k][j], pentru k de la 0 la n-1.
-
-**Pașii algoritmului:**
-1. Verifică că numărul de coloane din A egal cu numărul de rânduri din B.
-2. Creează matricea rezultat C de dimensiune m×p, inițializată cu 0.
-3. Pentru fiecare i (rând A), j (coloană B), k (coloană A / rând B): C[i][j] += A[i][k] × B[k][j].
-4. Returnează C.
-
-## Complexitate
-
-| Caz | Timp | Spațiu |
-|-----|------|--------|
-| Algoritm naiv | O(n³) | O(n²) |
-| Strassen | O(n^2.807) | O(n²) |
-| Coppersmith-Winograd | O(n^2.373) | O(n²) |
-
-**Explicație:** Algoritmul naiv folosește 3 bucle imbricate. Strassen reduce numărul de înmulțiri prin divide et impera.
-
-## Pseudocod
-
-```
-funcție înmulțireMatrice(A, B):
-    m ← rânduri(A), n ← coloane(A), p ← coloane(B)
-    C ← matrice m×p de zerouri
-    pentru i de la 0 la m-1:
-        pentru j de la 0 la p-1:
-            pentru k de la 0 la n-1:
-                C[i][j] ← C[i][j] + A[i][k] × B[k][j]
-    returnează C
+c11 = (a11*b11) + (a12*b21) + (a13*b31)
 ```
 
-## Exemple
+## ⚖️ **Avantaje și Dezavantaje**
+| Avantaj | Dezavantaj |
+| :--- | :--- |
+| 🚀 **Esențial:** Baza pentru aproape toate calculele în grafica 3D și AI. | ⚠️ **Complexitate:** Algoritmul standard este lent pentru matrice foarte mari ($O(n^3)$). |
+| 📊 **Paralelizare:** Operația poate fi ușor împărțită pentru a rula pe mai multe nuclee sau GPU. | 📉 **Memorie:** Rezultatul necesită un spațiu nou de stocare de dimensiune $m \times p$. |
 
-**A (2×3) × B (3×2):**
-```
-A = [[1,2,3],    B = [[7,8],     C = [[1×7+2×9+3×11, 1×8+2×10+3×12],
-     [4,5,6]]         [9,10],         [4×7+5×9+6×11, 4×8+5×10+6×12]]
-                      [11,12]]
-  = [[58, 64],
-     [139, 154]]
-```
+## 🔢 **Analiză Matematică și Complexitate**
+Dacă $A$ este $m \times n$ și $B$ este $n \times p$.
 
-## Aplicații
+| Tip Complexitate | Valoare |
+| :--- | :--- |
+| **Timp (Standard)** | $O(m \cdot n \cdot p)$ |
+| **Timp (Strassen)** | $O(n^{2.807})$ |
+| **Spațiu (Space)** | $O(m \cdot p)$ |
 
-- **Grafică 3D** – rotații, scalări, translații prin matrice de transformare 4×4.
-- **Machine Learning** – propagarea în rețele neuronale profunde.
-- **Rezolvarea sistemelor liniare** – Ax = b prin eliminare gaussiană.
-- **Procesarea semnalelor** – transformata Fourier discretă.
-- **Mecanică cuantică** – operatorii sunt reprezentați ca matrice.
-
-## Observații din implementare
-
-- Folosește cel puțin o buclă for în implementare.
-- Implementarea folosește funcții arrow/funcții compacte.
-
-## Resurse
-
-- [Wikipedia – Înmulțirea matricelor](https://ro.wikipedia.org/wiki/%C3%8Enul%C8%9Birea_matricelor)
-- [GeeksForGeeks – Matrix Multiplication](https://www.geeksforgeeks.org/c-program-multiply-two-matrices/)
+## 💡 **Aplicații Practice**
+- **Inteligență Artificială:** Antrenarea rețelelor neuronale (Deep Learning).
+- **Grafică pe Calculator:** Transformări geometrice (rotații, scalări, proiecții).
+- **Criptografie:** Implementarea unor algoritmi de criptare bazați pe matrice.

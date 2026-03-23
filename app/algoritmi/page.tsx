@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { AlgorithmMeta } from "@/lib/algorithms";
+import { getCategoryDisplayName, getCategoryVisual, normalizeCategoryKey as normalizeThemeCategoryKey } from "@/lib/algorithm-category-theme";
 import Link from "next/link";
 import { api } from "@/lib/api";
 import ScrollReactiveBackground from "../components/ScrollReactiveBackground";
@@ -10,184 +11,7 @@ import {
   ChevronLeftIcon, 
   SearchIcon,
   FilterIcon,
-  StackIcon,
-  CodeSquareIcon,
-  OrganizationIcon,
-	ReplyIcon,
-  ShieldCheckIcon,
-  ChecklistIcon,
-  PulseIcon
 } from "@primer/octicons-react";
-
-const categoryIcons: Record<string, any> = {
-	"sortare": <StackIcon />,
-	"căutare": <SearchIcon />,
-	"grafuri": <OrganizationIcon />,
-	"matematică": <PulseIcon />,
-	"programare_dinamică": <CodeSquareIcon />,
-	"cifrare": <ShieldCheckIcon />,
-	"structuri_de_date": <ChecklistIcon />,
-	"manipulare_de_biți": <ProjectIcon />,
-	"altele": <ProjectIcon />,
-	"diverse": <ProjectIcon />,
-  "sorts": <StackIcon />,
-  "search": <SearchIcon />,
-  "graph": <OrganizationIcon />,
-  "maths": <PulseIcon />,
-	"backtracking": <ReplyIcon />,
-  "dynamic_programming": <CodeSquareIcon />,
-  "ciphers": <ShieldCheckIcon />,
-  "data_structures": <ChecklistIcon />,
-  "bit_manipulation": <ProjectIcon />,
-  "other": <ProjectIcon />,
-};
-
-const categoryThemes: Record<string, { iconWrap: string; cardAccent: string; chevronWrap: string; cardHover: string }> = {
-	backtracking: {
-		iconWrap: "bg-amber-500 text-white shadow-amber-100",
-		cardAccent: "group-hover:text-amber-600",
-		chevronWrap: "group-hover:bg-amber-50 group-hover:text-amber-600",
-		cardHover: "hover:border-amber-200 hover:shadow-amber-100/40",
-	},
-	sortare: {
-		iconWrap: "bg-rose-500 text-white shadow-rose-100",
-		cardAccent: "group-hover:text-rose-600",
-		chevronWrap: "group-hover:bg-rose-50 group-hover:text-rose-600",
-		cardHover: "hover:border-rose-200 hover:shadow-rose-100/40",
-	},
-	sorts: {
-		iconWrap: "bg-rose-500 text-white shadow-rose-100",
-		cardAccent: "group-hover:text-rose-600",
-		chevronWrap: "group-hover:bg-rose-50 group-hover:text-rose-600",
-		cardHover: "hover:border-rose-200 hover:shadow-rose-100/40",
-	},
-	cautare: {
-		iconWrap: "bg-cyan-500 text-white shadow-cyan-100",
-		cardAccent: "group-hover:text-cyan-600",
-		chevronWrap: "group-hover:bg-cyan-50 group-hover:text-cyan-600",
-		cardHover: "hover:border-cyan-200 hover:shadow-cyan-100/40",
-	},
-	search: {
-		iconWrap: "bg-cyan-500 text-white shadow-cyan-100",
-		cardAccent: "group-hover:text-cyan-600",
-		chevronWrap: "group-hover:bg-cyan-50 group-hover:text-cyan-600",
-		cardHover: "hover:border-cyan-200 hover:shadow-cyan-100/40",
-	},
-	grafuri: {
-		iconWrap: "bg-indigo-500 text-white shadow-indigo-100",
-		cardAccent: "group-hover:text-indigo-600",
-		chevronWrap: "group-hover:bg-indigo-50 group-hover:text-indigo-600",
-		cardHover: "hover:border-indigo-200 hover:shadow-indigo-100/40",
-	},
-	graph: {
-		iconWrap: "bg-indigo-500 text-white shadow-indigo-100",
-		cardAccent: "group-hover:text-indigo-600",
-		chevronWrap: "group-hover:bg-indigo-50 group-hover:text-indigo-600",
-		cardHover: "hover:border-indigo-200 hover:shadow-indigo-100/40",
-	},
-	matematica: {
-		iconWrap: "bg-lime-500 text-white shadow-lime-100",
-		cardAccent: "group-hover:text-lime-700",
-		chevronWrap: "group-hover:bg-lime-50 group-hover:text-lime-700",
-		cardHover: "hover:border-lime-200 hover:shadow-lime-100/40",
-	},
-	maths: {
-		iconWrap: "bg-lime-500 text-white shadow-lime-100",
-		cardAccent: "group-hover:text-lime-700",
-		chevronWrap: "group-hover:bg-lime-50 group-hover:text-lime-700",
-		cardHover: "hover:border-lime-200 hover:shadow-lime-100/40",
-	},
-	programare_dinamica: {
-		iconWrap: "bg-emerald-500 text-white shadow-emerald-100",
-		cardAccent: "group-hover:text-emerald-600",
-		chevronWrap: "group-hover:bg-emerald-50 group-hover:text-emerald-600",
-		cardHover: "hover:border-emerald-200 hover:shadow-emerald-100/40",
-	},
-	dynamic_programming: {
-		iconWrap: "bg-emerald-500 text-white shadow-emerald-100",
-		cardAccent: "group-hover:text-emerald-600",
-		chevronWrap: "group-hover:bg-emerald-50 group-hover:text-emerald-600",
-		cardHover: "hover:border-emerald-200 hover:shadow-emerald-100/40",
-	},
-	cifrare: {
-		iconWrap: "bg-fuchsia-500 text-white shadow-fuchsia-100",
-		cardAccent: "group-hover:text-fuchsia-600",
-		chevronWrap: "group-hover:bg-fuchsia-50 group-hover:text-fuchsia-600",
-		cardHover: "hover:border-fuchsia-200 hover:shadow-fuchsia-100/40",
-	},
-	ciphers: {
-		iconWrap: "bg-fuchsia-500 text-white shadow-fuchsia-100",
-		cardAccent: "group-hover:text-fuchsia-600",
-		chevronWrap: "group-hover:bg-fuchsia-50 group-hover:text-fuchsia-600",
-		cardHover: "hover:border-fuchsia-200 hover:shadow-fuchsia-100/40",
-	},
-	structuri_de_date: {
-		iconWrap: "bg-sky-500 text-white shadow-sky-100",
-		cardAccent: "group-hover:text-sky-600",
-		chevronWrap: "group-hover:bg-sky-50 group-hover:text-sky-600",
-		cardHover: "hover:border-sky-200 hover:shadow-sky-100/40",
-	},
-	data_structures: {
-		iconWrap: "bg-sky-500 text-white shadow-sky-100",
-		cardAccent: "group-hover:text-sky-600",
-		chevronWrap: "group-hover:bg-sky-50 group-hover:text-sky-600",
-		cardHover: "hover:border-sky-200 hover:shadow-sky-100/40",
-	},
-	manipulare_de_biti: {
-		iconWrap: "bg-violet-500 text-white shadow-violet-100",
-		cardAccent: "group-hover:text-violet-600",
-		chevronWrap: "group-hover:bg-violet-50 group-hover:text-violet-600",
-		cardHover: "hover:border-violet-200 hover:shadow-violet-100/40",
-	},
-	bit_manipulation: {
-		iconWrap: "bg-violet-500 text-white shadow-violet-100",
-		cardAccent: "group-hover:text-violet-600",
-		chevronWrap: "group-hover:bg-violet-50 group-hover:text-violet-600",
-		cardHover: "hover:border-violet-200 hover:shadow-violet-100/40",
-	},
-	diverse: {
-		iconWrap: "bg-orange-500 text-white shadow-orange-100",
-		cardAccent: "group-hover:text-orange-600",
-		chevronWrap: "group-hover:bg-orange-50 group-hover:text-orange-600",
-		cardHover: "hover:border-orange-200 hover:shadow-orange-100/40",
-	},
-	altele: {
-		iconWrap: "bg-slate-500 text-white shadow-slate-100",
-		cardAccent: "group-hover:text-slate-700",
-		chevronWrap: "group-hover:bg-slate-100 group-hover:text-slate-700",
-		cardHover: "hover:border-slate-300 hover:shadow-slate-100/40",
-	},
-	other: {
-		iconWrap: "bg-slate-500 text-white shadow-slate-100",
-		cardAccent: "group-hover:text-slate-700",
-		chevronWrap: "group-hover:bg-slate-100 group-hover:text-slate-700",
-		cardHover: "hover:border-slate-300 hover:shadow-slate-100/40",
-	},
-};
-
-function getCategoryTheme(categoryKey: string) {
-	return (
-		categoryThemes[categoryKey] || {
-			iconWrap: "bg-slate-600 text-white shadow-slate-100",
-			cardAccent: "group-hover:text-slate-900",
-			chevronWrap: "group-hover:bg-slate-100 group-hover:text-slate-700",
-			cardHover: "hover:border-slate-300 hover:shadow-slate-100/40",
-		}
-	);
-}
-
-const categoryLabelsRo: Record<string, string> = {
-	sorts: "Sortare",
-	search: "Căutare",
-	graph: "Grafuri",
-	maths: "Matematică",
-	backtracking: "Backtracking",
-	dynamic_programming: "Programare Dinamică",
-	ciphers: "Criptografie",
-	data_structures: "Structuri de Date",
-	bit_manipulation: "Manipulare de Biți",
-	other: "Altele",
-};
 
 const tokenMapRo: Record<string, string> = {
 	backtracking: "",
@@ -323,8 +147,7 @@ function isPlaceholderDescription(text?: string): boolean {
 }
 
 function getCategoryRo(category: string): string {
-	const key = normalizeKey(category);
-	return categoryLabelsRo[key] || titleCaseRo(category.replace(/_/g, " "));
+	return getCategoryDisplayName(category) || titleCaseRo(category.replace(/_/g, " "));
 }
 
 function translateTechnicalTextToRo(text: string): string {
@@ -402,7 +225,7 @@ function buildRomanianName(algo: AlgorithmMeta): string {
 		.filter(Boolean);
 	let raw = dedupeWords(translated.join(" ").replace(/\s+/g, " ").trim());
 
-	if (normalizeKey(algo.category) === "căutare" || normalizeKey(algo.category) === "search") {
+	if (normalizeThemeCategoryKey(algo.category) === "cautare") {
 		if (!raw.startsWith("căutare") && raw.length) {
 			raw = `căutare ${raw}`;
 		}
@@ -457,7 +280,7 @@ export default function AlgorithmsPage() {
 
 	const localizedAlgorithms = useMemo<CatalogAlgorithm[]>(() => {
 		return algorithms.map((algo) => {
-			const categoryKey = normalizeKey(algo.category);
+			const categoryKey = normalizeThemeCategoryKey(algo.category);
 			const categoryRo = getCategoryRo(algo.category);
 			const displayNameRo = buildRomanianName(algo);
 			return {
@@ -564,12 +387,12 @@ export default function AlgorithmsPage() {
 					<div className="space-y-16 pb-20">
 						{sortedCategories.map(([categoryKey, categoryData]) => (
 							(() => {
-								const categoryTheme = getCategoryTheme(categoryKey);
+								const categoryTheme = getCategoryVisual(categoryKey);
 								return (
 								<div key={categoryKey} className="space-y-8">
 								<div className="flex items-center gap-4">
 									<div className={`p-2.5 rounded-xl shadow-lg ${categoryTheme.iconWrap}`}>
-											{categoryIcons[categoryKey] || <StackIcon />}
+											{categoryTheme.icon}
                                     </div>
 									<h2 className="text-xl font-black text-slate-900 uppercase tracking-wider">{categoryData.label}</h2>
 									<div className="h-px flex-1 bg-slate-200/60" />
@@ -580,19 +403,17 @@ export default function AlgorithmsPage() {
 										<Link
 											key={algo.slug}
 											href={`/algoritmi/${algo.slug}`}
-											className={`group relative overflow-hidden p-6 bg-white rounded-3xl border border-slate-100 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1 ${categoryTheme.cardHover}`}
+											className={`group relative overflow-visible p-6 bg-white rounded-3xl border border-slate-100 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1 hover:z-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${categoryTheme.cardHover}`}
 										>
-											<div className="flex items-start justify-between gap-3">
+											<div className="flex items-center justify-center text-center">
 												<h3 className={`text-base font-bold text-slate-900 transition-colors leading-snug ${categoryTheme.cardAccent}`}>
 													{algo.displayNameRo}
 												</h3>
-												<div className={`h-10 w-10 shrink-0 flex items-center justify-center rounded-2xl bg-slate-50 text-slate-300 transition-all ${categoryTheme.chevronWrap}`}>
-													<ChevronLeftIcon className="rotate-180" size={20} />
-												</div>
 											</div>
 
-											<div className="mt-4 space-y-2 opacity-0 max-h-0 transition-all duration-300 group-hover:opacity-100 group-hover:max-h-40">
-												<p className="text-sm text-slate-600 leading-relaxed">
+											<div className="pointer-events-none absolute left-1/2 top-full z-30 mt-2 w-[min(32rem,92vw)] -translate-x-1/2 translate-y-1 rounded-2xl border border-slate-200 bg-white p-4 opacity-0 shadow-xl transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+												<p className="text-center text-xs font-semibold uppercase tracking-wider text-slate-400">Detalii algoritm</p>
+												<p className="mt-2 text-center text-sm text-slate-600 leading-relaxed">
 													{algo.descriptionRo}
 												</p>
 											</div>

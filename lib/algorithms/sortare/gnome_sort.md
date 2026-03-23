@@ -1,85 +1,77 @@
-# Sortare Gnome (Gnome Sort)
+<!-- custom-doc -->
+# Gnome Sortare
 
-## Introducere
+Gnome Sortare este un algoritm de sortare simplu, similar cu algoritmul de sortare prin inserție, dar cu o abordare diferită în ceea ce privește mișcarea elementelor. Acest algoritm funcționează prin compararea perechilor de elemente adiacente și prin schimbarea lor de poziție dacă sunt în ordine greșită, având o logică similară cu cea a unui gnom care își aranjează florile.
 
-Sortarea Gnome (Gnome Sort), numită și Stupid Sort în varianta sa originală, este un algoritm de sortare simplu bazat pe comparații, conceptual similar cu sortarea prin inserție. A fost propus de Hamid Sarbazi-Azad în 2000 sub numele de „Stupid Sort", iar mai târziu Dick Grune i-a dat denumirea mai prietenoasă de „Gnome Sort" în 2000, inspirat de o analogie cu un grădinar gnome care sortează ghivece de flori.
+## Reprezentare Vizuală
 
-Analogia originală: un gnome de grădină sortează un șir de ghivece de flori după înălțime. Gnome-ul se uită la ghivecele adiacente — dacă sunt în ordine corectă, avansează înainte; dacă nu, le interschimbă și face un pas înapoi pentru a verifica din nou. Procesul continuă până când gnome-ul ajunge la capătul șirului.
+Considerăm un exemplu cu un vector de numere: `[5, 3, 2, 4, 1]`.
 
-Deși algoritmul nu este eficient pentru seturi mari de date (O(n²) în cazul mediu), are o implementare extrem de simplă — poate fi scris în 5-6 linii de cod — și este util în scop educațional pentru înțelegerea principiilor de bază ale sortării.
-
-## Descriere
-
-Algoritmul menține un pointer curent care parcurge tabloul. La fiecare poziție, dacă elementele de la pozițiile curente și precedente sunt în ordine corectă (sau pointer-ul este la început), avansează. Dacă nu sunt în ordine, le interschimbă și se întoarce un pas înapoi. Procesul continuă până când pointer-ul ajunge la capătul tabloului.
-
-**Pașii algoritmului:**
-
-1. Inițializează pointer-ul `pos = 0`.
-2. Dacă `pos = 0`, incrementează `pos` (nu există element precedent de comparat).
-3. Dacă `A[pos] >= A[pos-1]`, elementele sunt în ordine — incrementează `pos`.
-4. Dacă `A[pos] < A[pos-1]`, elementele sunt în ordine greșită:
-   - Interschimbă `A[pos]` cu `A[pos-1]`.
-   - Decrementează `pos` (întoarce-te un pas înapoi).
-5. Repetă pașii 2–4 până când `pos = n` (capătul tabloului).
-
-## Complexitate
-
-| Caz | Timp | Spațiu |
-|-----|------|--------|
-| Cel mai bun | O(n) | O(1) |
-| Mediu | O(n²) | O(1) |
-| Cel mai rău | O(n²) | O(1) |
-
-**Explicație:** Cazul cel mai bun apare când tabloul este deja sortat — pointer-ul avansează continuu fără nicio întoarcere, rezultând O(n). Cazul cel mai rău apare când tabloul este sortat descrescător — pentru fiecare element, pointer-ul trebuie să se întoarcă până la poziția 0, rezultând 0+1+2+...+(n-1) = O(n²) operații. Spațiul este O(1) — sortarea este in-place, fără structuri auxiliare.
-
-## Pseudocod
-
+1. Pasul inițial:
 ```
-functie gnomeSort(A, n):
-    pos = 0
-    cat timp pos < n:
-        daca pos == 0:
-            pos++
-        altfel daca A[pos] >= A[pos-1]:
-            pos++
-        altfel:
-            interschimba A[pos] cu A[pos-1]
-            pos--
-    returneaza A
+Index:  0  1  2  3  4
+Vector: 5  3  2  4  1
+```
+2. Comparăm 5 și 3:
+```
+Index:  0  1  2  3  4
+Vector: 3  5  2  4  1
+```
+3. Comparăm 5 și 2:
+```
+Index:  0  1  2  3  4
+Vector: 3  2  5  4  1
+```
+4. Comparăm 5 și 4:
+```
+Index:  0  1  2  3  4
+Vector: 3  2  4  5  1
+```
+5. Comparăm 5 și 1:
+```
+Index:  0  1  2  3  4
+Vector: 3  2  4  1  5
+```
+6. Revenim la 4 și 1:
+```
+Index:  0  1  2  3  4
+Vector: 3  2  1  4  5
+```
+7. Continuăm procesul până când vectorul devine sortat:
+```
+Index:  0  1  2  3  4
+Vector: 1  2  3  4  5
 ```
 
-## Exemple
+## Matematică / Logică
 
-**Tablou inițial:** `[34, 2, 10, -9]`
+Gnome Sortare utilizează o abordare de tip "backtracking" pentru a sorta elementele. Complexitatea temporală a acestui algoritm este în general $O(n^2)$ în cel mai rău caz, similar cu Bubble Sort și Insertion Sort. Algoritmul poate fi descris prin următoarea logică:
 
-**Iterații:**
-- pos=0 → pos++ → pos=1
-- pos=1: A[1]=2 < A[0]=34 → interschimbă → `[2, 34, 10, -9]`, pos=0
-- pos=0 → pos++ → pos=1
-- pos=1: A[1]=34 >= A[0]=2 → pos++ → pos=2
-- pos=2: A[2]=10 < A[1]=34 → interschimbă → `[2, 10, 34, -9]`, pos=1
-- pos=1: A[1]=10 >= A[0]=2 → pos++ → pos=2
-- pos=2: A[2]=34 >= A[1]=10 → pos++ → pos=3
-- pos=3: A[3]=-9 < A[2]=34 → interschimbă → `[2, 10, -9, 34]`, pos=2
-- pos=2: A[2]=-9 < A[1]=10 → interschimbă → `[2, -9, 10, 34]`, pos=1
-- pos=1: A[1]=-9 < A[0]=2 → interschimbă → `[-9, 2, 10, 34]`, pos=0
-- pos=0 → pos++ → pos=1
-- pos=1: A[1]=2 >= A[0]=-9 → pos++ → pos=2
-- pos=2: A[2]=10 >= A[1]=2 → pos++ → pos=3
-- pos=3: A[3]=34 >= A[2]=10 → pos++ → pos=4 = n → STOP
+1. Compară elementul curent cu următorul.
+2. Dacă elementul curent este mai mare, schimbă-le.
+3. Mergi la elementul anterior dacă ai făcut un schimb, altfel, continuă cu următorul element.
 
-**Tablou final sortat:** `[-9, 2, 10, 34]`
+## Tabel de Complextitate
 
-## Aplicații
+| Caz                | Complexitate Timp | Complexitate Spațiu |
+|--------------------|-------------------|---------------------|
+| Cel mai bun caz    | $O(n)$            | $O(1)$              |
+| Caz mediu          | $O(n^2)$          | $O(1)$              |
+| Cel mai rău caz    | $O(n^2)$          | $O(1)$              |
 
-- **Scop educațional:** Implementarea extrem de simplă îl face ideal pentru predarea conceptelor fundamentale de sortare.
-- **Prototipare rapidă:** Când se dorește o implementare de sortare corectă în minimum de cod.
-- **Seturi de date foarte mici:** n < 10 elemente, unde simplitatea depășește importanța performanței.
-- **Verificarea corectitudinii:** Poate fi folosit ca referință simplă pentru testarea altor algoritmi de sortare.
+## Avantaje și Dezavantaje
 
-## Resurse
+**Avantaje:**
+- Simplu de implementat și de înțeles.
+- Nu necesită memorie suplimentară semnificativă (spațiu constant).
 
-- [Wikipedia – Gnome Sort](https://en.wikipedia.org/wiki/Gnome_sort)
-- [GeeksForGeeks – Gnome Sort](https://www.geeksforgeeks.org/gnome-sort-a-stupid-one/)
-- [Dick Grune – Gnome Sort original](https://dickgrune.com/Programs/gnomesort.html)
-- [Visualgo – Sorting](https://visualgo.net/en/sorting)
+**Dezavantaje:**
+- Ineficient pentru liste mari de date.
+- Complexitate temporală mare în cel mai rău caz.
+
+## Aplicații Practice
+
+Gnome Sortare este rar utilizat în aplicații practice din cauza eficienței sale reduse, dar poate fi folosit în scopuri educaționale pentru a ilustra conceptele de bază ale algoritmilor de sortare. De asemenea, poate fi utilizat în situații în care lista de date este mică și unde implementarea rapidă este mai importantă decât eficiența.
+
+---
+*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*

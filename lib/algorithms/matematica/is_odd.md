@@ -1,62 +1,63 @@
-# Verificare Număr Impar
+<!-- custom-doc -->
+# Verificare Odd
 
-Slug: matematica_is_odd
-Categorie: Matematică
+Verificarea dacă un număr este impar (odd) este o operație fundamentală în matematică și informatică. Un număr întreg este considerat impar dacă nu este divizibil cu 2, adică există un rest de 1 atunci când este împărțit la 2. Această verificare este esențială în diverse aplicații, de la algoritmi simpli la structuri de date complexe.
 
-## Introducere
+## Reprezentare Vizuală
 
-Un număr întreg este **impar** dacă nu este divizibil cu 2, adică împărțirea la 2 lasă rest 1. Numerele impare formează mulțimea {..., -3, -1, 1, 3, 5, 7, ...}. Produsul a două numere impare este tot impar, dar suma lor este întotdeauna pară.
-
-Proprietatea de imparitate are implicații interesante: orice număr impar la pătrat este impar, iar orice număr par la orice putere pozitivă este par. Aceste proprietăți sunt fundamentale în demonstrații matematice prin reducere la absurd.
-
-În informatică, verificarea imparității este complementară verificării parității și apare deseori în algoritmi care procesează alternate sau tratează diferit elementele de pe pozițiile impare.
-
-## Descriere
-
-Verificarea se face prin testarea dacă restul împărțirii la 2 este 1 (sau diferit de 0). Folosind operații pe biți, un număr este impar dacă ultimul bit din reprezentarea sa binară este 1.
-
-**Pașii algoritmului:**
-1. Primește numărul întreg n.
-2. Verifică dacă n % 2 != 0 (sau echivalent (n & 1) == 1).
-3. Dacă da, returnează adevărat (numărul este impar).
-4. Altfel, returnează fals.
-
-## Complexitate
-
-| Caz | Timp | Spațiu |
-|-----|------|--------|
-| General | O(1) | O(1) |
-
-**Explicație:** Operația de modulo sau AND pe biți se execută în timp constant, indiferent de valoarea lui n.
-
-## Pseudocod
+Pentru a verifica dacă un număr $n$ este impar, se poate utiliza următoarea logică:
 
 ```
-funcție esteImpar(n):
-    returnează (n % 2 != 0)
-
-// sau echivalent cu operație pe biți:
-funcție esteImpar(n):
-    returnează (n ȘI 1) == 1
+n % 2 == 1
 ```
 
-## Exemple
+### Exemplu Pas cu Pas
 
-- esteImpar(3) → 3 % 2 = 1 → **adevărat**
-- esteImpar(8) → 8 % 2 = 0 → **fals**
-- esteImpar(1) → **adevărat**
-- esteImpar(-5) → -5 % 2 = -1 ≠ 0 → **adevărat**
-- esteImpar(0) → **fals** (0 este par)
+Să considerăm numărul $7$:
 
-## Aplicații
+1. Se calculează $7 \mod 2$.
+2. Rezultatul este $1$.
+3. Deoarece restul este $1$, concluzionăm că $7$ este un număr impar.
 
-- Algoritmi de sortare care separă elementele pare de cele impare
-- Verificarea simetriei în structuri de date
-- Generarea numerelor prime (toate numerele prime > 2 sunt impare)
-- Algoritmi de compresie și codificare
-- Matematică recreativă și puzzle-uri logice
+```
+Număr: 7
+  |
+  +-- 7 % 2 = 1 (impar)
+```
 
-## Resurse
+## Matematică / Logică
 
-- [Wikipedia - Parity (mathematics)](https://en.wikipedia.org/wiki/Parity_(mathematics))
-- [GeeksForGeeks - Check if a number is even or odd](https://www.geeksforgeeks.org/check-if-a-number-is-even-or-odd/)
+Logica de verificare a parității unui număr poate fi exprimată matematic prin:
+
+$$
+n \text{ este impar} \iff n \mod 2 = 1
+$$
+
+## Tabel de Complextitate
+
+| Caz           | Complexitate Timp | Complexitate Spațiu |
+|---------------|-------------------|---------------------|
+| Cel mai bun   | $O(1)$            | $O(1)$              |
+| Mediu         | $O(1)$            | $O(1)$              |
+| Cel mai rău   | $O(1)$            | $O(1)$              |
+
+## Avantaje și Dezavantaje
+
+### Avantaje
+- Simplu de implementat.
+- Eficiență ridicată (complexitate constantă).
+- Utilizare frecventă în algoritmi și structuri de date.
+
+### Dezavantaje
+- Limitat la verificarea parității (nu oferă informații suplimentare despre număr).
+- Nu se aplică direct pentru numere reale sau fracționare.
+
+## Aplicații Practice
+
+- Determinarea parității în algoritmi de sortare.
+- Utilizarea în jocuri pentru a decide cine începe primul.
+- Implementarea de funcții de hash care depind de paritate.
+- Filtrarea datelor în baze de date sau structuri de date.
+
+---
+*Acest document face parte din biblioteca de algoritmi a proiectului Teza.*

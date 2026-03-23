@@ -87,6 +87,7 @@ export default function HomePage() {
             <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white shadow-sm">
               <img src="/favicon.svg" alt="Logo proiect" className="h-7 w-7" />
             </div>
+            <span className="hidden text-sm font-semibold text-slate-700 sm:inline">Laborator Algoritmi</span>
           </div>
           <div className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
             <a href="#features" className="transition-colors hover:text-indigo-600">Funcționalități</a>
@@ -292,64 +293,60 @@ export default function HomePage() {
         {/* About Team */}
         <section id="about" className="py-24 sm:py-32 bg-white">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid items-center gap-12 lg:grid-cols-2">
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-wider text-indigo-600">Despre proiect</p>
-                <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-                  Covali Chiril
-                </h2>
-                <p className="mt-6 text-lg leading-relaxed text-slate-600">
-                  Student pasionat de informatică și inteligență artificială, concentrat pe dezvoltarea unui laborator
-                  virtual care transformă teoria algoritmilor matematici într-o experiență practică și intuitivă.
-                </p>
-                <p className="mt-4 text-base leading-relaxed text-slate-500">
-                  Această platformă face parte din lucrarea de teză și are ca scop facilitarea învățării prin
-                  simulări interactive, explicații clare și un flux modern de explorare a algoritmilor.
-                </p>
-                <div className="mt-8 rounded-2xl border border-indigo-100 bg-indigo-50/50 p-5">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-indigo-600">Conducător de practică</p>
-                  <p className="mt-2 text-lg font-bold text-slate-900">Nume Conducător Practică</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Numele poate fi actualizat aici cu varianta finală.
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="text-sm font-semibold uppercase tracking-wider text-indigo-600">Despre proiect</p>
+              <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                Oamenii din spatele proiectului
+              </h2>
+            </div>
+
+            <div className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-2">
+              <article className="mx-auto flex w-full max-w-xl gap-4 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
+                <div className="h-32 w-32 flex-shrink-0 overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 sm:h-36 sm:w-36">
+                  <img
+                    src="/images/team/covali-chiril.jpg"
+                    alt="Covali Chiril"
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-indigo-600">Student</p>
+                  <h3 className="mt-1 text-xl font-extrabold tracking-tight text-slate-900">CHIRIL COVALI</h3>
+                  <p className="mt-1 text-sm font-medium text-slate-500">Grupa I-LA231F</p>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                    Student pasionat de informatică și inteligență artificială, concentrat pe dezvoltarea unui laborator
+                    virtual pentru învățare practică și intuitivă.
                   </p>
                 </div>
-              </div>
-              <div className="mx-auto w-full max-w-md">
-                <div className="grid gap-6">
-                  <div className="aspect-[4/5] rounded-3xl border-2 border-dashed border-slate-300 bg-slate-50 p-6 shadow-sm">
-                    <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white text-center">
-                      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-slate-400">
-                        <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" aria-hidden="true">
-                          <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.8" />
-                          <path d="M4 20a8 8 0 0 1 16 0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                        </svg>
-                      </div>
-                      <p className="text-base font-semibold text-slate-700">Loc pentru fotografia autorului</p>
-                      <p className="mt-2 px-6 text-sm text-slate-500">
-                        Poza ta poate fi adăugată ulterior aici.
-                      </p>
-                    </div>
-                  </div>
+              </article>
 
-                  <div className="aspect-[4/5] rounded-3xl border-2 border-dashed border-indigo-300 bg-indigo-50/60 p-6 shadow-sm">
-                    <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-indigo-100 bg-white text-center">
-                      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-500">
-                        <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" aria-hidden="true">
-                          <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.8" />
-                          <path d="M4 20a8 8 0 0 1 16 0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                        </svg>
-                      </div>
-                      <p className="text-base font-semibold text-slate-700">Loc pentru fotografia conducătorului</p>
-                      <p className="mt-2 px-6 text-sm text-slate-500">
-                        Imaginea conducătorului de practică poate fi adăugată aici.
-                      </p>
-                    </div>
-                  </div>
+              <article className="mx-auto flex w-full max-w-xl gap-4 rounded-3xl border border-indigo-200 bg-white p-4 shadow-sm">
+                <div className="h-32 w-32 flex-shrink-0 overflow-hidden rounded-2xl border border-indigo-100 bg-indigo-50/40 sm:h-36 sm:w-36">
+                  <img
+                    src="/images/team/ala-gasnas.jpg"
+                    alt="Ala Gasnas"
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
                 </div>
-              </div>
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-indigo-600">Coordonator academic</p>
+                  <h3 className="mt-1 text-xl font-extrabold tracking-tight text-slate-900">ALA GASNAȘ</h3>
+                  <p className="mt-1 text-sm font-medium text-slate-500">Doctor conferențiar universitar</p>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                    Coordonează academic lucrarea și oferă direcție metodologică pentru claritatea și rigoarea
+                    conținutului tehnic.
+                  </p>
+                </div>
+              </article>
             </div>
           </div>
         </section>
+
+        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8" aria-hidden="true">
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
+        </div>
 
         {/* CTA */}
         <section className="py-24 sm:py-32">
@@ -406,7 +403,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="mt-16 border-t border-slate-100 pt-8 text-center text-sm text-slate-400">
-            © 2026 Proiect de Teză. Toate drepturile rezervate.
+            © 2026 Laborator Algoritmi. Toate drepturile rezervate.
           </div>
         </div>
       </footer>

@@ -143,6 +143,22 @@ for (const item of registry) {
   const notes = algorithmNotesFromCode(source);
 
   const mdPath = tsPath ? tsPath.replace(/\.ts$/, ".md") : fallbackMdPathFromSlug(item.slug);
+  
+  // Check if file already exists and has custom documentation
+  if (fs.existsSync(mdPath)) {
+    const existingContent = fs.readFileSync(mdPath, "utf8");
+    if (existingContent.includes("<!-- custom-doc -->")) {
+      console.log(`Skipping ${item.slug} (custom documentation found)`);
+      docsIndex.push({
+        slug: item.slug,
+        name: item.name,
+        category: item.category,
+        markdownPath: path.relative(root, mdPath).replace(/\\/g, "/"),
+      });
+      continue;
+    }
+  }
+
   const relMdPath = path.relative(root, mdPath).replace(/\\/g, "/");
 
   const md = [

@@ -6,7 +6,7 @@ import "katex/dist/katex.min.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "CHIRIL COVALI - Lucrare de teză",
+  title: "Laborator Algoritmi",
   description:
     "Laborator virtual educațional pentru simularea algoritmilor matematici, realizat ca lucrare de teză cu focus pe claritate, interactivitate și inteligență artificială.",
   icons: {
