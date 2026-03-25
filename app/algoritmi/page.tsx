@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { AlgorithmMeta } from "@/lib/algorithms";
 import { getCategoryDisplayName, getCategoryVisual, normalizeCategoryKey as normalizeThemeCategoryKey } from "@/lib/algorithm-category-theme";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { api } from "@/lib/api";
 import ScrollReactiveBackground from "../components/ScrollReactiveBackground";
 import { 
@@ -364,6 +365,14 @@ export default function AlgorithmsPage() {
 	const [algorithms, setAlgorithms] = useState<AlgorithmMeta[]>([]);
 	const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
+	const searchParams = useSearchParams();
+	const didAutoScrollRef = useRef(false);
+
+	const selectedCategoryKey = useMemo(() => {
+		const fromQuery = searchParams.get("categorie");
+		if (!fromQuery) return "";
+		return normalizeThemeCategoryKey(fromQuery);
+	}, [searchParams]);
 
 	useEffect(() => {
 		let mounted = true;
@@ -403,15 +412,19 @@ export default function AlgorithmsPage() {
 		});
 	}, [algorithms]);
 
-    const filteredAlgorithms = useMemo(() => {
-		if (!search.trim()) return localizedAlgorithms;
+	const filteredAlgorithms = useMemo(() => {
+		const categoryFiltered = selectedCategoryKey
+			? localizedAlgorithms.filter((a) => a.categoryKey === selectedCategoryKey)
+			: localizedAlgorithms;
+
+		if (!search.trim()) return categoryFiltered;
         const s = search.toLowerCase();
-		return localizedAlgorithms.filter(a => 
+		return categoryFiltered.filter(a => 
 			a.displayNameRo.toLowerCase().includes(s) || 
 			a.categoryRo.toLowerCase().includes(s) ||
 			a.descriptionRo.toLowerCase().includes(s)
         );
-	}, [localizedAlgorithms, search]);
+	}, [localizedAlgorithms, search, selectedCategoryKey]);
 
 	const byCategory = filteredAlgorithms.reduce(
 		(acc, algo) => {
@@ -436,6 +449,30 @@ export default function AlgorithmsPage() {
 	const sortedCategories = Object.entries(byCategory).sort(
 		([, a], [, b]) => b.items.length - a.items.length
 	);
+
+	const categoryOptions = useMemo(() => {
+		const counts = localizedAlgorithms.reduce((acc, algo) => {
+			if (!acc[algo.categoryKey]) {
+				acc[algo.categoryKey] = { label: algo.categoryRo, count: 0 };
+			}
+			acc[algo.categoryKey].count += 1;
+			return acc;
+		}, {} as Record<string, { label: string; count: number }>);
+
+		return Object.entries(counts)
+			.map(([key, value]) => ({ key, label: value.label, count: value.count }))
+			.sort((a, b) => b.count - a.count || a.label.localeCompare(b.label, "ro"));
+	}, [localizedAlgorithms]);
+
+	useEffect(() => {
+		if (didAutoScrollRef.current || loading || !selectedCategoryKey) return;
+
+		const target = document.getElementById(`cat-${selectedCategoryKey}`);
+		if (!target) return;
+
+		didAutoScrollRef.current = true;
+		target.scrollIntoView({ behavior: "smooth", block: "start" });
+	}, [loading, selectedCategoryKey, sortedCategories]);
 
 	return (
 		<div className="relative min-h-screen overflow-hidden bg-slate-50">
@@ -462,7 +499,49 @@ export default function AlgorithmsPage() {
 
 			<main className="relative z-10 mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
 				<div className="mb-12 space-y-8">
-					<h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight">Catalogul Algoritmilor</h1>
+					<div className="flex flex-col gap-4">
+						<h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight">Catalogul Algoritmilor</h1>
+						<div className="grid w-full grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+							<Link
+								href="/algoritmi"
+								className={`inline-flex items-center justify-center rounded-xl border px-3 py-2 text-xs font-bold tracking-wide transition-all ${
+									selectedCategoryKey
+										? "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
+										: "border-slate-300 bg-slate-900 text-white"
+								}`}
+							>
+								Toate
+							</Link>
+							{categoryOptions.map((category) => {
+								const categoryTheme = getCategoryVisual(category.key);
+								const isActive = selectedCategoryKey === category.key;
+
+								return (
+									<Link
+										key={category.key}
+										href={`/algoritmi?categorie=${encodeURIComponent(category.key)}`}
+										className={`inline-flex items-center justify-center rounded-xl border px-3 py-2 text-xs font-bold tracking-wide transition-all ${
+											isActive
+												? `${categoryTheme.iconWrap} ring-2 ring-white/70 border-transparent`
+												: `${categoryTheme.badge} border-transparent hover:opacity-90`
+										}`}
+									>
+										{category.label}
+									</Link>
+								);
+							})}
+						</div>
+					</div>
+					{selectedCategoryKey ? (
+						<div className="flex items-center justify-start">
+							<Link
+								href="/algoritmi"
+								className="inline-flex items-center rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-bold text-indigo-700 transition-all hover:bg-indigo-100"
+							>
+								Afișează toate categoriile
+							</Link>
+						</div>
+					) : null}
 					
                     {/* Search Bar */}
                     <div className="relative max-w-2xl group">
@@ -498,8 +577,13 @@ export default function AlgorithmsPage() {
 						{sortedCategories.map(([categoryKey, categoryData]) => (
 							(() => {
 								const categoryTheme = getCategoryVisual(categoryKey);
+								const isSelectedCategory = categoryKey === selectedCategoryKey;
 								return (
-								<div key={categoryKey} className="space-y-8">
+								<div
+									id={`cat-${categoryKey}`}
+									key={categoryKey}
+									className={`space-y-8 scroll-mt-24 ${isSelectedCategory ? "rounded-3xl ring-2 ring-indigo-300/70 p-3 sm:p-4 bg-white/40" : ""}`}
+								>
 								<div className="flex items-center gap-4">
 									<div className={`p-2.5 rounded-xl shadow-lg ${categoryTheme.iconWrap}`}>
 											{categoryTheme.icon}

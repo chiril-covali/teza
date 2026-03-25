@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { allAlgorithms } from "@/lib/algorithms";
 import P5HeroBackground from "./components/P5HeroBackground";
-import LandingAlgorithmShowcaseNoSSR from "./components/LandingAlgorithmShowcaseNoSSR";
 
 const CATEGORY_DETAILS: Record<string, string> = {
   sortare: "Algoritmi de ordonare pentru performanta pe seturi mici si mari de date.",
@@ -167,10 +166,16 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="group relative mx-auto mt-20 aspect-video max-w-5xl overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-2 shadow-2xl">
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-indigo-500/10 to-transparent" />
-              <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-white">
-                <LandingAlgorithmShowcaseNoSSR />
+            <div className="mx-auto mt-20 max-w-5xl">
+              <div className="relative w-full overflow-hidden rounded-2xl bg-white pb-0 pt-[56.25%] shadow-[0_2px_8px_0_rgba(63,69,81,0.16)]">
+                <iframe
+                  loading="lazy"
+                  className="absolute inset-0 block h-full w-full border-0 p-0 m-0"
+                  src="https://www.canva.com/design/DAHE7yjq6Z0/d-5HmdTURPj4lwlktz6FUA/view?embed"
+                  allowFullScreen
+                  allow="fullscreen"
+                  title="Prezentare Canva Laborator Virtual"
+                />
               </div>
             </div>
           </div>
