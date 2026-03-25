@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import { Suspense, useState, useEffect, useMemo, useRef } from "react";
 import { AlgorithmMeta } from "@/lib/algorithms";
 import { getCategoryDisplayName, getCategoryVisual, normalizeCategoryKey as normalizeThemeCategoryKey } from "@/lib/algorithm-category-theme";
 import Link from "next/link";
@@ -361,7 +361,7 @@ function getDescriptionRo(algo: AlgorithmMeta, displayNameRo: string): string {
 	return `${fallbackName} oferă o soluție eficientă pentru problema specificată, detaliată prin pașii din codul sursă.`;
 }
 
-export default function AlgorithmsPage() {
+function AlgorithmsPageContent() {
 	const [algorithms, setAlgorithms] = useState<AlgorithmMeta[]>([]);
 	const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
@@ -622,5 +622,22 @@ export default function AlgorithmsPage() {
 				)}
 			</main>
 		</div>
+	);
+}
+
+export default function AlgorithmsPage() {
+	return (
+		<Suspense
+			fallback={
+				<div className="min-h-screen bg-slate-50">
+					<div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+						<div className="h-10 w-72 animate-pulse rounded-xl bg-slate-200" />
+						<div className="mt-6 h-16 w-full animate-pulse rounded-3xl bg-slate-200" />
+					</div>
+				</div>
+			}
+		>
+			<AlgorithmsPageContent />
+		</Suspense>
 	);
 }
