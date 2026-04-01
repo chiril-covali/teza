@@ -38,6 +38,7 @@ export function allCombinationsInstrumented(input: { n: number; k: number }): Al
 
   trace.push({
     type: "done", array: [],
+    result: { combinations: results },
     note: `Total ${results.length} combinații de ${k} din ${n}.`,
     vars: { total: results.length, exemplu: results[0] ? `[${results[0].join(", ")}]` : "-" },
   });

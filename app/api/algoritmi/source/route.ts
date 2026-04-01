@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { readFile } from "fs/promises";
-import { join } from "path";
+import { join, normalize, sep } from "path";
 import registry from "@/lib/algorithms/algorithms-registry.json";
 
 export async function GET(req: NextRequest) {
@@ -22,7 +22,26 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const fullPath = join(process.cwd(), entry.sourcePath);
+  const sourcePath = String(entry.sourcePath).replace(/\\/g, "/");
+  if (!sourcePath.startsWith("lib/")) {
+    return NextResponse.json(
+      { error: "Calea sursei este invalidă." },
+      { status: 400 }
+    );
+  }
+
+  // Scope file reads to /lib to avoid tracing the entire project in Turbopack.
+  const libRoot = join(process.cwd(), "lib");
+  const relativePath = sourcePath.slice("lib/".length);
+  const fullPath = normalize(join(libRoot, relativePath));
+  const libRootWithSep = libRoot.endsWith(sep) ? libRoot : `${libRoot}${sep}`;
+
+  if (!fullPath.startsWith(libRootWithSep)) {
+    return NextResponse.json(
+      { error: "Acces la cale nepermis." },
+      { status: 400 }
+    );
+  }
 
   let source: string;
   try {

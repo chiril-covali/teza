@@ -43,6 +43,7 @@ export function generateParenthesesInstrumented(input: { n: number }): Algorithm
 
   trace.push({
     type: "done", array: [],
+    result: { combinations: results },
     note: `Total ${results.length} combinații valide pentru n=${n}.`,
     vars: { total: results.length, exemple: results.slice(0, 3).join(", ") },
   });

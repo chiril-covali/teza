@@ -2,7 +2,11 @@ export async function githubModelsChat(
   messages: Array<{ role: string; content: string }>,
   token?: string,
   model?: string,
-  endpoint?: string
+  endpoint?: string,
+  options?: {
+    temperature?: number;
+    maxTokens?: number;
+  }
 ): Promise<string> {
   const apiToken = token || process.env.GITHUB_TOKEN;
   const apiModel = model || process.env.GITHUB_MODELS_MODEL;
@@ -35,7 +39,8 @@ export async function githubModelsChat(
   const payload = {
     model: apiModel,
     messages,
-    temperature: 0.2,
+    temperature: options?.temperature ?? 0.2,
+    ...(typeof options?.maxTokens === "number" ? { max_tokens: options.maxTokens } : {}),
   };
 
   try {
