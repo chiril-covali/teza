@@ -1,0 +1,3 @@
+Conținut aferent tezei:
+- documente/: surse de redactare și ghiduri
+- imagini/: capturi utilizate în lucrare

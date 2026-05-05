@@ -1,0 +1,5 @@
+Conținut aferent website-ului:
+- app/: interfețe și rute
+- lib/: algoritmi, runtime, utilitare
+- public/: resurse statice
+- imagini/: capturi de ecran ale aplicației

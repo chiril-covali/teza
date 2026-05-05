@@ -148,10 +148,59 @@ export async function POST(request: NextRequest) {
 		];
 
 		try {
-			const result = await githubModelsChatWithUsage(messages, undefined, undefined, undefined, {
-				temperature: 0.15,
-				maxTokens: 550,
-			});
+			let result;
+			try {
+				result = await githubModelsChatWithUsage(messages, undefined, undefined, undefined, {
+					temperature: 0.15,
+					maxTokens: 550,
+				});
+			} catch (primaryError) {
+				console.error("GitHub Models primary chat failed, retrying with compact prompt:", primaryError);
+				const fallbackMessages = [
+					{
+						role: "system",
+						content:
+							"Ești un asistent didactic de algoritmi. Răspunde în română, clar și scurt, cu un exemplu simplu.",
+					},
+					{
+						role: "user",
+						content: `Algoritm curent: ${slug}\nÎntrebarea utilizatorului: ${safeQuestion}`,
+					},
+				];
+
+				result = await githubModelsChatWithUsage(
+					fallbackMessages,
+					undefined,
+					undefined,
+					undefined,
+					{ maxTokens: 280 }
+				);
+			}
+
+			if (!result.content || !result.content.trim()) {
+				const emptyRetry = await githubModelsChatWithUsage(
+					[
+						{
+							role: "system",
+							content:
+								"Ești un asistent didactic. Răspunde în română în 2-4 propoziții clare, fără introduceri inutile.",
+						},
+						{
+							role: "user",
+							content: `Algoritm curent: ${slug}\nÎntrebarea utilizatorului: ${safeQuestion}`,
+						},
+					],
+					undefined,
+					undefined,
+					undefined,
+					{ maxTokens: 700 }
+				);
+				result = {
+					content: emptyRetry.content || "Îți pot explica algoritmul pas cu pas dacă îmi dai un exemplu de input.",
+					usage: emptyRetry.usage,
+				};
+			}
+
 			const lastRequestTotalTokens = result.usage?.totalTokens || 0;
 			const tokenQuota = updateDailyUsage(lastRequestTotalTokens);
 			return NextResponse.json({

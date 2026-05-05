@@ -3904,6 +3904,8 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                 <p className="w-full text-[11px] text-slate-500">
                                     Folosiți azi: {chatTokenQuota.todayUsed.toLocaleString("ro-RO")} / {chatTokenQuota.dailyLimit.toLocaleString("ro-RO")} tokeni
                                 </p>
+                            ) : chat.length > 0 ? (
+                                <p className="w-full text-[11px] text-amber-600">Cota zilnică nu a fost primită de la server. Repornește serverul pentru a activa afișarea tokenilor rămași.</p>
                             ) : (
                                 <p className="w-full text-[11px] text-slate-400">Valoarea apare după primul răspuns AI.</p>
                             )}
