@@ -1,5 +1,13 @@
 import { AlgorithmMeta, TraceEvent } from "@/lib/algorithms";
 
+export interface ChatTokenQuota {
+  dailyLimit: number;
+  date: string;
+  todayUsed: number;
+  todayRemaining: number;
+  lastRequestTotalTokens: number;
+}
+
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "/api";
 
 async function request<T>(
@@ -52,7 +60,7 @@ export const api = {
       currentEvent?: TraceEvent;
     }
   ) =>
-    request<{ answer: string }>("/discutie", {
+    request<{ answer: string; tokenQuota?: ChatTokenQuota }>("/discutie", {
       method: "POST",
       body: JSON.stringify({ slug, question, context }),
     }),

@@ -98,7 +98,7 @@ async function githubModelsChat(messages) {
   const payload = {
     model: apiModel,
     messages,
-    temperature: 0.3,
+    ...(!apiModel.includes("gpt-5") ? { temperature: 0.3 } : {}),
   };
 
   const response = await fetch(apiEndpoint, {

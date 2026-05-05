@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { api } from "@/lib/api";
+import type { ChatTokenQuota } from "@/lib/api";
 import { AlgorithmMeta, TraceEvent, allAlgorithms } from "@/lib/algorithms";
 import { getCategoryDisplayName, getCategoryVisual, normalizeCategoryKey as normalizeThemeCategoryKey } from "@/lib/algorithm-category-theme";
 import Link from "next/link";
@@ -3032,6 +3033,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 	const [chat, setChat] = useState<Array<{ role: string; content: string }>>(
 		[]
 	);
+    const [chatTokenQuota, setChatTokenQuota] = useState<ChatTokenQuota | null>(null);
     const [chatLoading, setChatLoading] = useState(false);
     const [tab, setTab] = useState<"descriere" | "viz" | "input" | "chat" | "code">("descriere");
     const [sourceCode, setSourceCode] = useState<string>("");
@@ -3297,6 +3299,9 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 				currentEvent: trace[currentStep],
 			});
             const answer = result.answer || "";
+            if (result.tokenQuota) {
+                setChatTokenQuota(result.tokenQuota);
+            }
             setChat([...newChat, { role: "assistant", content: answer }]);
             setChatLoading(false);
 		} catch (err) {
@@ -3890,6 +3895,19 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 
                 {tab === "chat" && (
                     <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-col h-[600px]">
+                        <div className="mb-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+                            <p className="text-xs font-black uppercase tracking-wider text-slate-500">Tokeni liberi azi</p>
+                            <p className="text-base font-black text-slate-900">
+                                {chatTokenQuota ? chatTokenQuota.todayRemaining.toLocaleString("ro-RO") : "—"}
+                            </p>
+                            {chatTokenQuota ? (
+                                <p className="w-full text-[11px] text-slate-500">
+                                    Folosiți azi: {chatTokenQuota.todayUsed.toLocaleString("ro-RO")} / {chatTokenQuota.dailyLimit.toLocaleString("ro-RO")} tokeni
+                                </p>
+                            ) : (
+                                <p className="w-full text-[11px] text-slate-400">Valoarea apare după primul răspuns AI.</p>
+                            )}
+                        </div>
                         <div className="flex-1 overflow-y-auto pr-4 space-y-4 mb-6">
                             {chat.length === 0 ? (
                                 <div className="h-full flex flex-col items-center justify-center text-center opacity-40">

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { githubModelsChat } from "@/lib/github-models";
+import { githubModelsChatWithUsage } from "@/lib/github-models";
 import { TraceEvent } from "@/lib/algorithms";
 
 interface ChatRequest {
@@ -9,6 +9,25 @@ interface ChatRequest {
 		input?: Record<string, any>;
 		currentStepIndex?: number;
 		currentEvent?: TraceEvent;
+	};
+}
+
+const usageByDay = new Map<string, number>();
+const dailyTokenLimit = Number(process.env.AI_DAILY_TOKEN_LIMIT || 200000);
+
+function getUtcDayKey(): string {
+	return new Date().toISOString().slice(0, 10);
+}
+
+function updateDailyUsage(tokens: number): { date: string; todayUsed: number; todayRemaining: number } {
+	const date = getUtcDayKey();
+	const current = usageByDay.get(date) || 0;
+	const next = current + Math.max(0, tokens);
+	usageByDay.set(date, next);
+	return {
+		date,
+		todayUsed: next,
+		todayRemaining: Math.max(0, dailyTokenLimit - next),
 	};
 }
 
@@ -129,11 +148,22 @@ export async function POST(request: NextRequest) {
 		];
 
 		try {
-			const answer = await githubModelsChat(messages, undefined, undefined, undefined, {
+			const result = await githubModelsChatWithUsage(messages, undefined, undefined, undefined, {
 				temperature: 0.15,
 				maxTokens: 550,
 			});
-			return NextResponse.json({ answer });
+			const lastRequestTotalTokens = result.usage?.totalTokens || 0;
+			const tokenQuota = updateDailyUsage(lastRequestTotalTokens);
+			return NextResponse.json({
+				answer: result.content,
+				tokenQuota: {
+					dailyLimit: dailyTokenLimit,
+					date: tokenQuota.date,
+					todayUsed: tokenQuota.todayUsed,
+					todayRemaining: tokenQuota.todayRemaining,
+					lastRequestTotalTokens,
+				},
+			});
 		} catch (error) {
 			console.error("GitHub Models error:", error);
 			return NextResponse.json(

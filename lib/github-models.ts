@@ -1,3 +1,14 @@
+export interface GitHubModelsUsage {
+  promptTokens?: number;
+  completionTokens?: number;
+  totalTokens?: number;
+}
+
+export interface GitHubModelsChatResult {
+  content: string;
+  usage?: GitHubModelsUsage;
+}
+
 export async function githubModelsChat(
   messages: Array<{ role: string; content: string }>,
   token?: string,
@@ -8,6 +19,20 @@ export async function githubModelsChat(
     maxTokens?: number;
   }
 ): Promise<string> {
+  const result = await githubModelsChatWithUsage(messages, token, model, endpoint, options);
+  return result.content;
+}
+
+export async function githubModelsChatWithUsage(
+  messages: Array<{ role: string; content: string }>,
+  token?: string,
+  model?: string,
+  endpoint?: string,
+  options?: {
+    temperature?: number;
+    maxTokens?: number;
+  }
+): Promise<GitHubModelsChatResult> {
   const apiToken = token || process.env.GITHUB_TOKEN;
   const apiModel = model || process.env.GITHUB_MODELS_MODEL;
   const apiEndpoint =
@@ -39,8 +64,14 @@ export async function githubModelsChat(
   const payload = {
     model: apiModel,
     messages,
-    temperature: options?.temperature ?? 0.2,
-    ...(typeof options?.maxTokens === "number" ? { max_tokens: options.maxTokens } : {}),
+    ...(!apiModel.includes("gpt-5") && typeof options?.temperature === "number"
+      ? { temperature: options.temperature }
+      : {}),
+    ...(typeof options?.maxTokens === "number"
+      ? apiModel.includes("gpt-5")
+        ? { max_completion_tokens: options.maxTokens }
+        : { max_tokens: options.maxTokens }
+      : {}),
   };
 
   try {
@@ -61,8 +92,15 @@ export async function githubModelsChat(
     const choice = data.choices?.[0];
     const message = choice?.message;
     const content = message?.content || "";
+    const usage = data?.usage
+      ? {
+          promptTokens: data.usage.prompt_tokens,
+          completionTokens: data.usage.completion_tokens,
+          totalTokens: data.usage.total_tokens,
+        }
+      : undefined;
 
-    return content;
+    return { content, usage };
   } catch (error) {
     throw new Error(
       `GitHub Models request failed: ${error instanceof Error ? error.message : String(error)}`
