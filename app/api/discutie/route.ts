@@ -31,6 +31,16 @@ function updateDailyUsage(tokens: number): { date: string; todayUsed: number; to
 	};
 }
 
+function getCurrentDailyUsage(): { date: string; todayUsed: number; todayRemaining: number } {
+	const date = getUtcDayKey();
+	const todayUsed = usageByDay.get(date) || 0;
+	return {
+		date,
+		todayUsed,
+		todayRemaining: Math.max(0, dailyTokenLimit - todayUsed),
+	};
+}
+
 function truncateText(value: string, maxLength = 420): string {
 	if (!value) return "";
 	if (value.length <= maxLength) return value;
@@ -215,10 +225,21 @@ export async function POST(request: NextRequest) {
 			});
 		} catch (error) {
 			console.error("GitHub Models error:", error);
+			const tokenQuota = getCurrentDailyUsage();
+			const errorText = error instanceof Error ? error.message : String(error);
+			const isRateLimit = /\b429\b|too many requests|rate\s*limit/i.test(errorText);
 			return NextResponse.json(
 				{
-					answer:
-						"Nu am putut accesa AI-ul în acest moment. Încearcă din nou mai târziu.",
+					answer: isRateLimit
+						? "Serviciul AI este temporar limitat (prea multe cereri). Încearcă din nou în câteva minute."
+						: "Nu am putut accesa AI-ul în acest moment. Încearcă din nou mai târziu.",
+					tokenQuota: {
+						dailyLimit: dailyTokenLimit,
+						date: tokenQuota.date,
+						todayUsed: tokenQuota.todayUsed,
+						todayRemaining: tokenQuota.todayRemaining,
+						lastRequestTotalTokens: 0,
+					},
 				},
 				{ status: 200 }
 			);
