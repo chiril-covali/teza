@@ -1773,7 +1773,7 @@ function MathCategoryFrame({ slug, event, children }: { slug: string; event: Tra
     );
 }
 
-function MathOperationsVisualizer({ slug, event, input }: { slug: string; event: TraceEvent; input: any }) {
+function MathOperationsVisualizer({ slug, event, input, trace, currentStep }: { slug: string; event: TraceEvent; input: any; trace?: TraceEvent[]; currentStep?: number }) {
     const ev = event as any;
     const vars = ev.vars || {};
     const rawResult =
@@ -1787,11 +1787,14 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         vars.output ??
         vars.value;
 
+    const [hoveredCell, setHoveredCell] = useState<{ r: number; c: number } | null>(null);
+
     const toNum = (value: unknown) => {
         const n = Number(value);
         return Number.isFinite(n) ? n : NaN;
     };
 
+    // 1. Sieve of Eratosthenes
     if (slug === "matematica_sieve_of_eratosthenes") {
         const n = Math.max(2, Number(input?.n ?? vars?.n ?? 50));
         const state: number[] = Array.isArray(ev.array) ? ev.array : [];
@@ -1801,59 +1804,70 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const currentMultiple = vars.eliminat ?? ev.index ?? "-";
 
         return (
-            <div className="w-full space-y-4">
-                <p className="text-xs text-slate-500 font-bold text-center">Ciurul lui Eratostene: selectăm un prim p, apoi tăiem multiplii lui.</p>
-                <div className="grid md:grid-cols-5 gap-4">
+            <div className="w-full space-y-6 animate-pop-in">
+                <p className="text-xs text-slate-500 font-black text-center uppercase tracking-wider">Ciurul lui Eratostene: selectăm un prim p, apoi tăiem multiplii lui.</p>
+                
+                <div className="grid md:grid-cols-5 gap-6">
                     <div className="md:col-span-3 flex justify-center">
-                        <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-8 lg:grid-cols-10 gap-2 max-w-md w-full">
+                        <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-8 lg:grid-cols-10 gap-3 max-w-md w-full p-4 rounded-3xl bg-slate-50/50 border border-slate-200/60 shadow-inner">
                             {nums.map((num) => {
                                 const flag = state[num] ?? 0;
                                 const isCurrent = num === ev.index;
                                 const isPivot = num === currentPrime;
                                 const isEliminated = flag === 0;
 
-                                const cls = isEliminated
-                                    ? "bg-rose-50 text-rose-400 border-rose-100 line-through decoration-rose-400 decoration-2 opacity-50 animate-shake"
-                                    : "bg-emerald-50 text-emerald-800 border-emerald-200 shadow-sm";
+                                let borderClass = "border-slate-200/80 bg-white text-slate-800 shadow-sm";
+                                if (isPivot) {
+                                    borderClass = "bg-gradient-to-br from-emerald-400 to-teal-500 text-white border-emerald-500 ring-2 ring-emerald-400/50 shadow-md animate-glow-green scale-110 z-10 font-bold";
+                                } else if (isCurrent) {
+                                    borderClass = "bg-indigo-600 text-white border-indigo-600 ring-2 ring-indigo-400/50 shadow-md scale-110 z-10 font-bold";
+                                } else if (isEliminated) {
+                                    borderClass = "bg-rose-50/50 text-rose-300 border-rose-100/60 opacity-30 scale-95 transition-all";
+                                }
 
                                 return (
                                     <div
                                         key={num}
-                                        className={`h-10 w-10 rounded-xl border text-xs font-black flex items-center justify-center transition-all duration-300 ${cls} ${
-                                            isCurrent ? "animate-circle-glow ring-2 ring-indigo-500 scale-110 z-10" : ""
-                                        } ${
-                                            isPivot ? "animate-glow-green ring-2 ring-emerald-500 scale-110 z-10 bg-emerald-100 text-emerald-950 border-emerald-300" : ""
-                                        }`}
+                                        className={`relative h-11 w-11 rounded-2xl border text-sm font-black flex items-center justify-center transition-all duration-500 cursor-default ${borderClass}`}
                                     >
-                                        {num}
+                                        <span>{num}</span>
+                                        {isEliminated && (
+                                            <svg className="absolute inset-0 w-full h-full text-rose-500/80 stroke-2 pointer-events-none" viewBox="0 0 100 100">
+                                                <line x1="15" y1="15" x2="85" y2="85" className="animate-draw-line" />
+                                                <line x1="85" y1="15" x2="15" y2="85" className="animate-draw-line" style={{ animationDelay: "100ms" }} />
+                                            </svg>
+                                        )}
+                                        {isPivot && (
+                                            <span className="absolute -top-1 -right-1 px-1 rounded-full bg-yellow-400 text-[8px] font-black text-slate-900 border border-white uppercase scale-90">p</span>
+                                        )}
                                     </div>
                                 );
                             })}
                         </div>
                     </div>
-                    <div className="md:col-span-2 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm flex flex-col justify-center">
-                        <table className="w-full text-xs">
-                            <tbody>
-                                <tr className="border-b border-slate-100">
-                                    <td className="py-2.5 font-black text-slate-500">Selectat p (prim)</td>
-                                    <td className="py-2.5 text-right font-black text-emerald-600 font-mono text-sm">{currentPrime}</td>
-                                </tr>
-                                <tr className="border-b border-slate-100">
-                                    <td className="py-2.5 font-black text-slate-500">Multiplu eliminat</td>
-                                    <td className="py-2.5 text-right font-black text-indigo-600 font-mono text-sm">{currentMultiple}</td>
-                                </tr>
-                                <tr className="border-b border-slate-100">
-                                    <td className="py-2.5 font-black text-slate-500">Operație</td>
-                                    <td className="py-2.5 text-right font-bold text-slate-700">marcare / eliminare</td>
-                                </tr>
-                                <tr>
-                                    <td className="py-2.5 font-black text-slate-500">Regulă multipli</td>
-                                    <td className="py-2.5 text-right font-mono text-slate-700">p², p²+p, ...</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div className="mt-4 text-[11px] text-slate-400 font-medium leading-relaxed bg-slate-50 border border-slate-100 p-2.5 rounded-xl">
-                            Verde: număr încă posibil prim. Roșu: eliminat pentru că se împarte la un prim anterior.
+                    
+                    <div className="md:col-span-2 rounded-3xl border border-slate-200/60 bg-white p-5 shadow-sm flex flex-col justify-center space-y-4">
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                                <span className="font-black text-slate-400 uppercase text-[10px]">Selectat p (număr prim)</span>
+                                <span className="px-3 py-1 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 font-mono font-black text-sm animate-glow-green">{currentPrime}</span>
+                            </div>
+                            <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                                <span className="font-black text-slate-400 uppercase text-[10px]">Multiplu eliminat (p × k)</span>
+                                <span className={`px-3 py-1 rounded-xl font-mono font-black text-sm ${currentMultiple !== "-" ? "bg-rose-50 border border-rose-200 text-rose-700 animate-shake" : "bg-slate-50 border border-slate-100 text-slate-500"}`}>{currentMultiple}</span>
+                            </div>
+                            <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                                <span className="font-black text-slate-400 uppercase text-[10px]">Operație curentă</span>
+                                <span className="font-black text-slate-700 text-xs">marcare / eliminare</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <span className="font-black text-slate-400 uppercase text-[10px]">Formulă multipli</span>
+                                <span className="font-mono text-indigo-600 font-bold text-xs">p², p²+p, p²+2p...</span>
+                            </div>
+                        </div>
+                        
+                        <div className="text-[11px] text-slate-500 font-semibold leading-relaxed bg-slate-50 border border-slate-200/50 p-3 rounded-2xl shadow-inner">
+                            <span className="text-emerald-600 font-black">Verde:</span> Număr prim confirmat. <span className="text-rose-500 font-black">Roșu cu X:</span> Eliminated (compus), se împarte exact la un număr prim mai mic.
                         </div>
                     </div>
                 </div>
@@ -1861,6 +1875,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         );
     }
 
+    // 2. Greatest Common Factor (GCD)
     if (slug === "matematica_greatest_common_factor") {
         const a = Number(vars.a ?? 0);
         const b = Number(vars.b ?? 0);
@@ -1875,15 +1890,15 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                 <div className="grid grid-cols-3 gap-4 text-center w-full">
                     <div className="rounded-3xl border border-sky-100 bg-sky-50/50 p-4 shadow-sm transition-all hover:scale-105">
                         <div className="text-[10px] uppercase font-black text-sky-500">Valoare a</div>
-                        <div className="text-2xl font-black text-sky-800 font-mono">{a || "-"}</div>
+                        <div className="text-3xl font-black text-sky-800 font-mono">{a || "-"}</div>
                     </div>
                     <div className="rounded-3xl border border-indigo-100 bg-indigo-50/50 p-4 shadow-sm transition-all hover:scale-105">
                         <div className="text-[10px] uppercase font-black text-indigo-400">Valoare b</div>
-                        <div className="text-2xl font-black text-indigo-800 font-mono">{b || "-"}</div>
+                        <div className="text-3xl font-black text-indigo-800 font-mono">{b || "-"}</div>
                     </div>
                     <div className="rounded-3xl border border-amber-100 bg-amber-50/50 p-4 shadow-sm transition-all hover:scale-105 animate-circle-glow">
-                        <div className="text-[10px] uppercase font-black text-amber-500">Rest curent</div>
-                        <div className="text-2xl font-black text-amber-700 font-mono">{rest}</div>
+                        <div className="text-[10px] uppercase font-black text-amber-500">Rest (r)</div>
+                        <div className="text-3xl font-black text-amber-700 font-mono">{rest}</div>
                     </div>
                 </div>
 
@@ -1893,12 +1908,12 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                             <span>Segmentul A ({safeA})</span>
                             <span className="font-mono">{((safeA / maxAB) * 100).toFixed(0)}%</span>
                         </div>
-                        <div className="h-8 rounded-2xl bg-slate-50 border border-slate-100 p-1 flex overflow-hidden">
+                        <div className="h-10 rounded-2xl bg-slate-50 border border-slate-100 p-1.5 flex overflow-hidden">
                             <div 
-                                className="h-full bg-gradient-to-r from-sky-400 to-sky-600 rounded-xl transition-all duration-700 ease-out flex items-center px-3 text-[10px] font-black text-white shadow-inner"
+                                className="h-full bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 rounded-xl transition-all duration-700 ease-out flex items-center px-3 text-xs font-black text-white shadow-inner animate-slide-right"
                                 style={{ width: `${(safeA / maxAB) * 100}%` }}
                             >
-                                {safeA > 10 ? `A = ${safeA}` : safeA}
+                                A = {safeA}
                             </div>
                         </div>
                     </div>
@@ -1908,24 +1923,24 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                             <span>Segmentul B ({safeB})</span>
                             <span className="font-mono">{((safeB / maxAB) * 100).toFixed(0)}%</span>
                         </div>
-                        <div className="h-8 rounded-2xl bg-slate-50 border border-slate-100 p-1 flex overflow-hidden">
+                        <div className="h-10 rounded-2xl bg-slate-50 border border-slate-100 p-1.5 flex overflow-hidden">
                             <div 
-                                className="h-full bg-gradient-to-r from-indigo-400 to-indigo-600 rounded-xl transition-all duration-700 ease-out flex items-center px-3 text-[10px] font-black text-white shadow-inner"
+                                className="h-full bg-gradient-to-r from-indigo-400 via-indigo-500 to-indigo-600 rounded-xl transition-all duration-700 ease-out flex items-center px-3 text-xs font-black text-white shadow-inner animate-slide-right"
                                 style={{ width: `${(safeB / maxAB) * 100}%` }}
                             >
-                                {safeB > 10 ? `B = ${safeB}` : safeB}
+                                B = {safeB}
                             </div>
                         </div>
                     </div>
 
                     {safeB > 0 && (
-                        <div className="space-y-2 pt-4 border-t border-slate-100">
+                        <div className="space-y-3 pt-4 border-t border-slate-100">
                             <div className="text-[10px] uppercase font-black text-slate-400 mb-1">Reprezentare Împărțire: A = B × {q} + R</div>
-                            <div className="h-10 rounded-2xl bg-slate-50 border border-slate-100 p-1 flex gap-1 w-full overflow-hidden">
+                            <div className="h-12 rounded-2xl bg-slate-50 border border-slate-100 p-1.5 flex gap-1.5 w-full overflow-hidden">
                                 {Array.from({ length: q }).map((_, idx) => (
                                     <div 
                                         key={`q-${idx}`}
-                                        className="h-full bg-indigo-100 border border-indigo-200 text-indigo-800 text-[10px] font-black flex items-center justify-center rounded-lg shadow-sm animate-pop-in"
+                                        className="h-full bg-gradient-to-br from-indigo-50 to-indigo-100 border border-indigo-200 text-indigo-800 text-[11px] font-black flex items-center justify-center rounded-xl shadow-sm animate-pop-in"
                                         style={{ 
                                             width: `${(safeB / maxAB) * 100}%`,
                                             animationDelay: `${idx * 150}ms`
@@ -1936,7 +1951,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                                 ))}
                                 {rest > 0 && (
                                     <div 
-                                        className="h-full bg-gradient-to-r from-amber-400 to-amber-500 border border-amber-300 text-white text-[10px] font-black flex items-center justify-center rounded-lg shadow-sm animate-pop-in animate-circle-glow"
+                                        className="h-full bg-gradient-to-r from-amber-400 to-amber-500 border border-amber-300 text-white text-[11px] font-black flex items-center justify-center rounded-xl shadow-sm animate-pop-in animate-circle-glow"
                                         style={{ 
                                             width: `${(rest / maxAB) * 100}%`,
                                             animationDelay: `${q * 150}ms`
@@ -1949,12 +1964,12 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                         </div>
                     )}
 
-                    <div className="rounded-2xl bg-slate-50 p-4 border border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
-                        <div className="font-mono text-slate-700 bg-white border border-slate-200 px-3 py-2 rounded-xl font-bold shadow-sm">
-                            Formula: {safeA} = {safeB} × {q} + {rest}
+                    <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200/60 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs shadow-inner">
+                        <div className="font-mono text-slate-700 bg-white border border-slate-200 px-4 py-2.5 rounded-2xl font-black shadow-sm text-sm">
+                            Formula: <span className="text-sky-600">{safeA}</span> = <span className="text-indigo-600">{safeB}</span> × {q} + <span className="text-amber-600">{rest}</span>
                         </div>
-                        <div className="text-right text-slate-500 font-bold">
-                            Pas următor: <span className="text-indigo-600">a = {safeB}</span>, <span className="text-amber-600">b = {rest}</span>
+                        <div className="text-right text-slate-500 font-bold text-xs">
+                            Tranziție: <span className="text-indigo-600 font-black">a ➔ {safeB}</span>, <span className="text-amber-600 font-black">b ➔ {rest}</span>
                         </div>
                     </div>
                 </div>
@@ -1962,26 +1977,42 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         );
     }
 
-
+    // 3. Prime Factorization
     if (slug === "matematica_prime_factorization") {
         const factors: number[] = Array.isArray(ev.array) ? ev.array : [];
         const current = vars.n_curent;
         const next = vars.n_nou;
         const divisor = vars.divizor;
 
+        const divisionSteps: Array<{ n: number; div: number; nextVal: number }> = [];
+        if (trace && currentStep !== undefined) {
+            for (let idx = 0; idx <= currentStep && idx < trace.length; idx++) {
+                const stepVars = trace[idx]?.vars || {};
+                if (stepVars.divizor !== undefined && stepVars.n_curent !== undefined && stepVars.n_nou !== undefined) {
+                    if (!divisionSteps.some(s => s.n === stepVars.n_curent && s.div === stepVars.divizor)) {
+                        divisionSteps.push({
+                            n: Number(stepVars.n_curent),
+                            div: Number(stepVars.divizor),
+                            nextVal: Number(stepVars.n_nou)
+                        });
+                    }
+                }
+            }
+        }
+
         return (
             <div className="w-full space-y-6 animate-pop-in">
                 <div className="flex flex-col items-center">
-                    <span className="text-[10px] uppercase font-black text-slate-400 mb-2">Factori primi extrași</span>
-                    <div className="flex flex-wrap justify-center gap-3 min-h-[50px] p-4 bg-slate-50 border border-slate-100 rounded-3xl w-full max-w-xl">
+                    <span className="text-[10px] uppercase font-black text-slate-400 mb-2">Factori primi identificați până acum</span>
+                    <div className="flex flex-wrap justify-center gap-3.5 min-h-[56px] p-4 bg-slate-50 border border-slate-200/60 rounded-3xl w-full max-w-xl shadow-inner">
                         {factors.length === 0 ? (
-                            <span className="text-slate-400 text-xs font-semibold self-center">Se caută primul divizor prim...</span>
+                            <span className="text-slate-400 text-xs font-black self-center uppercase tracking-wider">Se caută primul divizor prim...</span>
                         ) : (
                             factors.map((factor, idx) => (
                                 <span 
                                     key={`${factor}-${idx}`} 
-                                    className="px-3.5 py-2 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-black text-sm shadow-md animate-pop-in animate-glow-green"
-                                    style={{ animationDelay: `${idx * 100}ms` }}
+                                    className="px-4 py-2 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-black text-sm shadow-md animate-pop-in animate-glow-green border border-emerald-600"
+                                    style={{ animationDelay: `${idx * 80}ms` }}
                                 >
                                     {factor}
                                 </span>
@@ -1990,53 +2021,64 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                     </div>
                 </div>
 
-                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm max-w-xl mx-auto space-y-4">
-                    <div className="text-[10px] uppercase font-black text-slate-400 text-center mb-1">Arbore de Împărțire Curent</div>
-                    <div className="flex flex-col items-center justify-center py-4 relative">
-                        <div className="px-5 py-3 rounded-2xl bg-slate-900 text-white font-black text-lg shadow-md transition-all duration-300 z-10">
-                            {current ?? "n"}
+                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm max-w-xl mx-auto space-y-6">
+                    <div className="text-[10px] uppercase font-black text-slate-400 text-center tracking-wider">Arbore de descompunere (Factor Tree)</div>
+                    
+                    {divisionSteps.length > 0 ? (
+                        <div className="flex flex-col items-center space-y-4 py-2">
+                            {divisionSteps.map((step, idx) => (
+                                <div key={idx} className="flex flex-col items-center w-full animate-pop-in" style={{ animationDelay: `${idx * 100}ms` }}>
+                                    <div className="px-5 py-2.5 rounded-2xl bg-slate-900 text-white font-black text-base shadow-md">
+                                        {step.n}
+                                    </div>
+                                    <div className="flex items-center justify-between w-full max-w-xs px-8 mt-2">
+                                        <div className="flex flex-col items-center">
+                                            <div className="h-6 w-px bg-slate-300 relative">
+                                                <div className="absolute top-0 right-0 w-8 h-6 border-t border-l border-slate-300 rounded-tl-xl" />
+                                            </div>
+                                            <div className="px-3 py-1.5 mt-1 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 font-black text-xs shadow-sm animate-glow-green">
+                                                {step.div}
+                                            </div>
+                                            <span className="text-[8px] uppercase font-black text-emerald-500 mt-1">divizor prim</span>
+                                        </div>
+                                        <div className="flex flex-col items-center">
+                                            <div className="h-6 w-px bg-slate-300 relative">
+                                                <div className="absolute top-0 left-0 w-8 h-6 border-t border-r border-slate-300 rounded-tr-xl" />
+                                            </div>
+                                            <div className="px-3 py-1.5 mt-1 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 font-black text-xs shadow-sm">
+                                                {step.nextVal}
+                                            </div>
+                                            <span className="text-[8px] uppercase font-black text-indigo-400 mt-1">cât rămas</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-
-                        {divisor && (
-                            <div className="flex items-stretch justify-center w-full max-w-xs mt-6 gap-8 animate-pop-in">
-                                <div className="flex flex-col items-center flex-1">
-                                    <div className="h-6 w-0.5 bg-slate-300 relative -top-6">
-                                        <div className="absolute top-0 right-0 w-8 h-6 border-t border-l border-slate-300 rounded-tl-xl" />
-                                    </div>
-                                    <div className="px-4 py-2.5 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 font-black text-sm shadow-sm animate-circle-glow">
-                                        p = {divisor}
-                                    </div>
-                                    <span className="text-[9px] uppercase font-black text-indigo-400 mt-1">Divizor prim</span>
-                                </div>
-
-                                <div className="flex flex-col items-center flex-1">
-                                    <div className="h-6 w-0.5 bg-slate-300 relative -top-6">
-                                        <div className="absolute top-0 left-0 w-8 h-6 border-t border-r border-slate-300 rounded-tr-xl" />
-                                    </div>
-                                    <div className="px-4 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 font-black text-sm shadow-sm">
-                                        n / p = {next}
-                                    </div>
-                                    <span className="text-[9px] uppercase font-black text-emerald-400 mt-1">Cât rămas</span>
-                                </div>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center py-6">
+                            <div className="px-6 py-3 rounded-2xl bg-slate-950 text-white font-black text-xl shadow-lg">
+                                {current ?? "n"}
                             </div>
-                        )}
-                    </div>
+                            <span className="text-[9px] uppercase font-black text-slate-400 mt-2 tracking-wider">Număr de descompus</span>
+                        </div>
+                    )}
                 </div>
 
                 <div className="rounded-2xl bg-indigo-50/50 p-4 border border-indigo-100 text-center text-xs font-mono max-w-xl mx-auto shadow-inner text-indigo-950">
                     {vars.factori ? (
                         <div className="space-y-1">
-                            <div className="text-[9px] uppercase font-black text-indigo-400">Descompunere</div>
-                            <div className="text-sm font-black tracking-wide">{vars.factori}</div>
+                            <div className="text-[9px] uppercase font-black text-indigo-400">Reprezentare factori primi</div>
+                            <div className="text-base font-black tracking-widest text-indigo-700">{vars.factori}</div>
                         </div>
                     ) : (
-                        "Împărțim numărul succesiv la cel mai mic număr prim posibil până când obținem 1."
+                        "Împărțim succesiv la cel mai mic factor prim până când rezultatul final devine 1."
                     )}
                 </div>
             </div>
         );
     }
 
+    // 4. Binary Convert
     if (slug === "matematica_binary_convert") {
         const bits: number[] = Array.isArray(ev.array) ? ev.array : [];
         const nCurent = vars.n_curent ?? vars.decimal ?? 0;
@@ -2046,40 +2088,40 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         return (
             <div className="w-full max-w-2xl space-y-6 animate-pop-in">
                 <div className="grid grid-cols-3 gap-4 text-center w-full">
-                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-sm">
+                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-inner">
                         <div className="text-[10px] uppercase font-black text-slate-400">Deîmpărțit (n)</div>
-                        <div className="text-xl font-black text-slate-800 font-mono">{nCurent}</div>
+                        <div className="text-2xl font-black text-slate-800 font-mono mt-0.5">{nCurent}</div>
                     </div>
-                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-sm">
+                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-inner">
                         <div className="text-[10px] uppercase font-black text-slate-400">Cât (n / 2)</div>
-                        <div className="text-xl font-black text-slate-800 font-mono">{cat}</div>
+                        <div className="text-2xl font-black text-slate-800 font-mono mt-0.5">{cat}</div>
                     </div>
                     <div className="rounded-3xl border border-indigo-200 bg-indigo-50 p-4 shadow-sm animate-circle-glow">
-                        <div className="text-[10px] uppercase font-black text-indigo-500">Rest (bit)</div>
-                        <div className="text-xl font-black text-indigo-700 font-mono">{rest}</div>
+                        <div className="text-[10px] uppercase font-black text-indigo-500 font-bold">Rest (bit)</div>
+                        <div className="text-2xl font-black text-indigo-700 font-mono mt-0.5">{rest}</div>
                     </div>
                 </div>
 
-                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm w-full space-y-4">
-                    <div className="text-[10px] uppercase font-black text-slate-400 text-center mb-1">Șirul binar rezultat (citit de la dreapta la stânga)</div>
-                    <div className="flex justify-center gap-2.5 flex-wrap min-h-[60px] p-4 bg-slate-50 border border-slate-100 rounded-2xl">
+                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm w-full space-y-5">
+                    <div className="text-[10px] uppercase font-black text-slate-400 text-center tracking-wider">Biții Rezultați (citire de la dreapta la stânga)</div>
+                    <div className="flex justify-center gap-3.5 flex-wrap min-h-[64px] p-4 bg-slate-50 border border-slate-100 rounded-2xl shadow-inner">
                         {bits.length === 0 ? (
-                            <span className="text-slate-400 text-xs font-semibold self-center">Se calculează primii biți...</span>
+                            <span className="text-slate-400 text-xs font-black self-center uppercase tracking-wider">Generăm biții...</span>
                         ) : (
                             bits.map((bit, idx) => {
-                                const isNewest = idx === bits.length - 1;
+                                const isNewest = idx === 0;
                                 return (
-                                    <div key={`${bit}-${idx}`} className="flex flex-col items-center gap-1 animate-slide-down-fade">
+                                    <div key={`${bit}-${idx}`} className="flex flex-col items-center gap-1.5 animate-slide-down-fade">
                                         <div
-                                            className={`h-11 w-11 rounded-2xl border-2 font-black flex items-center justify-center text-sm shadow-md transition-all ${
+                                            className={`h-12 w-12 rounded-2xl border-2 font-black flex items-center justify-center text-base shadow-md transition-all duration-300 ${
                                                 bit === 1 
                                                     ? "bg-gradient-to-br from-emerald-400 to-emerald-600 border-emerald-500 text-white shadow-emerald-100" 
                                                     : "bg-gradient-to-br from-sky-400 to-sky-600 border-sky-500 text-white shadow-sky-100"
-                                            } ${isNewest ? "ring-4 ring-indigo-300 scale-105 z-10 animate-circle-glow" : ""}`}
+                                            } ${isNewest ? "ring-4 ring-indigo-400 scale-110 z-10 animate-circle-glow" : ""}`}
                                         >
                                             {bit}
                                         </div>
-                                        <span className="text-[8px] text-slate-300 font-mono font-bold">2^{idx}</span>
+                                        <span className="text-[9px] text-slate-400 font-mono font-bold">2^{bits.length - 1 - idx}</span>
                                     </div>
                                 );
                             })
@@ -2087,20 +2129,21 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                     </div>
                 </div>
 
-                <div className="rounded-3xl border border-slate-200 bg-white p-4 space-y-2 text-xs font-mono">
+                <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2.5 text-xs font-mono">
                     <div className="flex justify-between border-b border-slate-100 pb-2">
-                        <span className="text-slate-400 uppercase font-black text-[9px]">Operație curentă:</span>
-                        <span className="font-bold text-slate-700">{nCurent} / 2 = {cat} rest {rest}</span>
+                        <span className="text-slate-400 uppercase font-black text-[9px]">Calcul pas curent:</span>
+                        <span className="font-black text-slate-700">{nCurent} / 2 = {cat} rest <span className="text-indigo-600 font-black">{rest}</span></span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="text-slate-400 uppercase font-black text-[9px]">Reprezentare parțială:</span>
-                        <span className="font-black text-indigo-700">{(vars.binary ?? vars.bits_partial ?? [...bits].reverse().join("")) || "—"}</span>
+                        <span className="text-slate-400 uppercase font-black text-[9px]">Reprezentare binară:</span>
+                        <span className="font-black text-indigo-700 text-sm tracking-widest">{(vars.binary ?? bits.join("")) || "—"}</span>
                     </div>
                 </div>
             </div>
         );
     }
 
+    // 5. Lowest Common Multiple (LCM)
     if (slug === "matematica_lowest_common_multiple") {
         const numbers: number[] = Array.isArray(vars.numbers) ? vars.numbers : Array.isArray(input?.numbers) ? input.numbers : [];
         const a = Number(vars.a ?? numbers[0] ?? 1);
@@ -2112,11 +2155,12 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const inter = ai.filter((x) => bi.includes(x));
         const onlyA = ai.filter((x) => !inter.includes(x));
         const onlyB = bi.filter((x) => !inter.includes(x));
+
         return (
             <div className="w-full max-w-3xl space-y-6 animate-pop-in">
                 <div className="flex flex-wrap justify-center gap-2">
                     {numbers.map((num, idx) => (
-                        <span key={`${num}-${idx}`} className="px-3.5 py-2 rounded-2xl bg-slate-100 border border-slate-200 text-slate-700 font-black text-sm shadow-sm">{num}</span>
+                        <span key={`${num}-${idx}`} className="px-4 py-2 rounded-2xl bg-slate-100 border border-slate-200 text-slate-700 font-black text-sm shadow-sm">{num}</span>
                     ))}
                 </div>
 
@@ -2134,7 +2178,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                         <div className="text-lg font-black text-indigo-700 font-mono mt-0.5">{vars.cmmdc ?? "-"}</div>
                     </div>
                     <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-3.5 text-center transition-all hover:scale-105 animate-glow-green">
-                        <div className="text-[10px] uppercase font-black text-emerald-400">CMMC partial</div>
+                        <div className="text-[10px] uppercase font-black text-emerald-400 font-bold">CMMC parțial</div>
                         <div className="text-lg font-black text-emerald-700 font-mono mt-0.5">{vars.cmmc_partial ?? vars.cmmc ?? "-"}</div>
                     </div>
                 </div>
@@ -2143,7 +2187,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                     <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col justify-center">
                         <div className="text-[10px] uppercase font-black text-slate-400 mb-3 text-center">Diagramă Venn (Divizori primi unici)</div>
                         <div className="relative w-full h-44 flex items-center justify-center font-bold">
-                            <div className="absolute left-[15%] w-32 h-32 rounded-full border-2 border-sky-400 bg-sky-500/10 flex flex-col items-center justify-center p-2 text-sky-800 shadow-sm">
+                            <div className="absolute left-[15%] w-32 h-32 rounded-full border-2 border-sky-400 bg-sky-500/10 flex flex-col items-center justify-center p-2 text-sky-800 shadow-sm animate-float">
                                 <span className="absolute top-2 text-[9px] uppercase tracking-widest font-black opacity-80">A ({a})</span>
                                 <div className="flex flex-wrap gap-1 justify-center max-w-[60px] mt-2">
                                     {onlyA.map((x) => (
@@ -2152,7 +2196,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                                     {onlyA.length === 0 && <span className="text-[10px] text-sky-400">—</span>}
                                 </div>
                             </div>
-                            <div className="absolute right-[15%] w-32 h-32 rounded-full border-2 border-violet-400 bg-violet-500/10 flex flex-col items-center justify-center p-2 text-violet-800 shadow-sm">
+                            <div className="absolute right-[15%] w-32 h-32 rounded-full border-2 border-violet-400 bg-violet-500/10 flex flex-col items-center justify-center p-2 text-violet-800 shadow-sm animate-float" style={{ animationDelay: "1.5s" }}>
                                 <span className="absolute top-2 text-[9px] uppercase tracking-widest font-black opacity-80">B ({b})</span>
                                 <div className="flex flex-wrap gap-1 justify-center max-w-[60px] mt-2">
                                     {onlyB.map((x) => (
@@ -2185,7 +2229,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                                 <span className="font-bold text-slate-700">CMMC = ({a} × {b}) / CMMDC</span>
                             </div>
                             <div className="rounded-2xl border border-emerald-100 bg-emerald-50/50 text-emerald-800 px-3.5 py-2.5 flex items-center justify-between shadow-sm animate-glow-green">
-                                <span className="text-[10px] font-black text-emerald-600">Pasul 3 (Final)</span>
+                                <span className="text-[10px] font-black text-emerald-600 font-bold">Pasul 3 (Final)</span>
                                 <span className="font-black">CMMC = {vars.cmmc_partial ?? vars.cmmc ?? "?"}</span>
                             </div>
                         </div>
@@ -2201,7 +2245,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         );
     }
 
-
+    // 6. Binomial Coefficient
     if (slug === "matematica_binomial_coefficient") {
         const n = Math.max(0, Number(vars.n ?? input?.n ?? 5));
         const k = Math.max(0, Number(vars.k ?? input?.k ?? 2));
@@ -2210,8 +2254,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
             : Array.from({ length: n + 1 }, (_, row) =>
                   Array.from({ length: row + 1 }, (_, col) => {
                       if (col === 0 || col === row) return 1;
-                      const prevRow = row > 0 ? Array.from({ length: row }, (_, c) => c) : [];
-                      return prevRow.length ? 0 : 1;
+                      return 0;
                   })
               );
 
@@ -2225,9 +2268,9 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                 </div>
                 
                 <div className="w-full rounded-3xl border border-slate-200 bg-white p-6 shadow-sm overflow-x-auto">
-                    <div className="min-w-max space-y-2 py-4 flex flex-col items-center">
+                    <div className="min-w-max space-y-2.5 py-4 flex flex-col items-center">
                         {triangle.map((row: number[], rowIdx: number) => (
-                            <div key={rowIdx} className="flex justify-center gap-2 animate-pop-in" style={{ animationDelay: `${rowIdx * 100}ms` }}>
+                            <div key={rowIdx} className="flex justify-center gap-2 animate-pop-in" style={{ animationDelay: `${rowIdx * 80}ms` }}>
                                 {row.map((cell: number, colIdx: number) => {
                                     const isTarget = rowIdx === n && colIdx === k;
                                     const isParent = rowIdx === n - 1 && (colIdx === k - 1 || colIdx === k);
@@ -2242,10 +2285,10 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                                     return (
                                         <div
                                             key={`${rowIdx}-${colIdx}`}
-                                            className={`min-w-[40px] h-10 px-2 rounded-2xl text-xs font-black flex flex-col items-center justify-center border transition-all duration-300 ${styleCls}`}
+                                            className={`min-w-[42px] h-11 px-2 rounded-2xl text-[11px] font-black flex flex-col items-center justify-center border transition-all duration-300 ${styleCls}`}
                                             title={`Rând ${rowIdx}, Coloană ${colIdx}`}
                                         >
-                                            <span className="font-mono text-[11px]">{cell}</span>
+                                            <span className="font-mono text-xs">{cell}</span>
                                             {isParent && <span className="text-[7px] text-indigo-500 uppercase tracking-widest font-bold">Părinte</span>}
                                             {isTarget && <span className="text-[7px] text-white uppercase tracking-widest font-bold">C({n},{k})</span>}
                                         </div>
@@ -2262,6 +2305,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         );
     }
 
+    // 7. Leap Year
     if (slug === "matematica_is_leap_year") {
         const year = Number(vars.year ?? input?.year ?? 2024);
         const div4 = Boolean(vars.div4 ?? (year % 4 === 0));
@@ -2301,6 +2345,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         );
     }
 
+    // 8. Zeller's Congruence
     if (slug === "matematica_zellers_congruence") {
         const day = Number(vars.day ?? vars.original?.day ?? input?.day ?? 1);
         const monthTerm = Number(vars.monthTerm ?? 0);
@@ -2312,6 +2357,10 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const weekdayName = String(vars.weekdayName ?? "-");
 
         const weekdays = ["Sâmbătă", "Duminică", "Luni", "Marți", "Miercuri", "Joi", "Vineri"];
+
+        // Polar layout positions for weekdays dial
+        const radius = 90;
+        const center = 110;
 
         return (
             <div className="w-full max-w-3xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
@@ -2331,27 +2380,40 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                     <div className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-center"><div className="text-[9px] uppercase font-black text-slate-400">Secol</div><div className="font-black mt-1 font-mono text-sm">{centuryTerm}</div></div>
                 </div>
 
-                {/* Day selector visualization */}
-                <div className="w-full space-y-2 pt-2">
-                    <span className="text-[10px] uppercase font-black text-slate-400 block text-center">Zilele Săptămânii (Zeller Index: 0 = Sâmbătă)</span>
-                    <div className="flex flex-wrap gap-2 justify-center">
-                        {weekdays.map((dayName, idx) => {
-                            const isMatch = h === idx;
-                            return (
-                                <div 
-                                    key={dayName}
-                                    className={`px-4 py-2.5 rounded-2xl border text-xs font-black transition-all duration-300 ${
-                                        isMatch 
-                                            ? "bg-gradient-to-br from-emerald-500 to-teal-600 border-emerald-600 text-white shadow-md animate-circle-glow scale-110 z-10" 
-                                            : "bg-slate-50 border-slate-200 text-slate-600 opacity-60"
-                                    }`}
-                                >
-                                    <span className="text-[9px] font-bold block opacity-60 font-mono">#{idx}</span>
-                                    {dayName}
-                                </div>
-                            );
-                        })}
-                    </div>
+                <div className="relative w-[240px] h-[240px] border border-slate-200 rounded-full bg-slate-50/50 shadow-inner flex items-center justify-center">
+                    {/* Weekday bubbles positioned circularly */}
+                    {weekdays.map((dayName, idx) => {
+                        const angle = (idx * 360) / 7;
+                        const x = center + radius * Math.cos((angle - 90) * Math.PI / 180);
+                        const y = center + radius * Math.sin((angle - 90) * Math.PI / 180);
+                        const isMatch = h === idx;
+
+                        return (
+                            <div 
+                                key={dayName}
+                                className={`absolute w-14 h-14 rounded-full border text-[10px] font-black flex flex-col items-center justify-center transition-all duration-500 shadow-sm ${
+                                    isMatch 
+                                        ? "bg-gradient-to-br from-emerald-400 to-teal-500 border-emerald-500 text-white shadow-emerald-200 scale-110 z-10 animate-glow-green" 
+                                        : "bg-white border-slate-200 text-slate-600 opacity-60"
+                                }`}
+                                style={{ left: `${x - 28}px`, top: `${y - 28}px` }}
+                            >
+                                <span className="font-mono text-[8px] opacity-75">#{idx}</span>
+                                <span className="leading-tight">{dayName}</span>
+                            </div>
+                        );
+                    })}
+
+                    {/* Central rotating spinner needle */}
+                    <div 
+                        className="w-2.5 h-20 bg-gradient-to-t from-indigo-800 to-indigo-500 rounded-full absolute origin-bottom transition-transform duration-1000 ease-out"
+                        style={{ 
+                            bottom: "50%",
+                            transform: `rotate(${(h * 360) / 7}deg)`,
+                            boxShadow: "0 0 10px rgba(99, 102, 241, 0.4)"
+                        }}
+                    />
+                    <div className="w-5 h-5 bg-indigo-950 rounded-full absolute border border-white z-20 shadow-md" />
                 </div>
 
                 <div className="rounded-3xl bg-indigo-600 text-white px-8 py-5 text-center font-black text-xl w-full max-w-md shadow-lg animate-pop-in">
@@ -2361,6 +2423,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         );
     }
 
+    // 9. Double Factorial
     if (slug === "matematica_double_factorial_iterative") {
         const n = Number(vars.n ?? input?.n ?? 8);
         const sequence: number[] = Array.isArray(vars.sequence)
@@ -2401,29 +2464,64 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         );
     }
 
+    // 10. Factorial (Recursive Stack representation)
     if (slug === "matematica_factorial") {
         const n = Math.max(0, Math.floor(Number(input?.n ?? 5)));
         const i = Math.max(1, Math.floor(Number(vars.i ?? n)));
         const result = Math.max(1, Math.floor(Number(vars.result ?? 1)));
         const chain = Array.from({ length: n }, (_, idx) => n - idx);
-        const recursiveLines = chain.map((v, idx) => `${" ".repeat(idx * 4)}${v}! = ${v}${v > 1 ? ` × ${v - 1}!` : ""}`);
-
+        
+        // Stack of active recursive calls
+        const activeStack: number[] = [];
+        if (currentStep !== undefined && trace) {
+            for (let idx = 0; idx <= currentStep && idx < trace.length; idx++) {
+                const stepVars = trace[idx]?.vars || {};
+                const stepI = Number(stepVars.i ?? n);
+                if (!activeStack.includes(stepI) && stepI <= n && stepI >= 1) {
+                    activeStack.push(stepI);
+                }
+            }
+        }
+        
         return (
             <div className="w-full max-w-3xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
-                <span className="text-[10px] uppercase font-black text-slate-400">Apeluri Recursive (Stivă)</span>
-                <pre className="w-full rounded-3xl border border-slate-200 bg-slate-900 p-5 text-xs sm:text-sm font-mono text-emerald-400 shadow-md overflow-x-auto leading-relaxed">
-{recursiveLines.join("\n")}
-                </pre>
+                <span className="text-[10px] uppercase font-black text-slate-400">Vizualizare Stivă de Apeluri Recursive</span>
+                
+                <div className="flex flex-col-reverse gap-2.5 w-full max-w-xs p-4 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl min-h-[140px] items-stretch">
+                    {activeStack.length > 0 ? (
+                        activeStack.map((val, idx) => {
+                            const isActive = val === i;
+                            return (
+                                <div 
+                                    key={val} 
+                                    className={`h-11 rounded-2xl flex items-center justify-between px-5 font-mono text-sm font-black border transition-all duration-300 ${
+                                        isActive 
+                                            ? "bg-gradient-to-br from-emerald-500 to-teal-600 border-emerald-400 text-white animate-circle-glow" 
+                                            : "bg-slate-800 border-slate-700 text-slate-300"
+                                    }`}
+                                    style={{ transform: `scale(${1 - (activeStack.length - 1 - idx) * 0.04})` }}
+                                >
+                                    <span>factorial({val})</span>
+                                    <span className="text-xs font-bold text-slate-400">n = {val}</span>
+                                </div>
+                            );
+                        })
+                    ) : (
+                        <div className="text-slate-500 font-black text-xs text-center self-center py-6">Stiva este goală</div>
+                    )}
+                </div>
+
                 <div className="rounded-3xl border border-indigo-200 bg-indigo-50 px-6 py-4 text-center w-full font-mono font-black text-indigo-700 text-lg shadow-sm animate-circle-glow">
                     {n}! = {chain.join(" × ") || "1"} = {result}
                 </div>
                 <div className="text-xs text-slate-500 font-bold bg-slate-50 border border-slate-100 px-3.5 py-2 rounded-xl">
-                    Pas curent în execuție: <span className="text-indigo-600 font-black">i = {i}</span>
+                    Pas curent: apel recursiv cu <span className="text-indigo-600 font-black">n = {i}</span>
                 </div>
             </div>
         );
     }
 
+    // 11. Find Divisors
     if (slug === "matematica_factors") {
         const n = Math.max(1, Math.floor(Number(vars.n ?? input?.n ?? 36)));
         const i = Math.max(1, Math.floor(Number(vars.i ?? 1)));
@@ -2434,44 +2532,45 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
 
         return (
             <div className="w-full max-w-3xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
-                <div className="flex flex-col md:flex-row gap-4 w-full">
-                    <div className="flex-1 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col items-center justify-center space-y-4">
-                        <div className="relative h-24 w-24 rounded-full border-4 border-slate-900 bg-slate-900 text-white flex items-center justify-center font-black text-2xl shadow-lg animate-pulse">
+                <div className="flex flex-col md:flex-row gap-6 w-full">
+                    <div className="flex-1 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col items-center justify-center space-y-5">
+                        <div className="relative h-24 w-24 rounded-full border-4 border-slate-900 bg-slate-900 text-white flex items-center justify-center font-black text-3xl shadow-lg animate-pulse">
                             {n}
-                            <span className="absolute -top-3 px-2 py-0.5 rounded-full bg-slate-700 text-[8px] font-black uppercase">Număr</span>
+                            <span className="absolute -top-3 px-2 py-0.5 rounded-full bg-slate-700 text-[8px] font-black uppercase tracking-wider">Număr</span>
                         </div>
                         <div className="text-center w-full">
                             <span className="text-[9px] uppercase font-black text-slate-400">Evaluăm divizibilitatea cu:</span>
-                            <div className="font-mono text-base font-black text-slate-800 mt-1 flex items-center justify-center gap-2">
-                                <span className={`h-8 px-3 rounded-lg flex items-center justify-center border font-bold ${divisible ? "bg-emerald-500 border-emerald-600 text-white animate-pop-in" : "bg-rose-50 border-rose-200 text-rose-700 animate-shake"}`}>
+                            <div className="font-mono text-base font-black text-slate-800 mt-1.5 flex items-center justify-center gap-2">
+                                <span className={`h-9 px-4 rounded-xl flex items-center justify-center border font-black text-sm transition-all duration-300 ${divisible ? "bg-emerald-500 border-emerald-600 text-white animate-pop-in animate-glow-green" : "bg-rose-50 border-rose-200 text-rose-700 animate-shake"}`}>
                                     {i}
                                 </span>
                                 <span className="text-slate-300">|</span>
-                                <span>{n}</span>
+                                <span className="text-slate-700 font-bold">{n}</span>
                             </div>
-                            <div className="text-[10px] font-medium text-slate-500 mt-2">
-                                {divisible ? `Da! S-a găsit perechea: ${i} × ${pair} = ${n}` : `Nu, ${i} nu este divizor.`}
+                            <div className="text-xs font-semibold text-slate-500 mt-3.5">
+                                {divisible ? `Perfect! Pereche: ${i} × ${pair} = ${n}` : `Nu, ${i} nu divide exact pe ${n}`}
                             </div>
                         </div>
                     </div>
 
                     <div className="flex-1 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col">
-                        <div className="text-[10px] uppercase font-black text-slate-400 mb-3 tracking-wider">Divizori detectați</div>
-                        <div className="flex flex-wrap gap-2.5 justify-start content-start flex-1 min-h-[100px] p-3 bg-slate-50 border border-slate-100 rounded-2xl">
+                        <div className="text-[10px] uppercase font-black text-slate-400 mb-3 tracking-wider">Divizori Găsiți</div>
+                        <div className="flex flex-wrap gap-2.5 justify-start content-start flex-1 min-h-[120px] p-3.5 bg-slate-50 border border-slate-100 rounded-2xl shadow-inner">
                             {divisors.length ? divisors.map((d) => (
-                                <span key={d} className="h-10 px-3.5 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 border border-emerald-300 text-white font-black text-sm flex items-center justify-center shadow-md animate-pop-in shadow-emerald-100">{d}</span>
-                            )) : <span className="text-xs text-slate-400 font-bold self-center mx-auto">Niciun divizor încă.</span>}
+                                <span key={d} className="h-10 px-4 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 border border-emerald-300 text-white font-black text-xs flex items-center justify-center shadow-md animate-pop-in">{d}</span>
+                            )) : <span className="text-xs text-slate-400 font-black self-center mx-auto uppercase">Fără divizori</span>}
                         </div>
                     </div>
                 </div>
 
                 <div className="w-full text-center text-xs font-semibold text-slate-400 bg-slate-50 border border-slate-100 p-3 rounded-2xl font-mono">
-                    Căutăm divizori până la limita rădăcinii pătrate: √{n} ≈ {limit}
+                    Limita de căutare a divizorilor (rădăcina pătrată): √{n} ≈ {limit}
                 </div>
             </div>
         );
     }
 
+    // 12. Bitwise Add Binary
     if (slug === "manipulare-biti_add_binary") {
         const a = String(vars.a ?? vars.binary_a ?? input?.a ?? "1011").replace(/[^01]/g, "") || "0";
         const b = String(vars.b ?? vars.binary_b ?? input?.b ?? "0110").replace(/[^01]/g, "") || "0";
@@ -2515,7 +2614,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                                             key={`carry-${idx}`} 
                                             className={`w-8 h-8 rounded-xl text-center text-xs font-black flex items-center justify-center border transition-all duration-300 ${
                                                 isActive ? "ring-2 ring-indigo-400 scale-110 z-10 animate-circle-glow" : ""
-                                            } ${c === 1 ? "bg-orange-500 border-orange-600 text-white animate-bounce" : "bg-slate-50 border-slate-200 text-slate-300"}`}
+                                            } ${c === 1 ? "bg-orange-500 border-orange-600 text-white animate-bounce animate-glow-orange" : "bg-slate-50 border-slate-200 text-slate-300"}`}
                                         >
                                             {c}
                                         </span>
@@ -2545,22 +2644,20 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
 
                         <div className="flex justify-center gap-1.5 items-center">
                             <span className="w-20 text-right text-[10px] uppercase font-black text-slate-400">Num 2 (B):</span>
-                            <div className="flex gap-1.5 items-center">
-                                <div className="flex gap-1.5">
-                                    {bPadded.split("").map((bit: string, idx: number) => {
-                                        const isActive = idx === activeCol;
-                                        return (
-                                            <span 
-                                                key={`b-${idx}`} 
-                                                className={`w-8 h-8 rounded-xl text-center text-xs font-black flex items-center justify-center border transition-all duration-300 ${
-                                                    isActive ? "ring-2 ring-indigo-400 scale-110 z-10 bg-indigo-50 border-indigo-300" : ""
-                                                } ${bit === "1" ? "bg-emerald-500 border-emerald-600 text-white" : "bg-sky-100 border-sky-200 text-sky-700"}`}
-                                            >
-                                                {bit}
-                                            </span>
-                                        );
-                                    })}
-                                </div>
+                            <div className="flex gap-1.5">
+                                {bPadded.split("").map((bit: string, idx: number) => {
+                                    const isActive = idx === activeCol;
+                                    return (
+                                        <span 
+                                            key={`b-${idx}`} 
+                                            className={`w-8 h-8 rounded-xl text-center text-xs font-black flex items-center justify-center border transition-all duration-300 ${
+                                                isActive ? "ring-2 ring-indigo-400 scale-110 z-10 bg-indigo-50 border-indigo-300" : ""
+                                            } ${bit === "1" ? "bg-emerald-500 border-emerald-600 text-white" : "bg-sky-100 border-sky-200 text-sky-700"}`}
+                                        >
+                                            {bit}
+                                        </span>
+                                    );
+                                })}
                             </div>
                         </div>
 
@@ -2584,8 +2681,8 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                             </div>
                         </div>
                     </div>
-                    <div className="text-xs font-bold text-slate-500 text-center bg-slate-50 border border-slate-100 py-2.5 rounded-2xl">
-                        {activeCol >= 0 ? `Analizăm coloana ${maxLen - activeCol} (de la dreapta la stânga): ${aPadded[activeCol]} + ${bPadded[activeCol]} + transport(${carryPadded[activeCol]})` : "Calcul complet sau starea de pornire."}
+                    <div className="text-xs font-bold text-slate-500 text-center bg-slate-50 border border-slate-100 py-2.5 rounded-2xl shadow-inner">
+                        {activeCol >= 0 ? `Analizăm coloana ${maxLen - activeCol} (de la dreapta la stânga): ${aPadded[activeCol]} + ${bPadded[activeCol]} + transport(${carryPadded[activeCol]})` : "Calcul binar finalizat cu succes."}
                     </div>
                 </div>
 
@@ -2607,6 +2704,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         );
     }
 
+    // 13. Hamming Distance
     if (slug === "matematica_hamming_distance") {
         const str1 = String(input?.str1 ?? vars.str1 ?? "");
         const str2 = String(input?.str2 ?? vars.str2 ?? "");
@@ -2620,6 +2718,9 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         });
         const mismatches = pairs.filter((p) => !p.same).length;
         const distance = Number.isFinite(toNum(rawResult)) ? Number(rawResult) : mismatches;
+
+        // Custom laser scan index (based on steps)
+        const scannerIdx = currentStep !== undefined ? Math.min(currentStep - 1, maxLen - 1) : maxLen - 1;
 
         return (
             <div className="w-full max-w-4xl space-y-6 animate-pop-in">
@@ -2638,34 +2739,51 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                     </div>
                 </div>
 
-                <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm overflow-x-auto">
+                <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm overflow-x-auto relative">
+                    {/* Laser Scanner line */}
+                    {scannerIdx >= 0 && (
+                        <div 
+                            className="absolute top-0 bottom-0 w-0.5 bg-indigo-500 z-10 transition-all duration-300"
+                            style={{ 
+                                left: `${80 + (scannerIdx + 0.5) * ((48 * maxLen) / maxLen)}px`,
+                                boxShadow: "0 0 8px rgba(99, 102, 241, 0.8)"
+                            }}
+                        />
+                    )}
+
                     <div className="min-w-max space-y-3">
                         <div className="grid gap-2 items-center" style={{ gridTemplateColumns: `80px repeat(${maxLen}, minmax(40px, 1fr))` }}>
                             <span className="text-[9px] uppercase font-black text-slate-400 text-right pr-2">A:</span>
-                            {pairs.map((pair) => (
-                                <div 
-                                    key={`a-${pair.index}`} 
-                                    className={`h-11 rounded-xl border flex items-center justify-center font-mono font-black text-sm shadow-sm transition-all ${
-                                        pair.same ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-rose-50 border-rose-200 text-rose-700 animate-shake"
-                                    }`}
-                                >
-                                    {pair.c1 || "·"}
-                                </div>
-                            ))}
+                            {pairs.map((pair) => {
+                                const isScanned = pair.index === scannerIdx;
+                                return (
+                                    <div 
+                                        key={`a-${pair.index}`} 
+                                        className={`h-11 rounded-xl border flex items-center justify-center font-mono font-black text-sm shadow-sm transition-all duration-300 ${
+                                            isScanned ? "ring-2 ring-indigo-500 scale-105" : ""
+                                        } ${pair.same ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-rose-50 border-rose-200 text-rose-700 animate-shake"}`}
+                                    >
+                                        {pair.c1 || "·"}
+                                    </div>
+                                );
+                            })}
                         </div>
 
                         <div className="grid gap-2 items-center" style={{ gridTemplateColumns: `80px repeat(${maxLen}, minmax(40px, 1fr))` }}>
                             <span className="text-[9px] uppercase font-black text-slate-400 text-right pr-2">B:</span>
-                            {pairs.map((pair) => (
-                                <div 
-                                    key={`b-${pair.index}`} 
-                                    className={`h-11 rounded-xl border flex items-center justify-center font-mono font-black text-sm shadow-sm transition-all ${
-                                        pair.same ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-rose-50 border-rose-200 text-rose-700 animate-shake"
-                                    }`}
-                                >
-                                    {pair.c2 || "·"}
-                                </div>
-                            ))}
+                            {pairs.map((pair) => {
+                                const isScanned = pair.index === scannerIdx;
+                                return (
+                                    <div 
+                                        key={`b-${pair.index}`} 
+                                        className={`h-11 rounded-xl border flex items-center justify-center font-mono font-black text-sm shadow-sm transition-all duration-300 ${
+                                            isScanned ? "ring-2 ring-indigo-500 scale-105" : ""
+                                        } ${pair.same ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-rose-50 border-rose-200 text-rose-700 animate-shake"}`}
+                                    >
+                                        {pair.c2 || "·"}
+                                    </div>
+                                );
+                            })}
                         </div>
 
                         <div className="grid gap-2 items-center border-t border-slate-100 pt-3" style={{ gridTemplateColumns: `80px repeat(${maxLen}, minmax(40px, 1fr))` }}>
@@ -2673,7 +2791,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                             {pairs.map((pair) => (
                                 <div 
                                     key={`d-${pair.index}`} 
-                                    className={`h-8 rounded-lg border flex items-center justify-center text-xs font-black transition-all ${
+                                    className={`h-8 rounded-lg border flex items-center justify-center text-xs font-black transition-all duration-300 ${
                                         pair.same ? "bg-emerald-100 border-emerald-200 text-emerald-700" : "bg-rose-500 border-rose-600 text-white animate-circle-glow"
                                     }`}
                                 >
@@ -2683,14 +2801,11 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                         </div>
                     </div>
                 </div>
-
-                <div className="text-xs font-bold text-slate-400 text-center bg-slate-50 border border-slate-100 py-2.5 rounded-2xl">
-                    Comparația se face caracter cu caracter de la stânga la dreapta. Fiecare bit de 1 semnifică o nepotrivire.
-                </div>
             </div>
         );
     }
 
+    // 14. Armstrong Number
     if (slug === "matematica_armstrong_number") {
         const n = Math.max(0, Math.floor(Number(input?.n ?? vars.n ?? 0)));
         const digits = String(n).split("").map((d) => Number(d));
@@ -2707,50 +2822,51 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         return (
             <div className="w-full max-w-4xl space-y-4">
                 <div className="grid sm:grid-cols-3 gap-3">
-                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center shadow-inner">
                         <div className="text-[10px] uppercase font-black text-slate-400">Număr</div>
                         <div className="text-xl font-black text-slate-800 font-mono">{n}</div>
                     </div>
                     <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-3 text-center">
-                        <div className="text-[10px] uppercase font-black text-indigo-400">Putere folosită</div>
+                        <div className="text-[10px] uppercase font-black text-indigo-400 font-bold">Număr Cifre (p)</div>
                         <div className="text-xl font-black text-indigo-700">p = {p}</div>
                     </div>
-                    <div className={`rounded-2xl border p-3 text-center ${boolResult ? "border-emerald-200 bg-emerald-50" : "border-rose-200 bg-rose-50"}`}>
-                        <div className={`text-[10px] uppercase font-black ${boolResult ? "text-emerald-500" : "text-rose-500"}`}>Rezultat</div>
+                    <div className={`rounded-2xl border p-3 text-center ${boolResult ? "border-emerald-200 bg-emerald-50" : "border-rose-200 bg-rose-50 animate-shake"}`}>
+                        <div className={`text-[10px] uppercase font-black ${boolResult ? "text-emerald-500" : "text-rose-500"}`}>Verdict</div>
                         <div className={`text-xl font-black ${boolResult ? "text-emerald-700" : "text-rose-700"}`}>{boolResult ? "Armstrong" : "Nu este Armstrong"}</div>
                     </div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-white p-4 overflow-x-auto">
-                    <div className="min-w-max grid gap-2" style={{ gridTemplateColumns: `repeat(${Math.max(digits.length, 1)}, minmax(62px, 1fr))` }}>
+                <div className="rounded-3xl border border-slate-200 bg-white p-5 overflow-x-auto shadow-sm">
+                    <div className="min-w-max grid gap-3.5" style={{ gridTemplateColumns: `repeat(${Math.max(digits.length, 1)}, minmax(70px, 1fr))` }}>
                         {digits.map((digit, idx) => (
-                            <div key={`d-${idx}`} className="rounded-xl border border-slate-200 bg-slate-50 px-2 py-2 text-center animate-pulse" style={{ animationDelay: `${idx * 120}ms` }}>
-                                <div className="text-[10px] uppercase font-black text-slate-400">cifră</div>
+                            <div key={`d-${idx}`} className="rounded-2xl border border-slate-200 bg-slate-50/70 px-2.5 py-3 text-center animate-pulse" style={{ animationDelay: `${idx * 120}ms` }}>
+                                <div className="text-[9px] uppercase font-black text-slate-400 mb-1">cifră</div>
                                 <div className="text-lg font-black text-slate-800">{digit}</div>
                             </div>
                         ))}
                         {digits.map((digit, idx) => (
-                            <div key={`p-${idx}`} className="rounded-xl border border-indigo-200 bg-indigo-50 px-2 py-2 text-center" style={{ transform: "translateY(0)", transition: "all 420ms ease" }}>
-                                <div className="text-[10px] uppercase font-black text-indigo-400">{digit}^{p}</div>
-                                <div className="text-lg font-black text-indigo-700">{powered[idx]}</div>
+                            <div key={`p-${idx}`} className="rounded-2xl border border-indigo-200 bg-indigo-50/70 px-2.5 py-3 text-center animate-pop-in" style={{ animationDelay: `${idx * 120}ms` }}>
+                                <div className="text-[9px] uppercase font-black text-indigo-400 mb-1">{digit}^{p}</div>
+                                <div className="text-lg font-black text-indigo-700 font-mono">{powered[idx]}</div>
                             </div>
                         ))}
                         {digits.map((_, idx) => (
-                            <div key={`s-${idx}`} className="rounded-xl border border-emerald-200 bg-emerald-50 px-2 py-2 text-center">
-                                <div className="text-[10px] uppercase font-black text-emerald-400">sumă parțială</div>
-                                <div className="text-lg font-black text-emerald-700">{partials[idx]}</div>
+                            <div key={`s-${idx}`} className="rounded-2xl border border-emerald-200 bg-emerald-50/70 px-2.5 py-3 text-center animate-pop-in" style={{ animationDelay: `${idx * 120}ms` }}>
+                                <div className="text-[9px] uppercase font-black text-emerald-400 mb-1">sumă parțială</div>
+                                <div className="text-lg font-black text-emerald-700 font-mono">{partials[idx]}</div>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center font-mono font-black text-slate-700">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center font-mono font-black text-slate-700 shadow-inner">
                     {digits.join(`^${p} + `)}^{p} = {sum} {sum === n ? "=" : "≠"} {n}
                 </div>
             </div>
         );
     }
 
+    // 15. Statistics: Mean, Median, Find Min
     if (slug === "matematica_calculate_mean" || slug === "matematica_calculate_median" || slug === "matematica_find_min") {
         const numbers: number[] = Array.isArray(input?.numbers)
             ? input.numbers.map((v: unknown) => Number(v)).filter((v: number) => Number.isFinite(v))
@@ -2762,39 +2878,39 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const midRight = sorted.length ? sorted[Math.ceil((sorted.length - 1) / 2)] : NaN;
 
         return (
-            <div className="w-full max-w-4xl space-y-4">
+            <div className="w-full max-w-4xl space-y-5">
                 <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                    <div className="text-[10px] uppercase font-black text-slate-400 mb-2">Date de intrare</div>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="text-[10px] uppercase font-black text-slate-400 mb-2">Vectorul de intrare</div>
+                    <div className="flex flex-wrap gap-2.5">
                         {numbers.length ? numbers.map((n, idx) => (
-                            <span key={`${n}-${idx}`} className="px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 font-mono font-black text-slate-700">{n}</span>
-                        )) : <span className="text-sm text-slate-400 font-semibold">Nu există valori numerice.</span>}
+                            <span key={`${n}-${idx}`} className="px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 font-mono font-black text-slate-700 shadow-sm animate-pop-in">{n}</span>
+                        )) : <span className="text-xs text-slate-400 font-black uppercase">Fără elemente</span>}
                     </div>
                 </div>
 
                 <div className="grid sm:grid-cols-3 gap-3">
-                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
-                        <div className="text-[10px] uppercase font-black text-slate-400">Sumă</div>
-                        <div className="text-lg font-black text-slate-800">{sum}</div>
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3.5 text-center shadow-inner">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Sumă Elementele</div>
+                        <div className="text-xl font-black text-slate-800 mt-0.5">{sum}</div>
                     </div>
-                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
-                        <div className="text-[10px] uppercase font-black text-slate-400">Număr elemente</div>
-                        <div className="text-lg font-black text-slate-800">{numbers.length}</div>
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3.5 text-center shadow-inner">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Lungime Vector (N)</div>
+                        <div className="text-xl font-black text-slate-800 mt-0.5">{numbers.length}</div>
                     </div>
-                    <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-3 text-center">
-                        <div className="text-[10px] uppercase font-black text-indigo-400">Rezultat</div>
-                        <div className="text-lg font-black text-indigo-700">{Number.isFinite(value) ? value : "—"}</div>
+                    <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-3.5 text-center shadow-sm animate-circle-glow">
+                        <div className="text-[10px] uppercase font-black text-indigo-400 font-bold">Rezultat Calculat</div>
+                        <div className="text-xl font-black text-indigo-700 mt-0.5">{Number.isFinite(value) ? value : "—"}</div>
                     </div>
                 </div>
 
                 {slug === "matematica_calculate_median" && sorted.length > 0 && (
-                    <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                        <div className="text-[10px] uppercase font-black text-slate-400 mb-2">Mediană pe șir sortat</div>
-                        <div className="flex flex-wrap gap-2">
+                    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                        <div className="text-[10px] uppercase font-black text-slate-400 mb-2.5">Mediana pe vectorul sortat</div>
+                        <div className="flex flex-wrap gap-2.5">
                             {sorted.map((n, idx) => {
                                 const isMedian = n === midLeft || n === midRight;
                                 return (
-                                    <span key={`${n}-${idx}`} className={`px-3 py-2 rounded-xl border font-mono font-black ${isMedian ? "bg-indigo-600 border-indigo-700 text-white" : "bg-slate-50 border-slate-200 text-slate-700"}`}>
+                                    <span key={`${n}-${idx}`} className={`px-3.5 py-2 rounded-xl border font-mono font-black transition-all duration-300 ${isMedian ? "bg-indigo-600 border-indigo-700 text-white shadow-md animate-circle-glow scale-105" : "bg-slate-50 border-slate-200 text-slate-700"}`}>
                                         {n}
                                     </span>
                                 );
@@ -2806,6 +2922,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         );
     }
 
+    // 16. Simple Numeric Checks
     if (
         slug === "matematica_is_even" ||
         slug === "matematica_is_odd" ||
@@ -2814,7 +2931,9 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         slug === "matematica_perfect_cube" ||
         slug === "matematica_pronic_number" ||
         slug === "matematica_perfect_number" ||
-        slug === "matematica_is_square_free"
+        slug === "matematica_is_square_free" ||
+        slug === "manipulare-biti_is_power_of_2" ||
+        slug === "manipulare-biti_is_power_of_4"
     ) {
         const n = Number(input?.n ?? input?.num1 ?? 0);
         const num2 = Number(input?.num2 ?? 0);
@@ -2828,80 +2947,84 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
             matematica_pronic_number: `n = k(k+1) ?`,
             matematica_perfect_number: `sum(divizori proprii) ? n`,
             matematica_is_square_free: `fără factori pătrați primi`,
-            matematica_armstrong_number: `sum(cifre^p) ? n`,
+            "manipulare-biti_is_power_of_2": `n binar are un singur bit 1 ?`,
+            "manipulare-biti_is_power_of_4": `n binar are un singur bit 1 pe poziție pară ?`
         };
 
         return (
-            <div className="w-full max-w-3xl space-y-4">
-                <div className="grid sm:grid-cols-2 gap-3">
-                    <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center">
-                        <div className="text-[10px] uppercase font-black text-slate-400">Verificare</div>
-                        <div className="text-sm font-black text-slate-700">{titleMap[slug] || "Condiție numerică"}</div>
+            <div className="w-full max-w-3xl space-y-5">
+                <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="rounded-3xl border border-slate-200 bg-white p-5 text-center flex flex-col justify-center shadow-sm">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Operație Verificare</div>
+                        <div className="text-base font-black text-slate-700 mt-1">{titleMap[slug] || "Condiție numerică"}</div>
                     </div>
-                    <div className={`rounded-2xl border p-4 text-center ${boolResult ? "border-emerald-200 bg-emerald-50" : "border-rose-200 bg-rose-50"}`}>
-                        <div className={`text-[10px] uppercase font-black ${boolResult ? "text-emerald-500" : "text-rose-500"}`}>Rezultat</div>
-                        <div className={`text-2xl font-black ${boolResult ? "text-emerald-700" : "text-rose-700"}`}>{boolResult ? "Adevărat" : "Fals"}</div>
+                    <div className={`rounded-3xl border p-5 text-center flex flex-col justify-center shadow-sm ${boolResult ? "border-emerald-200 bg-emerald-50/50" : "border-rose-200 bg-rose-50/50 animate-shake"}`}>
+                        <div className={`text-[10px] uppercase font-black ${boolResult ? "text-emerald-500" : "text-rose-500"}`}>Verdict Scaner</div>
+                        <div className={`text-3xl font-black ${boolResult ? "text-emerald-700" : "text-rose-700"}`}>{boolResult ? "✓ Adevărat" : "✗ Fals"}</div>
                     </div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-mono text-slate-700 text-center">
-                    Intrare: {slug === "matematica_is_divisible" ? `${n}, ${num2}` : `${n}`}
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-mono text-slate-700 text-center shadow-inner">
+                    Intrare date: {slug === "matematica_is_divisible" ? `${n}, ${num2}` : `${n}`}
                 </div>
             </div>
         );
     }
 
+    // 17. Digit Sum & Number of Digits
     if (slug === "matematica_digit_sum" || slug === "matematica_number_of_digits") {
         const n = Math.floor(Math.abs(Number(input?.n ?? 0)));
         const digits = String(n).split("").map((d) => Number(d));
         const value = Number.isFinite(toNum(rawResult)) ? Number(rawResult) : NaN;
 
         return (
-            <div className="w-full max-w-3xl space-y-4">
-                <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                    <div className="text-[10px] uppercase font-black text-slate-400 mb-2">Cifre extrase</div>
-                    <div className="flex flex-wrap gap-2">
+            <div className="w-full max-w-3xl space-y-5">
+                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <div className="text-[10px] uppercase font-black text-slate-400 mb-3 text-center">Cifrele Extrase din Număr</div>
+                    <div className="flex flex-wrap gap-2.5 justify-center">
                         {digits.map((d, idx) => (
-                            <span key={`${d}-${idx}`} className="h-10 w-10 rounded-xl border border-indigo-200 bg-indigo-50 text-indigo-700 font-black flex items-center justify-center">
+                            <span key={`${d}-${idx}`} className="h-12 w-12 rounded-2xl border border-indigo-200 bg-indigo-50 text-indigo-700 font-mono font-black text-base flex items-center justify-center animate-pop-in">
                                 {d}
                             </span>
                         ))}
                     </div>
                 </div>
-                <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-4 text-center">
-                    <div className="text-[10px] uppercase font-black text-indigo-400">Rezultat</div>
-                    <div className="text-xl font-black text-indigo-700">
-                        {slug === "matematica_digit_sum" ? `Suma cifrelor = ${Number.isFinite(value) ? value : "—"}` : `Număr cifre = ${Number.isFinite(value) ? value : "—"}`}
+                <div className="rounded-3xl border border-indigo-200 bg-indigo-50 p-5 text-center shadow-sm animate-circle-glow">
+                    <div className="text-[10px] uppercase font-black text-indigo-400 font-bold">Rezultat Final</div>
+                    <div className="text-xl font-black text-indigo-700 mt-1">
+                        {slug === "matematica_digit_sum" ? `Suma cifrelor = ${Number.isFinite(value) ? value : "—"}` : `Număr total cifre = ${Number.isFinite(value) ? value : "—"}`}
                     </div>
                 </div>
             </div>
         );
     }
 
+    // 18. Degrees to Radians
     if (slug === "matematica_degrees_to_radians" || slug === "matematica_radians_to_degrees") {
         const inVal = Number(input?.degrees ?? input?.radians ?? 0);
         const outVal = Number.isFinite(toNum(rawResult)) ? Number(rawResult) : NaN;
-        const formula = slug === "matematica_degrees_to_radians" ? `${inVal} * pi / 180` : `${inVal} * 180 / pi`;
+        const formula = slug === "matematica_degrees_to_radians" ? `${inVal}° × (π / 180)` : `${inVal} rad × (180 / π)`;
 
         return (
-            <div className="w-full max-w-3xl space-y-4">
-                <div className="grid sm:grid-cols-2 gap-3">
-                    <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center">
-                        <div className="text-[10px] uppercase font-black text-slate-400">Formula</div>
-                        <div className="font-mono text-sm font-black text-slate-700">{formula}</div>
+            <div className="w-full max-w-3xl space-y-5">
+                <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="rounded-3xl border border-slate-200 bg-white p-5 text-center flex flex-col justify-center">
+                        <div className="text-[10px] uppercase font-black text-slate-400 mb-1">Formulă Aplicată</div>
+                        <div className="font-mono text-sm font-black text-slate-700 bg-slate-50 border border-slate-100 p-3.5 rounded-2xl">{formula}</div>
                     </div>
-                    <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-4 text-center">
-                        <div className="text-[10px] uppercase font-black text-indigo-400">Rezultat</div>
-                        <div className="text-xl font-black text-indigo-700">{Number.isFinite(outVal) ? outVal.toFixed(6) : "—"}</div>
+                    <div className="rounded-3xl border border-indigo-200 bg-indigo-50 p-5 text-center flex flex-col justify-center animate-circle-glow">
+                        <div className="text-[10px] uppercase font-black text-indigo-400 font-bold">Valoare Convertită</div>
+                        <div className="text-2xl font-black text-indigo-700 font-mono">{Number.isFinite(outVal) ? outVal.toFixed(6) : "—"}</div>
                     </div>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-semibold text-slate-600 text-center">
-                    Conversie {slug === "matematica_degrees_to_radians" ? "grade → radiani" : "radiani → grade"}
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs font-black text-slate-500 text-center uppercase tracking-wider shadow-inner">
+                    Tip Conversie: {slug === "matematica_degrees_to_radians" ? "grade în radiani" : "radiani în grade"}
                 </div>
             </div>
         );
     }
 
+    // 19. Sequences (Primes, Hexagonal, Juggler, Ugly, etc.)
     if (
         slug === "matematica_primes" ||
         slug === "matematica_series_hexagonal_numbers" ||
@@ -2921,20 +3044,20 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
 
         if (numbers.length > 0) {
             return (
-                <div className="w-full max-w-4xl space-y-4">
-                    <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                        <div className="text-[10px] uppercase font-black text-slate-400 mb-3">Secvență generată</div>
-                        <div className="flex items-end gap-1.5 overflow-x-auto pb-2">
+                <div className="w-full max-w-4xl space-y-5">
+                    <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                        <div className="text-[10px] uppercase font-black text-slate-400 mb-3 text-center tracking-wider">Secvența Numerelor Generate (Histogramă)</div>
+                        <div className="flex items-end gap-1.5 overflow-x-auto pb-3 pt-6 min-h-[140px] px-3 bg-slate-50 rounded-2xl shadow-inner justify-center">
                             {numbers.slice(0, 80).map((v, idx) => (
-                                <div key={`${v}-${idx}`} className="flex flex-col items-center gap-1 min-w-[28px]">
-                                    <div className="w-6 rounded-t-md bg-gradient-to-t from-cyan-500 to-emerald-400" style={{ height: `${Math.max(8, (v / maxVal) * 90)}px` }} />
-                                    <span className="text-[9px] font-black text-slate-500 font-mono">{v}</span>
+                                <div key={`${v}-${idx}`} className="flex flex-col items-center gap-1 min-w-[30px] animate-pop-in" style={{ animationDelay: `${idx * 40}ms` }}>
+                                    <div className="w-6.5 rounded-t-lg bg-gradient-to-t from-sky-500 via-cyan-400 to-emerald-400 shadow-sm" style={{ height: `${Math.max(12, (v / maxVal) * 100)}px` }} />
+                                    <span className="text-[9px] font-black text-slate-600 font-mono">{v}</span>
                                 </div>
                             ))}
                         </div>
                     </div>
-                    <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-4 text-center">
-                        <div className="text-[10px] uppercase font-black text-indigo-400">Total elemente</div>
+                    <div className="rounded-3xl border border-indigo-200 bg-indigo-50 p-4 text-center shadow-sm">
+                        <div className="text-[10px] uppercase font-black text-indigo-400">Total Termeni Generați</div>
                         <div className="text-xl font-black text-indigo-700">{numbers.length}</div>
                     </div>
                 </div>
@@ -2942,38 +3065,272 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         }
     }
 
+    // 20. Matrix Multiplication
     if (slug === "matematica_matrix_multiplication") {
-        const matrix = Array.isArray(rawResult)
+        const matrixA = Array.isArray(input?.matrixA) ? input.matrixA : [[1, 2], [3, 4]];
+        const matrixB = Array.isArray(input?.matrixB) ? input.matrixB : [[5, 6], [7, 8]];
+        const resultMatrix = Array.isArray(rawResult)
             ? rawResult
             : Array.isArray((rawResult as any)?.result)
             ? (rawResult as any).result
             : [];
-        const rows = Array.isArray(matrix) ? matrix : [];
 
-        if (rows.length > 0 && Array.isArray(rows[0])) {
-            return (
-                <div className="w-full max-w-4xl space-y-4">
-                    <div className="rounded-2xl border border-slate-200 bg-white p-4 overflow-x-auto">
-                        <div className="text-[10px] uppercase font-black text-slate-400 mb-3">Matrice rezultat</div>
-                        <table className="min-w-max text-sm border-collapse mx-auto">
-                            <tbody>
-                                {rows.map((row: any[], ri: number) => (
-                                    <tr key={ri}>
-                                        {row.map((cell: any, ci: number) => (
-                                            <td key={`${ri}-${ci}`} className="px-3 py-2 border border-slate-200 text-center font-mono font-black text-slate-700 bg-slate-50">
-                                                {String(cell)}
-                                            </td>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+        const hasValidMultiplication = resultMatrix.length > 0 && Array.isArray(resultMatrix[0]);
+
+        return (
+            <div className="w-full max-w-4xl space-y-6 animate-pop-in">
+                <p className="text-xs text-slate-500 font-black text-center uppercase tracking-wider">Înmulțirea Matricelor: linie × coloană (hover pe rezultat pentru detalii)</p>
+                
+                <div className="flex flex-col md:flex-row gap-6 items-center justify-center p-4">
+                    {/* Matrix A */}
+                    <div className="flex flex-col items-center">
+                        <span className="text-[9px] uppercase font-black text-slate-400 mb-1.5">Matricea A</span>
+                        <div className="p-3 bg-slate-50 border border-slate-200 rounded-2xl shadow-inner">
+                            <table className="border-collapse">
+                                <tbody>
+                                    {matrixA.map((row: any[], ri: number) => {
+                                        const isRowHovered = hoveredCell !== null && hoveredCell.r === ri;
+                                        return (
+                                            <tr key={ri}>
+                                                {row.map((cell: any, ci: number) => (
+                                                    <td 
+                                                        key={ci} 
+                                                        className={`px-3 py-2.5 border border-slate-200 text-center font-mono font-black text-xs transition-all duration-200 ${
+                                                            isRowHovered ? "bg-sky-500 text-white border-sky-600 scale-105" : "bg-white text-slate-700"
+                                                        }`}
+                                                    >
+                                                        {cell}
+                                                    </td>
+                                                ))}
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+
+                    <span className="text-xl font-black text-slate-400">×</span>
+
+                    {/* Matrix B */}
+                    <div className="flex flex-col items-center">
+                        <span className="text-[9px] uppercase font-black text-slate-400 mb-1.5">Matricea B</span>
+                        <div className="p-3 bg-slate-50 border border-slate-200 rounded-2xl shadow-inner">
+                            <table className="border-collapse">
+                                <tbody>
+                                    {matrixB.map((row: any[], ri: number) => (
+                                        <tr key={ri}>
+                                            {row.map((cell: any, ci: number) => {
+                                                const isColHovered = hoveredCell !== null && hoveredCell.c === ci;
+                                                return (
+                                                    <td 
+                                                        key={ci} 
+                                                        className={`px-3 py-2.5 border border-slate-200 text-center font-mono font-black text-xs transition-all duration-200 ${
+                                                            isColHovered ? "bg-indigo-600 text-white border-indigo-700 scale-105" : "bg-white text-slate-700"
+                                                        }`}
+                                                    >
+                                                        {cell}
+                                                    </td>
+                                                );
+                                            })}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <span className="text-xl font-black text-slate-400">=</span>
+
+                    {/* Result Matrix */}
+                    {hasValidMultiplication && (
+                        <div className="flex flex-col items-center">
+                            <span className="text-[9px] uppercase font-black text-slate-400 mb-1.5">Matricea Rezultat</span>
+                            <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-2xl shadow-sm">
+                                <table className="border-collapse">
+                                    <tbody>
+                                        {resultMatrix.map((row: any[], ri: number) => (
+                                            <tr key={ri}>
+                                                {row.map((cell: any, ci: number) => {
+                                                    const isHovered = hoveredCell !== null && hoveredCell.r === ri && hoveredCell.c === ci;
+                                                    return (
+                                                        <td 
+                                                            key={ci} 
+                                                            onMouseEnter={() => setHoveredCell({ r: ri, c: ci })}
+                                                            onMouseLeave={() => setHoveredCell(null)}
+                                                            className={`px-3 py-2.5 border border-indigo-200 text-center font-mono font-black text-xs cursor-crosshair transition-all duration-200 ${
+                                                                isHovered ? "bg-gradient-to-br from-emerald-500 to-teal-600 text-white border-emerald-600 scale-110 z-10 shadow-md animate-circle-glow" : "bg-white text-indigo-700"
+                                                            }`}
+                                                        >
+                                                            {cell}
+                                                        </td>
+                                                    );
+                                                })}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    )}
                 </div>
-            );
-        }
+
+                {/* Dot Product Calculation bubble */}
+                <div className="rounded-2xl border border-indigo-100 bg-indigo-50/50 p-4 text-center min-h-[64px] flex items-center justify-center shadow-inner">
+                    {hoveredCell !== null && hasValidMultiplication ? (() => {
+                        const { r, c } = hoveredCell;
+                        const rowA = matrixA[r] || [];
+                        const colB = matrixB.map((row: any[]) => row[c] ?? 0);
+                        const terms = rowA.map((val: number, idx: number) => `(${val} × ${colB[idx] ?? 0})`);
+                        const calculated = rowA.reduce((sum: number, val: number, idx: number) => sum + val * (colB[idx] ?? 0), 0);
+                        return (
+                            <div className="text-xs font-mono font-black text-slate-700 space-y-1">
+                                <div className="text-[9px] uppercase font-black text-indigo-500">Calcul dot-product pentru celula [{r}, {c}]</div>
+                                <div className="text-sm">
+                                    {terms.join(" + ")} = <span className="text-emerald-600 font-bold">{calculated}</span>
+                                </div>
+                            </div>
+                        );
+                    })() : (
+                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Trecoară cursorul peste celulele matricei rezultat pentru detalii</span>
+                    )}
+                </div>
+            </div>
+        );
     }
 
+    // 21. Absolute Value & Signum
+    if (slug === "matematica_absolute_value" || slug === "matematica_signum") {
+        const n = Number(input?.n ?? 0);
+        const outVal = Number.isFinite(toNum(rawResult)) ? Number(rawResult) : (slug === "matematica_absolute_value" ? Math.abs(n) : Math.sign(n));
+
+        return (
+            <div className="w-full max-w-3xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
+                <div className="grid grid-cols-2 gap-4 w-full text-center">
+                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-inner">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Valoare de Intrare (n)</div>
+                        <div className="text-3xl font-black text-slate-800 font-mono mt-1">{n}</div>
+                    </div>
+                    <div className="rounded-3xl border border-indigo-200 bg-indigo-50 p-4 shadow-sm animate-circle-glow">
+                        <div className="text-[10px] uppercase font-black text-indigo-500">Rezultat Calculat</div>
+                        <div className="text-3xl font-black text-indigo-700 font-mono mt-1">{outVal}</div>
+                    </div>
+                </div>
+
+                {slug === "matematica_absolute_value" ? (
+                    <div className="w-full max-w-md space-y-2 py-4">
+                        <div className="text-[10px] uppercase font-black text-slate-400 text-center tracking-wider mb-2">Axa Numerică (Distanța până la 0)</div>
+                        <div className="relative h-14 bg-slate-100 rounded-3xl border border-slate-200 flex items-center px-8">
+                            <div className="absolute left-1/2 w-0.5 h-6 bg-slate-400 -translate-x-1/2" />
+                            <span className="absolute left-1/2 -bottom-5 text-[9px] font-black text-slate-400 -translate-x-1/2">0</span>
+                            
+                            {/* Marker pointing to n */}
+                            {n !== 0 && (
+                                <div 
+                                    className={`absolute h-7 w-7 rounded-full flex items-center justify-center text-[10px] font-mono font-black text-white shadow-md animate-bounce ${n < 0 ? "bg-rose-500" : "bg-emerald-500"}`}
+                                    style={{ left: `calc(50% + ${Math.max(-42, Math.min(42, n)) * 4.5}%)`, transform: "translateX(-50%)" }}
+                                >
+                                    {n}
+                                </div>
+                            )}
+
+                            {/* Arrow tracing distance */}
+                            <div 
+                                className="absolute h-1.5 rounded-full bg-indigo-500/80 animate-pulse"
+                                style={{ 
+                                    left: n < 0 ? `calc(50% + ${Math.max(-42, Math.min(42, n)) * 4.5}%)` : "50%",
+                                    width: `${Math.abs(Math.max(-42, Math.min(42, n)) * 4.5)}%`
+                                }}
+                            />
+                        </div>
+                    </div>
+                ) : (
+                    <div className="flex gap-4 items-center justify-center py-4">
+                        {[-1, 0, 1].map((val) => {
+                            const isMatch = outVal === val;
+                            return (
+                                <div 
+                                    key={val} 
+                                    className={`h-16 w-16 rounded-full border-2 font-black font-mono text-lg flex items-center justify-center transition-all duration-300 ${
+                                        isMatch 
+                                            ? "bg-gradient-to-br from-emerald-400 to-teal-500 border-emerald-500 text-white shadow-md scale-110 animate-glow-green" 
+                                            : "bg-slate-50 border-slate-200 text-slate-400 opacity-60"
+                                    }`}
+                                >
+                                    {val > 0 ? `+${val}` : val}
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
+        );
+    }
+
+    // 22. Square Root (Squeezing Interval bounds)
+    if (slug === "matematica_square_root") {
+        const n = Number(input?.n ?? 16);
+        const outVal = Number.isFinite(toNum(rawResult)) ? Number(rawResult) : Math.sqrt(n);
+
+        // Try to locate low and high from current trace vars
+        const low = vars.low ?? 0;
+        const high = vars.high ?? Math.max(1, n);
+        const mid = vars.mid ?? (low + high) / 2;
+        const square = mid * mid;
+
+        return (
+            <div className="w-full max-w-3xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
+                <div className="grid grid-cols-2 gap-4 w-full text-center">
+                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-inner">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Intrare (n)</div>
+                        <div className="text-3xl font-black text-slate-800 font-mono mt-1">√{n}</div>
+                    </div>
+                    <div className="rounded-3xl border border-indigo-200 bg-indigo-50 p-4 shadow-sm animate-circle-glow">
+                        <div className="text-[10px] uppercase font-black text-indigo-400 font-bold">Rădăcină (Aproximată)</div>
+                        <div className="text-3xl font-black text-indigo-700 font-mono mt-1">{outVal.toFixed(6)}</div>
+                    </div>
+                </div>
+
+                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm w-full space-y-4">
+                    <div className="text-[10px] uppercase font-black text-slate-400 text-center tracking-wider">Intervalul Căutării Binare</div>
+                    
+                    <div className="relative h-12 bg-slate-100 rounded-2xl border border-slate-200 flex items-center px-6">
+                        {/* Highlighting active segment [low, high] */}
+                        <div 
+                            className="absolute h-4 rounded-xl bg-indigo-200 border border-indigo-300 animate-pulse"
+                            style={{ 
+                                left: `${Math.max(4, Math.min(90, (low / Math.max(1, n)) * 100))}%`,
+                                right: `${Math.max(4, Math.min(90, 100 - (high / Math.max(1, n)) * 100))}%`
+                            }}
+                        />
+
+                        {/* Point for mid */}
+                        {Number.isFinite(mid) && (
+                            <div 
+                                className="absolute h-6 w-6 rounded-full bg-indigo-600 border-2 border-white flex items-center justify-center text-[9px] font-black text-white shadow-md animate-bounce"
+                                style={{ left: `${Math.max(4, Math.min(96, (mid / Math.max(1, n)) * 100))}%`, transform: "translateX(-50%)" }}
+                                title={`Mijloc: ${mid.toFixed(4)}`}
+                            >
+                                M
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="grid grid-cols-3 text-xs font-mono font-black pt-2 border-t border-slate-100">
+                        <div className="text-left text-indigo-600">Limita minimă (low): {low.toFixed(4)}</div>
+                        <div className="text-center text-slate-700">Mijloc curent (mid): {mid.toFixed(4)}</div>
+                        <div className="text-right text-indigo-600">Limita maximă (high): {high.toFixed(4)}</div>
+                    </div>
+
+                    <div className="rounded-xl bg-slate-50 p-3 border border-slate-200/50 text-center text-xs text-slate-600">
+                        Evaluare: mid² = {mid.toFixed(4)}² = <span className="font-mono font-black text-slate-800">{square.toFixed(4)}</span> {square > n ? " > " : " < "} {n}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Default Fallback Visualizer
     const inputEntries = Object.entries(input || {}).slice(0, 10);
     const isBoolResult = typeof rawResult === "boolean";
     const isNumberResult = typeof rawResult === "number" && Number.isFinite(rawResult);
@@ -3000,7 +3357,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
 
                 <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-4">
                     <div className="text-[10px] uppercase font-black text-indigo-400 mb-2">Rezultat calculat</div>
-                    <div className={`rounded-xl px-4 py-4 text-center font-black ${isBoolResult ? ((rawResult as boolean) ? "bg-emerald-500 text-white" : "bg-rose-500 text-white") : "bg-white border border-indigo-200 text-indigo-700"}`}>
+                    <div className={`rounded-xl px-4 py-4 text-center font-black ${isBoolResult ? ((rawResult as boolean) ? "bg-emerald-500 text-white shadow-emerald-100" : "bg-rose-500 text-white shadow-rose-100") : "bg-white border border-indigo-200 text-indigo-700"}`}>
                         {isArrayResult
                             ? `[${(rawResult as any[]).slice(0, 20).join(", ")}${(rawResult as any[]).length > 20 ? ", ..." : ""}]`
                             : typeof rawResult === "object" && rawResult !== null
@@ -3025,6 +3382,7 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         </div>
     );
 }
+
 
 function DataStructureVisualizer({ slug, event, input }: { slug: string; event: TraceEvent; input: any }) {
     const ev = event as any;
@@ -3743,7 +4101,7 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                                                 <GraphVisualizer event={visualEvent || currentEvent} input={input} />
                                             ) : isMathCategory || isBitCategory || CUSTOM_MATH_VISUAL_SLUGS.has(meta.slug) ? (
                                                 <MathCategoryFrame slug={meta.slug} event={visualEvent || currentEvent}>
-                                                    <MathOperationsVisualizer slug={meta.slug} event={visualEvent || currentEvent} input={input} />
+                                                    <MathOperationsVisualizer slug={meta.slug} event={visualEvent || currentEvent} input={input} trace={trace} currentStep={currentStep} />
                                                 </MathCategoryFrame>
                                             ) : vizType === "sorting" || isSortingCategory ? (
                                                 <SortingVisualizer event={visualEvent || currentEvent} input={input} slug={meta.slug} />
