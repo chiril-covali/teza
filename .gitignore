@@ -15,3 +15,5 @@ articol reviste/
 final_thesis_gen.py
 verify_thesis.py
 Teza_Licenta_UPSC_Final.docx
+.vercel
+.env*.local

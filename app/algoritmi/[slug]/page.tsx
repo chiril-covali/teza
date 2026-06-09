@@ -1736,24 +1736,6 @@ function MathCategoryFrame({ slug, event, children }: { slug: string; event: Tra
             return typeof value === "number" && Number.isFinite(value);
         })
         .slice(0, 6);
-    const rawInput = (vars && typeof vars.input === "object" ? vars.input : null) || {};
-    const inputEntries = Object.entries(rawInput).slice(0, 4);
-    const rawResult =
-        ev?.result?.value ??
-        ev?.result?.result ??
-        ev?.result?.output ??
-        ev?.result?.rezultat ??
-        ev?.result ??
-        vars.rezultat ??
-        vars.result ??
-        vars.output ??
-        vars.value;
-    const compactResult = (() => {
-        if (Array.isArray(rawResult)) return `[${rawResult.slice(0, 8).join(", ")}${rawResult.length > 8 ? ", ..." : ""}]`;
-        if (typeof rawResult === "object" && rawResult !== null) return JSON.stringify(rawResult);
-        return String(rawResult ?? "—");
-    })();
-
     return (
         <div className="w-full h-full min-h-[420px] overflow-x-auto">
             <div className="w-full max-w-5xl mx-auto space-y-4 py-1">
@@ -1782,45 +1764,6 @@ function MathCategoryFrame({ slug, event, children }: { slug: string; event: Tra
                         ))}
                     </div>
                 )}
-
-                <div className="rounded-3xl border border-cyan-100 bg-cyan-50/70 px-3 py-3">
-                    <div className="text-[10px] uppercase font-black text-cyan-500 mb-2">Flux live: intrare → calcul → rezultat</div>
-                    <div className="grid md:grid-cols-3 gap-2 items-stretch">
-                        <div className="rounded-2xl border border-cyan-100 bg-white px-3 py-2">
-                            <div className="text-[10px] uppercase font-black text-slate-400 mb-1">Intrare</div>
-                            <div className="flex flex-wrap gap-1.5">
-                                {inputEntries.length > 0 ? (
-                                    inputEntries.map(([key, value], idx) => (
-                                        <span
-                                            key={key}
-                                            className="px-2 py-1 rounded-lg bg-cyan-50 border border-cyan-100 text-[11px] font-mono font-black text-cyan-700 animate-pulse"
-                                            style={{ animationDelay: `${idx * 120}ms` }}
-                                        >
-                                            {key}:{typeof value === "object" ? JSON.stringify(value) : String(value)}
-                                        </span>
-                                    ))
-                                ) : (
-                                    <span className="text-xs font-semibold text-slate-400">input din context</span>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className="rounded-2xl border border-cyan-100 bg-white px-3 py-2 flex items-center justify-center">
-                            <div className="inline-flex items-center gap-2 text-cyan-700 font-black text-sm">
-                                <span className="h-2.5 w-2.5 rounded-full bg-cyan-500 animate-ping" />
-                                <span>procesare matematică</span>
-                                <span className="text-cyan-400 animate-bounce">→</span>
-                            </div>
-                        </div>
-
-                        <div className="rounded-2xl border border-cyan-100 bg-white px-3 py-2">
-                            <div className="text-[10px] uppercase font-black text-slate-400 mb-1">Rezultat</div>
-                            <div className="rounded-lg bg-emerald-50 border border-emerald-100 px-2 py-1.5 text-xs font-mono font-black text-emerald-700 break-all animate-pulse">
-                                {compactResult}
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <div className="rounded-3xl border border-slate-200 bg-white p-3 sm:p-4 shadow-sm">
                     {children}
@@ -1859,45 +1802,57 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
 
         return (
             <div className="w-full space-y-4">
-                <p className="text-xs text-slate-500 font-semibold text-center">Ciurul lui Eratostene: selectăm un prim p, apoi tăiem multiplii lui.</p>
+                <p className="text-xs text-slate-500 font-bold text-center">Ciurul lui Eratostene: selectăm un prim p, apoi tăiem multiplii lui.</p>
                 <div className="grid md:grid-cols-5 gap-4">
-                    <div className="md:col-span-3">
-                        <div className="grid grid-cols-8 sm:grid-cols-10 gap-2">
+                    <div className="md:col-span-3 flex justify-center">
+                        <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-8 lg:grid-cols-10 gap-2 max-w-md w-full">
                             {nums.map((num) => {
                                 const flag = state[num] ?? 0;
                                 const isCurrent = num === ev.index;
                                 const isPivot = num === currentPrime;
-                                const cls = flag ? "bg-emerald-100 text-emerald-700 border-emerald-200" : "bg-rose-100 text-rose-700 border-rose-200";
+                                const isEliminated = flag === 0;
+
+                                const cls = isEliminated
+                                    ? "bg-rose-50 text-rose-400 border-rose-100 line-through decoration-rose-400 decoration-2 opacity-50 animate-shake"
+                                    : "bg-emerald-50 text-emerald-800 border-emerald-200 shadow-sm";
+
                                 return (
-                                    <div key={num} className={`h-9 rounded-lg border text-xs font-black flex items-center justify-center transition-all ${cls} ${isCurrent ? "ring-2 ring-indigo-400" : ""} ${isPivot ? "ring-2 ring-amber-400" : ""}`}>
+                                    <div
+                                        key={num}
+                                        className={`h-10 w-10 rounded-xl border text-xs font-black flex items-center justify-center transition-all duration-300 ${cls} ${
+                                            isCurrent ? "animate-circle-glow ring-2 ring-indigo-500 scale-110 z-10" : ""
+                                        } ${
+                                            isPivot ? "animate-glow-green ring-2 ring-emerald-500 scale-110 z-10 bg-emerald-100 text-emerald-950 border-emerald-300" : ""
+                                        }`}
+                                    >
                                         {num}
                                     </div>
                                 );
                             })}
                         </div>
                     </div>
-                    <div className="md:col-span-2 rounded-2xl border border-slate-200 bg-white p-3">
+                    <div className="md:col-span-2 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm flex flex-col justify-center">
                         <table className="w-full text-xs">
                             <tbody>
                                 <tr className="border-b border-slate-100">
-                                    <td className="py-2 font-black text-slate-500">Selectat p</td>
-                                    <td className="py-2 text-right font-black text-amber-600">{currentPrime}</td>
+                                    <td className="py-2.5 font-black text-slate-500">Selectat p (prim)</td>
+                                    <td className="py-2.5 text-right font-black text-emerald-600 font-mono text-sm">{currentPrime}</td>
                                 </tr>
                                 <tr className="border-b border-slate-100">
-                                    <td className="py-2 font-black text-slate-500">Element curent</td>
-                                    <td className="py-2 text-right font-black text-indigo-600">{currentMultiple}</td>
+                                    <td className="py-2.5 font-black text-slate-500">Multiplu eliminat</td>
+                                    <td className="py-2.5 text-right font-black text-indigo-600 font-mono text-sm">{currentMultiple}</td>
                                 </tr>
                                 <tr className="border-b border-slate-100">
-                                    <td className="py-2 font-black text-slate-500">Operație</td>
-                                    <td className="py-2 text-right font-semibold text-slate-700">marcare / eliminare</td>
+                                    <td className="py-2.5 font-black text-slate-500">Operație</td>
+                                    <td className="py-2.5 text-right font-bold text-slate-700">marcare / eliminare</td>
                                 </tr>
                                 <tr>
-                                    <td className="py-2 font-black text-slate-500">Regulă</td>
-                                    <td className="py-2 text-right font-semibold text-slate-700">j = p², p²+p, ...</td>
+                                    <td className="py-2.5 font-black text-slate-500">Regulă multipli</td>
+                                    <td className="py-2.5 text-right font-mono text-slate-700">p², p²+p, ...</td>
                                 </tr>
                             </tbody>
                         </table>
-                        <div className="mt-3 text-[11px] text-slate-500 leading-relaxed">
+                        <div className="mt-4 text-[11px] text-slate-400 font-medium leading-relaxed bg-slate-50 border border-slate-100 p-2.5 rounded-xl">
                             Verde: număr încă posibil prim. Roșu: eliminat pentru că se împarte la un prim anterior.
                         </div>
                     </div>
@@ -1916,83 +1871,167 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const q = safeB > 0 ? Math.floor(safeA / safeB) : 0;
 
         return (
-            <div className="w-full max-w-2xl space-y-4">
-                <div className="grid grid-cols-3 gap-3 text-center">
-                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                        <div className="text-[10px] uppercase font-black text-slate-400">a</div>
-                        <div className="text-xl font-black text-slate-800">{a || "-"}</div>
+            <div className="w-full max-w-2xl space-y-6 flex flex-col items-center animate-pop-in">
+                <div className="grid grid-cols-3 gap-4 text-center w-full">
+                    <div className="rounded-3xl border border-sky-100 bg-sky-50/50 p-4 shadow-sm transition-all hover:scale-105">
+                        <div className="text-[10px] uppercase font-black text-sky-500">Valoare a</div>
+                        <div className="text-2xl font-black text-sky-800 font-mono">{a || "-"}</div>
                     </div>
-                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                        <div className="text-[10px] uppercase font-black text-slate-400">b</div>
-                        <div className="text-xl font-black text-slate-800">{b || "-"}</div>
+                    <div className="rounded-3xl border border-indigo-100 bg-indigo-50/50 p-4 shadow-sm transition-all hover:scale-105">
+                        <div className="text-[10px] uppercase font-black text-indigo-400">Valoare b</div>
+                        <div className="text-2xl font-black text-indigo-800 font-mono">{b || "-"}</div>
                     </div>
-                    <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-4">
-                        <div className="text-[10px] uppercase font-black text-indigo-400">rest</div>
-                        <div className="text-xl font-black text-indigo-700">{rest || 0}</div>
+                    <div className="rounded-3xl border border-amber-100 bg-amber-50/50 p-4 shadow-sm transition-all hover:scale-105 animate-circle-glow">
+                        <div className="text-[10px] uppercase font-black text-amber-500">Rest curent</div>
+                        <div className="text-2xl font-black text-amber-700 font-mono">{rest}</div>
                     </div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
-                    <div>
-                        <div className="text-[10px] uppercase font-black text-slate-400 mb-1">Segment A</div>
-                        <div className="h-4 rounded bg-slate-100 overflow-hidden">
-                            <div className="h-full bg-sky-500" style={{ width: `${(safeA / maxAB) * 100}%` }} />
+                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm w-full space-y-6">
+                    <div className="space-y-2">
+                        <div className="flex justify-between items-center text-[10px] uppercase font-black text-slate-400">
+                            <span>Segmentul A ({safeA})</span>
+                            <span className="font-mono">{((safeA / maxAB) * 100).toFixed(0)}%</span>
+                        </div>
+                        <div className="h-8 rounded-2xl bg-slate-50 border border-slate-100 p-1 flex overflow-hidden">
+                            <div 
+                                className="h-full bg-gradient-to-r from-sky-400 to-sky-600 rounded-xl transition-all duration-700 ease-out flex items-center px-3 text-[10px] font-black text-white shadow-inner"
+                                style={{ width: `${(safeA / maxAB) * 100}%` }}
+                            >
+                                {safeA > 10 ? `A = ${safeA}` : safeA}
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <div className="text-[10px] uppercase font-black text-slate-400 mb-1">Segment B</div>
-                        <div className="h-4 rounded bg-slate-100 overflow-hidden">
-                            <div className="h-full bg-indigo-500" style={{ width: `${(safeB / maxAB) * 100}%` }} />
+
+                    <div className="space-y-2">
+                        <div className="flex justify-between items-center text-[10px] uppercase font-black text-slate-400">
+                            <span>Segmentul B ({safeB})</span>
+                            <span className="font-mono">{((safeB / maxAB) * 100).toFixed(0)}%</span>
+                        </div>
+                        <div className="h-8 rounded-2xl bg-slate-50 border border-slate-100 p-1 flex overflow-hidden">
+                            <div 
+                                className="h-full bg-gradient-to-r from-indigo-400 to-indigo-600 rounded-xl transition-all duration-700 ease-out flex items-center px-3 text-[10px] font-black text-white shadow-inner"
+                                style={{ width: `${(safeB / maxAB) * 100}%` }}
+                            >
+                                {safeB > 10 ? `B = ${safeB}` : safeB}
+                            </div>
                         </div>
                     </div>
-                    <table className="w-full text-xs">
-                        <tbody>
-                            <tr className="border-b border-slate-100"><td className="py-1.5 font-black text-slate-500">Împărțire</td><td className="py-1.5 text-right font-mono">{safeA} = {safeB} × {q} + {rest}</td></tr>
-                            <tr><td className="py-1.5 font-black text-slate-500">Pas următor</td><td className="py-1.5 text-right font-mono">({safeB}, {rest})</td></tr>
-                        </tbody>
-                    </table>
+
+                    {safeB > 0 && (
+                        <div className="space-y-2 pt-4 border-t border-slate-100">
+                            <div className="text-[10px] uppercase font-black text-slate-400 mb-1">Reprezentare Împărțire: A = B × {q} + R</div>
+                            <div className="h-10 rounded-2xl bg-slate-50 border border-slate-100 p-1 flex gap-1 w-full overflow-hidden">
+                                {Array.from({ length: q }).map((_, idx) => (
+                                    <div 
+                                        key={`q-${idx}`}
+                                        className="h-full bg-indigo-100 border border-indigo-200 text-indigo-800 text-[10px] font-black flex items-center justify-center rounded-lg shadow-sm animate-pop-in"
+                                        style={{ 
+                                            width: `${(safeB / maxAB) * 100}%`,
+                                            animationDelay: `${idx * 150}ms`
+                                        }}
+                                    >
+                                        B ({safeB})
+                                    </div>
+                                ))}
+                                {rest > 0 && (
+                                    <div 
+                                        className="h-full bg-gradient-to-r from-amber-400 to-amber-500 border border-amber-300 text-white text-[10px] font-black flex items-center justify-center rounded-lg shadow-sm animate-pop-in animate-circle-glow"
+                                        style={{ 
+                                            width: `${(rest / maxAB) * 100}%`,
+                                            animationDelay: `${q * 150}ms`
+                                        }}
+                                    >
+                                        R ({rest})
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="rounded-2xl bg-slate-50 p-4 border border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+                        <div className="font-mono text-slate-700 bg-white border border-slate-200 px-3 py-2 rounded-xl font-bold shadow-sm">
+                            Formula: {safeA} = {safeB} × {q} + {rest}
+                        </div>
+                        <div className="text-right text-slate-500 font-bold">
+                            Pas următor: <span className="text-indigo-600">a = {safeB}</span>, <span className="text-amber-600">b = {rest}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
     }
 
+
     if (slug === "matematica_prime_factorization") {
         const factors: number[] = Array.isArray(ev.array) ? ev.array : [];
         const current = vars.n_curent;
         const next = vars.n_nou;
+        const divisor = vars.divizor;
+
         return (
-            <div className="w-full space-y-5">
-                <div className="flex flex-wrap justify-center gap-2">
-                    {factors.length === 0 ? (
-                        <span className="text-slate-400 text-sm font-semibold">Încă nu există factori extrași</span>
-                    ) : (
-                        factors.map((factor, idx) => (
-                            <span key={`${factor}-${idx}`} className="px-3 py-2 rounded-xl bg-indigo-600 text-white font-black text-sm">{factor}</span>
-                        ))
-                    )}
-                </div>
-                <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                    <div className="text-[10px] uppercase font-black text-slate-400 mb-3">Ramificare (arbore de împărțire)</div>
-                    <div className="flex items-center justify-center gap-3 flex-wrap">
-                        <div className="px-3 py-2 rounded-xl bg-slate-900 text-white font-black">{current ?? "n"}</div>
-                        <span className="text-slate-300 font-black">÷</span>
-                        <div className="px-3 py-2 rounded-xl bg-indigo-100 text-indigo-700 font-black">{vars.divizor ?? "p"}</div>
-                        <span className="text-slate-300 font-black">→</span>
-                        <div className="px-3 py-2 rounded-xl bg-emerald-100 text-emerald-700 font-black">{next ?? "n/p"}</div>
-                    </div>
-                    {factors.length > 0 && (
-                        <div className="mt-4 flex items-center justify-center gap-2 flex-wrap">
-                            {factors.map((factor, idx) => (
-                                <span key={`${factor}-${idx}`} className="inline-flex items-center gap-2">
-                                    {idx > 0 && <span className="text-slate-300 font-black">×</span>}
-                                    <span className="px-2.5 py-1.5 rounded-lg bg-indigo-600 text-white font-black text-xs">{factor}</span>
+            <div className="w-full space-y-6 animate-pop-in">
+                <div className="flex flex-col items-center">
+                    <span className="text-[10px] uppercase font-black text-slate-400 mb-2">Factori primi extrași</span>
+                    <div className="flex flex-wrap justify-center gap-3 min-h-[50px] p-4 bg-slate-50 border border-slate-100 rounded-3xl w-full max-w-xl">
+                        {factors.length === 0 ? (
+                            <span className="text-slate-400 text-xs font-semibold self-center">Se caută primul divizor prim...</span>
+                        ) : (
+                            factors.map((factor, idx) => (
+                                <span 
+                                    key={`${factor}-${idx}`} 
+                                    className="px-3.5 py-2 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-black text-sm shadow-md animate-pop-in animate-glow-green"
+                                    style={{ animationDelay: `${idx * 100}ms` }}
+                                >
+                                    {factor}
                                 </span>
-                            ))}
-                        </div>
-                    )}
+                            ))
+                        )}
+                    </div>
                 </div>
-                <div className="text-center text-sm font-semibold text-slate-600">
-                    {vars.factori ? `Descompunere: ${vars.factori}` : "Extragem factorii primi prin împărțiri succesive."}
+
+                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm max-w-xl mx-auto space-y-4">
+                    <div className="text-[10px] uppercase font-black text-slate-400 text-center mb-1">Arbore de Împărțire Curent</div>
+                    <div className="flex flex-col items-center justify-center py-4 relative">
+                        <div className="px-5 py-3 rounded-2xl bg-slate-900 text-white font-black text-lg shadow-md transition-all duration-300 z-10">
+                            {current ?? "n"}
+                        </div>
+
+                        {divisor && (
+                            <div className="flex items-stretch justify-center w-full max-w-xs mt-6 gap-8 animate-pop-in">
+                                <div className="flex flex-col items-center flex-1">
+                                    <div className="h-6 w-0.5 bg-slate-300 relative -top-6">
+                                        <div className="absolute top-0 right-0 w-8 h-6 border-t border-l border-slate-300 rounded-tl-xl" />
+                                    </div>
+                                    <div className="px-4 py-2.5 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 font-black text-sm shadow-sm animate-circle-glow">
+                                        p = {divisor}
+                                    </div>
+                                    <span className="text-[9px] uppercase font-black text-indigo-400 mt-1">Divizor prim</span>
+                                </div>
+
+                                <div className="flex flex-col items-center flex-1">
+                                    <div className="h-6 w-0.5 bg-slate-300 relative -top-6">
+                                        <div className="absolute top-0 left-0 w-8 h-6 border-t border-r border-slate-300 rounded-tr-xl" />
+                                    </div>
+                                    <div className="px-4 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 font-black text-sm shadow-sm">
+                                        n / p = {next}
+                                    </div>
+                                    <span className="text-[9px] uppercase font-black text-emerald-400 mt-1">Cât rămas</span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <div className="rounded-2xl bg-indigo-50/50 p-4 border border-indigo-100 text-center text-xs font-mono max-w-xl mx-auto shadow-inner text-indigo-950">
+                    {vars.factori ? (
+                        <div className="space-y-1">
+                            <div className="text-[9px] uppercase font-black text-indigo-400">Descompunere</div>
+                            <div className="text-sm font-black tracking-wide">{vars.factori}</div>
+                        </div>
+                    ) : (
+                        "Împărțim numărul succesiv la cel mai mic număr prim posibil până când obținem 1."
+                    )}
                 </div>
             </div>
         );
@@ -2000,40 +2039,63 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
 
     if (slug === "matematica_binary_convert") {
         const bits: number[] = Array.isArray(ev.array) ? ev.array : [];
+        const nCurent = vars.n_curent ?? vars.decimal ?? 0;
+        const cat = vars.cat ?? 0;
+        const rest = vars.rest ?? vars.bit ?? 0;
+
         return (
-            <div className="w-full max-w-2xl space-y-4">
-                <div className="grid grid-cols-3 gap-3 text-center">
-                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                        <div className="text-[10px] uppercase font-black text-slate-400">n curent</div>
-                        <div className="text-xl font-black text-slate-800">{vars.n_curent ?? vars.decimal ?? "-"}</div>
+            <div className="w-full max-w-2xl space-y-6 animate-pop-in">
+                <div className="grid grid-cols-3 gap-4 text-center w-full">
+                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-sm">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Deîmpărțit (n)</div>
+                        <div className="text-xl font-black text-slate-800 font-mono">{nCurent}</div>
                     </div>
-                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                        <div className="text-[10px] uppercase font-black text-slate-400">cat</div>
-                        <div className="text-xl font-black text-slate-800">{vars.cat ?? "-"}</div>
+                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-sm">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Cât (n / 2)</div>
+                        <div className="text-xl font-black text-slate-800 font-mono">{cat}</div>
                     </div>
-                    <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-4">
-                        <div className="text-[10px] uppercase font-black text-indigo-400">rest / bit</div>
-                        <div className="text-xl font-black text-indigo-700">{vars.rest ?? vars.bit ?? "-"}</div>
+                    <div className="rounded-3xl border border-indigo-200 bg-indigo-50 p-4 shadow-sm animate-circle-glow">
+                        <div className="text-[10px] uppercase font-black text-indigo-500">Rest (bit)</div>
+                        <div className="text-xl font-black text-indigo-700 font-mono">{rest}</div>
                     </div>
                 </div>
-                <div className="flex justify-center gap-2 flex-wrap">
-                    {bits.map((bit, idx) => (
-                        <span
-                            key={`${bit}-${idx}`}
-                            className={`h-10 w-10 rounded-xl border font-black flex items-center justify-center ${bit === 1 ? "bg-emerald-500 border-emerald-600 text-white" : "bg-sky-100 border-sky-200 text-sky-700"} ${idx === bits.length - 1 ? "ring-2 ring-indigo-300" : ""}`}
-                        >
-                            {bit}
-                        </span>
-                    ))}
+
+                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm w-full space-y-4">
+                    <div className="text-[10px] uppercase font-black text-slate-400 text-center mb-1">Șirul binar rezultat (citit de la dreapta la stânga)</div>
+                    <div className="flex justify-center gap-2.5 flex-wrap min-h-[60px] p-4 bg-slate-50 border border-slate-100 rounded-2xl">
+                        {bits.length === 0 ? (
+                            <span className="text-slate-400 text-xs font-semibold self-center">Se calculează primii biți...</span>
+                        ) : (
+                            bits.map((bit, idx) => {
+                                const isNewest = idx === bits.length - 1;
+                                return (
+                                    <div key={`${bit}-${idx}`} className="flex flex-col items-center gap-1 animate-slide-down-fade">
+                                        <div
+                                            className={`h-11 w-11 rounded-2xl border-2 font-black flex items-center justify-center text-sm shadow-md transition-all ${
+                                                bit === 1 
+                                                    ? "bg-gradient-to-br from-emerald-400 to-emerald-600 border-emerald-500 text-white shadow-emerald-100" 
+                                                    : "bg-gradient-to-br from-sky-400 to-sky-600 border-sky-500 text-white shadow-sky-100"
+                                            } ${isNewest ? "ring-4 ring-indigo-300 scale-105 z-10 animate-circle-glow" : ""}`}
+                                        >
+                                            {bit}
+                                        </div>
+                                        <span className="text-[8px] text-slate-300 font-mono font-bold">2^{idx}</span>
+                                    </div>
+                                );
+                            })
+                        )}
+                    </div>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-white p-3">
-                    <table className="w-full text-xs">
-                        <tbody>
-                            <tr className="border-b border-slate-100"><td className="py-1.5 font-black text-slate-500">Operație</td><td className="py-1.5 text-right font-mono">n / 2</td></tr>
-                            <tr className="border-b border-slate-100"><td className="py-1.5 font-black text-slate-500">Rest (bit nou)</td><td className="py-1.5 text-right font-mono">{vars.rest ?? vars.bit ?? "-"}</td></tr>
-                            <tr><td className="py-1.5 font-black text-slate-500">Șir biți</td><td className="py-1.5 text-right font-mono">{(vars.binary ?? vars.bits_partial ?? bits.join("")) || "-"}</td></tr>
-                        </tbody>
-                    </table>
+
+                <div className="rounded-3xl border border-slate-200 bg-white p-4 space-y-2 text-xs font-mono">
+                    <div className="flex justify-between border-b border-slate-100 pb-2">
+                        <span className="text-slate-400 uppercase font-black text-[9px]">Operație curentă:</span>
+                        <span className="font-bold text-slate-700">{nCurent} / 2 = {cat} rest {rest}</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="text-slate-400 uppercase font-black text-[9px]">Reprezentare parțială:</span>
+                        <span className="font-black text-indigo-700">{(vars.binary ?? vars.bits_partial ?? [...bits].reverse().join("")) || "—"}</span>
+                    </div>
                 </div>
             </div>
         );
@@ -2051,60 +2113,94 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const onlyA = ai.filter((x) => !inter.includes(x));
         const onlyB = bi.filter((x) => !inter.includes(x));
         return (
-            <div className="w-full max-w-3xl space-y-4">
+            <div className="w-full max-w-3xl space-y-6 animate-pop-in">
                 <div className="flex flex-wrap justify-center gap-2">
                     {numbers.map((num, idx) => (
-                        <span key={`${num}-${idx}`} className="px-3 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 font-black text-sm">{num}</span>
+                        <span key={`${num}-${idx}`} className="px-3.5 py-2 rounded-2xl bg-slate-100 border border-slate-200 text-slate-700 font-black text-sm shadow-sm">{num}</span>
                     ))}
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <div className="rounded-xl bg-slate-50 border border-slate-200 p-3 text-center">
-                        <div className="text-[10px] uppercase font-black text-slate-400">a</div>
-                        <div className="text-lg font-black text-slate-800">{vars.a ?? "-"}</div>
+
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div className="rounded-2xl bg-slate-50 border border-slate-200 p-3.5 text-center">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Valoare a</div>
+                        <div className="text-lg font-black text-slate-800 font-mono mt-0.5">{vars.a ?? "-"}</div>
                     </div>
-                    <div className="rounded-xl bg-slate-50 border border-slate-200 p-3 text-center">
-                        <div className="text-[10px] uppercase font-black text-slate-400">b</div>
-                        <div className="text-lg font-black text-slate-800">{vars.b ?? "-"}</div>
+                    <div className="rounded-2xl bg-slate-50 border border-slate-200 p-3.5 text-center">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Valoare b</div>
+                        <div className="text-lg font-black text-slate-800 font-mono mt-0.5">{vars.b ?? "-"}</div>
                     </div>
-                    <div className="rounded-xl bg-indigo-50 border border-indigo-200 p-3 text-center">
-                        <div className="text-[10px] uppercase font-black text-indigo-400">cmmdc</div>
-                        <div className="text-lg font-black text-indigo-700">{vars.cmmdc ?? "-"}</div>
+                    <div className="rounded-2xl bg-indigo-50 border border-indigo-100 p-3.5 text-center transition-all hover:scale-105">
+                        <div className="text-[10px] uppercase font-black text-indigo-400">CMMDC</div>
+                        <div className="text-lg font-black text-indigo-700 font-mono mt-0.5">{vars.cmmdc ?? "-"}</div>
                     </div>
-                    <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-3 text-center">
-                        <div className="text-[10px] uppercase font-black text-emerald-400">cmmc</div>
-                        <div className="text-lg font-black text-emerald-700">{vars.cmmc_partial ?? vars.cmmc ?? "-"}</div>
+                    <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-3.5 text-center transition-all hover:scale-105 animate-glow-green">
+                        <div className="text-[10px] uppercase font-black text-emerald-400">CMMC partial</div>
+                        <div className="text-lg font-black text-emerald-700 font-mono mt-0.5">{vars.cmmc_partial ?? vars.cmmc ?? "-"}</div>
                     </div>
                 </div>
 
-                <div className="grid lg:grid-cols-2 gap-4">
-                    <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                        <div className="text-[10px] uppercase font-black text-slate-400 mb-2">Diagramă Venn (factori primi unici pentru a și b)</div>
-                        <svg viewBox="0 0 300 180" className="w-full h-44">
-                            <circle cx="120" cy="90" r="58" fill="#e0f2fe" stroke="#7dd3fc" strokeWidth="2" />
-                            <circle cx="180" cy="90" r="58" fill="#ede9fe" stroke="#a78bfa" strokeWidth="2" />
-                            <text x="94" y="32" className="fill-sky-700 text-[10px] font-black">a = {a}</text>
-                            <text x="188" y="32" className="fill-violet-700 text-[10px] font-black">b = {b}</text>
-                            <text x="80" y="92" className="fill-sky-700 text-[10px] font-bold">{onlyA.join(", ") || "-"}</text>
-                            <text x="150" y="92" className="fill-indigo-700 text-[10px] font-bold">{inter.join(", ") || "-"}</text>
-                            <text x="220" y="92" className="fill-violet-700 text-[10px] font-bold">{onlyB.join(", ") || "-"}</text>
-                        </svg>
+                <div className="grid md:grid-cols-2 gap-4">
+                    <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col justify-center">
+                        <div className="text-[10px] uppercase font-black text-slate-400 mb-3 text-center">Diagramă Venn (Divizori primi unici)</div>
+                        <div className="relative w-full h-44 flex items-center justify-center font-bold">
+                            <div className="absolute left-[15%] w-32 h-32 rounded-full border-2 border-sky-400 bg-sky-500/10 flex flex-col items-center justify-center p-2 text-sky-800 shadow-sm">
+                                <span className="absolute top-2 text-[9px] uppercase tracking-widest font-black opacity-80">A ({a})</span>
+                                <div className="flex flex-wrap gap-1 justify-center max-w-[60px] mt-2">
+                                    {onlyA.map((x) => (
+                                        <span key={x} className="px-1.5 py-0.5 text-[10px] font-mono font-black bg-white border border-sky-300 rounded shadow-sm animate-pop-in">{x}</span>
+                                    ))}
+                                    {onlyA.length === 0 && <span className="text-[10px] text-sky-400">—</span>}
+                                </div>
+                            </div>
+                            <div className="absolute right-[15%] w-32 h-32 rounded-full border-2 border-violet-400 bg-violet-500/10 flex flex-col items-center justify-center p-2 text-violet-800 shadow-sm">
+                                <span className="absolute top-2 text-[9px] uppercase tracking-widest font-black opacity-80">B ({b})</span>
+                                <div className="flex flex-wrap gap-1 justify-center max-w-[60px] mt-2">
+                                    {onlyB.map((x) => (
+                                        <span key={x} className="px-1.5 py-0.5 text-[10px] font-mono font-black bg-white border border-violet-300 rounded shadow-sm animate-pop-in">{x}</span>
+                                    ))}
+                                    {onlyB.length === 0 && <span className="text-[10px] text-violet-400">—</span>}
+                                </div>
+                            </div>
+                            <div className="absolute w-20 h-20 bg-indigo-500/20 rounded-full flex flex-col items-center justify-center p-1 text-indigo-800 z-10">
+                                <span className="text-[8px] uppercase font-black opacity-90 text-indigo-600">Comun</span>
+                                <div className="flex flex-wrap gap-1 justify-center mt-1 font-bold">
+                                    {inter.map((x) => (
+                                        <span key={x} className="px-1.5 py-0.5 text-[10px] font-mono font-black bg-indigo-600 text-white rounded shadow-sm animate-pop-in animate-circle-glow">{x}</span>
+                                    ))}
+                                    {inter.length === 0 && <span className="text-[9px] text-indigo-400/70">—</span>}
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                        <div className="text-[10px] uppercase font-black text-slate-400 mb-2">Flux de calcul</div>
-                        <div className="space-y-2 text-xs font-mono">
-                            <div className="rounded-lg bg-slate-50 px-3 py-2">1. CMMDC({a}, {b}) = {vars.cmmdc ?? "?"}</div>
-                            <div className="rounded-lg bg-slate-50 px-3 py-2">2. CMMC = ({a} × {b}) / CMMDC</div>
-                            <div className="rounded-lg bg-emerald-50 text-emerald-700 px-3 py-2 font-black">3. CMMC = {vars.cmmc_partial ?? vars.cmmc ?? "?"}</div>
+                    <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
+                        <div className="text-[10px] uppercase font-black text-slate-400 mb-1">Flux de calcul</div>
+                        <div className="space-y-2.5 text-xs font-mono">
+                            <div className="rounded-2xl border border-slate-100 bg-slate-50 px-3.5 py-2.5 flex items-center justify-between shadow-sm">
+                                <span className="text-[10px] font-black text-slate-400">Pasul 1</span>
+                                <span className="font-bold text-slate-700">CMMDC({a}, {b}) = {vars.cmmdc ?? "?"}</span>
+                            </div>
+                            <div className="rounded-2xl border border-slate-100 bg-slate-50 px-3.5 py-2.5 flex items-center justify-between shadow-sm">
+                                <span className="text-[10px] font-black text-slate-400">Pasul 2</span>
+                                <span className="font-bold text-slate-700">CMMC = ({a} × {b}) / CMMDC</span>
+                            </div>
+                            <div className="rounded-2xl border border-emerald-100 bg-emerald-50/50 text-emerald-800 px-3.5 py-2.5 flex items-center justify-between shadow-sm animate-glow-green">
+                                <span className="text-[10px] font-black text-emerald-600">Pasul 3 (Final)</span>
+                                <span className="font-black">CMMC = {vars.cmmc_partial ?? vars.cmmc ?? "?"}</span>
+                            </div>
                         </div>
-                        <div className="mt-3 h-2 rounded-full bg-slate-100 overflow-hidden">
-                            <div className="h-full bg-emerald-500" style={{ width: `${Math.min(100, ((vars.pas ?? 1) / Math.max(1, numbers.length - 1)) * 100)}%` }} />
+                        <div className="h-2.5 rounded-full bg-slate-100 overflow-hidden relative">
+                            <div 
+                                className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full transition-all duration-500" 
+                                style={{ width: `${Math.min(100, ((vars.pas ?? 1) / Math.max(1, numbers.length - 1)) * 100)}%` }} 
+                            />
                         </div>
                     </div>
                 </div>
             </div>
         );
     }
+
 
     if (slug === "matematica_binomial_coefficient") {
         const n = Math.max(0, Number(vars.n ?? input?.n ?? 5));
@@ -2122,33 +2218,45 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const value = Number(vars.value ?? triangle[n]?.[k] ?? 0);
 
         return (
-            <div className="w-full max-w-4xl space-y-4 flex flex-col items-center justify-center">
-                <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-center">
-                    <div className="text-[11px] uppercase font-black text-indigo-400">Coeficient Binomial</div>
-                    <div className="text-xl font-black text-indigo-700">C({n}, {k}) = {value}</div>
+            <div className="w-full max-w-4xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
+                <div className="rounded-3xl border border-indigo-200 bg-indigo-50/50 px-6 py-4 text-center shadow-inner">
+                    <div className="text-[10px] uppercase font-black text-indigo-400">Coeficient Binomial Curent</div>
+                    <div className="text-2xl font-black text-indigo-800 mt-1 font-mono">C({n}, {k}) = {value}</div>
                 </div>
-                <div className="w-full rounded-2xl border border-slate-200 bg-white p-4 overflow-x-auto">
-                    <div className="min-w-max space-y-1">
-                        {(Array.isArray(vars.triangle) ? vars.triangle : []).map((row: number[], rowIdx: number) => (
-                            <div key={rowIdx} className="flex justify-center gap-1.5">
+                
+                <div className="w-full rounded-3xl border border-slate-200 bg-white p-6 shadow-sm overflow-x-auto">
+                    <div className="min-w-max space-y-2 py-4 flex flex-col items-center">
+                        {triangle.map((row: number[], rowIdx: number) => (
+                            <div key={rowIdx} className="flex justify-center gap-2 animate-pop-in" style={{ animationDelay: `${rowIdx * 100}ms` }}>
                                 {row.map((cell: number, colIdx: number) => {
                                     const isTarget = rowIdx === n && colIdx === k;
+                                    const isParent = rowIdx === n - 1 && (colIdx === k - 1 || colIdx === k);
+                                    
+                                    let styleCls = "bg-slate-50 text-slate-700 border-slate-200";
+                                    if (isTarget) {
+                                        styleCls = "bg-gradient-to-br from-emerald-500 to-teal-600 text-white border-emerald-600 shadow-md animate-circle-glow scale-110 z-10";
+                                    } else if (isParent) {
+                                        styleCls = "bg-indigo-100 text-indigo-800 border-indigo-300 scale-105 z-10 shadow-sm animate-pulse";
+                                    }
+
                                     return (
                                         <div
                                             key={`${rowIdx}-${colIdx}`}
-                                            className={`min-w-[34px] h-8 px-2 rounded-lg text-xs font-black flex items-center justify-center border ${
-                                                isTarget
-                                                    ? "bg-emerald-500 text-white border-emerald-600"
-                                                    : "bg-slate-50 text-slate-700 border-slate-200"
-                                            }`}
+                                            className={`min-w-[40px] h-10 px-2 rounded-2xl text-xs font-black flex flex-col items-center justify-center border transition-all duration-300 ${styleCls}`}
+                                            title={`Rând ${rowIdx}, Coloană ${colIdx}`}
                                         >
-                                            {cell}
+                                            <span className="font-mono text-[11px]">{cell}</span>
+                                            {isParent && <span className="text-[7px] text-indigo-500 uppercase tracking-widest font-bold">Părinte</span>}
+                                            {isTarget && <span className="text-[7px] text-white uppercase tracking-widest font-bold">C({n},{k})</span>}
                                         </div>
                                     );
                                 })}
                             </div>
                         ))}
                     </div>
+                </div>
+                <div className="text-xs font-bold text-slate-400 text-center bg-slate-50 border border-slate-100 p-3 rounded-2xl w-full">
+                    Formula recurenței: C(n, k) = C(n-1, k-1) + C(n-1, k). Celulele părinte albastre se adună pentru a forma celula verde.
                 </div>
             </div>
         );
@@ -2162,27 +2270,32 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const isLeap = Boolean(vars.isLeap ?? (div4 && (!div100 || div400)));
 
         return (
-            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
-                <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center">
-                    <div className="text-[11px] uppercase font-black text-slate-400">An analizat</div>
-                    <div className="text-2xl font-black text-slate-800">{year}</div>
+            <div className="w-full max-w-3xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
+                <div className="rounded-3xl border border-slate-200 bg-white px-6 py-4 text-center shadow-sm">
+                    <div className="text-[10px] uppercase font-black text-slate-400">An analizat curent</div>
+                    <div className="text-3xl font-black text-slate-800 font-mono mt-1">{year}</div>
                 </div>
-                <div className="grid sm:grid-cols-3 gap-3 w-full">
-                    <div className={`rounded-xl border px-3 py-3 text-center ${div4 ? "bg-emerald-50 border-emerald-200" : "bg-rose-50 border-rose-200"}`}>
-                        <div className="text-[10px] font-black uppercase text-slate-500">Divizibil cu 4</div>
-                        <div className="text-lg font-black">{div4 ? "DA" : "NU"}</div>
+
+                <div className="grid sm:grid-cols-3 gap-4 w-full">
+                    <div className={`rounded-3xl border p-4 text-center transition-all shadow-sm ${div4 ? "bg-emerald-50/50 border-emerald-200 text-emerald-800" : "bg-rose-50 border-rose-200 text-rose-800 animate-shake"}`}>
+                        <div className="text-[10px] font-black uppercase text-slate-500">Pas 1: Divizibil cu 4</div>
+                        <div className="text-2xl font-black font-mono mt-1">{div4 ? "✓ Da" : "✗ Nu"}</div>
+                        <div className="text-[9px] text-slate-400 mt-1.5 font-mono">{year} % 4 = {year % 4}</div>
                     </div>
-                    <div className={`rounded-xl border px-3 py-3 text-center ${div100 ? "bg-amber-50 border-amber-200" : "bg-emerald-50 border-emerald-200"}`}>
-                        <div className="text-[10px] font-black uppercase text-slate-500">Divizibil cu 100</div>
-                        <div className="text-lg font-black">{div100 ? "DA" : "NU"}</div>
+                    <div className={`rounded-3xl border p-4 text-center transition-all shadow-sm ${div100 ? "bg-amber-50/50 border-amber-200 text-amber-800" : "bg-emerald-50/50 border-emerald-200 text-emerald-800"}`}>
+                        <div className="text-[10px] font-black uppercase text-slate-500">Pas 2: Divizibil cu 100</div>
+                        <div className="text-2xl font-black font-mono mt-1">{div100 ? "⚠ Da" : "✓ Nu"}</div>
+                        <div className="text-[9px] text-slate-400 mt-1.5 font-mono">{year} % 100 = {year % 100}</div>
                     </div>
-                    <div className={`rounded-xl border px-3 py-3 text-center ${div400 ? "bg-emerald-50 border-emerald-200" : "bg-rose-50 border-rose-200"}`}>
-                        <div className="text-[10px] font-black uppercase text-slate-500">Divizibil cu 400</div>
-                        <div className="text-lg font-black">{div400 ? "DA" : "NU"}</div>
+                    <div className={`rounded-3xl border p-4 text-center transition-all shadow-sm ${div400 ? "bg-emerald-50/50 border-emerald-200 text-emerald-800" : "bg-rose-50 border-rose-200 text-rose-800 animate-shake"}`}>
+                        <div className="text-[10px] font-black uppercase text-slate-500">Pas 3: Divizibil cu 400</div>
+                        <div className="text-2xl font-black font-mono mt-1">{div400 ? "✓ Da" : "✗ Nu"}</div>
+                        <div className="text-[9px] text-slate-400 mt-1.5 font-mono">{year} % 400 = {year % 400}</div>
                     </div>
                 </div>
-                <div className={`rounded-2xl px-5 py-4 text-center font-black text-lg ${isLeap ? "bg-emerald-600 text-white" : "bg-slate-900 text-white"}`}>
-                    {isLeap ? "An bisect" : "An obișnuit"}
+
+                <div className={`rounded-3xl px-8 py-5 text-center font-black text-xl w-full max-w-md shadow-md transition-all ${isLeap ? "bg-emerald-600 text-white animate-glow-green" : "bg-slate-900 text-white animate-circle-glow"}`}>
+                    {isLeap ? "✨ AN BISECT (366 de zile)" : "AN OBIȘNUIT (365 de zile)"}
                 </div>
             </div>
         );
@@ -2198,24 +2311,51 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const h = Number(vars.h ?? 0);
         const weekdayName = String(vars.weekdayName ?? "-");
 
+        const weekdays = ["Sâmbătă", "Duminică", "Luni", "Marți", "Miercuri", "Joi", "Vineri"];
+
         return (
-            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
-                <div className="rounded-2xl border border-slate-200 bg-white p-4 w-full">
-                    <div className="text-[10px] uppercase font-black text-slate-400 mb-2">Formula Zeller (mod 7)</div>
-                    <div className="font-mono text-sm sm:text-base font-black text-slate-700 break-words text-center">
-                        h = ({day} + {monthTerm} + {K} + {yearQuarter} + {centuryQuarter} + {centuryTerm}) mod 7 = {h}
+            <div className="w-full max-w-3xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
+                <div className="rounded-3xl border border-slate-200 bg-white p-6 w-full shadow-sm">
+                    <div className="text-[10px] uppercase font-black text-slate-400 mb-2 text-center">Formula Zeller (Congruență mod 7)</div>
+                    <div className="font-mono text-sm sm:text-base font-black text-indigo-700 bg-indigo-50/50 border border-indigo-100 p-4 rounded-2xl break-words text-center shadow-inner leading-relaxed animate-circle-glow">
+                        h = ({day} + {monthTerm} + {K} + {yearQuarter} + {centuryQuarter} + {centuryTerm}) mod 7 = <span className="text-emerald-600 font-black">{h}</span>
                     </div>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full">
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center"><div className="text-[10px] uppercase font-black text-slate-400">q (zi)</div><div className="font-black">{day}</div></div>
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center"><div className="text-[10px] uppercase font-black text-slate-400">⌊2.6(m+1)⌋</div><div className="font-black">{monthTerm}</div></div>
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center"><div className="text-[10px] uppercase font-black text-slate-400">K</div><div className="font-black">{K}</div></div>
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center"><div className="text-[10px] uppercase font-black text-slate-400">⌊K/4⌋</div><div className="font-black">{yearQuarter}</div></div>
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center"><div className="text-[10px] uppercase font-black text-slate-400">⌊J/4⌋</div><div className="font-black">{centuryQuarter}</div></div>
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center"><div className="text-[10px] uppercase font-black text-slate-400">Termen secol</div><div className="font-black">{centuryTerm}</div></div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-6 gap-3 w-full">
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-center"><div className="text-[9px] uppercase font-black text-slate-400">Zi (q)</div><div className="font-black mt-1 font-mono text-sm">{day}</div></div>
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-center"><div className="text-[9px] uppercase font-black text-slate-400">Lună (m)</div><div className="font-black mt-1 font-mono text-sm">{monthTerm}</div></div>
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-center"><div className="text-[9px] uppercase font-black text-slate-400">An (K)</div><div className="font-black mt-1 font-mono text-sm">{K}</div></div>
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-center"><div className="text-[9px] uppercase font-black text-slate-400">⌊K/4⌋</div><div className="font-black mt-1 font-mono text-sm">{yearQuarter}</div></div>
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-center"><div className="text-[9px] uppercase font-black text-slate-400">⌊J/4⌋</div><div className="font-black mt-1 font-mono text-sm">{centuryQuarter}</div></div>
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-center"><div className="text-[9px] uppercase font-black text-slate-400">Secol</div><div className="font-black mt-1 font-mono text-sm">{centuryTerm}</div></div>
                 </div>
-                <div className="rounded-2xl bg-indigo-600 text-white px-5 py-4 text-center font-black text-lg w-full max-w-xl">
-                    Ziua rezultată: {weekdayName}
+
+                {/* Day selector visualization */}
+                <div className="w-full space-y-2 pt-2">
+                    <span className="text-[10px] uppercase font-black text-slate-400 block text-center">Zilele Săptămânii (Zeller Index: 0 = Sâmbătă)</span>
+                    <div className="flex flex-wrap gap-2 justify-center">
+                        {weekdays.map((dayName, idx) => {
+                            const isMatch = h === idx;
+                            return (
+                                <div 
+                                    key={dayName}
+                                    className={`px-4 py-2.5 rounded-2xl border text-xs font-black transition-all duration-300 ${
+                                        isMatch 
+                                            ? "bg-gradient-to-br from-emerald-500 to-teal-600 border-emerald-600 text-white shadow-md animate-circle-glow scale-110 z-10" 
+                                            : "bg-slate-50 border-slate-200 text-slate-600 opacity-60"
+                                    }`}
+                                >
+                                    <span className="text-[9px] font-bold block opacity-60 font-mono">#{idx}</span>
+                                    {dayName}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                <div className="rounded-3xl bg-indigo-600 text-white px-8 py-5 text-center font-black text-xl w-full max-w-md shadow-lg animate-pop-in">
+                    Ziua Săptămânii: {weekdayName}
                 </div>
             </div>
         );
@@ -2233,20 +2373,29 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const result = Number(vars.result ?? vars.partial ?? sequence.reduce((acc, v) => acc * v, 1));
 
         return (
-            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
-                <div className="flex flex-wrap justify-center gap-2">
+            <div className="w-full max-w-3xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
+                <span className="text-[10px] uppercase font-black text-slate-400">Șirul de calcul (factorial dublu)</span>
+                <div className="flex flex-wrap justify-center gap-3">
                     {sequence.map((x, idx) => (
-                        <span key={`${x}-${idx}`} className="px-3 py-2 rounded-xl bg-indigo-100 border border-indigo-200 text-indigo-700 font-black">
+                        <div 
+                            key={`${x}-${idx}`} 
+                            className="h-14 w-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-white font-black text-lg flex items-center justify-center shadow-md animate-pop-in animate-circle-glow"
+                            style={{ animationDelay: `${idx * 100}ms` }}
+                        >
                             {x}
-                        </span>
+                        </div>
                     ))}
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 w-full text-center font-mono font-black text-slate-700">
-                    {sequence.length ? `${n}!! = ${sequence.join(" * ")} = ${result}` : `${n}!! = 1`}
+                <div className="rounded-3xl border border-indigo-200 bg-indigo-50/50 px-6 py-4 w-full text-center font-mono font-black text-indigo-800 text-lg shadow-inner">
+                    {sequence.length ? `${n}!! = ${sequence.join(" × ")} = ${result}` : `${n}!! = 1`}
                 </div>
-                <div className="grid sm:grid-cols-2 gap-3 w-full">
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-sm">8!! = 8 * 6 * 4 * 2 = 384</div>
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-sm">7!! = 7 * 5 * 3 * 1 = 105</div>
+                <div className="grid sm:grid-cols-2 gap-3 w-full text-xs font-semibold text-slate-500 text-center">
+                    <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 font-mono">
+                        Par: 8!! = 8 × 6 × 4 × 2 = 384
+                    </div>
+                    <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 font-mono">
+                        Impar: 7!! = 7 × 5 × 3 × 1 = 105
+                    </div>
                 </div>
             </div>
         );
@@ -2257,17 +2406,20 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const i = Math.max(1, Math.floor(Number(vars.i ?? n)));
         const result = Math.max(1, Math.floor(Number(vars.result ?? 1)));
         const chain = Array.from({ length: n }, (_, idx) => n - idx);
-        const recursiveLines = chain.map((v, idx) => `${" ".repeat(idx * 4)}${v}! = ${v}${v > 1 ? ` * ${v - 1}!` : ""}`);
+        const recursiveLines = chain.map((v, idx) => `${" ".repeat(idx * 4)}${v}! = ${v}${v > 1 ? ` × ${v - 1}!` : ""}`);
 
         return (
-            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
-                <pre className="w-full rounded-2xl border border-slate-200 bg-white p-4 text-xs sm:text-sm font-mono text-slate-700 overflow-x-auto">
+            <div className="w-full max-w-3xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
+                <span className="text-[10px] uppercase font-black text-slate-400">Apeluri Recursive (Stivă)</span>
+                <pre className="w-full rounded-3xl border border-slate-200 bg-slate-900 p-5 text-xs sm:text-sm font-mono text-emerald-400 shadow-md overflow-x-auto leading-relaxed">
 {recursiveLines.join("\n")}
                 </pre>
-                <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-center w-full font-mono font-black text-indigo-700">
-                    {n}! = {chain.join(" * ")} = {result}
+                <div className="rounded-3xl border border-indigo-200 bg-indigo-50 px-6 py-4 text-center w-full font-mono font-black text-indigo-700 text-lg shadow-sm animate-circle-glow">
+                    {n}! = {chain.join(" × ") || "1"} = {result}
                 </div>
-                <div className="text-xs text-slate-500 font-semibold">Pas curent în execuție: i = {i}</div>
+                <div className="text-xs text-slate-500 font-bold bg-slate-50 border border-slate-100 px-3.5 py-2 rounded-xl">
+                    Pas curent în execuție: <span className="text-indigo-600 font-black">i = {i}</span>
+                </div>
             </div>
         );
     }
@@ -2281,20 +2433,40 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const divisors: number[] = Array.isArray(vars.divisors) ? vars.divisors : [];
 
         return (
-            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
-                <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center w-full">
-                    <div className="text-[11px] uppercase font-black text-slate-400">Căutare până la sqrt({n}) = {limit}</div>
-                    <div className="font-mono text-sm font-black text-slate-700 mt-1">
-                        {divisible ? `${i} | ${n} (Pereche: ${i}${pair === i ? " - singur" : `, ${pair}`})` : `${i} nu divide pe ${n}`}
+            <div className="w-full max-w-3xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
+                <div className="flex flex-col md:flex-row gap-4 w-full">
+                    <div className="flex-1 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col items-center justify-center space-y-4">
+                        <div className="relative h-24 w-24 rounded-full border-4 border-slate-900 bg-slate-900 text-white flex items-center justify-center font-black text-2xl shadow-lg animate-pulse">
+                            {n}
+                            <span className="absolute -top-3 px-2 py-0.5 rounded-full bg-slate-700 text-[8px] font-black uppercase">Număr</span>
+                        </div>
+                        <div className="text-center w-full">
+                            <span className="text-[9px] uppercase font-black text-slate-400">Evaluăm divizibilitatea cu:</span>
+                            <div className="font-mono text-base font-black text-slate-800 mt-1 flex items-center justify-center gap-2">
+                                <span className={`h-8 px-3 rounded-lg flex items-center justify-center border font-bold ${divisible ? "bg-emerald-500 border-emerald-600 text-white animate-pop-in" : "bg-rose-50 border-rose-200 text-rose-700 animate-shake"}`}>
+                                    {i}
+                                </span>
+                                <span className="text-slate-300">|</span>
+                                <span>{n}</span>
+                            </div>
+                            <div className="text-[10px] font-medium text-slate-500 mt-2">
+                                {divisible ? `Da! S-a găsit perechea: ${i} × ${pair} = ${n}` : `Nu, ${i} nu este divizor.`}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex-1 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col">
+                        <div className="text-[10px] uppercase font-black text-slate-400 mb-3 tracking-wider">Divizori detectați</div>
+                        <div className="flex flex-wrap gap-2.5 justify-start content-start flex-1 min-h-[100px] p-3 bg-slate-50 border border-slate-100 rounded-2xl">
+                            {divisors.length ? divisors.map((d) => (
+                                <span key={d} className="h-10 px-3.5 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 border border-emerald-300 text-white font-black text-sm flex items-center justify-center shadow-md animate-pop-in shadow-emerald-100">{d}</span>
+                            )) : <span className="text-xs text-slate-400 font-bold self-center mx-auto">Niciun divizor încă.</span>}
+                        </div>
                     </div>
                 </div>
-                <div className="w-full rounded-2xl border border-slate-200 bg-white p-4">
-                    <div className="text-[10px] uppercase font-black text-slate-400 mb-2">Divizori detectați</div>
-                    <div className="flex flex-wrap gap-2 justify-center">
-                        {divisors.length ? divisors.map((d) => (
-                            <span key={d} className="px-2.5 py-1.5 rounded-lg bg-emerald-100 border border-emerald-200 text-emerald-700 font-black text-xs">{d}</span>
-                        )) : <span className="text-xs text-slate-400">Niciun divizor încă.</span>}
-                    </div>
+
+                <div className="w-full text-center text-xs font-semibold text-slate-400 bg-slate-50 border border-slate-100 p-3 rounded-2xl font-mono">
+                    Căutăm divizori până la limita rădăcinii pătrate: √{n} ≈ {limit}
                 </div>
             </div>
         );
@@ -2313,7 +2485,6 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const resultSource = vars.result ?? vars.sum ?? partial ?? bits.join("") ?? "0";
         const result = String(resultSource).replace(/[^01]/g, "") || "0";
         
-        // Pad numbers to same length
         const maxLen = Math.max(a.length, b.length, result.length, partial.length || 0);
         const aPadded = a.padStart(maxLen, "0");
         const bPadded = b.padStart(maxLen, "0");
@@ -2330,70 +2501,106 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const sumNum = Number.isFinite(parsedSum) ? parsedSum : null;
 
         return (
-            <div className="w-full max-w-3xl space-y-4 flex flex-col items-center justify-center">
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 w-full">
-                    <div className="text-[10px] uppercase font-black text-slate-400 mb-2">Adunare Binară</div>
-                    <div className="font-mono text-sm space-y-1 overflow-x-auto">
-                        <div className="flex justify-center gap-1">
-                            <span className="w-16 text-right">Carry:</span>
-                            <div className="flex gap-1">
-                                {carryPadded.map((c: number, idx: number) => (
-                                    <span key={`carry-${idx}`} className={`w-6 h-6 rounded text-center text-xs font-black flex items-center justify-center border ${idx === activeCol ? "ring-2 ring-indigo-300" : ""} ${c === 1 ? "bg-orange-200 border-orange-300 text-orange-700" : "bg-gray-100 border-gray-300 text-gray-500"}`}>
-                                        {c}
-                                    </span>
-                                ))}
+            <div className="w-full max-w-3xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
+                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm w-full space-y-4">
+                    <div className="text-[10px] uppercase font-black text-slate-400 mb-2 text-center">Calcul Columnar Binar</div>
+                    <div className="font-mono text-sm space-y-2.5 overflow-x-auto py-2">
+                        <div className="flex justify-center gap-1.5 items-center">
+                            <span className="w-20 text-right text-[10px] uppercase font-black text-slate-400">Transport:</span>
+                            <div className="flex gap-1.5">
+                                {carryPadded.map((c: number, idx: number) => {
+                                    const isActive = idx === activeCol;
+                                    return (
+                                        <span 
+                                            key={`carry-${idx}`} 
+                                            className={`w-8 h-8 rounded-xl text-center text-xs font-black flex items-center justify-center border transition-all duration-300 ${
+                                                isActive ? "ring-2 ring-indigo-400 scale-110 z-10 animate-circle-glow" : ""
+                                            } ${c === 1 ? "bg-orange-500 border-orange-600 text-white animate-bounce" : "bg-slate-50 border-slate-200 text-slate-300"}`}
+                                        >
+                                            {c}
+                                        </span>
+                                    );
+                                })}
                             </div>
                         </div>
-                        <div className="flex justify-center gap-1">
-                            <span className="w-16 text-right">Num 1:</span>
-                            <div className="flex gap-1">
-                                {aPadded.split("").map((bit: string, idx: number) => (
-                                    <span key={`a-${idx}`} className={`w-6 h-6 rounded text-center text-xs font-black flex items-center justify-center border ${idx === activeCol ? "ring-2 ring-indigo-300" : ""} ${bit === "1" ? "bg-emerald-200 border-emerald-300 text-emerald-700" : "bg-sky-100 border-sky-200 text-sky-700"}`}>
-                                        {bit}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="flex justify-center gap-1">
-                            <span className="w-16 text-right">Num 2:</span>
-                            <div className="flex gap-1 items-center">
-                                <span className="text-slate-600 font-black">+</span>
-                                <div className="flex gap-1">
-                                    {bPadded.split("").map((bit: string, idx: number) => (
-                                        <span key={`b-${idx}`} className={`w-6 h-6 rounded text-center text-xs font-black flex items-center justify-center border ${idx === activeCol ? "ring-2 ring-indigo-300" : ""} ${bit === "1" ? "bg-blue-200 border-blue-300 text-blue-700" : "bg-slate-100 border-slate-300 text-slate-600"}`}>
+
+                        <div className="flex justify-center gap-1.5 items-center">
+                            <span className="w-20 text-right text-[10px] uppercase font-black text-slate-400">Num 1 (A):</span>
+                            <div className="flex gap-1.5">
+                                {aPadded.split("").map((bit: string, idx: number) => {
+                                    const isActive = idx === activeCol;
+                                    return (
+                                        <span 
+                                            key={`a-${idx}`} 
+                                            className={`w-8 h-8 rounded-xl text-center text-xs font-black flex items-center justify-center border transition-all duration-300 ${
+                                                isActive ? "ring-2 ring-indigo-400 scale-110 z-10 bg-indigo-50 border-indigo-300" : ""
+                                            } ${bit === "1" ? "bg-emerald-500 border-emerald-600 text-white" : "bg-sky-100 border-sky-200 text-sky-700"}`}
+                                        >
                                             {bit}
                                         </span>
-                                    ))}
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        <div className="flex justify-center gap-1.5 items-center">
+                            <span className="w-20 text-right text-[10px] uppercase font-black text-slate-400">Num 2 (B):</span>
+                            <div className="flex gap-1.5 items-center">
+                                <div className="flex gap-1.5">
+                                    {bPadded.split("").map((bit: string, idx: number) => {
+                                        const isActive = idx === activeCol;
+                                        return (
+                                            <span 
+                                                key={`b-${idx}`} 
+                                                className={`w-8 h-8 rounded-xl text-center text-xs font-black flex items-center justify-center border transition-all duration-300 ${
+                                                    isActive ? "ring-2 ring-indigo-400 scale-110 z-10 bg-indigo-50 border-indigo-300" : ""
+                                                } ${bit === "1" ? "bg-emerald-500 border-emerald-600 text-white" : "bg-sky-100 border-sky-200 text-sky-700"}`}
+                                            >
+                                                {bit}
+                                            </span>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>
-                        <div className="border-t-2 border-slate-400 pt-1 flex justify-center gap-1">
-                            <span className="w-16 text-right">Parțial:</span>
-                            <div className="flex gap-1">
-                                {partialPadded.split("").map((bit: string, idx: number) => (
-                                    <span key={`sum-${idx}`} className={`w-6 h-6 rounded text-center text-xs font-black flex items-center justify-center border ${idx === activeCol ? "ring-2 ring-indigo-300" : ""} ${bit === "1" ? "bg-indigo-300 border-indigo-400 text-indigo-700" : bit === "0" ? "bg-purple-100 border-purple-200 text-purple-600" : "bg-slate-50 border-slate-200 text-slate-300"}`}>
-                                        {bit}
-                                    </span>
-                                ))}
+
+                        <div className="border-t-2 border-slate-200 pt-3 flex justify-center gap-1.5 items-center">
+                            <span className="w-20 text-right text-[10px] uppercase font-black text-slate-500">Rezultat:</span>
+                            <div className="flex gap-1.5">
+                                {partialPadded.split("").map((bit: string, idx: number) => {
+                                    const isActive = idx === activeCol;
+                                    const isFilled = bit !== "·";
+                                    return (
+                                        <span 
+                                            key={`sum-${idx}`} 
+                                            className={`w-8 h-8 rounded-xl text-center text-xs font-black flex items-center justify-center border transition-all duration-300 ${
+                                                isActive ? "ring-2 ring-indigo-400 scale-110 z-10 animate-circle-glow" : ""
+                                            } ${isFilled ? "bg-gradient-to-br from-indigo-500 to-indigo-700 border-indigo-600 text-white shadow-md animate-pop-in" : "bg-slate-50 border-slate-100 text-slate-300"}`}
+                                        >
+                                            {bit}
+                                        </span>
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>
-                    <div className="mt-3 text-xs font-semibold text-slate-500 text-center">
-                        {activeCol >= 0 ? `Procesăm coloana ${maxLen - activeCol} de la dreapta la stânga.` : "Rulare inițială."}
+                    <div className="text-xs font-bold text-slate-500 text-center bg-slate-50 border border-slate-100 py-2.5 rounded-2xl">
+                        {activeCol >= 0 ? `Analizăm coloana ${maxLen - activeCol} (de la dreapta la stânga): ${aPadded[activeCol]} + ${bPadded[activeCol]} + transport(${carryPadded[activeCol]})` : "Calcul complet sau starea de pornire."}
                     </div>
                 </div>
+
                 <div className="grid grid-cols-3 gap-3 w-full">
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center">
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-center">
                         <div className="text-[10px] uppercase font-black text-slate-400">Num 1 (zecimal)</div>
-                        <div className="font-black text-lg text-slate-800">{aNum ?? "-"}</div>
+                        <div className="font-black text-lg text-slate-800 font-mono mt-0.5">{aNum ?? "-"}</div>
                     </div>
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-center">
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-center">
                         <div className="text-[10px] uppercase font-black text-slate-400">Num 2 (zecimal)</div>
-                        <div className="font-black text-lg text-slate-800">{bNum ?? "-"}</div>
+                        <div className="font-black text-lg text-slate-800 font-mono mt-0.5">{bNum ?? "-"}</div>
                     </div>
-                    <div className="rounded-xl border border-indigo-200 bg-indigo-50 px-3 py-2 text-center">
-                        <div className="text-[10px] uppercase font-black text-indigo-400">Suma (zecimal)</div>
-                        <div className="font-black text-lg text-indigo-700">{sumNum ?? "-"}</div>
+                    <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-center animate-circle-glow">
+                        <div className="text-[10px] uppercase font-black text-indigo-500">Suma (zecimal)</div>
+                        <div className="font-black text-lg text-indigo-700 font-mono mt-0.5">{sumNum ?? "-"}</div>
                     </div>
                 </div>
             </div>
@@ -2415,41 +2622,61 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
         const distance = Number.isFinite(toNum(rawResult)) ? Number(rawResult) : mismatches;
 
         return (
-            <div className="w-full max-w-4xl space-y-4">
+            <div className="w-full max-w-4xl space-y-6 animate-pop-in">
                 <div className="grid sm:grid-cols-3 gap-3">
-                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
-                        <div className="text-[10px] uppercase font-black text-slate-400">Text 1</div>
-                        <div className="font-mono text-sm font-black text-slate-800 break-all">{str1 || "—"}</div>
+                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 text-center">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Textul A</div>
+                        <div className="font-mono text-sm font-black text-slate-800 break-all mt-1">{str1 || "—"}</div>
                     </div>
-                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
-                        <div className="text-[10px] uppercase font-black text-slate-400">Text 2</div>
-                        <div className="font-mono text-sm font-black text-slate-800 break-all">{str2 || "—"}</div>
+                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 text-center">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Textul B</div>
+                        <div className="font-mono text-sm font-black text-slate-800 break-all mt-1">{str2 || "—"}</div>
                     </div>
-                    <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-3 text-center">
-                        <div className="text-[10px] uppercase font-black text-indigo-400">Distanță Hamming</div>
-                        <div className="text-2xl font-black text-indigo-700">{distance}</div>
+                    <div className="rounded-3xl border border-indigo-200 bg-indigo-50 p-4 text-center animate-circle-glow">
+                        <div className="text-[10px] uppercase font-black text-indigo-400 font-bold">Distanță Hamming</div>
+                        <div className="text-3xl font-black text-indigo-700 mt-1 font-mono">{distance}</div>
                     </div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-white p-4 overflow-x-auto">
-                    <div className="min-w-max space-y-2">
-                        <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${maxLen}, minmax(36px, 1fr))` }}>
+                <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm overflow-x-auto">
+                    <div className="min-w-max space-y-3">
+                        <div className="grid gap-2 items-center" style={{ gridTemplateColumns: `80px repeat(${maxLen}, minmax(40px, 1fr))` }}>
+                            <span className="text-[9px] uppercase font-black text-slate-400 text-right pr-2">A:</span>
                             {pairs.map((pair) => (
-                                <div key={`a-${pair.index}`} className={`h-10 rounded-lg border flex items-center justify-center font-mono font-black text-sm ${pair.same ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-rose-50 border-rose-200 text-rose-700"}`}>
+                                <div 
+                                    key={`a-${pair.index}`} 
+                                    className={`h-11 rounded-xl border flex items-center justify-center font-mono font-black text-sm shadow-sm transition-all ${
+                                        pair.same ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-rose-50 border-rose-200 text-rose-700 animate-shake"
+                                    }`}
+                                >
                                     {pair.c1 || "·"}
                                 </div>
                             ))}
                         </div>
-                        <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${maxLen}, minmax(36px, 1fr))` }}>
+
+                        <div className="grid gap-2 items-center" style={{ gridTemplateColumns: `80px repeat(${maxLen}, minmax(40px, 1fr))` }}>
+                            <span className="text-[9px] uppercase font-black text-slate-400 text-right pr-2">B:</span>
                             {pairs.map((pair) => (
-                                <div key={`b-${pair.index}`} className={`h-10 rounded-lg border flex items-center justify-center font-mono font-black text-sm ${pair.same ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-rose-50 border-rose-200 text-rose-700"}`}>
+                                <div 
+                                    key={`b-${pair.index}`} 
+                                    className={`h-11 rounded-xl border flex items-center justify-center font-mono font-black text-sm shadow-sm transition-all ${
+                                        pair.same ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-rose-50 border-rose-200 text-rose-700 animate-shake"
+                                    }`}
+                                >
                                     {pair.c2 || "·"}
                                 </div>
                             ))}
                         </div>
-                        <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${maxLen}, minmax(36px, 1fr))` }}>
+
+                        <div className="grid gap-2 items-center border-t border-slate-100 pt-3" style={{ gridTemplateColumns: `80px repeat(${maxLen}, minmax(40px, 1fr))` }}>
+                            <span className="text-[9px] uppercase font-black text-slate-500 text-right pr-2">Diferență:</span>
                             {pairs.map((pair) => (
-                                <div key={`d-${pair.index}`} className={`h-8 rounded-lg border flex items-center justify-center text-xs font-black ${pair.same ? "bg-emerald-100 border-emerald-200 text-emerald-700" : "bg-rose-100 border-rose-200 text-rose-700"}`}>
+                                <div 
+                                    key={`d-${pair.index}`} 
+                                    className={`h-8 rounded-lg border flex items-center justify-center text-xs font-black transition-all ${
+                                        pair.same ? "bg-emerald-100 border-emerald-200 text-emerald-700" : "bg-rose-500 border-rose-600 text-white animate-circle-glow"
+                                    }`}
+                                >
                                     {pair.same ? "0" : "1"}
                                 </div>
                             ))}
@@ -2457,8 +2684,8 @@ function MathOperationsVisualizer({ slug, event, input }: { slug: string; event:
                     </div>
                 </div>
 
-                <div className="text-xs font-semibold text-slate-600 text-center">
-                    Comparația este caracter cu caracter; fiecare diferență contribuie cu 1 la distanța totală.
+                <div className="text-xs font-bold text-slate-400 text-center bg-slate-50 border border-slate-100 py-2.5 rounded-2xl">
+                    Comparația se face caracter cu caracter de la stânga la dreapta. Fiecare bit de 1 semnifică o nepotrivire.
                 </div>
             </div>
         );
@@ -3019,6 +3246,81 @@ function DataStructureVisualizer({ slug, event, input }: { slug: string; event: 
 }
 
 
+const ALGORITHM_QUESTIONS: Record<string, string[]> = {
+  // specific algorithms
+  matematica_greatest_common_factor: [
+    "De ce este algoritmul lui Euclid atât de rapid și cum se demonstrează eficiența lui?",
+    "Cum funcționează varianta bazată pe scăderi repetate față de restul împărțirii?",
+    "Cum putem calcula cel mai mare divizor comun pentru trei sau mai multe numere?"
+  ],
+  matematica_sieve_of_eratosthenes: [
+    "De ce se oprește marcarea multiplilor la rădăcina pătrată a numărului maxim?",
+    "Care este diferența de performanță între Ciur și testarea individuală a fiecărui număr?",
+    "Cum funcționează varianta segmentată a Ciurului lui Eratostene pentru numere mari?"
+  ],
+  cautare_binarySearch: [
+    "De ce trebuie ca tabloul să fie obligatoriu sortat pentru a folosi căutarea binară?",
+    "Cum se previne depășirea de memorie (integer overflow) la calcularea mijlocului?",
+    "De ce este complexitatea de timp exact O(log n)?"
+  ],
+  sortare_bubbleSort: [
+    "De ce este Bubble Sort considerat ineficient pentru seturi mari de date?",
+    "Cum ajută fanionul 'swapped' la oprirea timpurie a algoritmului?",
+    "Care este cel mai bun caz ca timp și când se întâmplă el?"
+  ],
+  sortare_quickSort: [
+    "Cum influențează alegerea pivotului performanța algoritmului Quick Sort?",
+    "Cum se poate evita cel mai defavorabil caz de complexitate O(n^2)?",
+    "De ce este Quick Sort adesea mai rapid în practică decât Merge Sort?"
+  ],
+  grafuri_dijkstra: [
+    "De ce algoritmul lui Dijkstra nu funcționează corect pe grafuri cu ponderi negative?",
+    "Cum influențează utilizarea unei cozi de priorități complexitatea totală?",
+    "Care sunt principalele diferențe între Dijkstra și algoritmul lui Prim?"
+  ],
+  // categories
+  sortare: [
+    "Care este diferența dintre un algoritm de sortare stabil și unul instabil?",
+    "Ce înseamnă sortare în-situ (in-place) și de ce este importantă pentru memorie?",
+    "Care sunt criteriile de alegere între un algoritm cu O(n log n) și unul cu O(n^2)?"
+  ],
+  cautare: [
+    "Care este diferența de performanță dintre căutarea liniară și cea binară?",
+    "Când este recomandată căutarea prin interpolare în locul celei binare?",
+    "Cum funcționează căutarea exponențială pentru tablouri de dimensiuni infinite?"
+  ],
+  grafuri: [
+    "Cum decidem dacă să folosim BFS (în lățime) sau DFS (în adâncime) pentru parcurgere?",
+    "Cum se pot detecta ciclurile într-un graf orientat folosind DFS?",
+    "Ce reprezintă un arbore parțial de cost minim și unde este utilizat?"
+  ],
+  matematica: [
+    "Ce limitări de precizie sau overflow pot apărea la numere mari și cum se rezolvă?",
+    "Cum putem optimiza algoritmii matematici folosind programarea dinamică?",
+    "Ce este complexitatea spațială a acestui calcul și cum o putem reduce?"
+  ],
+  "programare-dinamica": [
+    "Ce este sub-problema optimă și proprietatea de suprapunere a subproblemelor?",
+    "Cum funcționează abordarea de tip Memoization (top-down) față de Tabulation (bottom-up)?",
+    "De ce este programarea dinamică mai eficientă decât simpla recursivitate?"
+  ],
+  "manipulare-biti": [
+    "Care sunt avantajele practice ale utilizării operațiilor pe biți în programare?",
+    "Cum putem verifica dacă un număr este putere a lui 2 în O(1) folosind biți?",
+    "Cum funcționează măștile de biți pentru reprezentarea seturilor de date?"
+  ],
+  "structuri-de-date": [
+    "Care este avantajul folosirii unei liste înlănțuite față de un tablou dinamic?",
+    "Cum influențează echilibrarea unui arbore binar de căutare complexitatea operațiilor?",
+    "Ce este o tabelă de dispersie (hash map) și cum se rezolvă coliziunile?"
+  ],
+  backtracking: [
+    "Cum funcționează procesul de întoarcere în backtracking când se atinge o fundătură?",
+    "Cum putem scrie condiții de validare eficiente pentru a tăia ramurile inutile?",
+    "Care este arborele spațiului stărilor și cum determină el complexitatea?"
+  ]
+};
+
 function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 	const [input, setInput] = useState<Record<string, any>>({});
     const [rawInput, setRawInput] = useState<string>("");
@@ -3040,6 +3342,28 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
     const [sourceFile, setSourceFile] = useState<string>("");
     const autoRunSlugRef = useRef<string | null>(null);
     const chatInputRef = useRef<HTMLInputElement | null>(null);
+    const chatLoadingRef = useRef<boolean>(false);
+
+    const suggestedQuestions = useMemo(() => {
+        const slugQuestions = ALGORITHM_QUESTIONS[meta.slug];
+        if (slugQuestions) return slugQuestions;
+
+        const categoryKey = meta.category
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .replace(/\s+/g, "-");
+            
+        const catQuestions = ALGORITHM_QUESTIONS[categoryKey];
+        if (catQuestions) return catQuestions;
+
+        return [
+            `Cum funcționează algoritmul ${meta.name} pas cu pas?`,
+            `Unde este utilizat algoritmul ${meta.name} în viața reală?`,
+            `Care sunt cazurile limită (edge cases) pentru acest algoritm?`
+        ];
+    }, [meta.slug, meta.category, meta.name]);
+
 
     useEffect(() => {
         if (tab !== "chat") return;
@@ -3048,6 +3372,17 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
         });
         return () => window.cancelAnimationFrame(id);
     }, [tab, chatLoading]);
+
+    useEffect(() => {
+        api.getQuota()
+            .then((res) => {
+                if (res.tokenQuota) {
+                    setChatTokenQuota(res.tokenQuota);
+                }
+            })
+            .catch((err) => console.error("Error loading token quota:", err));
+    }, [tab]);
+
 
     // Keyboard navigation: ← previous step, → next step, Space toggle play
     useEffect(() => {
@@ -3284,16 +3619,18 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 	}, [currentStep, trace, meta.slug, input]);
 
 	const handleChat = async () => {
-        if (!question.trim() || chatLoading) return;
-		const newChat = [...chat, { role: "user", content: question }];
+        if (!question.trim() || chatLoadingRef.current) return;
+        const qText = question.trim();
+		const newChat = [...chat, { role: "user", content: qText }];
 		setChat(newChat);
 		setQuestion("");
         window.requestAnimationFrame(() => {
             chatInputRef.current?.focus();
         });
+        chatLoadingRef.current = true;
         setChatLoading(true);
 		try {
-			const result = await api.chat(meta.slug, question, {
+			const result = await api.chat(meta.slug, qText, {
 				input,
 				currentStepIndex: currentStep,
 				currentEvent: trace[currentStep],
@@ -3303,16 +3640,49 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
                 setChatTokenQuota(result.tokenQuota);
             }
             setChat([...newChat, { role: "assistant", content: answer }]);
-            setChatLoading(false);
 		} catch (err) {
 			console.error(err);
-            setChatLoading(false);
             setChat((prev) => [...prev, { role: "assistant", content: "Nu am putut genera răspunsul acum. Reîncearcă, te rog." }]);
-		}
+		} finally {
+            chatLoadingRef.current = false;
+            setChatLoading(false);
+            window.requestAnimationFrame(() => {
+                chatInputRef.current?.focus();
+            });
+        }
+	};
 
+	const handleSendQuestion = async (qText: string) => {
+        if (chatLoadingRef.current) return;
+		const newChat = [...chat, { role: "user", content: qText }];
+		setChat(newChat);
+		setQuestion("");
         window.requestAnimationFrame(() => {
             chatInputRef.current?.focus();
         });
+        chatLoadingRef.current = true;
+        setChatLoading(true);
+		try {
+			const result = await api.chat(meta.slug, qText, {
+				input,
+				currentStepIndex: currentStep,
+				currentEvent: trace[currentStep],
+			});
+            const answer = result.answer || "";
+            if (result.tokenQuota) {
+                setChatTokenQuota(result.tokenQuota);
+            }
+            setChat([...newChat, { role: "assistant", content: answer }]);
+		} catch (err) {
+			console.error(err);
+            setChat((prev) => [...prev, { role: "assistant", content: "Nu am putut genera răspunsul acum. Reîncearcă, te rog." }]);
+		} finally {
+            chatLoadingRef.current = false;
+            setChatLoading(false);
+            window.requestAnimationFrame(() => {
+                chatInputRef.current?.focus();
+            });
+        }
 	};
 
 	const currentEvent = trace[currentStep];
@@ -3895,26 +4265,58 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 
                 {tab === "chat" && (
                     <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-col h-[600px]">
-                        <div className="mb-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 flex flex-wrap items-center justify-between gap-2">
-                            <p className="text-xs font-black uppercase tracking-wider text-slate-500">Tokeni liberi azi</p>
-                            <p className="text-base font-black text-slate-900">
-                                {chatTokenQuota ? chatTokenQuota.todayRemaining.toLocaleString("ro-RO") : "—"}
-                            </p>
-                            {chatTokenQuota ? (
-                                <p className="w-full text-[11px] text-slate-500">
-                                    Folosiți azi: {chatTokenQuota.todayUsed.toLocaleString("ro-RO")} / {chatTokenQuota.dailyLimit.toLocaleString("ro-RO")} tokeni
-                                </p>
-                            ) : chat.length > 0 ? (
-                                <p className="w-full text-[11px] text-amber-600">Cota zilnică nu a fost primită de la server. Repornește serverul pentru a activa afișarea tokenilor rămași.</p>
-                            ) : (
-                                <p className="w-full text-[11px] text-slate-400">Valoarea apare după primul răspuns AI.</p>
+                        <div className="mb-6 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 shadow-sm">
+                            <div className="flex items-center justify-between border-b border-slate-200 pb-3 mb-3">
+                                <span className="text-[11px] font-black uppercase tracking-wider text-slate-500">Detalii Utilizare AI</span>
+                                <span className="px-2 py-0.5 text-[10px] font-bold bg-indigo-50 border border-indigo-200 text-indigo-600 rounded-full">
+                                    Model: Kimi-K2.6
+                                </span>
+                            </div>
+                            
+                            <div className="grid grid-cols-2 gap-3">
+                                <div>
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Rămași azi</p>
+                                    <p className="text-sm font-extrabold text-slate-800 mt-0.5">
+                                        {chatTokenQuota ? chatTokenQuota.todayRemaining.toLocaleString("ro-RO") : "încărcare..."}
+                                    </p>
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Folosiți azi</p>
+                                    <p className="text-sm font-extrabold text-slate-800 mt-0.5">
+                                        {chatTokenQuota ? `${chatTokenQuota.todayUsed.toLocaleString("ro-RO")} / ${chatTokenQuota.dailyLimit.toLocaleString("ro-RO")}` : "încărcare..."}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {chatTokenQuota && chatTokenQuota.lastRequestTotalTokens > 0 && (
+                                <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-medium">
+                                    <span>Consum ultimul răspuns:</span>
+                                    <span className="font-extrabold text-slate-700">{chatTokenQuota.lastRequestTotalTokens} tokeni</span>
+                                </div>
                             )}
                         </div>
                         <div className="flex-1 overflow-y-auto pr-4 space-y-4 mb-6">
                             {chat.length === 0 ? (
-                                <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
-                                    <CommentDiscussionIcon size={48} className="mb-4" />
-                                    <p className="max-w-xs font-medium">Pune orice întrebare despre cum funcționează {meta.name} în acest moment.</p>
+                                <div className="h-full flex flex-col justify-center items-center px-4">
+                                    <div className="flex flex-col items-center justify-center text-center opacity-40 mb-6">
+                                        <CommentDiscussionIcon size={40} className="mb-2" />
+                                        <p className="max-w-xs font-semibold text-sm">Pune orice întrebare despre cum funcționează {meta.name}.</p>
+                                    </div>
+                                    <div className="w-full space-y-3">
+                                        <p className="text-xs font-bold text-slate-400 uppercase tracking-wider text-center">Întrebări Sugerate</p>
+                                        <div className="flex flex-col gap-2">
+                                            {suggestedQuestions.map((qText, idx) => (
+                                                <button
+                                                    key={idx}
+                                                    onClick={() => handleSendQuestion(qText)}
+                                                    disabled={chatLoading}
+                                                    className="w-full text-left p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-slate-300 text-xs font-semibold text-slate-700 shadow-sm transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
+                                                >
+                                                    💡 {qText}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
                                 </div>
                             ) : (
                                 chat.map((msg, i) => (

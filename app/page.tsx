@@ -167,11 +167,11 @@ export default function HomePage() {
             </div>
 
             <div className="mx-auto mt-20 max-w-5xl">
-              <div className="relative w-full overflow-hidden rounded-2xl bg-white pb-0 pt-[56.25%] shadow-[0_2px_8px_0_rgba(63,69,81,0.16)]">
+              <div className="relative w-full overflow-hidden rounded-2xl bg-white pb-0 pt-[70.71%] shadow-[0_2px_8px_0_rgba(63,69,81,0.16)]">
                 <iframe
                   loading="lazy"
                   className="absolute inset-0 block h-full w-full border-0 p-0 m-0"
-                  src="https://www.canva.com/design/DAHE7yjq6Z0/d-5HmdTURPj4lwlktz6FUA/view?embed"
+                  src="https://www.canva.com/design/DAHJwRkvRxQ/gTPpSDYb5-rJ_WRtw_yX_w/view?embed"
                   allowFullScreen
                   allow="fullscreen"
                   title="Prezentare Canva Laborator Virtual"

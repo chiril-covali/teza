@@ -64,4 +64,7 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ slug, question, context }),
     }),
+
+  getQuota: () =>
+    request<{ tokenQuota?: ChatTokenQuota }>("/discutie"),
 };

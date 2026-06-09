@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { githubModelsChatWithUsage } from "@/lib/github-models";
-import { TraceEvent } from "@/lib/algorithms";
+import { TraceEvent, allAlgorithms } from "@/lib/algorithms";
 
 interface ChatRequest {
 	slug: string;
@@ -119,6 +119,9 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
+		const algoMeta = allAlgorithms.find((a) => a.slug === slug);
+		const algoName = algoMeta ? algoMeta.name : slug;
+
 		const safeQuestion = truncateText(question.trim(), 800);
 		const summarizedInput = context?.input ? summarizeValue(context.input) : null;
 		const summarizedEvent = summarizeEvent(context?.currentEvent);
@@ -133,6 +136,11 @@ export async function POST(request: NextRequest) {
 			"Structură recomandată: context scurt, explicație, exemplu mic, concluzie.",
 			"Nu repeta inutil datele de intrare; menționează doar ce ajută răspunsul.",
 			"Dacă întrebarea e ambiguă, oferă cea mai probabilă interpretare și spune pe scurt presupunerea.",
+			"Încurajează un dialog interactiv și educativ cu utilizatorul:",
+			"- Fii receptiv la starea curentă a simulării algoritmului (dacă există un pas curent sau un eveniment în context, folosește-l pentru a ghida explicația).",
+			"- Spune-i lucruri interesante sau curiozități (de exemplu, fapte istorice, matematică din spate sau optimizări practice) despre acest algoritm pentru a capta interesul.",
+			"- Îndeamnă activ utilizatorul să interacționeze cu vizualizatorul din stânga (de exemplu: să schimbe inputul, să ruleze algoritmul pas cu pas, să schimbe parametrii sau să apese pe butonul 'Aplică și Rulează').",
+			"- Păstrează un dialog natural, fluid, ca între un mentor pasionat și un student dornic să învețe, nu doar documentație rigidă.",
 			mode === "direct"
 				? "Mod direct: răspunde în maximum 4 puncte scurte și cel mult 120 de cuvinte, cu propoziții concrete."
 				: "",
@@ -145,7 +153,7 @@ export async function POST(request: NextRequest) {
 		].join("\n");
 
 		const userPrompt = [
-			`Algoritm curent: ${slug}`,
+			`Algoritm curent: ${algoName} (slug: ${slug})`,
 			`Întrebarea utilizatorului: ${safeQuestion}`,
 			context?.currentStepIndex !== undefined ? `Pas curent în simulare: ${context.currentStepIndex}` : "",
 			summarizedInput ? `Input curent (compact): ${JSON.stringify(summarizedInput)}` : "",
@@ -162,7 +170,7 @@ export async function POST(request: NextRequest) {
 			try {
 				result = await githubModelsChatWithUsage(messages, undefined, undefined, undefined, {
 					temperature: 0.15,
-					maxTokens: 550,
+					maxTokens: 4000,
 				});
 			} catch (primaryError) {
 				console.error("GitHub Models primary chat failed, retrying with compact prompt:", primaryError);
@@ -174,7 +182,7 @@ export async function POST(request: NextRequest) {
 					},
 					{
 						role: "user",
-						content: `Algoritm curent: ${slug}\nÎntrebarea utilizatorului: ${safeQuestion}`,
+						content: `Algoritm curent: ${algoName} (slug: ${slug})\nÎntrebarea utilizatorului: ${safeQuestion}`,
 					},
 				];
 
@@ -183,7 +191,7 @@ export async function POST(request: NextRequest) {
 					undefined,
 					undefined,
 					undefined,
-					{ maxTokens: 280 }
+					{ maxTokens: 3000 }
 				);
 			}
 
@@ -197,13 +205,13 @@ export async function POST(request: NextRequest) {
 						},
 						{
 							role: "user",
-							content: `Algoritm curent: ${slug}\nÎntrebarea utilizatorului: ${safeQuestion}`,
+							content: `Algoritm curent: ${algoName} (slug: ${slug})\nÎntrebarea utilizatorului: ${safeQuestion}`,
 						},
 					],
 					undefined,
 					undefined,
 					undefined,
-					{ maxTokens: 700 }
+					{ maxTokens: 3500 }
 				);
 				result = {
 					content: emptyRetry.content || "Îți pot explica algoritmul pas cu pas dacă îmi dai un exemplu de input.",
@@ -251,3 +259,24 @@ export async function POST(request: NextRequest) {
 		);
 	}
 }
+
+export async function GET() {
+	try {
+		const tokenQuota = getCurrentDailyUsage();
+		return NextResponse.json({
+			tokenQuota: {
+				dailyLimit: dailyTokenLimit,
+				date: tokenQuota.date,
+				todayUsed: tokenQuota.todayUsed,
+				todayRemaining: tokenQuota.todayRemaining,
+				lastRequestTotalTokens: 0,
+			},
+		});
+	} catch (error) {
+		return NextResponse.json(
+			{ error: error instanceof Error ? error.message : "Eroare necunoscută" },
+			{ status: 500 }
+		);
+	}
+}
+
