@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 import type { ChatTokenQuota } from "@/lib/api";
 import { AlgorithmMeta, TraceEvent, allAlgorithms } from "@/lib/algorithms";
+import { ALGORITHM_QUESTIONS } from "@/lib/algorithms/questions";
 import { getCategoryDisplayName, getCategoryVisual, normalizeCategoryKey as normalizeThemeCategoryKey } from "@/lib/algorithm-category-theme";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -3246,80 +3247,6 @@ function DataStructureVisualizer({ slug, event, input }: { slug: string; event: 
 }
 
 
-const ALGORITHM_QUESTIONS: Record<string, string[]> = {
-  // specific algorithms
-  matematica_greatest_common_factor: [
-    "De ce este algoritmul lui Euclid atât de rapid și cum se demonstrează eficiența lui?",
-    "Cum funcționează varianta bazată pe scăderi repetate față de restul împărțirii?",
-    "Cum putem calcula cel mai mare divizor comun pentru trei sau mai multe numere?"
-  ],
-  matematica_sieve_of_eratosthenes: [
-    "De ce se oprește marcarea multiplilor la rădăcina pătrată a numărului maxim?",
-    "Care este diferența de performanță între Ciur și testarea individuală a fiecărui număr?",
-    "Cum funcționează varianta segmentată a Ciurului lui Eratostene pentru numere mari?"
-  ],
-  cautare_binarySearch: [
-    "De ce trebuie ca tabloul să fie obligatoriu sortat pentru a folosi căutarea binară?",
-    "Cum se previne depășirea de memorie (integer overflow) la calcularea mijlocului?",
-    "De ce este complexitatea de timp exact O(log n)?"
-  ],
-  sortare_bubbleSort: [
-    "De ce este Bubble Sort considerat ineficient pentru seturi mari de date?",
-    "Cum ajută fanionul 'swapped' la oprirea timpurie a algoritmului?",
-    "Care este cel mai bun caz ca timp și când se întâmplă el?"
-  ],
-  sortare_quickSort: [
-    "Cum influențează alegerea pivotului performanța algoritmului Quick Sort?",
-    "Cum se poate evita cel mai defavorabil caz de complexitate O(n^2)?",
-    "De ce este Quick Sort adesea mai rapid în practică decât Merge Sort?"
-  ],
-  grafuri_dijkstra: [
-    "De ce algoritmul lui Dijkstra nu funcționează corect pe grafuri cu ponderi negative?",
-    "Cum influențează utilizarea unei cozi de priorități complexitatea totală?",
-    "Care sunt principalele diferențe între Dijkstra și algoritmul lui Prim?"
-  ],
-  // categories
-  sortare: [
-    "Care este diferența dintre un algoritm de sortare stabil și unul instabil?",
-    "Ce înseamnă sortare în-situ (in-place) și de ce este importantă pentru memorie?",
-    "Care sunt criteriile de alegere între un algoritm cu O(n log n) și unul cu O(n^2)?"
-  ],
-  cautare: [
-    "Care este diferența de performanță dintre căutarea liniară și cea binară?",
-    "Când este recomandată căutarea prin interpolare în locul celei binare?",
-    "Cum funcționează căutarea exponențială pentru tablouri de dimensiuni infinite?"
-  ],
-  grafuri: [
-    "Cum decidem dacă să folosim BFS (în lățime) sau DFS (în adâncime) pentru parcurgere?",
-    "Cum se pot detecta ciclurile într-un graf orientat folosind DFS?",
-    "Ce reprezintă un arbore parțial de cost minim și unde este utilizat?"
-  ],
-  matematica: [
-    "Ce limitări de precizie sau overflow pot apărea la numere mari și cum se rezolvă?",
-    "Cum putem optimiza algoritmii matematici folosind programarea dinamică?",
-    "Ce este complexitatea spațială a acestui calcul și cum o putem reduce?"
-  ],
-  "programare-dinamica": [
-    "Ce este sub-problema optimă și proprietatea de suprapunere a subproblemelor?",
-    "Cum funcționează abordarea de tip Memoization (top-down) față de Tabulation (bottom-up)?",
-    "De ce este programarea dinamică mai eficientă decât simpla recursivitate?"
-  ],
-  "manipulare-biti": [
-    "Care sunt avantajele practice ale utilizării operațiilor pe biți în programare?",
-    "Cum putem verifica dacă un număr este putere a lui 2 în O(1) folosind biți?",
-    "Cum funcționează măștile de biți pentru reprezentarea seturilor de date?"
-  ],
-  "structuri-de-date": [
-    "Care este avantajul folosirii unei liste înlănțuite față de un tablou dinamic?",
-    "Cum influențează echilibrarea unui arbore binar de căutare complexitatea operațiilor?",
-    "Ce este o tabelă de dispersie (hash map) și cum se rezolvă coliziunile?"
-  ],
-  backtracking: [
-    "Cum funcționează procesul de întoarcere în backtracking când se atinge o fundătură?",
-    "Cum putem scrie condiții de validare eficiente pentru a tăia ramurile inutile?",
-    "Care este arborele spațiului stărilor și cum determină el complexitatea?"
-  ]
-};
 
 function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 	const [input, setInput] = useState<Record<string, any>>({});
