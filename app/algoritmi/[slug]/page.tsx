@@ -1648,6 +1648,12 @@ const CUSTOM_MATH_VISUAL_SLUGS = new Set([
     "matematica_factorial",
     "matematica_factors",
     "manipulare-biti_add_binary",
+    "matematica_aliquot_sum",
+    "matematica_euler_totient",
+    "matematica_gaussian_elimination",
+    "matematica_fibonacci",
+    "matematica_is_palindrome",
+    "manipulare-biti_log_two",
 ]);
 
 const BACKTRACKING_VISUAL_SLUGS = new Set([
@@ -3324,6 +3330,580 @@ function MathOperationsVisualizer({ slug, event, input, trace, currentStep }: { 
 
                     <div className="rounded-xl bg-slate-50 p-3 border border-slate-200/50 text-center text-xs text-slate-600">
                         Evaluare: mid² = {mid.toFixed(4)}² = <span className="font-mono font-black text-slate-800">{square.toFixed(4)}</span> {square > n ? " > " : " < "} {n}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Aliquot Sum Visualizer (Suma Divizorilor Proprii)
+    if (slug === "matematica_aliquot_sum") {
+        const n = Math.max(1, Number(vars.n ?? input?.n ?? 12));
+        const currentI = vars.i ?? -1;
+        const currentSum = vars.sum ?? 0;
+        const divisors: number[] = Array.isArray(vars.divisors) ? vars.divisors : [];
+        const isDiv = vars.isDiv ?? false;
+
+        const limit = Math.floor(n / 2);
+        const nums = Array.from({ length: limit }, (_, idx) => idx + 1);
+
+        return (
+            <div className="w-full max-w-3xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
+                <div className="grid grid-cols-3 gap-4 w-full text-center">
+                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-inner">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Numărul (n)</div>
+                        <div className="text-2xl sm:text-3xl font-black text-slate-800 font-mono mt-1">{n}</div>
+                    </div>
+                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-inner">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Divizor Curent (i)</div>
+                        <div className="text-2xl sm:text-3xl font-black text-slate-800 font-mono mt-1">{currentI > 0 && currentI <= limit ? currentI : "-"}</div>
+                    </div>
+                    <div className="rounded-3xl border border-indigo-200 bg-indigo-50 p-4 shadow-sm animate-circle-glow">
+                        <div className="text-[10px] uppercase font-black text-indigo-400 font-bold">Suma Divizorilor</div>
+                        <div className="text-2xl sm:text-3xl font-black text-indigo-700 font-mono mt-1">{currentSum}</div>
+                    </div>
+                </div>
+
+                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm w-full space-y-6">
+                    <div className="text-[10px] uppercase font-black text-slate-400 text-center tracking-wider">
+                        Căutare Divizori Proprii în Intervalul [1 ... {limit}]
+                    </div>
+
+                    <div className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto p-4 rounded-2xl bg-slate-50 border border-slate-200 shadow-inner">
+                        {nums.map((num) => {
+                            const isChecked = num < currentI || (num === currentI && event.type === "compare");
+                            const isFoundDiv = divisors.includes(num);
+                            const isCurrent = num === currentI;
+                            const isFailed = isChecked && !isFoundDiv;
+
+                            let cardClass = "border-slate-200 bg-white text-slate-700";
+                            if (isCurrent) {
+                                cardClass = isDiv
+                                    ? "bg-emerald-500 text-white border-emerald-600 ring-2 ring-emerald-300 shadow-lg scale-110 z-10 animate-bounce font-bold"
+                                    : "bg-indigo-600 text-white border-indigo-600 ring-2 ring-indigo-300 shadow-lg scale-110 z-10 animate-pulse font-bold";
+                            } else if (isFoundDiv) {
+                                cardClass = "bg-gradient-to-br from-emerald-50 to-teal-100/60 text-emerald-800 border-emerald-300 font-black shadow-sm animate-glow-green";
+                            } else if (isFailed) {
+                                cardClass = "bg-rose-50 text-rose-300 border-rose-100 opacity-40 scale-95 duration-300";
+                            }
+
+                            return (
+                                <div
+                                    key={num}
+                                    className={`relative h-11 w-11 rounded-xl border flex items-center justify-center font-mono text-sm font-bold transition-all duration-300 cursor-default ${cardClass}`}
+                                >
+                                    {num}
+                                    {isFailed && (
+                                        <svg className="absolute inset-0 w-full h-full text-rose-400 stroke-2 pointer-events-none" viewBox="0 0 100 100">
+                                            <line x1="15" y1="15" x2="85" y2="85" className="animate-draw-line" />
+                                            <line x1="85" y1="15" x2="15" y2="85" className="animate-draw-line" style={{ animationDelay: "50ms" }} />
+                                        </svg>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <div className="rounded-2xl bg-indigo-50/40 p-4 border border-indigo-100 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs shadow-inner">
+                        <div className="font-mono text-slate-700 bg-white border border-slate-200 px-4 py-2.5 rounded-2xl font-black shadow-sm text-sm">
+                            Divizori găsiți: <span className="text-emerald-600 font-black">{divisors.length > 0 ? divisors.join(" + ") : "niciunul încă"}</span>
+                            {divisors.length > 0 && <span className="text-slate-500 font-bold"> = {currentSum}</span>}
+                        </div>
+                        <div className="text-right text-slate-500 font-semibold">
+                            {currentI > 0 && currentI <= limit ? (
+                                <span>Verificăm dacă <span className="font-mono text-slate-800 font-black">{n}</span> se împarte exact la <span className="font-mono text-indigo-600 font-black">{currentI}</span>: {isDiv ? "Da!" : "Nu."}</span>
+                            ) : event.type === "done" ? (
+                                <span className="text-emerald-600 font-black">Finalizat! Suma totală: {currentSum}</span>
+                            ) : (
+                                <span>Inițializare căutare divizori</span>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Euler's Totient Function Visualizer
+    if (slug === "matematica_euler_totient") {
+        const n = Math.max(1, Number(vars.n ?? input?.n ?? 9));
+        const currentI = vars.i ?? -1;
+        const count = vars.count ?? 0;
+        const coprimes: number[] = Array.isArray(vars.coprimes) ? vars.coprimes : [];
+        const gcd = vars.gcd ?? -1;
+        const isCoprime = vars.isCoprime ?? false;
+
+        const nums = Array.from({ length: n }, (_, idx) => idx + 1);
+
+        return (
+            <div className="w-full max-w-3xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
+                <div className="grid grid-cols-3 gap-4 w-full text-center">
+                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-inner">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Numărul (n)</div>
+                        <div className="text-2xl sm:text-3xl font-black text-slate-800 font-mono mt-1">{n}</div>
+                    </div>
+                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-inner">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Verificăm (i)</div>
+                        <div className="text-2xl sm:text-3xl font-black text-slate-800 font-mono mt-1">{currentI > 0 && currentI <= n ? currentI : "-"}</div>
+                    </div>
+                    <div className="rounded-3xl border border-emerald-200 bg-emerald-50 p-4 shadow-sm animate-glow-green">
+                        <div className="text-[10px] uppercase font-black text-emerald-500 font-bold">φ(n) Curent</div>
+                        <div className="text-2xl sm:text-3xl font-black text-emerald-700 font-mono mt-1">{count}</div>
+                    </div>
+                </div>
+
+                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm w-full space-y-6">
+                    <div className="text-[10px] uppercase font-black text-slate-400 text-center tracking-wider">
+                        Coprimabilitatea cu {n} pentru numerele de la 1 la {n}
+                    </div>
+
+                    <div className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto p-4 rounded-2xl bg-slate-50 border border-slate-200 shadow-inner">
+                        {nums.map((num) => {
+                            const isChecked = num < currentI || (num === currentI && event.type === "compare");
+                            const isCopr = coprimes.includes(num);
+                            const isCurrent = num === currentI;
+                            const isFailed = isChecked && !isCopr;
+
+                            let cardClass = "border-slate-200 bg-white text-slate-700";
+                            if (isCurrent) {
+                                cardClass = isCoprime
+                                    ? "bg-emerald-500 text-white border-emerald-600 ring-2 ring-emerald-300 shadow-lg scale-110 z-10 animate-bounce font-bold"
+                                    : "bg-indigo-600 text-white border-indigo-600 ring-2 ring-indigo-300 shadow-lg scale-110 z-10 animate-pulse font-bold";
+                            } else if (isCopr) {
+                                cardClass = "bg-gradient-to-br from-emerald-50 to-teal-100/60 text-emerald-800 border-emerald-300 font-black shadow-sm animate-glow-green";
+                            } else if (isFailed) {
+                                cardClass = "bg-rose-50 text-rose-300 border-rose-100 opacity-40 scale-95 duration-300";
+                            }
+
+                            return (
+                                <div
+                                    key={num}
+                                    className={`relative h-11 w-11 rounded-xl border flex items-center justify-center font-mono text-sm font-bold transition-all duration-300 cursor-default ${cardClass}`}
+                                >
+                                    {num}
+                                    {isFailed && (
+                                        <svg className="absolute inset-0 w-full h-full text-rose-400 stroke-2 pointer-events-none" viewBox="0 0 100 100">
+                                            <line x1="15" y1="15" x2="85" y2="85" className="animate-draw-line" />
+                                            <line x1="85" y1="15" x2="15" y2="85" className="animate-draw-line" style={{ animationDelay: "50ms" }} />
+                                        </svg>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <div className="rounded-2xl bg-indigo-50/40 p-4 border border-indigo-100 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs shadow-inner">
+                        <div className="font-mono text-slate-700 bg-white border border-slate-200 px-4 py-2.5 rounded-2xl font-black shadow-sm text-sm">
+                            Numere coprime: <span className="text-emerald-600 font-black">{coprimes.length > 0 ? `{${coprimes.join(", ")}}` : "niciunul"}</span>
+                        </div>
+                        <div className="text-right text-slate-500 font-semibold">
+                            {currentI > 0 && currentI <= n ? (
+                                <span>Calcul: <span className="font-black text-slate-800">CMMDC({currentI}, {n})</span> = <span className={`font-black ${isCoprime ? "text-emerald-600" : "text-rose-500 animate-shake"}`}>{gcd}</span> {isCoprime ? "(Coprim!)" : "(Nu sunt coprime)"}</span>
+                            ) : event.type === "done" ? (
+                                <span className="text-emerald-600 font-black">φ({n}) = {count} numere coprime.</span>
+                            ) : (
+                                <span>Inițializare determinare numere coprime</span>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Gaussian Elimination Visualizer
+    if (slug === "matematica_gaussian_elimination") {
+        const matrix: number[][] = Array.isArray(vars.matrix) ? vars.matrix : [];
+        const step = vars.step || "";
+        const pivotRowIndex = vars.pivotRow ?? -1;
+        const rowIndex = vars.row ?? -1;
+        const elimRowIndex = vars.elimRow ?? -1;
+        const factor = vars.factor ?? 0;
+        const activeVarIndex = vars.activeVar ?? -1;
+        const resultSol: number[] = Array.isArray(vars.result) ? vars.result : [];
+        const error = vars.error || "";
+
+        const n = matrix.length;
+
+        return (
+            <div className="w-full max-w-4xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 w-full flex flex-col sm:flex-row justify-between items-center gap-3 shadow-inner">
+                    <div>
+                        <div className="text-[10px] uppercase font-black text-slate-400">Etapă Rezolvare</div>
+                        <div className="text-sm font-black text-slate-800 uppercase tracking-wide">
+                            {step === "start" ? "Inițializare Matrice" :
+                             step === "pivot" ? "Pivotare Parțială (Schimb Rânduri)" :
+                             step === "eliminate" ? "Eliminare Forward (Reducere)" :
+                             step === "substitute" ? "Substituție Înapoi (Aflare Necunoscute)" :
+                             step === "done" ? "Sistem Rezolvat cu Succes" : 
+                             error ? "Eroare / Sistem Singular" : "Execuție"}
+                        </div>
+                    </div>
+                    {factor !== 0 && (
+                        <div className="px-3 py-1.5 rounded-xl bg-indigo-50 border border-indigo-200 text-[11px] font-mono font-black text-indigo-700">
+                            Factor multiplicare: {factor.toFixed(4)}
+                        </div>
+                    )}
+                </div>
+
+                {error ? (
+                    <div className="rounded-3xl border border-rose-200 bg-rose-50 p-6 text-center text-rose-800 w-full animate-shake">
+                        <div className="text-lg font-black">Sistemul nu poate fi rezolvat!</div>
+                        <div className="text-xs font-semibold mt-1">{error === "Singular matrix" ? "Matricea este singulară sau pivotul a devenit 0. Nu există soluție unică." : error}</div>
+                    </div>
+                ) : (
+                    <div className="grid md:grid-cols-5 gap-6 w-full items-stretch animate-fade-in">
+                        <div className="md:col-span-3 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col justify-center items-center">
+                            <div className="text-[10px] uppercase font-black text-slate-400 mb-4 tracking-wider">Matricea Extinsă [A | B]</div>
+                            <div className="space-y-3 w-full">
+                                {matrix.map((row, rIdx) => {
+                                    const isPivotRow = rIdx === pivotRowIndex;
+                                    const isTargetRow = rIdx === rowIndex;
+                                    const isElimRow = rIdx === elimRowIndex;
+                                    
+                                    let rowBg = "";
+                                    if (isPivotRow) rowBg = "bg-emerald-50/50 border-emerald-300 ring-1 ring-emerald-200";
+                                    else if (isTargetRow) rowBg = "bg-amber-50/50 border-amber-300 ring-1 ring-amber-200";
+                                    else if (isElimRow) rowBg = "bg-rose-50/50 border-rose-200 ring-1 ring-rose-200";
+                                    else rowBg = "border-slate-100";
+
+                                    return (
+                                        <div key={rIdx} className={`flex items-center gap-2 px-3 py-2 rounded-2xl border transition-all duration-300 ${rowBg}`}>
+                                            <span className="text-[10px] font-black text-slate-400 w-6">R{rIdx + 1}</span>
+                                            <div className="flex-1 grid grid-cols-4 gap-2 text-center">
+                                                {row.map((val, cIdx) => {
+                                                    const isB = cIdx === n;
+                                                    const isPivotCell = rIdx === pivotRowIndex && cIdx === pivotRowIndex;
+                                                    const isElimCell = rIdx === elimRowIndex && cIdx === pivotRowIndex;
+                                                    const isActiveSubstitutionCell = step === "substitute" && rIdx === activeVarIndex && cIdx === activeVarIndex;
+
+                                                    let cellClass = "bg-slate-50 border-slate-200 text-slate-700";
+                                                    if (isPivotCell) {
+                                                        cellClass = "bg-emerald-500 border-emerald-600 text-white font-black animate-pulse shadow-sm";
+                                                    } else if (isElimCell) {
+                                                        cellClass = "bg-rose-500 border-rose-600 text-white font-black animate-shake shadow-sm";
+                                                    } else if (isActiveSubstitutionCell) {
+                                                        cellClass = "bg-indigo-600 border-indigo-700 text-white font-black animate-bounce shadow-md";
+                                                    } else if (isB) {
+                                                        cellClass = "bg-amber-50 border-amber-200 text-amber-800 font-bold border-l-2 border-l-amber-300";
+                                                    }
+
+                                                    return (
+                                                        <div 
+                                                            key={cIdx} 
+                                                            className={`py-2 px-1 rounded-xl border font-mono text-xs transition-all duration-300 ${cellClass}`}
+                                                            title={isB ? "Constantă B" : `Coeficient x${cIdx + 1}`}
+                                                        >
+                                                            {val.toFixed(2)}
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        <div className="md:col-span-2 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col justify-between space-y-4">
+                            <div>
+                                <div className="text-[10px] uppercase font-black text-slate-400 mb-3 tracking-wider">Soluții Variabile</div>
+                                <div className="space-y-2">
+                                    {Array.from({ length: n }).map((_, idx) => {
+                                        const solved = resultSol[idx] !== undefined && resultSol[idx] !== 0;
+                                        const isActive = idx === activeVarIndex;
+                                        const val = resultSol[idx] ?? 0;
+
+                                        let pillClass = "bg-slate-50 border-slate-100 text-slate-400";
+                                        if (isActive) {
+                                            pillClass = "bg-indigo-50 border-indigo-200 text-indigo-800 ring-2 ring-indigo-300 animate-pulse font-black";
+                                        } else if (solved || step === "done") {
+                                            pillClass = "bg-emerald-50 border-emerald-200 text-emerald-800 font-black";
+                                        }
+
+                                        return (
+                                            <div key={idx} className={`flex items-center justify-between px-4 py-2.5 rounded-2xl border text-sm transition-all duration-300 ${pillClass}`}>
+                                                <span className="font-bold">x{idx + 1}</span>
+                                                <span className="font-mono">{solved || step === "done" ? val.toFixed(4) : "nesolvat"}</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            <div className="text-[11px] text-slate-500 font-semibold leading-relaxed bg-slate-50 border border-slate-200/50 p-3 rounded-2xl shadow-inner">
+                                <span className="text-emerald-600 font-black">Verde:</span> Rând sau celulă pivot. <span className="text-rose-500 font-black">Roșu:</span> Element în curs de eliminare. <span className="text-indigo-600 font-black">Albastru:</span> Variabilă calculată la substituția înapoi.
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+    }
+
+    // Fibonacci Sequence Visualizer
+    if (slug === "matematica_fibonacci") {
+        const n = Math.max(0, Number(input?.n ?? 10));
+        const fibArray = Array.isArray(ev.array) ? ev.array : [];
+        const currentI = vars.i ?? (event.type === "done" ? n : ev.index ?? -1);
+        const fPrev1 = vars["F(i-1)"] ?? null;
+        const fPrev2 = vars["F(i-2)"] ?? null;
+        const fCurrent = vars["F(i)"] ?? null;
+
+        const showLimit = Math.max(n + 1, fibArray.length);
+
+        return (
+            <div className="w-full max-w-4xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 w-full flex justify-between items-center shadow-inner text-center">
+                    <div className="flex-1">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Termenul Căutat</div>
+                        <div className="text-xl font-black text-slate-800 font-mono mt-0.5">F({n})</div>
+                    </div>
+                    <div className="w-px h-8 bg-slate-200" />
+                    <div className="flex-1">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Valoare Calculată</div>
+                        <div className="text-xl font-black text-indigo-700 font-mono mt-0.5">
+                            {event.type === "done" ? (vars.result ?? "-") : (fCurrent ?? "-")}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm w-full space-y-6">
+                    <div className="text-[10px] uppercase font-black text-slate-400 text-center tracking-wider">
+                        Generarea Șirului Fibonacci Pas cu Pas
+                    </div>
+
+                    <div className="flex items-center gap-3 overflow-x-auto p-4 bg-slate-50 rounded-2xl border border-slate-200 shadow-inner w-full justify-start md:justify-center">
+                        {Array.from({ length: showLimit }).map((_, idx) => {
+                            const value = fibArray[idx];
+                            const exists = value !== undefined;
+                            
+                            const isCurrentTarget = idx === currentI;
+                            const isPrev1 = idx === currentI - 1;
+                            const isPrev2 = idx === currentI - 2;
+
+                            let borderClass = "border-slate-200 bg-white text-slate-400 opacity-60";
+                            if (exists) {
+                                borderClass = "bg-white border-slate-200 text-slate-800 shadow-sm opacity-100";
+                            }
+                            if (isCurrentTarget) {
+                                borderClass = "bg-gradient-to-br from-indigo-500 to-indigo-600 text-white border-indigo-600 ring-4 ring-indigo-300 shadow-lg scale-110 z-10 animate-bounce font-bold opacity-100";
+                            } else if (isPrev1 || isPrev2) {
+                                borderClass = "bg-gradient-to-br from-emerald-50 to-teal-100/80 text-emerald-800 border-emerald-300 ring-2 ring-emerald-200/50 shadow-md scale-105 z-10 font-bold opacity-100";
+                            }
+
+                            return (
+                                <div key={idx} className="flex items-center gap-1.5 flex-shrink-0 animate-slide-right">
+                                    <div className={`h-16 w-14 rounded-2xl border flex flex-col items-center justify-between p-2.5 transition-all duration-300 cursor-default ${borderClass}`}>
+                                        <span className="text-[8px] uppercase tracking-wider font-black opacity-60">F({idx})</span>
+                                        <span className="font-mono text-base font-black leading-none">{exists ? value : "?"}</span>
+                                    </div>
+                                    {idx < showLimit - 1 && (
+                                        <span className="text-slate-300 font-bold text-xs flex-shrink-0">→</span>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {currentI >= 2 && fPrev1 !== null && fPrev2 !== null && (
+                        <div className="rounded-2xl bg-indigo-50/40 p-4 border border-indigo-100 flex flex-col items-center justify-center gap-2 text-center shadow-inner max-w-xl mx-auto">
+                            <div className="text-[9px] uppercase font-black text-indigo-400">Formula de Recurență Curentă</div>
+                            <div className="font-mono text-slate-800 font-black text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2">
+                                <span>F({currentI})</span>
+                                <span>=</span>
+                                <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 font-black shadow-sm">F({currentI-2}) ({fPrev2})</span>
+                                <span>+</span>
+                                <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 font-black shadow-sm">F({currentI-1}) ({fPrev1})</span>
+                                <span>=</span>
+                                <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xl bg-indigo-600 border border-indigo-700 text-white font-black shadow-sm">{fCurrent}</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    }
+
+    // Palindrome Verification Visualizer
+    if (slug === "matematica_is_palindrome") {
+        const n = vars.n ?? input?.n ?? 121;
+        const sir = vars.sir ?? String(n);
+        const stanga = vars.stanga ?? -1;
+        const dreapta = vars.dreapta ?? -1;
+        const isEqual = vars.egal ?? null;
+        const resultPalin = vars.rezultat ?? null;
+
+        const chars = sir.split("");
+
+        return (
+            <div className="w-full max-w-3xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 w-full flex justify-between items-center shadow-inner text-center">
+                    <div className="flex-1">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Numărul (n)</div>
+                        <div className="text-xl font-black text-slate-800 font-mono mt-0.5">{n}</div>
+                    </div>
+                    <div className="w-px h-8 bg-slate-200" />
+                    <div className="flex-1">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Verdict</div>
+                        <div className="text-xl font-black font-mono mt-0.5">
+                            {resultPalin === true ? (
+                                <span className="text-emerald-600 animate-pulse font-black">Este Palindrom</span>
+                            ) : resultPalin === false ? (
+                                <span className="text-rose-500 animate-shake font-black">Nu este Palindrom</span>
+                            ) : (
+                                <span className="text-slate-500">Se verifică...</span>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm w-full space-y-8 animate-fade-in">
+                    <div className="text-[10px] uppercase font-black text-slate-400 text-center tracking-wider">
+                        Compararea Caracterelor de la Margini Spre Centru
+                    </div>
+
+                    <div className="flex flex-col items-center gap-6 py-4">
+                        <div className="flex justify-center items-center gap-2 max-w-xl w-full">
+                            {chars.map((char: string, idx: number) => {
+                                const isL = idx === stanga;
+                                const isR = idx === dreapta;
+                                const isChecked = (stanga !== -1 && idx < stanga) || (dreapta !== -1 && idx > dreapta);
+                                const isComparing = isL || isR;
+
+                                let cellBg = "border-slate-200 bg-white text-slate-700";
+                                if (isComparing) {
+                                    cellBg = isEqual === false
+                                        ? "bg-rose-500 border-rose-600 text-white font-black animate-shake shadow-md"
+                                        : "bg-indigo-600 border-indigo-700 text-white font-black animate-pulse shadow-md";
+                                } else if (isChecked || (resultPalin === true)) {
+                                    cellBg = "bg-emerald-50 border-emerald-300 text-emerald-800 font-bold";
+                                }
+
+                                return (
+                                    <div key={idx} className="flex flex-col items-center gap-2">
+                                        <div className={`h-12 w-12 rounded-xl border-2 flex items-center justify-center font-mono text-lg font-black transition-all duration-300 ${cellBg}`}>
+                                            {char}
+                                        </div>
+                                        <div className="h-5 flex items-center justify-center text-[10px] font-black uppercase tracking-wider">
+                                            {isL && <span className="text-indigo-600 animate-bounce">Stânga</span>}
+                                            {isR && <span className="text-emerald-600 animate-bounce">Dreapta</span>}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        {stanga !== -1 && dreapta !== -1 && (
+                            <div className="rounded-2xl bg-indigo-50/40 p-4 border border-indigo-100 text-center shadow-inner max-w-md w-full">
+                                <div className="text-[9px] uppercase font-black text-indigo-400 mb-1">Pas Curent de Comparare</div>
+                                <div className="text-xs sm:text-sm font-semibold text-slate-700">
+                                    Poziția <span className="font-bold text-indigo-600">{stanga}</span> ('{chars[stanga]}') 
+                                    {isEqual ? " == " : " != "} 
+                                    Poziția <span className="font-bold text-emerald-600">{dreapta}</span> ('{chars[dreapta]}')
+                                </div>
+                                <div className={`mt-2 font-black text-xs ${isEqual ? "text-emerald-600" : "text-rose-500 animate-shake"}`}>
+                                    {isEqual ? "Caractere identice, mergem spre centru." : "Nepotrivire! Numărul nu este palindrom."}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Log Two Bitwise Visualizer (Logaritm în Baza 2)
+    if (slug === "manipulare-biti_log_two") {
+        const originalInputVal = vars.input ?? input?.n ?? 16;
+        const currentN = vars.n ?? (event.type === "done" ? 1 : originalInputVal);
+        const resultVal = vars.result ?? 0;
+        const binaryStr = vars.binary ?? Number(currentN).toString(2);
+        
+        const bitCount = Math.max(8, Number(originalInputVal).toString(2).length);
+        const paddedBinary = binaryStr.padStart(bitCount, "0");
+        const originalBinary = Number(originalInputVal).toString(2).padStart(bitCount, "0");
+
+        return (
+            <div className="w-full max-w-3xl space-y-6 flex flex-col items-center justify-center animate-pop-in">
+                <div className="grid grid-cols-3 gap-4 w-full text-center">
+                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-inner">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Valoare Inițială</div>
+                        <div className="text-2xl sm:text-3xl font-black text-slate-800 font-mono mt-1">{originalInputVal}</div>
+                    </div>
+                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-inner">
+                        <div className="text-[10px] uppercase font-black text-slate-400">Valoare Curentă (n)</div>
+                        <div className="text-2xl sm:text-3xl font-black text-slate-800 font-mono mt-1">{currentN}</div>
+                    </div>
+                    <div className="rounded-3xl border border-indigo-200 bg-indigo-50 p-4 shadow-sm animate-circle-glow">
+                        <div className="text-[10px] uppercase font-black text-indigo-400 font-bold">Shift-uri (Log₂)</div>
+                        <div className="text-2xl sm:text-3xl font-black text-indigo-700 font-mono mt-1">{resultVal}</div>
+                    </div>
+                </div>
+
+                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm w-full space-y-6 animate-fade-in">
+                    <div className="text-[10px] uppercase font-black text-slate-400 text-center tracking-wider">
+                        Registru de Biți: Deplasare la Dreapta (Shift Right &gt;&gt; 1)
+                    </div>
+
+                    <div className="space-y-6 max-w-xl mx-auto p-5 rounded-3xl bg-slate-50 border border-slate-200 shadow-inner">
+                        <div className="space-y-1">
+                            <span className="text-[9px] uppercase font-black text-slate-400">Starea Inițială:</span>
+                            <div className="flex justify-center gap-1.5">
+                                {originalBinary.split("").map((bit: string, idx: number) => (
+                                    <div 
+                                        key={`orig-${idx}`} 
+                                        className={`h-9 w-9 rounded-xl border flex items-center justify-center font-mono text-xs font-black shadow-sm ${
+                                            bit === "1" ? "bg-slate-700 border-slate-800 text-white" : "bg-white border-slate-200 text-slate-400"
+                                        }`}
+                                    >
+                                        {bit}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {event.type !== "done" && currentN !== originalInputVal && (
+                            <div className="flex justify-center my-1">
+                                <svg className="w-8 h-8 text-indigo-400 animate-pulse animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                </svg>
+                            </div>
+                        )}
+
+                        <div className="space-y-1">
+                            <span className="text-[9px] uppercase font-black text-indigo-500 font-bold">Registru Curent:</span>
+                            <div className="flex justify-center gap-1.5">
+                                {paddedBinary.split("").map((bit: string, idx: number) => {
+                                    const isOne = bit === "1";
+                                    let cellClass = "bg-white border-slate-200 text-slate-400";
+                                    if (isOne) {
+                                        cellClass = "bg-gradient-to-br from-indigo-500 to-indigo-600 border-indigo-600 text-white font-black animate-glow-green";
+                                    }
+                                    return (
+                                        <div 
+                                            key={`curr-${idx}`} 
+                                            className={`h-10 w-10 rounded-xl border-2 flex items-center justify-center font-mono text-sm font-black shadow-md transition-all duration-500 ${cellClass}`}
+                                        >
+                                            {bit}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="rounded-2xl bg-indigo-50/40 p-4 border border-indigo-100 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs shadow-inner">
+                        <div className="font-mono text-slate-700 bg-white border border-slate-200 px-4 py-2.5 rounded-2xl font-black shadow-sm text-sm">
+                            Operație: <span className="text-indigo-600 font-black">n = n &gt;&gt; 1</span>
+                        </div>
+                        <div className="text-right text-slate-500 font-semibold">
+                            {event.type === "done" ? (
+                                <span className="text-emerald-600 font-black">Gata! log₂({originalInputVal}) ≈ {resultVal}</span>
+                            ) : (
+                                <span>Pasul {resultVal}: Împărțim prin deplasarea biților la dreapta. Câtul: {currentN}</span>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -548,8 +548,209 @@ function zellerRunner(input: any): AlgorithmResult {
   return { trace, result: { index: weekday, weekday: names[weekday] } };
 }
 
+function aliquotSumRunner(input: any): AlgorithmResult {
+  const n = Math.floor(Number(input?.n ?? 12));
+  const trace: TraceEvent[] = [];
+  const properDivisors: number[] = [];
+  let sum = 0;
+
+  trace.push({
+    type: "set",
+    index: 0,
+    value: n,
+    array: [],
+    note: `Calculăm suma divizorilor proprii pentru ${n}. Căutăm divizori în intervalul 1 ... ${Math.floor(n / 2)}.`,
+    vars: { n, i: 1, sum, divisors: [] },
+  });
+
+  for (let i = 1; i <= n / 2; i++) {
+    const isDiv = n % i === 0;
+    if (isDiv) {
+      properDivisors.push(i);
+      sum += i;
+    }
+    trace.push({
+      type: "compare",
+      note: isDiv 
+        ? `${i} este divizor propriu al lui ${n} (se adaugă la sumă).`
+        : `${i} nu este divizor propriu al lui ${n}.`,
+      vars: { 
+        n, 
+        i, 
+        isDiv, 
+        currentDivisor: i, 
+        sum, 
+        divisors: [...properDivisors] 
+      },
+      array: [...properDivisors]
+    });
+  }
+
+  trace.push({
+    type: "done",
+    note: `Suma divizorilor proprii pentru ${n} este ${sum}.`,
+    vars: { n, sum, divisors: properDivisors },
+    array: properDivisors,
+  });
+
+  return {
+    trace,
+    result: { sum, divisors: properDivisors },
+  };
+}
+
+function eulerTotientRunner(input: any): AlgorithmResult {
+  const n = Math.max(1, Math.floor(Number(input?.n ?? 9)));
+  const trace: TraceEvent[] = [];
+  const coprimes: number[] = [];
+
+  trace.push({
+    type: "set",
+    index: 0,
+    value: n,
+    array: [],
+    note: `Calculăm funcția totient a lui Euler φ(${n}). Căutăm numerele coprime cu ${n} în intervalul 1 ... ${n}.`,
+    vars: { n, i: 1, count: 0, coprimes: [] },
+  });
+
+  for (let i = 1; i <= n; i++) {
+    const gcd = euclidGcd(i, n);
+    const isCoprime = gcd === 1;
+    if (isCoprime) {
+      coprimes.push(i);
+    }
+    trace.push({
+      type: "compare",
+      note: isCoprime
+        ? `${i} este coprim cu ${n} deoarece CMMDC(${i}, ${n}) = 1.`
+        : `${i} NU este coprim cu ${n} deoarece CMMDC(${i}, ${n}) = ${gcd}.`,
+      vars: {
+        n,
+        i,
+        gcd,
+        isCoprime,
+        count: coprimes.length,
+        coprimes: [...coprimes]
+      },
+      array: [...coprimes]
+    });
+  }
+
+  trace.push({
+    type: "done",
+    note: `φ(${n}) = ${coprimes.length}. Numerele coprime sunt: {${coprimes.join(", ")}}.`,
+    vars: { n, count: coprimes.length, coprimes },
+    array: coprimes,
+  });
+
+  return {
+    trace,
+    result: { count: coprimes.length, coprimes },
+  };
+}
+
+function gaussianEliminationRunner(input: any): AlgorithmResult {
+  const rawMatrix = Array.isArray(input?.matrix) && input.matrix.length > 0
+    ? input.matrix.map((row: any) => row.map((v: any) => Number(v) || 0))
+    : [[2, 1, -1, 8], [-3, -1, 2, -11], [-2, 1, 2, -3]];
+
+  const matrix = rawMatrix.map((row: any) => [...row]);
+  const n = matrix.length;
+  const trace: TraceEvent[] = [];
+
+  trace.push({
+    type: "set",
+    note: "Inițializăm matricea extinsă [A | B] pentru eliminarea gaussiană.",
+    vars: { matrix: matrix.map((row: any) => [...row]), step: "start" }
+  } as any);
+
+  // Forward elimination
+  for (let row = 0; row < n; row++) {
+    let pivotRow = row;
+
+    for (let column = row + 1; column < n; column++) {
+      if (Math.abs(matrix[column][row]) > Math.abs(matrix[pivotRow][row])) {
+        pivotRow = column;
+      }
+    }
+
+    if (pivotRow !== row) {
+      for (let column = row; column <= n; column++) {
+        const temp = matrix[row][column];
+        matrix[row][column] = matrix[pivotRow][column];
+        matrix[pivotRow][column] = temp;
+      }
+      trace.push({
+        type: "compare",
+        note: `Pivotare parțială: schimbăm rândul ${row + 1} cu rândul ${pivotRow + 1} pentru un pivot mai mare.`,
+        vars: { matrix: matrix.map((row: any) => [...row]), pivotRow, row, step: "pivot" }
+      } as any);
+    }
+
+    const pivotVal = matrix[row][row];
+    if (Math.abs(pivotVal) < 1e-9) {
+      trace.push({
+        type: "done",
+        note: "Sistemul nu are soluție unică (pivotul este 0).",
+        vars: { matrix: matrix.map((row: any) => [...row]), error: "Singular matrix" }
+      });
+      return { trace, result: { error: "Singular matrix" } };
+    }
+
+    for (let column = row + 1; column < n; column++) {
+      const factor = matrix[column][row] / pivotVal;
+      for (let k = row; k <= n; k++) {
+        matrix[column][k] -= factor * matrix[row][k];
+      }
+      trace.push({
+        type: "compare",
+        note: `Eliminăm elementul de pe poziția [${column + 1}, ${row + 1}] folosind factorul ${factor.toFixed(2)}.`,
+        vars: { 
+          matrix: matrix.map((row: any) => [...row]), 
+          pivotRow: row, 
+          elimRow: column, 
+          factor, 
+          step: "eliminate" 
+        }
+      } as any);
+    }
+  }
+
+  // Back substitution
+  const result: number[] = new Array(n).fill(0);
+  for (let row = n - 1; row >= 0; row--) {
+    let sum = 0;
+    for (let column = row + 1; column < n; column++) {
+      sum += matrix[row][column] * result[column];
+    }
+    result[row] = (matrix[row][n] - sum) / matrix[row][row];
+    trace.push({
+      type: "set",
+      note: `Substituție înapoi: calculăm valoarea variabilei x${row + 1} = ${result[row].toFixed(2)}.`,
+      vars: { 
+        matrix: matrix.map((row: any) => [...row]), 
+        result: [...result], 
+        activeVar: row, 
+        step: "substitute" 
+      }
+    } as any);
+  }
+
+  trace.push({
+    type: "done",
+    note: `Sistem rezolvat. Soluții: {${result.map((v, idx) => `x${idx + 1} = ${v.toFixed(2)}`).join(", ")}}.`,
+    vars: { matrix: matrix.map((row: any) => [...row]), result, step: "done" },
+    result: { solutions: result }
+  } as any);
+
+  return {
+    trace,
+    result: { solutions: result }
+  };
+}
+
 export const sourceOnlyMathAlgorithms: Record<string, Runner> = {
-  matematica_aliquot_sum: safeMathRunner("Aliquot Sum", ({ n }) => aliquotSum(Number(n))),
+  matematica_aliquot_sum: aliquotSumRunner,
   matematica_armstrong_number: safeMathRunner("Armstrong Number", ({ n }) => armstrongNumber(Number(n))),
   matematica_binary_convert: binaryConvertRunner,
   matematica_binomial_coefficient: binomialCoefficientRunner,
@@ -558,10 +759,10 @@ export const sourceOnlyMathAlgorithms: Record<string, Runner> = {
   matematica_degrees_to_radians: safeMathRunner("Degrees to Radians", ({ degrees }) => degreesToRadians(Number(degrees))),
   matematica_digit_sum: safeMathRunner("Digit Sum", ({ n }) => digitSum(Number(n))),
   matematica_double_factorial_iterative: doubleFactorialRunner,
-  matematica_euler_totient: safeMathRunner("Euler Totient", ({ n }) => phi(Number(n))),
+  matematica_euler_totient: eulerTotientRunner,
   matematica_factors: factorsRunner,
   matematica_find_min: safeMathRunner("Find Min", ({ numbers }) => findMin(Array.isArray(numbers) ? numbers.map(Number) : [])),
-  matematica_gaussian_elimination: safeMathRunner("Gaussian Elimination", ({ matrix }) => gaussianElimination(Array.isArray(matrix) ? matrix.map((row: number[]) => [...row]) : [])),
+  matematica_gaussian_elimination: gaussianEliminationRunner,
   matematica_hamming_distance: safeMathRunner("Hamming Distance", ({ str1, str2 }) => hammingDistance(String(str1 ?? ""), String(str2 ?? ""))),
   matematica_series_hexagonal_numbers: safeMathRunner("Hexagonal Numbers", ({ n }) => HexagonalNumbers(Number(n))),
   matematica_is_divisible: safeMathRunner("Is Divisible", ({ num1, num2 }) => isDivisible(Number(num1), Number(num2))),
