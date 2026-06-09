@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { api } from "@/lib/api";
-import type { ChatTokenQuota } from "@/lib/api";
 import { AlgorithmMeta, TraceEvent, allAlgorithms } from "@/lib/algorithms";
 import { ALGORITHM_QUESTIONS } from "@/lib/algorithms/questions";
 import { getCategoryDisplayName, getCategoryVisual, normalizeCategoryKey as normalizeThemeCategoryKey } from "@/lib/algorithm-category-theme";
@@ -3262,7 +3261,6 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 	const [chat, setChat] = useState<Array<{ role: string; content: string }>>(
 		[]
 	);
-    const [chatTokenQuota, setChatTokenQuota] = useState<ChatTokenQuota | null>(null);
     const [chatLoading, setChatLoading] = useState(false);
     const [tab, setTab] = useState<"descriere" | "viz" | "input" | "chat" | "code">("descriere");
     const [sourceCode, setSourceCode] = useState<string>("");
@@ -3299,16 +3297,6 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
         });
         return () => window.cancelAnimationFrame(id);
     }, [tab, chatLoading]);
-
-    useEffect(() => {
-        api.getQuota()
-            .then((res) => {
-                if (res.tokenQuota) {
-                    setChatTokenQuota(res.tokenQuota);
-                }
-            })
-            .catch((err) => console.error("Error loading token quota:", err));
-    }, [tab]);
 
 
     // Keyboard navigation: ← previous step, → next step, Space toggle play
@@ -3563,9 +3551,6 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 				currentEvent: trace[currentStep],
 			});
             const answer = result.answer || "";
-            if (result.tokenQuota) {
-                setChatTokenQuota(result.tokenQuota);
-            }
             setChat([...newChat, { role: "assistant", content: answer }]);
 		} catch (err) {
 			console.error(err);
@@ -3596,9 +3581,6 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 				currentEvent: trace[currentStep],
 			});
             const answer = result.answer || "";
-            if (result.tokenQuota) {
-                setChatTokenQuota(result.tokenQuota);
-            }
             setChat([...newChat, { role: "assistant", content: answer }]);
 		} catch (err) {
 			console.error(err);
@@ -4192,35 +4174,11 @@ function AlgorithmPlayer({ meta, docMarkdown, docHtml }: AlgorithmPlayerProps) {
 
                 {tab === "chat" && (
                     <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-col h-[600px]">
-                        <div className="mb-6 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 shadow-sm">
-                            <div className="flex items-center justify-between border-b border-slate-200 pb-3 mb-3">
-                                <span className="text-[11px] font-black uppercase tracking-wider text-slate-500">Detalii Utilizare AI</span>
-                                <span className="px-2 py-0.5 text-[10px] font-bold bg-indigo-50 border border-indigo-200 text-indigo-600 rounded-full">
-                                    Model: Kimi-K2.6
-                                </span>
-                            </div>
-                            
-                            <div className="grid grid-cols-2 gap-3">
-                                <div>
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Rămași azi</p>
-                                    <p className="text-sm font-extrabold text-slate-800 mt-0.5">
-                                        {chatTokenQuota ? chatTokenQuota.todayRemaining.toLocaleString("ro-RO") : "încărcare..."}
-                                    </p>
-                                </div>
-                                <div>
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Folosiți azi</p>
-                                    <p className="text-sm font-extrabold text-slate-800 mt-0.5">
-                                        {chatTokenQuota ? `${chatTokenQuota.todayUsed.toLocaleString("ro-RO")} / ${chatTokenQuota.dailyLimit.toLocaleString("ro-RO")}` : "încărcare..."}
-                                    </p>
-                                </div>
-                            </div>
-
-                            {chatTokenQuota && chatTokenQuota.lastRequestTotalTokens > 0 && (
-                                <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-medium">
-                                    <span>Consum ultimul răspuns:</span>
-                                    <span className="font-extrabold text-slate-700">{chatTokenQuota.lastRequestTotalTokens} tokeni</span>
-                                </div>
-                            )}
+                        <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4 shrink-0">
+                            <span className="text-sm font-extrabold text-slate-800">Discuție despre {meta.name}</span>
+                            <span className="px-2.5 py-0.5 text-[10px] font-bold bg-slate-50 border border-slate-200 text-slate-600 rounded-full">
+                                Model: Kimi-K2.6
+                            </span>
                         </div>
                         <div className="flex-1 overflow-y-auto pr-4 space-y-4 mb-6">
                             {chat.length === 0 ? (
