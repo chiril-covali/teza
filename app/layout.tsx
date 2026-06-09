@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import "katex/dist/katex.min.css";
 
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="ro" className="scroll-smooth" data-scroll-behavior="smooth">
       <body className={`${inter.className} bg-white text-slate-900 antialiased`}>
         {children}
+        <Analytics />
       </body>
     </html>
   );
