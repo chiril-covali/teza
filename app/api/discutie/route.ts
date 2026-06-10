@@ -109,23 +109,6 @@ function detectQuestionMode(question: string): "direct" | "beginner" | "default"
 
 export async function POST(request: NextRequest) {
 	try {
-		// Protecție acces: Permite doar cererile de pe domeniul oficial sau local
-		const origin = request.headers.get("origin") || "";
-		const allowedOrigins = [
-			"https://teza-web.vercel.app",
-			"https://teza-chiril-covali.vercel.app",
-			"http://localhost:3000"
-		];
-		
-		const isAllowed = allowedOrigins.some(allowed => origin.startsWith(allowed));
-		
-		if (!isAllowed && process.env.NODE_ENV === "production") {
-			return NextResponse.json(
-				{ error: "Acces refuzat. API-ul este restricționat." },
-				{ status: 403 }
-			);
-		}
-
 		const body: ChatRequest = await request.json();
 		const { slug, question, context } = body;
 
